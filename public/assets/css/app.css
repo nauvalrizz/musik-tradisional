@@ -774,3 +774,35 @@ body { animation: pageIn .45s ease; }
     .gamelan-pad.wave-in { animation: none; }
     .gamelan-pad.awaken .pad-kettle { animation: none; }
 }
+
+/* v43 — micro-interactions global PRO MAX */
+/* Semua tombol: hover ngangkat + press mentok */
+button, .btn, a.btn-quiz-hero, .search-btn {
+    transition: transform .16s cubic-bezier(0.22,1,0.36,1), box-shadow .2s ease;
+}
+button:hover, .btn:hover, a.btn-quiz-hero:hover, .search-btn:hover {
+    transform: translateY(-2px);
+}
+button:active, .btn:active, a.btn-quiz-hero:active, .search-btn:active {
+    transform: translateY(0) scale(.96);
+}
+/* Nav links: underline animasi */
+.nav-sec { position: relative; }
+.nav-sec::after {
+    content: ""; position: absolute; left: 0; bottom: -4px; height: 2px; width: 0;
+    background: var(--bronze); transition: width .28s cubic-bezier(0.22,1,0.36,1);
+}
+.nav-sec:hover::after { width: 100%; }
+/* Gambar: hover zoom halus */
+.flip-photo img, .gallery-fig img {
+    transition: transform .5s cubic-bezier(0.22,1,0.36,1);
+}
+.flip-card:hover .flip-photo img { transform: scale(1.06); }
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+/* Focus visible: jelas */
+:focus-visible { outline: 2px solid var(--bronze); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

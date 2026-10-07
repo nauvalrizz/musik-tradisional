@@ -4,24 +4,23 @@
     if (matchMedia('(hover: none)').matches) return; // HP: skip, pakai tap aja
 
     document.querySelectorAll('.flip-card').forEach(function (card) {
-        var inner = card.querySelector('.flip-inner') || card;
         var glare = document.createElement('span');
         glare.className = 'tilt-glare';
-        card.style.position = 'relative';
         card.appendChild(glare);
 
         card.addEventListener('pointermove', function (e) {
             var r = card.getBoundingClientRect();
             var x = (e.clientX - r.left) / r.width - 0.5;
             var y = (e.clientY - r.top) / r.height - 0.5;
-            inner.style.transform =
-                'perspective(900px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg) scale(1.02)';
+            /* tilt di outer card, flip tetap di inner — ga tabrakan */
+            card.style.transform =
+                'perspective(900px) rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 8) + 'deg)';
             glare.style.opacity = '1';
             glare.style.background =
-                'radial-gradient(circle at ' + ((x + 0.5) * 100) + '% ' + ((y + 0.5) * 100) + '%, rgba(255,240,200,.18), transparent 60%)';
+                'radial-gradient(circle at ' + ((x + 0.5) * 100) + '% ' + ((y + 0.5) * 100) + '%, rgba(255,240,200,.22), transparent 60%)';
         });
         card.addEventListener('pointerleave', function () {
-            inner.style.transform = '';
+            card.style.transform = '';
             glare.style.opacity = '0';
         });
     });
