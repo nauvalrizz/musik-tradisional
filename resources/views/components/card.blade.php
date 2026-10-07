@@ -12,18 +12,18 @@
         $url .= '?from=search&q=' . urlencode($query);
     }
 
-    $no = str_pad($item->id, 3, '0', STR_PAD_LEFT);
     $origin = optional($item->pulau)->nama;
 @endphp
 
-{{-- Kartu flip arsip v8: depan foto + nomor katalog, belakang kartu indeks arsip --}}
+{{-- Kartu katalog v12: foto kompak + grain, tanpa nomor besar --}}
 <a href="{{ url($url) }}" class="flip-card" data-reveal aria-label="{{ $item->nama }}">
     <span class="flip-inner">
         <span class="flip-front">
-            <img src="{{ $item->gambar ? gambar_alat($item->gambar) : asset('assets/img/default.png') }}"
-                alt="{{ $item->nama }}" loading="lazy">
-            <span class="flip-shade"></span>
-            <span class="flip-no">{{ $no }}</span>
+            <span class="flip-photo">
+                <img src="{{ $item->gambar ? gambar_alat($item->gambar) : asset('assets/img/default.png') }}"
+                    alt="{{ $item->nama }}" loading="lazy">
+                <span class="flip-grain" aria-hidden="true"></span>
+            </span>
             <span class="flip-front-text">
                 @if ($origin)
                     <span class="flip-origin">{{ $origin }}</span>
@@ -33,7 +33,6 @@
         </span>
         <span class="flip-back">
             <span class="flip-back-head">
-                <span class="flip-back-no">№ {{ $no }}</span>
                 <span class="flip-back-stamp">Arsip</span>
             </span>
             <span class="flip-back-title">{{ $item->nama }}</span>

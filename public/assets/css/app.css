@@ -685,3 +685,35 @@ footer {
 #arsip-bunyi, #telusuri, #pulau, #koleksi {
     scroll-margin-top: 90px;
 }
+
+/* ================= v12 — OMBAK NUSANTARA =================
+   Latar gelombang berlapis yang bergerak pelan,
+   seperti laut di antara kepulauan. Sangat halus
+   agar teks tetap terbaca. */
+.ombak-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.ombak-layer {
+    position: absolute;
+    left: -25%;
+    width: 150%;
+    height: 22vh;
+    min-height: 140px;
+    fill: none;
+    stroke: var(--bronze);
+    stroke-width: 1.5;
+}
+.ombak-layer.l1 { top: 8%;  opacity: 0.055; animation: ombakDrift 46s linear infinite; }
+.ombak-layer.l2 { top: 42%; opacity: 0.04;  animation: ombakDrift 68s linear infinite reverse; stroke-width: 1; }
+.ombak-layer.l3 { top: 76%; opacity: 0.05;  animation: ombakDrift 56s linear infinite; }
+@keyframes ombakDrift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(16.666%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ombak-layer { animation: none; }
+}

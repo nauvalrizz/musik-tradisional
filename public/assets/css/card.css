@@ -23,7 +23,7 @@ html.js [data-reveal].in { opacity: 1; transform: none; }
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 440px;
+    min-height: 0;
     transform-style: preserve-3d;
     transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -45,35 +45,42 @@ html.js [data-reveal].in { opacity: 1; transform: none; }
 }
 
 /* ---------- DEPAN ---------- */
-.flip-front img {
-    position: absolute;
-    inset: 0;
+.flip-front {
+    display: flex;
+    flex-direction: column;
+}
+/* foto kompak 16/10 — tidak dipaksa raksasa, artefak kompresi tersamar grain */
+.flip-photo {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #0f0c07;
+    flex-shrink: 0;
+}
+.flip-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: sepia(0.45) saturate(0.85) contrast(1.04);
+    transition: transform 1.2s cubic-bezier(0.22, 0.8, 0.3, 1), filter 0.6s ease;
 }
-.flip-shade {
+.flip-card:hover .flip-photo img {
+    transform: scale(1.06);
+    filter: sepia(0.2) saturate(1.05) contrast(1.03);
+}
+/* grain menyamarkan burik kompresi */
+.flip-grain {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10,8,5,0) 40%, rgba(10,8,5,0.55) 72%, rgba(10,8,5,0.88) 100%);
-}
-.flip-no {
-    position: absolute;
-    top: 10px;
-    right: 16px;
-    font-family: var(--serif);
-    font-size: 56px;
-    font-weight: 600;
-    line-height: 1;
-    color: var(--bronze-hi);
-    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    opacity: 0.1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
 }
 .flip-front-text {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
     display: block;
-    padding: 20px 20px 22px;
+    padding: 18px 20px 20px;
+    background: var(--card);
 }
 .flip-origin {
     display: flex;
@@ -131,13 +138,6 @@ html.js [data-reveal].in { opacity: 1; transform: none; }
     justify-content: space-between;
     align-items: center;
     margin-bottom: 14px;
-}
-.flip-back-no {
-    font-family: var(--serif);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--bronze-hi);
 }
 .flip-back-stamp {
     font-size: 10px;

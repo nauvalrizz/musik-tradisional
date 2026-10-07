@@ -321,20 +321,59 @@ body.search-active .search-section {
     text-transform: uppercase;
     color: var(--muted);
 }
-.filter-field select {
+.cdd { position: relative; min-width: 190px; }
+.cdd-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     background: #0f0c07;
     border: 1px solid var(--line-strong);
     color: var(--ink);
     border-radius: 4px;
-    padding: 9px 12px;
+    padding: 10px 14px;
     font-size: 14px;
-    min-width: 170px;
     cursor: pointer;
+    transition: border-color 0.25s ease;
 }
-.filter-field select:focus {
-    outline: none;
-    border-color: var(--bronze);
+.cdd-btn em { font-style: normal; }
+.cdd-btn i { font-style: normal; color: var(--bronze); font-size: 12px; transition: transform 0.25s ease; }
+.cdd.open .cdd-btn { border-color: var(--bronze); }
+.cdd.open .cdd-btn i { transform: rotate(180deg); }
+.cdd-list {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    z-index: 60;
+    background: #161009;
+    border: 1px solid var(--bronze);
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.6);
+    max-height: 260px;
+    overflow-y: auto;
 }
+.cdd.open .cdd-list { opacity: 1; visibility: visible; transform: none; }
+.cdd-list button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.cdd-list button:hover { background: rgba(201, 151, 63, 0.12); }
+.cdd-list button.sel { color: var(--bronze-hi); font-weight: 600; }
+.cdd-list button.sel::after { content: " \2713"; }
 .filter-reset {
     font-size: 13px;
     color: var(--bronze-hi);

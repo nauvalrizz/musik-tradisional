@@ -17,30 +17,40 @@
             </p>
         </div>
 
-        <form method="GET" action="{{ url('/search') }}" class="filter-bar" data-reveal>
+        <form method="GET" action="{{ url('/search') }}" class="filter-bar" data-reveal id="filterForm">
             <input type="hidden" name="q" value="{{ $q }}">
-            <label class="filter-field">
+            <div class="filter-field">
                 <span>Pulau</span>
-                <select name="pulau" onchange="this.form.submit()">
-                    <option value="">Semua</option>
-                    @foreach ($pulaus as $pl)
-                        <option value="{{ $pl->id }}" {{ (string) $pulau === (string) $pl->id ? 'selected' : '' }}>
-                            {{ $pl->nama }}
-                        </option>
-                    @endforeach
-                </select>
-            </label>
-            <label class="filter-field">
+                <div class="cdd" data-cdd>
+                    <button type="button" class="cdd-btn" aria-haspopup="listbox">
+                        <em>{{ $pulaus->firstWhere('id', (int) $pulau)->nama ?? 'Semua' }}</em><i>&#9662;</i>
+                    </button>
+                    <div class="cdd-list" role="listbox">
+                        <button type="button" data-value="" class="{{ !$pulau ? 'sel' : '' }}">Semua</button>
+                        @foreach ($pulaus as $pl)
+                            <button type="button" data-value="{{ $pl->id }}"
+                                class="{{ (string) $pulau === (string) $pl->id ? 'sel' : '' }}">{{ $pl->nama }}</button>
+                        @endforeach
+                    </div>
+                    <input type="hidden" name="pulau" value="{{ $pulau }}">
+                </div>
+            </div>
+            <div class="filter-field">
                 <span>Sumber Bunyi</span>
-                <select name="sumber" onchange="this.form.submit()">
-                    <option value="">Semua</option>
-                    @foreach ($sumbers as $sb)
-                        <option value="{{ $sb }}" {{ $sumber === $sb ? 'selected' : '' }}>
-                            {{ $sb }}
-                        </option>
-                    @endforeach
-                </select>
-            </label>
+                <div class="cdd" data-cdd>
+                    <button type="button" class="cdd-btn" aria-haspopup="listbox">
+                        <em>{{ $sumber ?: 'Semua' }}</em><i>&#9662;</i>
+                    </button>
+                    <div class="cdd-list" role="listbox">
+                        <button type="button" data-value="" class="{{ !$sumber ? 'sel' : '' }}">Semua</button>
+                        @foreach ($sumbers as $sb)
+                            <button type="button" data-value="{{ $sb }}"
+                                class="{{ $sumber === $sb ? 'sel' : '' }}">{{ $sb }}</button>
+                        @endforeach
+                    </div>
+                    <input type="hidden" name="sumber" value="{{ $sumber }}">
+                </div>
+            </div>
             @if ($pulau || $sumber)
                 <a href="{{ url('/search?q=' . urlencode($q ?? '')) }}" class="filter-reset">Atur ulang</a>
             @endif
@@ -68,3 +78,7 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/search-page.js') }}?v=12"></script>
+@endpush
