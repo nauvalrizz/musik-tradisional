@@ -227,3 +227,15 @@
     0% { transform: scale(.7); opacity: 1; }
     100% { transform: scale(1.5); opacity: 0; }
 }
+
+/* v31 — hero exit dramatis */
+.gallery-hero .hero-title,
+.gallery-hero .hero-sub,
+.gallery-hero .hero-meta {
+    transition: opacity .5s ease, transform .6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-hero.hero-leaving .hero-title { opacity: 0; transform: translateY(-60px); }
+.gallery-hero.hero-leaving .hero-sub { opacity: 0; transform: translateY(-40px); transition-delay: .05s; }
+.gallery-hero.hero-leaving .hero-meta { opacity: 0; transition-delay: .1s; }
+.gallery-hero.hero-leaving .gallery-fig { transform: scale(1.08); }
+.gallery-fig { transition: transform .6s ease; }

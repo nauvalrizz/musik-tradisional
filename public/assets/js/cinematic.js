@@ -19,7 +19,11 @@
 
         /* Parallax: foto hero bergerak lebih lambat */
         if (fig && y < window.innerHeight * 1.2) {
-            fig.style.transform = 'translateY(' + Math.round(y * 0.4) + 'px) scale(' + (1 + y * 0.0002) + ')';
+            fig.style.transform = 'translateY(' + Math.round(y * 0.4) + 'px)';
+        }
+        /* Hero leaving: konten fade saat scroll */
+        if (hero) {
+            hero.classList.toggle('hero-leaving', y > window.innerHeight * 0.35);
         }
 
         lastY = y;
@@ -45,23 +49,35 @@
     }, { passive: true });
     onScroll();
 
-    /* Handoff: saat Ruang Bunyi masuk, kenong berdenyut sebagai "estafet" dari foto hero */
+    /* Hero: keluar dramatis saat di-scroll */
+    var hero = document.querySelector('.gallery-hero');
+    /* Ruang Bunyi: kenong awakening + wave */
     var bunyi = document.getElementById('arsip-bunyi');
     var kenong = document.querySelector('.pad-kenong');
-    if (bunyi && kenong && 'IntersectionObserver' in window) {
+    var pads = document.querySelectorAll('.gamelan-pad');
+    if (bunyi && 'IntersectionObserver' in window) {
         var fired = false;
         new IntersectionObserver(function (entries) {
             entries.forEach(function (en) {
                 if (en.isIntersecting && !fired) {
                     fired = true;
+                    /* wave: alat masuk bergelombang */
+                    pads.forEach(function (pd, i) {
+                        pd.style.animationDelay = (i * 90) + 'ms';
+                        pd.classList.add('wave-in');
+                        setTimeout(function () { pd.classList.remove('wave-in'); pd.style.animationDelay = ''; }, 1400 + i * 90);
+                    });
+                    /* kenong awakening setelah wave */
                     setTimeout(function () {
-                        kenong.classList.add('handoff');
-                        setTimeout(function () { kenong.classList.remove('handoff'); }, 1900);
-                    }, 350);
-                } else if (!en.isIntersecting) {
+                        if (kenong) {
+                            kenong.classList.add('awaken');
+                            setTimeout(function () { kenong.classList.remove('awaken'); }, 2600);
+                        }
+                    }, 700);
+                } else if (!en.isIntersecting && en.boundingClientRect.top > 0) {
                     fired = false;
                 }
             });
-        }, { threshold: 0.35 }).observe(bunyi);
+        }, { threshold: 0.25 }).observe(bunyi);
     }
 })();

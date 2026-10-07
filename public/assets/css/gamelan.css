@@ -328,3 +328,31 @@
         0 0 24px rgba(201,151,63,.35),
         inset 0 2px 6px rgba(255,240,200,.35);
 }
+
+/* v31 — kenong awakening */
+.gamelan-pad.awaken .pad-kettle { animation: awakenMain 2.4s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes awakenMain {
+    0% { transform: scale(.6); filter: brightness(.5); }
+    30% { transform: scale(1.25); filter: brightness(1.4);
+        box-shadow: 0 0 80px rgba(201,151,63,.8), 0 10px 30px rgba(0,0,0,.5); }
+    55% { transform: scale(.95); filter: brightness(1.1); }
+    75% { transform: scale(1.08); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+.gamelan-pad.awaken::before,
+.gamelan-pad.awaken::after {
+    content: ""; position: absolute; inset: -6px; border-radius: 50%;
+    border: 2px solid rgba(201,151,63,.7); pointer-events: none;
+}
+.gamelan-pad.awaken::before { animation: awakenRing 2.4s ease-out; }
+.gamelan-pad.awaken::after { animation: awakenRing 2.4s .25s ease-out; }
+@keyframes awakenRing {
+    0% { transform: scale(.6); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+/* wave untuk semua alat */
+.gamelan-pad.wave-in { animation: waveIn .7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes waveIn {
+    0% { opacity: 0; transform: translateY(50px) scale(.85); }
+    100% { opacity: 1; transform: none; }
+}
