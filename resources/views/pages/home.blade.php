@@ -54,7 +54,7 @@
     <div class="container">
         <p class="section-eyebrow">Jelajah Wilayah</p>
         <h2 class="section-head">Pilih <em>Pulau.</em></h2>
-        @include('partials.map-svg')
+        @include('partials.map')
         <div id="tooltip" class="map-tooltip"></div>
     </div>
 </section>
