@@ -48,7 +48,7 @@
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
         <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
 
-        <div class="gamelan-pads" data-stagger role="group" aria-label="Lima alat musik yang bisa diketuk">
+        <div class="gamelan-pads" data-stagger role="group" aria-label="Delapan alat musik yang bisa diketuk">
             <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" data-reveal aria-label="Angklung">
                 <span class="angklung-frame">
                     <span class="angklung-bar"></span>
