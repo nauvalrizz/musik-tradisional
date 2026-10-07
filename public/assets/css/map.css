@@ -36,6 +36,12 @@
     filter: drop-shadow(0 0 16px rgba(210, 162, 76, 0.7));
     transform: scale(1.05);
 }
+/* efek KLIK: merah terracotta khas batik, bukan emas lagi */
+.map-svg path:active {
+    fill: #c1543c;
+    filter: drop-shadow(0 0 24px rgba(193, 84, 60, 0.9));
+    transform: scale(0.96);
+}
 .map-svg path.dim { opacity: 0.25; }
 .map-tooltip {
     position: fixed; z-index: 70; pointer-events: none;

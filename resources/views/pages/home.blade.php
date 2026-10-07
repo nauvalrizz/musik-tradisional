@@ -21,16 +21,15 @@
         <p class="section-eyebrow hero-anim" style="--d:0.05s">Apa itu MuSantara?</p>
         <p class="manifesto hero-anim" style="--d:0.2s">
             MuSantara adalah arsip hidup alat musik tradisional Indonesia.
-            <span class="w-def" data-def="Ketuk lima alat musik di bawah — tiap alat berbunyi beda.">Ketuk</span>
+            <a class="w-link" href="#arsip-bunyi">Ketuk</a>
             bunyinya,
-            <span class="w-def" data-def="Jelajahi peta dan temukan asal-usul tiap alat.">telusuri</span>
+            <a class="w-link" href="#telusuri">telusuri</a>
             asalnya,
-            <span class="w-def" data-def="Baca kisah dan makna di balik tiap alat musik.">baca</span>
+            <a class="w-link" href="#koleksi">baca</a>
             ceritanya.
         </p>
-        <div class="def-pop" id="defPop" hidden></div>
 
-        <p class="hero-ensemble-label hero-anim" style="--d:0.35s">Arsip Bunyi Nusantara</p>
+        <p class="hero-ensemble-label hero-anim" id="arsip-bunyi" style="--d:0.35s">Arsip Bunyi Nusantara</p>
 
         <div class="gamelan-pads" role="group" aria-label="Lima alat musik yang bisa diketuk">
             <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" aria-label="Angklung">

@@ -96,3 +96,14 @@ setTimeout(() => {
     t.addEventListener('click', finish);
     setTimeout(finish, 3500);
 })();
+
+// ================= NAVBAR SCROLL =================
+(function () {
+    var nav = document.getElementById('mainNav');
+    if (!nav) return;
+    function onScroll() {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+})();
