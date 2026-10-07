@@ -44,7 +44,7 @@
 {{-- ═══════════ RUANG BUNYI ═══════════ --}}
 <section class="bunyi-section" id="arsip-bunyi">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi</p>
+        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi <span class="aksara" lang="jv">ꦫꦸꦮꦁꦧꦸꦚꦶ</span></p>
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
         <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
 

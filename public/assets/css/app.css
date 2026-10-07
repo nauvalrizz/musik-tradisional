@@ -862,3 +862,11 @@ html { scroll-behavior: smooth; }
 .section-sub::first-letter {
     font-size: 1.6em; font-weight: 700; color: var(--bronze);
 }
+
+/* v46 — Aksara Jawa */
+.aksara {
+    font-family: 'Noto Sans Javanese', serif;
+    font-size: 0.85em; color: rgba(201,151,63,.65);
+    letter-spacing: .02em; margin-left: 8px;
+    vertical-align: baseline;
+}
