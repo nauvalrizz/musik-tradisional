@@ -1,4 +1,4 @@
-/* v28 — Sinematik: header hide/show, parallax hero, handoff kenong. */
+/* v29 — Sinematik: header hide/show, parallax hero, handoff kenong. */
 (function () {
     var lastY = 0;
     var nav = document.querySelector('.navbar');
