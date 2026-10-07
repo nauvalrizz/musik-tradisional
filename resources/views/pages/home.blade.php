@@ -46,7 +46,7 @@
     <div class="container">
         <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi</p>
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
-        <p class="section-sub" data-reveal>Lima alat gamelan yang bisa kamu mainkan langsung.</p>
+        <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
 
         <div class="gamelan-pads" data-stagger role="group" aria-label="Lima alat musik yang bisa diketuk">
             <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" data-reveal aria-label="Angklung">
@@ -71,6 +71,18 @@
             <button type="button" class="gamelan-pad pad-bonang" data-instrument="bonang" data-freq="196.00" data-reveal aria-label="Bonang">
                 <span class="pad-pots"><i></i><i></i><i></i><i></i><i></i><i></i></span>
                 <span class="pad-name">Bonang</span>
+            </button>
+            <button type="button" class="gamelan-pad pad-gong" data-instrument="gong" data-freq="65.41" data-reveal aria-label="Gong Ageng">
+                <span class="pad-gong-frame"><span class="pad-gong-disc"><span class="pad-gong-boss"></span></span></span>
+                <span class="pad-name">Gong</span>
+            </button>
+            <button type="button" class="gamelan-pad pad-kendang" data-instrument="kendang" data-freq="146.83" data-reveal aria-label="Kendang">
+                <span class="pad-drum"><span class="pad-drum-head left"></span><span class="pad-drum-body"></span><span class="pad-drum-head right"></span></span>
+                <span class="pad-name">Kendang</span>
+            </button>
+            <button type="button" class="gamelan-pad pad-suling" data-instrument="suling" data-freq="523.25" data-reveal aria-label="Suling">
+                <span class="pad-flute"><i></i><i></i><i></i><i></i><i></i></span>
+                <span class="pad-name">Suling</span>
             </button>
         </div>
         <div class="rec-bar" data-reveal>

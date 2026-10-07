@@ -3,12 +3,16 @@
    Angklung, kempul gantung, kenong, saron, bonang.
    =============================== */
 .gamelan-pads {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: clamp(22px, 4vw, 46px);
-    flex-wrap: wrap;
-    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 36px 20px;
+    max-width: 860px;
+    margin: 40px auto 0;
+    justify-items: center;
+    align-items: end;
+}
+@media (max-width: 640px) {
+    .gamelan-pads { grid-template-columns: repeat(2, 1fr); gap: 28px 12px; }
 }
 .gamelan-pad {
     background: none; border: none; cursor: pointer;
@@ -248,3 +252,69 @@
     0% { transform: translate(-50%,-50%) scale(.4); opacity: .9; }
     100% { transform: translate(-50%,-50%) scale(1.25); opacity: 0; }
 }
+
+/* --- GONG AGENG: gong besar berbingkai --- */
+.pad-gong .pad-gong-frame {
+    position: relative; padding: 12px 18px 0;
+    border-left: 3px solid #8a6420; border-right: 3px solid #8a6420;
+    border-top: 3px solid #8a6420; border-radius: 8px 8px 0 0;
+}
+.pad-gong .pad-gong-disc {
+    width: 108px; height: 108px; border-radius: 50%; position: relative;
+    background: radial-gradient(circle at 35% 30%, #f0cd78, #c9973f 45%, #7a5a1c 85%, #5a4415);
+    box-shadow: 0 12px 30px rgba(0,0,0,.55),
+        inset 0 2px 8px rgba(255,240,200,.4),
+        inset 0 -8px 18px rgba(0,0,0,.45);
+    transition: transform .18s ease;
+}
+.pad-gong .pad-gong-boss {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 30px; height: 30px; border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #eec76e, #8a6420);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,.4);
+}
+
+/* --- KENDANG: gendang laras --- */
+.pad-drum { display: flex; align-items: center; height: 80px; }
+.pad-drum-body {
+    width: 84px; height: 56px;
+    background: linear-gradient(180deg, #d9ab4e, #a87e2a 50%, #7a5a1c);
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.5), inset 0 2px 4px rgba(255,240,200,.3);
+    position: relative;
+}
+.pad-drum-body::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 2px; transform: translateX(-50%);
+    background: rgba(0,0,0,.25);
+}
+.pad-drum-head {
+    width: 22px; height: 64px; border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 50%, #f0e0b8, #d9c48e 70%, #b3a06e);
+    box-shadow: 0 6px 14px rgba(0,0,0,.4);
+    flex-shrink: 0;
+}
+.pad-drum-head.left { margin-right: -8px; z-index: 2; }
+.pad-drum-head.right { margin-left: -8px; z-index: 2; }
+
+/* --- SULING: seruling bambu --- */
+.pad-flute {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    width: 26px; height: 110px; border-radius: 13px;
+    background: linear-gradient(90deg, #c49a4a, #eec76e 50%, #a87e2a);
+    box-shadow: 0 8px 20px rgba(0,0,0,.45), inset 0 1px 3px rgba(255,240,200,.4);
+    padding: 14px 0; justify-content: center;
+    transition: transform .18s ease;
+}
+.pad-flute i {
+    width: 8px; height: 8px; border-radius: 50%; background: #3a2c12;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.6);
+}
+
+/* interaksi alat baru */
+.gamelan-pad:hover .pad-gong-disc { transform: scale(1.05); }
+.gamelan-pad:hover .pad-drum { transform: scale(1.05); }
+.gamelan-pad:hover .pad-flute { transform: scale(1.05) rotate(2deg); }
+.gamelan-pad:active .pad-gong-disc, .gamelan-pad.struck .pad-gong-disc { transform: scale(.93); }
+.gamelan-pad:active .pad-drum, .gamelan-pad.struck .pad-drum { transform: scale(.94); }
+.gamelan-pad:active .pad-flute, .gamelan-pad.struck .pad-flute { transform: scale(.92); }
