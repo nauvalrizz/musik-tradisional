@@ -9,9 +9,9 @@
 
         /* Header: sembunyi saat scroll bawah, muncul saat scroll atas */
         if (nav) {
-            if (y > 140 && y > lastY + 4) {
+            if (y > 80 && y > lastY + 2) {
                 nav.classList.add('nav-hidden');
-            } else if (y < lastY - 4 || y <= 140) {
+            } else if (y < lastY - 2 || y <= 80) {
                 nav.classList.remove('nav-hidden');
             }
             nav.classList.toggle('scrolled', y > 40);
@@ -76,48 +76,4 @@
             });
         }, { threshold: 0.25 }).observe(bunyi);
     }
-})();
-
-/* v34 — KENONG TRAVELER simpel: muncul di tengah layar pas scroll, terbang ke tombol */
-(function () {
-    var kenongBtn = document.querySelector('.pad-kenong');
-    var bunyi = document.getElementById('arsip-bunyi');
-    var heroImg = document.querySelector('.gallery-fig img');
-    if (!kenongBtn || !bunyi || !heroImg) return;
-
-    var tr = document.createElement('div');
-    tr.className = 'kenong-traveler';
-    tr.innerHTML = '<img src="' + heroImg.src + '" alt="">';
-    document.body.appendChild(tr);
-
-    var done = false;
-    new IntersectionObserver(function (es) {
-        es.forEach(function (en) {
-            if (en.isIntersecting && !done) {
-                done = true;
-                var br = kenongBtn.getBoundingClientRect();
-                /* muncul di tengah layar */
-                tr.style.left = '50%';
-                tr.style.top = '40%';
-                tr.style.opacity = '1';
-                tr.style.transform = 'translate(-50%,-50%) scale(1)';
-                /* terbang ke tombol setelah 800ms */
-                setTimeout(function () {
-                    var x = br.left + br.width / 2;
-                    var y = br.top + br.height / 2;
-                    tr.style.transition = 'all 1s cubic-bezier(0.22,1,0.36,1)';
-                    tr.style.left = x + 'px';
-                    tr.style.top = y + 'px';
-                    tr.style.transform = 'translate(-50%,-50%) scale(0.3)';
-                    tr.style.opacity = '0.3';
-                    setTimeout(function () {
-                        tr.style.opacity = '0';
-                        kenongBtn.classList.add('awaken');
-                        setTimeout(function () { kenongBtn.classList.remove('awaken'); }, 2600);
-                    }, 1000);
-                }, 800);
-            }
-            if (!en.isIntersecting && en.boundingClientRect.top > 0) done = false;
-        });
-    }, { threshold: 0.3 }).observe(bunyi);
 })();
