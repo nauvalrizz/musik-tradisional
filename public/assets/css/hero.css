@@ -208,8 +208,22 @@
 .gamelan-pad.handoff .pad-kettle { animation: handoffPulse 1.8s ease; }
 @keyframes handoffPulse {
     0% { transform: scale(1); }
-    35% { transform: scale(1.1); box-shadow: 0 0 44px rgba(201,151,63,.55),
+    25% { transform: scale(1.18); box-shadow: 0 0 60px rgba(201,151,63,.7),
         0 10px 26px rgba(0,0,0,.5), inset 0 2px 6px rgba(255,240,200,.3); }
-    70% { transform: scale(1.04); }
+    50% { transform: scale(1.05); }
+    75% { transform: scale(1.12); box-shadow: 0 0 40px rgba(201,151,63,.5),
+        0 10px 26px rgba(0,0,0,.5); }
     100% { transform: scale(1); }
+}
+.gamelan-pad.handoff .pad-kettle { animation: handoffPulse 2.2s ease; }
+/* ring mengembang */
+.gamelan-pad.handoff::after {
+    content: ""; position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px solid rgba(201,151,63,.6);
+    animation: handoffRing 2.2s ease-out;
+    pointer-events: none;
+}
+@keyframes handoffRing {
+    0% { transform: scale(.7); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
 }

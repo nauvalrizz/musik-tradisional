@@ -19,10 +19,21 @@
 
         /* Parallax: foto hero bergerak lebih lambat */
         if (fig && y < window.innerHeight * 1.2) {
-            fig.style.transform = 'translateY(' + Math.round(y * 0.22) + 'px)';
+            fig.style.transform = 'translateY(' + Math.round(y * 0.4) + 'px) scale(' + (1 + y * 0.0002) + ')';
         }
 
         lastY = y;
+        updProg();
+    }
+
+    /* Scroll progress bar */
+    var prog = document.createElement('div');
+    prog.className = 'scroll-progress';
+    document.body.appendChild(prog);
+    function updProg() {
+        var h = document.documentElement;
+        var max = h.scrollHeight - h.clientHeight;
+        prog.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
     }
 
     var ticking = false;

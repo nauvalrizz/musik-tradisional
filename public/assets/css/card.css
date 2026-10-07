@@ -6,8 +6,8 @@
    =============================== */
 html.js [data-reveal] {
     opacity: 0;
-    transform: translateY(34px) scale(0.986);
-    transition: opacity 1s ease, transform 1.15s cubic-bezier(0.22, 0.8, 0.3, 1);
+    transform: translateY(48px) scale(0.97);
+    transition: opacity 0.9s ease, transform 1s cubic-bezier(0.22, 0.8, 0.3, 1);
 }
 html.js [data-reveal].in { opacity: 1; transform: none; }
 
