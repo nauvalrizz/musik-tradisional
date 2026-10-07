@@ -746,6 +746,8 @@ footer {
 }
 .mega-base {
     opacity: 0.055;
+    left: -300px;
+    width: calc(100% + 300px);
     animation: megaDrift 160s linear infinite;
 }
 @keyframes megaDrift {
