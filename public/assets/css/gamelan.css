@@ -357,13 +357,3 @@
     100% { opacity: 1; transform: none; }
 }
 
-/* v49 — ambient toggle */
-.ambient-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    margin-top: 16px; padding: 10px 20px;
-    background: transparent; border: 1px solid rgba(201,151,63,.4);
-    color: var(--bronze); border-radius: 999px;
-    font-size: 14px; letter-spacing: .05em; cursor: pointer;
-}
-.ambient-btn.on { background: rgba(201,151,63,.15); border-color: var(--bronze); }
-.ambient-btn i { font-style: normal; }

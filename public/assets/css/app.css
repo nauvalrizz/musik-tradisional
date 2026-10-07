@@ -901,3 +901,54 @@ body::after {
     background: var(--bronze); border: 3px solid #0e0b07; box-shadow: 0 0 0 2px var(--bronze); }
 .tl-year { color: var(--bronze); font-weight: 700; letter-spacing: .1em; }
 .tl-item p { color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+/* v51 — ambient button (specificity tinggi) */
+button#ambient-toggle.ambient-btn {
+    display: inline-flex !important; align-items: center; gap: 8px;
+    margin: 16px auto 0; padding: 12px 28px;
+    background: rgba(201,151,63,.08) !important;
+    border: 1px solid #c9973f !important;
+    color: #c9973f !important; border-radius: 999px !important;
+    font-size: 15px; letter-spacing: .05em; cursor: pointer;
+    font-family: inherit;
+}
+button#ambient-toggle.ambient-btn.on {
+    background: rgba(201,151,63,.22) !important;
+    box-shadow: 0 0 20px rgba(201,151,63,.3);
+}
+button#ambient-toggle.ambient-btn i { font-style: normal; }
+
+/* v51 — Buku 3D Kisah */
+.book-scene { perspective: 1500px; max-width: 560px; margin: 48px auto 0; text-align: center; }
+.book { position: relative; width: 100%; height: 380px; transform-style: preserve-3d; }
+.book-page {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a1510 0%, #241c12 100%);
+    border: 1px solid rgba(201,151,63,.35); border-radius: 4px 12px 12px 4px;
+    padding: 48px 40px; text-align: left;
+    backface-visibility: hidden;
+    transform-origin: left center;
+    transition: transform .8s cubic-bezier(.4,0,.2,1), opacity .8s;
+    box-shadow: -8px 0 24px rgba(0,0,0,.4);
+    display: flex; flex-direction: column; justify-content: center;
+}
+.book-page.flipped { transform: rotateY(-160deg); opacity: 0; pointer-events: none; }
+.book-page .page-era { color: var(--bronze); font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
+.book-page h3 { font-size: clamp(28px, 5vw, 40px); margin: 12px 0; color: #f5ede0; }
+.book-page p { color: var(--muted); line-height: 1.7; font-size: 16px; }
+.book-page .page-num { position: absolute; bottom: 20px; right: 24px; color: rgba(201,151,63,.5); font-size: 13px; }
+/* cover */
+.book-page[data-page="0"] { border-left: 6px solid #c9973f; }
+.book-nav { display: flex; gap: 16px; justify-content: center; margin-top: 24px; }
+.book-nav button {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(201,151,63,.1); border: 1px solid #c9973f;
+    color: #c9973f; font-size: 28px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+}
+.book-nav button:hover { background: rgba(201,151,63,.25); }
+.book-nav button:disabled { opacity: .3; cursor: default; }
+.book-hint { color: var(--muted); font-size: 13px; margin-top: 12px; }
+/* Hapus CSS story-chapters lama */
+.story-chapters, .story-chapter, .story-era { display: none; }

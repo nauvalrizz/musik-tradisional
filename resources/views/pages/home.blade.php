@@ -45,32 +45,44 @@
 <section class="story-section" id="kisah">
     <div class="container">
         <p class="section-eyebrow" data-reveal><b>§</b><i></i>Kisah</p>
-        <div class="story-chapters">
-            <div class="story-chapter" data-reveal>
-                <span class="story-era">Sumatera</span>
-                <h3>Talempong Minang</h3>
-                <p>Gong-gong kecil dari tanah Minangkabau, dimainkan dengan irama rancak yang lincah.</p>
+        <div class="book-scene" data-reveal>
+            <div class="book" id="kisah-book">
+                <div class="book-page" data-page="0">
+                    <span class="page-era">Sumatera</span>
+                    <h3>Talempong Minang</h3>
+                    <p>Gong-gong kecil dari tanah Minangkabau, dimainkan dengan irama rancak yang lincah.</p>
+                    <span class="page-num">1 / 5</span>
+                </div>
+                <div class="book-page" data-page="1">
+                    <span class="page-era">Jawa & Bali</span>
+                    <h3>Gamelan Perunggu</h3>
+                    <p>Orkestra perunggu dari keraton — gong ageng, kenong, saron dalam harmoni berlapis.</p>
+                    <span class="page-num">2 / 5</span>
+                </div>
+                <div class="book-page" data-page="2">
+                    <span class="page-era">Kalimantan</span>
+                    <h3>Sampe Dayak</h3>
+                    <p>Kecapi Dayak yang dipetik, mengiringi tarian dan ritual hutan Kalimantan.</p>
+                    <span class="page-num">3 / 5</span>
+                </div>
+                <div class="book-page" data-page="3">
+                    <span class="page-era">Sulawesi</span>
+                    <h3>Kolintang</h3>
+                    <p>Xylophone kayu dari Minahasa, nadanya ceria seperti matahari timur.</p>
+                    <span class="page-num">4 / 5</span>
+                </div>
+                <div class="book-page" data-page="4">
+                    <span class="page-era">Maluku & Papua</span>
+                    <h3>Tifa</h3>
+                    <p>Gendang satu sisi yang menghentak — jantungnya upacara adat timur Indonesia.</p>
+                    <span class="page-num">5 / 5</span>
+                </div>
             </div>
-            <div class="story-chapter" data-reveal>
-                <span class="story-era">Jawa & Bali</span>
-                <h3>Gamelan Perunggu</h3>
-                <p>Orkestra perunggu dari keraton — gong ageng, kenong, saron dalam harmoni berlapis.</p>
+            <div class="book-nav">
+                <button id="book-prev" aria-label="Halaman sebelumnya">‹</button>
+                <button id="book-next" aria-label="Halaman berikutnya">›</button>
             </div>
-            <div class="story-chapter" data-reveal>
-                <span class="story-era">Kalimantan</span>
-                <h3>Sampe Dayak</h3>
-                <p>Kecapi Dayak yang dipetik, mengiringi tarian dan ritual hutan Kalimantan.</p>
-            </div>
-            <div class="story-chapter" data-reveal>
-                <span class="story-era">Sulawesi</span>
-                <h3>Kolintang</h3>
-                <p>Xylophone kayu dari Minahasa, nadanya ceria seperti matahari timur.</p>
-            </div>
-            <div class="story-chapter" data-reveal>
-                <span class="story-era">Maluku & Papua</span>
-                <h3>Tifa</h3>
-                <p>Gendang satu sisi yang menghentak — jantungnya upacara adat timur Indonesia.</p>
-            </div>
+            <p class="book-hint">Ketuk panah untuk membuka halaman</p>
         </div>
     </div>
 </section>

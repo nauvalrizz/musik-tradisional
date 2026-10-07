@@ -105,3 +105,24 @@ setTimeout(() => {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 })();
+
+/* v51 — Buku 3D */
+(function() {
+    var book = document.getElementById('kisah-book');
+    if (!book) return;
+    var pages = book.querySelectorAll('.book-page');
+    var prev = document.getElementById('book-prev');
+    var next = document.getElementById('book-next');
+    var current = 0;
+    function update() {
+        pages.forEach(function(pg, i) {
+            pg.classList.toggle('flipped', i < current);
+            pg.style.zIndex = pages.length - Math.abs(i - current);
+        });
+        prev.disabled = current === 0;
+        next.disabled = current === pages.length - 1;
+    }
+    prev.addEventListener('click', function() { if (current > 0) { current--; update(); } });
+    next.addEventListener('click', function() { if (current < pages.length - 1) { current++; update(); } });
+    update();
+})();
