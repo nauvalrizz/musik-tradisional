@@ -2,7 +2,6 @@
     <a class="navbar-brand" href="{{ url('/') }}">
         <span class="brand-stamp">M</span>
         <span class="brand-text">MuSantara<em>Arsip</em></span>
-        <span style="background:#c9973f;color:#000;font-size:10px;font-weight:bold;padding:2px 6px;border-radius:4px;margin-left:8px;">v38 OK</span>
     </a>
 
     <div class="ms-auto d-flex align-items-center">
