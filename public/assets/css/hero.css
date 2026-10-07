@@ -49,8 +49,8 @@
 .gallery-fig img {
     width: 100%;
     display: block;
-    -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 46%, #000 52%, transparent 76%);
-    mask-image: radial-gradient(ellipse 72% 68% at 50% 46%, #000 52%, transparent 76%);
+    -webkit-mask-image: radial-gradient(ellipse 68% 62% at 50% 48%, #000 28%, transparent 70%);
+    mask-image: radial-gradient(ellipse 68% 62% at 50% 48%, #000 28%, transparent 70%);
 }
 .gallery-fig figcaption {
     margin-top: 6px;

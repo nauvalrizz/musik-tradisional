@@ -20,7 +20,7 @@
     <p class="exhibit-no hero-anim" style="--d:.05s"><b>001</b><i></i>Arsip Terbuka &mdash; Indonesia</p>
 
     <figure class="gallery-fig hero-anim" style="--d:.35s">
-        <img src="{{ asset('assets/img/hero-gong.jpg') }}?v=23" alt="Kenong perunggu dalam sorotan museum" fetchpriority="high">
+        <img src="{{ asset('assets/img/hero-gong.jpg') }}?v=24" alt="Kenong perunggu dalam sorotan museum" fetchpriority="high">
         <figcaption><b>Fig. 01</b> &mdash; Kenong perunggu, Jawa Tengah</figcaption>
     </figure>
 

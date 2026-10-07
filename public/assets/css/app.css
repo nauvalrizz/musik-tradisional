@@ -482,12 +482,25 @@ footer {
 /* ================= SECTIONS — ritme naratif homepage ================= */
 
 .section-eyebrow {
-    font-size: 12px;
-    letter-spacing: 4px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--bronze);
+    color: #b8a888;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin: 0 0 18px;
+}
+.section-eyebrow b {
+    color: var(--bronze);
+    font-weight: 700;
+}
+.section-eyebrow i {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: rgba(201,151,63,.45);
 }
 
 .section-sub {
@@ -717,4 +730,21 @@ body::after {
 }
 }
 }
+}
+
+/* v24 — konsistensi galeri */
+.section-head {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.05;
+    color: #f2e9d4;
+    margin: 0 0 16px;
+    max-width: 20ch;
+}
+.section-head em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--bronze);
 }

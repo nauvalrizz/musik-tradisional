@@ -1,41 +1,32 @@
-/* Reveal on scroll untuk [data-reveal].
-   Anti-stuck: state tersembunyi hanya aktif kalau JS jalan (html.js),
-   plus fallback yang memaksa semua tampil setelah 2.5 detik. */
+/* Reveal on scroll untuk [data-reveal] — animasi dua arah (masuk & keluar).
+   Elemen tampil saat masuk viewport, memudar saat keluar.
+   Anti-stuck: state tersembunyi hanya aktif kalau JS jalan (html.js). */
 document.documentElement.classList.add('js');
 
 document.addEventListener('DOMContentLoaded', function () {
     var els = document.querySelectorAll('[data-reveal]');
     if (!els.length) return;
 
-    function show(el) { el.classList.add('in'); }
-
     /* Stagger: anak [data-stagger] muncul berurutan. */
     document.querySelectorAll('[data-stagger]').forEach(function (group) {
         var kids = group.querySelectorAll('[data-reveal]');
         kids.forEach(function (kid, i) {
-            kid.style.transitionDelay = Math.min(i * 90, 900) + 'ms';
+            kid.style.transitionDelay = Math.min(i * 80, 800) + 'ms';
         });
     });
 
-    /* Fallback: tidak ada yang boleh stuck tak terlihat. */
-    setTimeout(function () {
-        els.forEach(show);
-    }, 2500);
-
     if (!('IntersectionObserver' in window) ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        els.forEach(show);
+        els.forEach(function (el) { el.classList.add('in'); });
         return;
     }
 
+    /* Toggle dua arah: masuk -> .in, keluar -> lepas .in */
     var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-            if (en.isIntersecting) {
-                show(en.target);
-                io.unobserve(en.target);
-            }
+            en.target.classList.toggle('in', en.isIntersecting);
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
 
     els.forEach(function (el) { io.observe(el); });
 });
