@@ -1,9 +1,18 @@
-/* Reveal on scroll untuk [data-reveal] (pengganti stagger generik). */
+/* Reveal on scroll untuk [data-reveal].
+   Anti-stuck: state tersembunyi hanya aktif kalau JS jalan (html.js),
+   plus fallback yang memaksa semua tampil setelah 2.5 detik. */
+document.documentElement.classList.add('js');
+
 document.addEventListener('DOMContentLoaded', function () {
     var els = document.querySelectorAll('[data-reveal]');
     if (!els.length) return;
 
     function show(el) { el.classList.add('in'); }
+
+    /* Fallback: tidak ada yang boleh stuck tak terlihat. */
+    setTimeout(function () {
+        els.forEach(show);
+    }, 2500);
 
     if (!('IntersectionObserver' in window) ||
         window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

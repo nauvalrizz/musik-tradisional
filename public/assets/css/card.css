@@ -2,12 +2,13 @@
    SPESIMEN v4 — kartu arsip museum
    Nomor katalog besar, label spesimen.
    =============================== */
-[data-reveal] {
+/* Reveal hanya menyembunyikan kalau JS aktif — tanpa JS, semua langsung tampil. */
+html.js [data-reveal] {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.8, 0.3, 1);
 }
-[data-reveal].in { opacity: 1; transform: none; }
+html.js [data-reveal].in { opacity: 1; transform: none; }
 
 .spesimen {
     position: relative;
@@ -18,12 +19,27 @@
     border-radius: 4px;
     overflow: hidden;
     text-decoration: none;
-    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+/* Bingkai perunggu menggambar masuk saat hover — khas arsip, bukan lift standar. */
+.spesimen::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    z-index: 3;
+    border: 1px solid var(--bronze);
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 0.8, 0.3, 1);
+    pointer-events: none;
 }
 .spesimen:hover {
-    transform: translateY(-6px);
     border-color: var(--bronze);
     box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+}
+.spesimen:hover::after {
+    opacity: 1;
+    transform: scale(1);
 }
 
 /* --- media + nomor katalog besar --- */
@@ -32,11 +48,12 @@
     width: 100%; height: 100%; object-fit: cover;
     filter: sepia(0.5) saturate(0.8) contrast(1.04);
     transform: scale(1.01);
-    transition: filter 0.6s ease, transform 0.7s cubic-bezier(0.22, 0.8, 0.3, 1);
+    transition: filter 0.6s ease, transform 1.4s cubic-bezier(0.22, 0.8, 0.3, 1);
 }
+/* Ken Burns: foto bergerak pelan diagonal, bukan sekadar zoom. */
 .spesimen:hover .spesimen-media img {
-    filter: sepia(0) saturate(1.1) contrast(1.02);
-    transform: scale(1.06);
+    filter: sepia(0) saturate(1.15) contrast(1.02);
+    transform: scale(1.1) translate(-1.5%, 1.5%);
 }
 .spesimen-no {
     position: absolute;
@@ -48,9 +65,10 @@
     line-height: 1;
     color: var(--bronze-hi);
     text-shadow: 0 3px 14px rgba(0, 0, 0, 0.65);
-    transition: transform 0.35s ease;
+    transition: transform 0.45s cubic-bezier(0.22, 0.8, 0.3, 1), color 0.45s ease;
 }
-.spesimen:hover .spesimen-no { transform: translateX(6px); }
+/* Nomor katalog membesar dan bergeser — seperti spesimen yang sedang diperiksa. */
+.spesimen:hover .spesimen-no { transform: translateX(10px) scale(1.14); color: #ffe9b8; }
 
 /* --- body: label spesimen --- */
 .spesimen-body { padding: 22px 20px 20px; display: flex; flex-direction: column; gap: 8px; }
@@ -75,7 +93,21 @@
     margin-top: 6px; font-size: 13px; font-weight: 600;
     letter-spacing: 0.6px; color: var(--bronze-hi);
     display: inline-flex; align-items: center; gap: 8px;
+    position: relative;
+    width: fit-content;
 }
+/* Garis bawah menyapu saat hover. */
+.spesimen-link::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 100%; height: 1px;
+    background: var(--bronze-hi);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.45s cubic-bezier(0.22, 0.8, 0.3, 1) 0.05s;
+}
+.spesimen:hover .spesimen-link::after { transform: scaleX(1); }
 .spesimen-link i { font-style: normal; transition: transform 0.3s ease; }
 .spesimen:hover .spesimen-link i { transform: translateX(6px); }
 

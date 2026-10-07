@@ -1,35 +1,66 @@
 /* ===============================
-   HERO — kompak, alat di awal
+   HERO v5 — satu viewport penuh
+   Penjelasan + alat dalam 100svh.
+   Konten bawah tidak mengintip.
    =============================== */
-.hero--play {
-    padding: 96px 20px 84px;
-    text-align: center;
+.hero-full {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: relative;
     overflow: hidden;
+    padding: 110px 20px 110px;
+    text-align: center;
 }
-.hero-eyebrow {
-    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--bronze); margin-bottom: 20px; font-weight: 600;
+.hero-full-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    position: relative;
 }
-.hero-title-sm {
-    font-family: var(--serif);
-    font-size: clamp(38px, 6vw, 64px);
-    font-weight: 600; letter-spacing: -0.5px; line-height: 1.1;
-    margin: 0 0 14px; color: var(--ink);
+/* Manifesto sebagai teks hero */
+.hero-full .manifesto {
+    margin-top: 22px;
 }
-.hero-title-sm em { font-style: italic; color: var(--bronze); }
-.hero-sub {
-    font-size: 16px; color: var(--muted);
-    max-width: 580px; margin: 0 auto; line-height: 1.7;
+/* Label ensemble */
+.hero-ensemble-label {
+    margin: 46px 0 0;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    font-weight: 600;
 }
-.hero--play .gamelan-pads { margin-top: 12px; }
-.scroll-cue {
-    margin-top: 56px; font-size: 11px; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--muted);
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
+.hero-full .gamelan-pads {
+    margin-top: 26px;
 }
-.scroll-cue span {
-    width: 1px; height: 44px;
+.hero-full .gamelan-hint {
+    margin-top: 22px;
+}
+/* Cue scroll menempel di bawah viewport */
+.hero-full .scroll-cue {
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    animation: cueIn 1s ease 1.4s both;
+}
+.hero-full .scroll-cue span {
+    width: 1px;
+    height: 44px;
     background: linear-gradient(var(--bronze), transparent);
     animation: cueDrop 1.8s ease-in-out infinite;
 }
@@ -39,6 +70,25 @@
     55% { transform: scaleY(1); transform-origin: bottom; }
     100% { transform: scaleY(0); transform-origin: bottom; }
 }
+@keyframes cueIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+/* Entrance murni CSS bertahap — tidak bergantung JS, tidak bisa stuck. */
+.hero-anim {
+    animation: heroIn 0.9s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+    animation-delay: var(--d, 0s);
+}
+@keyframes heroIn {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-anim { animation: none; }
+    .hero-full .scroll-cue { animation: none; }
+    .hero-full .scroll-cue span { animation: none; }
+}
 @media (max-width: 768px) {
-    .hero--play { padding: 72px 16px 64px; }
+    .hero-full { padding: 96px 16px 100px; }
+    .hero-ensemble-label { margin-top: 36px; }
 }

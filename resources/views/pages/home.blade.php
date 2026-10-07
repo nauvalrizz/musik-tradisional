@@ -2,11 +2,11 @@
 
 @section('content')
 
-{{-- ═══════════ INTRO — apa itu MuSantara ═══════════ --}}
-<section class="intro">
-    <div class="container container-narrow">
-        <p class="section-eyebrow">Apa itu MuSantara?</p>
-        <p class="manifesto">
+{{-- ═══════════ HERO — satu viewport penuh: penjelasan + alat ═══════════ --}}
+<section class="hero-full">
+    <div class="container hero-full-inner">
+        <p class="section-eyebrow hero-anim" style="--d:0.05s">Apa itu MuSantara?</p>
+        <p class="manifesto hero-anim" style="--d:0.2s">
             MuSantara adalah arsip hidup alat musik tradisional Indonesia.
             <span class="w-def" data-def="Ketuk lima alat gamelan di bawah — tiap alat berbunyi beda.">Ketuk</span>
             bunyinya,
@@ -16,15 +16,8 @@
             ceritanya.
         </p>
         <div class="def-pop" id="defPop" hidden></div>
-    </div>
-</section>
 
-{{-- ═══════════ HERO — alat bunyi di awal ═══════════ --}}
-<section class="hero hero--play">
-    <div class="container">
-        <p class="hero-eyebrow">Arsip Bunyi Nusantara</p>
-        <h1 class="hero-title-sm">Ketuk. Dengar. <em>Kenali.</em></h1>
-        <p class="hero-sub">MuSantara mendokumentasikan alat musik tradisional Indonesia — bunyinya, asalnya, ceritanya.</p>
+        <p class="hero-ensemble-label hero-anim" style="--d:0.35s">Arsip Bunyi Nusantara</p>
 
         <div class="gamelan-pads" role="group" aria-label="Ensemble gamelan yang bisa diketuk">
             <button type="button" class="gamelan-pad pad-gong" data-instrument="gong" data-freq="65.41" aria-label="Gong Ageng">
@@ -48,10 +41,9 @@
                 <span class="pad-name">Bonang</span>
             </button>
         </div>
-        <p class="gamelan-hint">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
-
-        <p class="scroll-cue"><span></span>Gulir ke bawah</p>
+        <p class="gamelan-hint hero-anim" style="--d:0.55s">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
     </div>
+    <p class="scroll-cue" aria-hidden="true"><span></span>Gulir ke bawah</p>
 </section>
 
 {{-- ═══════════ PAPER BAND ═══════════ --}}
@@ -67,6 +59,7 @@
     <div class="container container-narrow">
         <p class="section-eyebrow">Telusuri Arsip</p>
         <h2 class="section-head">Cari alatnya <em>langsung.</em></h2>
+        <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
         @include('components.search-box')
     </div>
 </section>

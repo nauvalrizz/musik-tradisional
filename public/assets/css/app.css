@@ -376,6 +376,30 @@ footer {
 .quiz-invite {
     padding: 96px 0;
     scroll-margin-top: 70px;
+    text-align: center;
+}
+/* v5 — layout CTA kuis: tidak overlap, tidak html-only */
+.quiz-invite .quiz-sub {
+    color: var(--muted);
+    font-size: 16px;
+    margin: 14px 0 0;
+}
+.quiz-cta {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+.quiz-cta .btn-quiz-hero {
+    display: inline-block;
+    text-decoration: none;
+}
+.quiz-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
 }
 
 .container-narrow {
@@ -457,10 +481,31 @@ footer {
 @media (max-width: 900px) { .koleksi-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .koleksi-grid { grid-template-columns: 1fr; } }
 
-/* ═══════════ V3 — paper band ═══════════ */
-.paper-band { background: #e9dfc6; color: #221a0c; padding: 96px 20px; text-align: center; }
+/* ═══════════ V5 — paper band: terkontain, tidak kepotong ═══════════ */
+.paper-band {
+    background: #e9dfc6;
+    color: #221a0c;
+    padding: 88px 24px;
+    margin: 48px 20px;
+    border-radius: 6px;
+    text-align: center;
+    position: relative;
+}
+.paper-band::before,
+.paper-band::after {
+    content: "";
+    position: absolute;
+    left: 24px; right: 24px;
+    height: 1px;
+    background: rgba(138, 106, 42, 0.35);
+}
+.paper-band::before { top: 18px; }
+.paper-band::after { bottom: 18px; }
 .paper-quote { font-family: var(--serif); font-style: italic; font-size: clamp(26px, 4vw, 44px); line-height: 1.35; max-width: 820px; margin: 0 auto 20px; color: #2a2110; }
 .paper-cap { letter-spacing: 4px; text-transform: uppercase; font-size: 11px; color: #8a6a2a; margin: 0; }
+@media (max-width: 640px) {
+    .paper-band { margin: 32px 12px; padding: 64px 20px; }
+}
 
 /* ═══════════ V4 — intro interaktif ═══════════ */
 .intro { padding: 88px 20px 8px; text-align: center; position: relative; }

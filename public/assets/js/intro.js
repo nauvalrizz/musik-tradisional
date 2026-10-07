@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
             pop.textContent = w.dataset.def || '';
             pop.hidden = false;
             const r = w.getBoundingClientRect();
-            const intro = w.closest('.intro').getBoundingClientRect();
-            pop.style.left = (r.left - intro.left + r.width / 2) + 'px';
-            pop.style.top = (r.bottom - intro.top + 12) + 'px';
+            const host = w.closest('.hero-full, .intro');
+            const hr = (host || document.body).getBoundingClientRect();
+            pop.style.left = (r.left - hr.left + r.width / 2) + 'px';
+            pop.style.top = (r.bottom - hr.top + 12) + 'px';
         });
     });
     document.addEventListener('click', hide);
