@@ -8,10 +8,12 @@
     height: 76px;
     background: transparent;
     border-bottom: 1px solid transparent;
-    transition: background 0.35s ease, border-color 0.35s ease, height 0.35s ease;
+    transition: background 0.35s ease, border-color 0.35s ease, height 0.35s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     animation: navDrop 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
     z-index: 1000;
 }
+.navbar.nav-hidden { transform: translateY(-100%); }
 @keyframes navDrop {
     from { transform: translateY(-100%); opacity: 0; }
     to   { transform: none; opacity: 1; }

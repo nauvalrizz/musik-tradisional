@@ -202,3 +202,14 @@
 }
 
 ::selection { background: #c9973f; color: #14100a; }
+
+/* v28 — sinematik: parallax fig + handoff kenong */
+.gallery-fig { will-change: transform; }
+.gamelan-pad.handoff .pad-kettle { animation: handoffPulse 1.8s ease; }
+@keyframes handoffPulse {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.1); box-shadow: 0 0 44px rgba(201,151,63,.55),
+        0 10px 26px rgba(0,0,0,.5), inset 0 2px 6px rgba(255,240,200,.3); }
+    70% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
