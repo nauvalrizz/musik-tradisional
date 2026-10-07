@@ -140,27 +140,28 @@ setTimeout(() => {
     }
 })();
 
-// ================= v15 — CAHAYA LENTERA =================
-// Cahaya hangat mengikuti kursor dengan lerp halus.
+// ================= v16 — SENTER MEGA MENDUNG =================
+// Pola batik menyala mengikuti kursor (mask radial, lerp halus).
 (function () {
-    var glow = document.querySelector('.cursor-glow');
-    if (!glow) return;
+    var lit = document.querySelector('.megamendung-lit');
+    if (!lit) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (window.matchMedia('(hover: none)').matches) return;
 
-    var tx = innerWidth / 2, ty = innerHeight / 3, cx = tx, cy = ty, raf = null, shown = false;
+    var tx = window.innerWidth / 2, ty = window.innerHeight * 0.4,
+        x = tx, y = ty, raf = null;
 
     document.addEventListener('pointermove', function (e) {
         tx = e.clientX; ty = e.clientY;
-        if (!shown) { shown = true; glow.classList.add('on'); cx = tx; cy = ty; }
         if (!raf) raf = requestAnimationFrame(tick);
     }, { passive: true });
 
     function tick() {
-        cx += (tx - cx) * 0.08;
-        cy += (ty - cy) * 0.08;
-        glow.style.translate = cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px';
-        if (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) {
+        x += (tx - x) * 0.1;
+        y += (ty - y) * 0.1;
+        lit.style.setProperty('--mx', x.toFixed(1) + 'px');
+        lit.style.setProperty('--my', y.toFixed(1) + 'px');
+        if (Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5) {
             raf = requestAnimationFrame(tick);
         } else { raf = null; }
     }

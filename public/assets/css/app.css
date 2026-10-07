@@ -727,53 +727,41 @@ footer {
     .ombak-layer { animation: none; }
 }
 
-/* ================= v15 — BATIK KAWUNG ================= */
-/* Pola batik Kawung (Jawa): geometris, rapi, arsip banget.
-   Sangat tipis sebagai tekstur, melayang super pelan. */
+/* ================= v16 — BATIK MEGA MENDUNG ================= */
+/* Awan mega mendung (Cirebon): berlapis, kalem. Polanya "disenter"
+   kursor — bagian dekat cursor menyala, sisanya samar. */
 .batik-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.055;
 }
 .batik-bg svg {
     position: absolute;
-    left: -160px;
-    width: calc(100% + 160px);
+    inset: 0;
+    width: 100%;
     height: 100%;
     display: block;
-    animation: batikDrift 150s linear infinite;
 }
-@keyframes batikDrift {
+.mega-base {
+    opacity: 0.055;
+    animation: megaDrift 160s linear infinite;
+}
+@keyframes megaDrift {
     from { transform: translateX(0); }
-    to   { transform: translateX(-160px); }
+    to   { transform: translateX(-300px); }
 }
-
-/* ================= v15 — CAHAYA LENTERA ================= */
-/* Cahaya hangat mengikuti kursor, seperti lentera di ruang arsip.
-   Beda dari spotlight porto: lebih hangat, lebih kecil, screen-blend. */
-.cursor-glow {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 560px;
-    height: 560px;
-    margin: -280px 0 0 -280px;
-    background: radial-gradient(circle,
-        rgba(216, 164, 74, 0.13) 0%,
-        rgba(201, 151, 63, 0.05) 42%,
-        transparent 68%);
-    pointer-events: none;
-    z-index: 0;
-    mix-blend-mode: screen;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-    will-change: translate;
+/* lapisan terang: hanya terlihat di sekitar kursor (mask senter) */
+.megamendung-lit {
+    --mx: 50vw;
+    --my: 40vh;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(circle 280px at var(--mx) var(--my), #000 0%, transparent 72%);
+    mask-image: radial-gradient(circle 280px at var(--mx) var(--my), #000 0%, transparent 72%);
 }
-.cursor-glow.on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
-    .batik-bg svg { animation: none; }
-    .cursor-glow { display: none; }
+    .mega-base { animation: none; }
+    .megamendung-lit { display: none; }
+}
 }
