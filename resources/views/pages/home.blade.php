@@ -9,21 +9,26 @@
         <h1 class="hero-title-sm">Ketuk. Dengar. <em>Kenali.</em></h1>
         <p class="hero-sub">MuSantara mendokumentasikan alat musik tradisional Indonesia — bunyinya, asalnya, ceritanya.</p>
 
-        <div class="gamelan" role="group" aria-label="Ensemble gamelan yang bisa diketuk">
-            <button class="pad pad--gong" data-pad="gong" aria-label="Gong Ageng">
-                <span class="pad-shape"></span><span class="pad-name">Gong Ageng</span>
+        <div class="gamelan-pads" role="group" aria-label="Ensemble gamelan yang bisa diketuk">
+            <button type="button" class="gamelan-pad pad-gong" data-instrument="gong" data-freq="65.41" aria-label="Gong Ageng">
+                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-name">Gong Ageng</span>
             </button>
-            <button class="pad pad--kempul" data-pad="kempul" aria-label="Kempul">
-                <span class="pad-shape"></span><span class="pad-name">Kempul</span>
+            <button type="button" class="gamelan-pad pad-kempul" data-instrument="kempul" data-freq="98.00" aria-label="Kempul">
+                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-name">Kempul</span>
             </button>
-            <button class="pad pad--kenong" data-pad="kenong" aria-label="Kenong">
-                <span class="pad-shape"></span><span class="pad-name">Kenong</span>
+            <button type="button" class="gamelan-pad pad-kenong" data-instrument="kenong" data-freq="130.81" aria-label="Kenong">
+                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-name">Kenong</span>
             </button>
-            <button class="pad pad--saron" data-pad="saron" aria-label="Saron">
-                <span class="pad-shape"></span><span class="pad-name">Saron</span>
+            <button type="button" class="gamelan-pad pad-saron" data-instrument="saron" data-freq="164.81" aria-label="Saron">
+                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-name">Saron</span>
             </button>
-            <button class="pad pad--bonang" data-pad="bonang" aria-label="Bonang">
-                <span class="pad-shape"></span><span class="pad-name">Bonang</span>
+            <button type="button" class="gamelan-pad pad-bonang" data-instrument="bonang" data-freq="196.00" aria-label="Bonang">
+                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-name">Bonang</span>
             </button>
         </div>
         <p class="gamelan-hint">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
@@ -65,8 +70,8 @@
         <p class="section-eyebrow">Koleksi Pilihan</p>
         <h2 class="section-head">Buka <em>arsipnya.</em></h2>
         <div class="koleksi-grid">
-            @foreach($alatUnggulan as $alat)
-                @include('components.card', ['alat' => $alat])
+            @foreach($featured as $item)
+                @include('components.card', ['item' => $item])
             @endforeach
         </div>
     </div>

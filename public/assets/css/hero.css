@@ -22,7 +22,7 @@
     font-size: 16px; color: var(--muted);
     max-width: 580px; margin: 0 auto; line-height: 1.7;
 }
-.hero--play .gamelan { margin-top: 48px; }
+.hero--play .gamelan-pads { margin-top: 12px; }
 .scroll-cue {
     margin-top: 56px; font-size: 11px; letter-spacing: 3px;
     text-transform: uppercase; color: var(--muted);
