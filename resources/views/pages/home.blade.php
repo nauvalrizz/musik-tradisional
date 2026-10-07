@@ -109,7 +109,7 @@
 {{-- ═══════════ TELUSURI ═══════════ --}}
 <section class="search-section" id="telusuri">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip</p>
+        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip <span class="aksara" lang="jv">ꦠꦼꦭꦸꦱꦸꦫꦶ</span></p>
         <h2 class="section-head" data-reveal>Cari alatnya <em>langsung.</em></h2>
         <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
         @include('components.search-box')
@@ -119,7 +119,7 @@
 {{-- ═══════════ PULAU ═══════════ --}}
 <section class="map-section" id="pulau">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah</p>
+        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah <span class="aksara" lang="jv">ꦥꦸꦭꦺꦴ</span></p>
         <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
         @include('partials.map')
         <div id="tooltip" class="map-tooltip"></div>
@@ -131,7 +131,7 @@
     <div class="container">
         <div class="koleksi-head">
             <div>
-                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan</p>
+                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan <span class="aksara" lang="jv">ꦏꦺꦴꦭꦺꦏ꧀ꦱꦶ</span></p>
                 <h2 class="section-head" data-reveal>Buka <em>arsipnya.</em></h2>
             </div>
             <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
@@ -150,7 +150,7 @@
 {{-- ═══════════ QUIZ ═══════════ --}}
 <section class="quiz-invite">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>05</b><i></i>Uji Telinga</p>
+        <p class="section-eyebrow" data-reveal><b>05</b><i></i>Uji Telinga <span class="aksara" lang="jv">ꦠꦼꦱ꧀</span></p>
         <h2 class="section-head" data-reveal>Seberapa kenal kamu <em>dengannya?</em></h2>
         <p class="quiz-sub">Tujuh pertanyaan. Satu arsip penuh bunyi.</p>
         <div class="quiz-cta">
