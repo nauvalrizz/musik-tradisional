@@ -727,32 +727,34 @@ footer {
     .ombak-layer { animation: none; }
 }
 
-/* ================= v17 — BATIK MEGA MENDUNG ================= */
-/* Awan berlapis gaya Cirebon: daun kontur konsentris, baris zig-zag.
-   Kalem, merata — tanpa senter agar fokus tetap ke konten. */
+/* ================= v18 — BATIK MEGA MENDUNG (AI) ================= */
+/* Pola awan mega mendung perunggu di atas hitam, mengulang halus. */
 .batik-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    overflow: hidden;
-}
-.mega-base {
-    position: absolute;
-    left: -360px;
-    width: calc(100% + 360px);
-    height: 100%;
-    display: block;
-    opacity: 0.075;
-    animation: megaDrift 170s linear infinite;
-    will-change: translate;
+    background-image: url('../img/mega-mendung.jpg?v=18');
+    background-repeat: repeat;
+    background-size: 620px 620px;
+    opacity: 0.42;
+    animation: megaDrift 140s linear infinite;
 }
 @keyframes megaDrift {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-360px); }
+    from { background-position: 0 0; }
+    to   { background-position: 620px 0; }
+}
+/* Kanvas medan sinyal: titik-titik yang menjauh & menyala dekat kursor */
+#signal-field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
-    .mega-base { animation: none; }
+    .batik-bg { animation: none; }
+    #signal-field { display: none; }
+}
 }
 }
 }
