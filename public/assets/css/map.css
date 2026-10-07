@@ -3,7 +3,8 @@
    =============================== */
 .map-section {
     margin-top: 120px;
-    text-align: center;
+    text-align: left;
+    padding: 0 5vw;
     position: relative;
     z-index: 1;
 }

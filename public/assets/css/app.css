@@ -503,9 +503,9 @@ footer {
 .islands-section,
 .collection-section,
 .quiz-invite {
-    padding: 96px 0;
+    padding: 96px 5vw;
     scroll-margin-top: 70px;
-    text-align: center;
+    text-align: left;
 }
 /* v5 — layout CTA kuis: tidak overlap, tidak html-only */
 .quiz-invite .quiz-sub {
@@ -688,25 +688,29 @@ footer {
 
 
 
-/* ================= v21 — AWAN MEGA MENDUNG ================= */
-/* PNG transparan beneran (tanpa kotak). Fade-in halus setelah preload. */
-.awan-bg {
+/* ================= v23 — DECLUTTER ================= */
+/* Tanpa wallpaper: hanya grain film + vignette. Tenang & premium.
+   Identitas Nusantara hidup di konten, bukan tempelan background. */
+.grain {
+    position: fixed;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+}
+body::after {
+    content: "";
     position: fixed;
     inset: 0;
-    z-index: 0;
+    z-index: 2;
     pointer-events: none;
-    overflow: hidden;
+    background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, rgba(0,0,0,0.42) 100%);
 }
-.awan {
-    position: absolute;
-    background: url('../img/awan.png?v=21') center / contain no-repeat;
-    opacity: 0;
-    transition: opacity 1.6s ease;
-    will-change: transform;
-}
-.awan.ready { opacity: var(--o, 0.08); }
 @media (prefers-reduced-motion: reduce) {
-    .awan-bg { display: none; }
+    .grain { display: none; }
 }
 }
 }

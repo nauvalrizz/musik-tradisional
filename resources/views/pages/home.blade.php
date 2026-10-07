@@ -16,50 +16,59 @@
 </div>
 
 {{-- ═══════════ HERO — satu viewport penuh: penjelasan + alat ═══════════ --}}
-<section class="hero-full">
-    <div class="container hero-full-inner">
-        <p class="section-eyebrow hero-anim" style="--d:0.05s">Apa itu MuSantara?</p>
-        <p class="manifesto hero-anim" style="--d:0.2s">
-            MuSantara adalah arsip hidup alat musik tradisional Indonesia.
-            <a class="w-link" href="#arsip-bunyi">Ketuk</a>
-            bunyinya,
-            <a class="w-link" href="#telusuri">telusuri</a>
-            asalnya,
-            <a class="w-link" href="#koleksi">baca</a>
-            ceritanya.
+<section class="gallery-hero">
+    <p class="exhibit-no hero-anim" style="--d:.05s"><b>001</b><i></i>Arsip Terbuka &mdash; Indonesia</p>
+
+    <figure class="gallery-fig hero-anim" style="--d:.35s">
+        <img src="{{ asset('assets/img/hero-gong.jpg') }}?v=23" alt="Kenong perunggu dalam sorotan museum" fetchpriority="high">
+        <figcaption><b>Fig. 01</b> &mdash; Kenong perunggu, Jawa Tengah</figcaption>
+    </figure>
+
+    <div class="gallery-type">
+        <h1 class="gallery-title">
+            <span class="hero-anim" style="--d:.15s">ARSIP</span>
+            <span class="hero-anim" style="--d:.3s"><em>Bunyi</em></span>
+            <span class="hero-anim" style="--d:.45s">NUSANTARA</span>
+        </h1>
+        <p class="gallery-sub hero-anim" style="--d:.6s">
+            Arsip hidup alat musik tradisional Indonesia.
+            <a href="#arsip-bunyi">Ketuk</a> bunyinya,
+            <a href="#telusuri">telusuri</a> asalnya,
+            <a href="#koleksi">baca</a> ceritanya.
         </p>
     </div>
-    <p class="scroll-cue" aria-hidden="true"><span></span>Gulir ke bawah</p>
+
+    <p class="scroll-cue" aria-hidden="true"><span></span>Gulir</p>
 </section>
 
 {{-- ═══════════ RUANG BUNYI ═══════════ --}}
 <section class="bunyi-section" id="arsip-bunyi">
     <div class="container">
-        <p class="section-eyebrow" data-reveal>Ruang Bunyi</p>
+        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi</p>
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
         <p class="section-sub" data-reveal>Lima alat gamelan yang bisa kamu mainkan langsung.</p>
 
-        <div class="gamelan-pads" role="group" aria-label="Lima alat musik yang bisa diketuk">
-            <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" aria-label="Angklung">
+        <div class="gamelan-pads" data-stagger role="group" aria-label="Lima alat musik yang bisa diketuk">
+            <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" data-reveal aria-label="Angklung">
                 <span class="angklung-frame">
                     <span class="angklung-bar"></span>
                     <span class="angklung-tubes"><i></i><i></i><i></i></span>
                 </span>
                 <span class="pad-name">Angklung</span>
             </button>
-            <button type="button" class="gamelan-pad pad-kempul" data-instrument="kempul" data-freq="98.00" aria-label="Kempul">
+            <button type="button" class="gamelan-pad pad-kempul" data-instrument="kempul" data-freq="98.00" data-reveal aria-label="Kempul">
                 <span class="pad-hang"><span class="pad-disc"><span class="pad-boss"></span></span></span>
                 <span class="pad-name">Kempul</span>
             </button>
-            <button type="button" class="gamelan-pad pad-kenong" data-instrument="kenong" data-freq="130.81" aria-label="Kenong">
+            <button type="button" class="gamelan-pad pad-kenong" data-instrument="kenong" data-freq="130.81" data-reveal aria-label="Kenong">
                 <span class="pad-kettle"><span class="pad-kettle-rim"></span></span>
                 <span class="pad-name">Kenong</span>
             </button>
-            <button type="button" class="gamelan-pad pad-saron" data-instrument="saron" data-freq="164.81" aria-label="Saron">
+            <button type="button" class="gamelan-pad pad-saron" data-instrument="saron" data-freq="164.81" data-reveal aria-label="Saron">
                 <span class="pad-bars"><i></i><i></i><i></i><i></i><i></i><i></i></span>
                 <span class="pad-name">Saron</span>
             </button>
-            <button type="button" class="gamelan-pad pad-bonang" data-instrument="bonang" data-freq="196.00" aria-label="Bonang">
+            <button type="button" class="gamelan-pad pad-bonang" data-instrument="bonang" data-freq="196.00" data-reveal aria-label="Bonang">
                 <span class="pad-pots"><i></i><i></i><i></i><i></i><i></i><i></i></span>
                 <span class="pad-name">Bonang</span>
             </button>
@@ -88,7 +97,7 @@
 {{-- ═══════════ TELUSURI ═══════════ --}}
 <section class="search-section" id="telusuri">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal>Telusuri Arsip</p>
+        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip</p>
         <h2 class="section-head" data-reveal>Cari alatnya <em>langsung.</em></h2>
         <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
         @include('components.search-box')
@@ -98,7 +107,7 @@
 {{-- ═══════════ PULAU ═══════════ --}}
 <section class="map-section" id="pulau">
     <div class="container">
-        <p class="section-eyebrow" data-reveal>Jelajah Wilayah</p>
+        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah</p>
         <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
         @include('partials.map')
         <div id="tooltip" class="map-tooltip"></div>
@@ -110,7 +119,7 @@
     <div class="container">
         <div class="koleksi-head">
             <div>
-                <p class="section-eyebrow" data-reveal>Koleksi Pilihan</p>
+                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan</p>
                 <h2 class="section-head" data-reveal>Buka <em>arsipnya.</em></h2>
             </div>
             <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
@@ -129,7 +138,7 @@
 {{-- ═══════════ QUIZ ═══════════ --}}
 <section class="quiz-invite">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal>Uji Telinga</p>
+        <p class="section-eyebrow" data-reveal><b>05</b><i></i>Uji Telinga</p>
         <h2 class="section-head" data-reveal>Seberapa kenal kamu <em>dengannya?</em></h2>
         <p class="quiz-sub">Tujuh pertanyaan. Satu arsip penuh bunyi.</p>
         <div class="quiz-cta">
