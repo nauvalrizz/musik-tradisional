@@ -16,19 +16,19 @@
     $origin = optional($item->pulau)->nama;
 @endphp
 
-{{-- Kartu arsip v3: seluruh kartu adalah tautan --}}
-<a href="{{ url($url) }}" class="arsip-card" data-reveal>
-    <div class="arsip-media">
+{{-- Spesimen v4: nomor katalog besar ala arsip museum --}}
+<a href="{{ url($url) }}" class="spesimen" data-reveal>
+    <div class="spesimen-media">
         <img src="{{ $item->gambar ? gambar_alat($item->gambar) : asset('assets/img/default.png') }}"
             alt="{{ $item->nama }}" loading="lazy">
-        <span class="arsip-no">№ {{ $no }}</span>
-        <span class="arsip-frame" aria-hidden="true"></span>
+        <span class="spesimen-no">{{ $no }}</span>
     </div>
-    <div class="arsip-body">
+    <div class="spesimen-body">
         @if ($origin)
-            <p class="arsip-origin">{{ $origin }}</p>
+            <p class="spesimen-origin">{{ $origin }}</p>
         @endif
-        <h3 class="arsip-title">{{ $item->nama }}</h3>
-        <p class="arsip-desc">{{ Str::limit($item->deskripsi, 90) }}</p>
+        <h3 class="spesimen-title">{{ $item->nama }}</h3>
+        <p class="spesimen-desc">{{ Str::limit($item->deskripsi, 80) }}</p>
+        <span class="spesimen-link">Buka arsip <i>&rarr;</i></span>
     </div>
 </a>

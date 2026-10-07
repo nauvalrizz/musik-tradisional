@@ -2,6 +2,23 @@
 
 @section('content')
 
+{{-- ═══════════ INTRO — apa itu MuSantara ═══════════ --}}
+<section class="intro">
+    <div class="container container-narrow">
+        <p class="section-eyebrow">Apa itu MuSantara?</p>
+        <p class="manifesto">
+            MuSantara adalah arsip hidup alat musik tradisional Indonesia.
+            <span class="w-def" data-def="Ketuk lima alat gamelan di bawah — tiap alat berbunyi beda.">Ketuk</span>
+            bunyinya,
+            <span class="w-def" data-def="Jelajahi peta dan temukan asal-usul tiap alat.">telusuri</span>
+            asalnya,
+            <span class="w-def" data-def="Baca kisah dan makna di balik tiap alat musik.">baca</span>
+            ceritanya.
+        </p>
+        <div class="def-pop" id="defPop" hidden></div>
+    </div>
+</section>
+
 {{-- ═══════════ HERO — alat bunyi di awal ═══════════ --}}
 <section class="hero hero--play">
     <div class="container">
@@ -15,19 +32,19 @@
                 <span class="pad-name">Gong Ageng</span>
             </button>
             <button type="button" class="gamelan-pad pad-kempul" data-instrument="kempul" data-freq="98.00" aria-label="Kempul">
-                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-hang"><span class="pad-disc"><span class="pad-boss"></span></span></span>
                 <span class="pad-name">Kempul</span>
             </button>
             <button type="button" class="gamelan-pad pad-kenong" data-instrument="kenong" data-freq="130.81" aria-label="Kenong">
-                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-kettle"><span class="pad-kettle-rim"></span></span>
                 <span class="pad-name">Kenong</span>
             </button>
             <button type="button" class="gamelan-pad pad-saron" data-instrument="saron" data-freq="164.81" aria-label="Saron">
-                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-bars"><i></i><i></i><i></i><i></i><i></i><i></i></span>
                 <span class="pad-name">Saron</span>
             </button>
             <button type="button" class="gamelan-pad pad-bonang" data-instrument="bonang" data-freq="196.00" aria-label="Bonang">
-                <span class="pad-disc"><span class="pad-boss"></span></span>
+                <span class="pad-pots"><i></i><i></i><i></i><i></i><i></i><i></i></span>
                 <span class="pad-name">Bonang</span>
             </button>
         </div>

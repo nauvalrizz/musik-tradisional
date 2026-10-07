@@ -1,15 +1,15 @@
-// Jejak tangga nada: kursor menabur angka laras yang memudar.
+// Hujan not balok: kursor menabur simbol notasi musik yang melayang.
 document.addEventListener('DOMContentLoaded', () => {
     if (!window.matchMedia('(pointer: fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const GLYPHS = ['1', '2', '3', '5', '6', '♪'];
-    const MAX = 26;
+    const GLYPHS = ['\u266A', '\u266B', '\uD834\uDD5F', '\uD834\uDD60', '\u266A', '\u266B'];
+    const MAX = 24;
     let last = 0, live = 0;
 
     document.addEventListener('pointermove', (e) => {
         const now = performance.now();
-        if (now - last < 70 || live >= MAX) return;
+        if (now - last < 80 || live >= MAX) return;
         last = now;
 
         const s = document.createElement('span');
@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         s.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
         s.style.left = e.clientX + 'px';
         s.style.top = e.clientY + 'px';
-        s.style.fontSize = (12 + Math.random() * 10) + 'px';
+        s.style.fontSize = (15 + Math.random() * 13) + 'px';
+        s.style.setProperty('--tilt', (Math.random() * 30 - 15) + 'deg');
         document.body.appendChild(s);
         live++;
         s.addEventListener('animationend', () => { s.remove(); live--; });

@@ -1,29 +1,27 @@
-/* Intro: tirai pembuka — sekali per sesi, failsafe berlapis. */
-(function () {
-    var curtain = document.getElementById('introCurtain');
-    if (!curtain) return;
+// Intro interaktif: kata bergaris bawah menampilkan definisinya.
+document.addEventListener('DOMContentLoaded', () => {
+    const pop = document.getElementById('defPop');
+    if (!pop) return;
+    const words = document.querySelectorAll('.w-def');
 
-    function hide(instant) {
-        document.body.classList.remove('intro-lock');
-        try { sessionStorage.setItem('musantara_intro', '1'); } catch (e) {}
-        if (instant) {
-            curtain.style.display = 'none';
-            return;
-        }
-        curtain.classList.add('lift');
-        setTimeout(function () { curtain.style.display = 'none'; }, 950);
-    }
-
-    var seen = false;
-    try { seen = !!sessionStorage.getItem('musantara_intro'); } catch (e) {}
-
-    if (seen) {
-        hide(true);
-        return;
-    }
-
-    document.body.classList.add('intro-lock');
-    setTimeout(function () { hide(false); }, 1000);
-    /* hard failsafe: halaman tidak boleh ketahan */
-    setTimeout(function () { hide(true); }, 5000);
-})();
+    const hide = () => {
+        pop.hidden = true;
+        words.forEach(w => w.classList.remove('active'));
+    };
+    words.forEach(w => {
+        w.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const wasActive = w.classList.contains('active');
+            hide();
+            if (wasActive) return;
+            w.classList.add('active');
+            pop.textContent = w.dataset.def || '';
+            pop.hidden = false;
+            const r = w.getBoundingClientRect();
+            const intro = w.closest('.intro').getBoundingClientRect();
+            pop.style.left = (r.left - intro.left + r.width / 2) + 'px';
+            pop.style.top = (r.bottom - intro.top + 12) + 'px';
+        });
+    });
+    document.addEventListener('click', hide);
+});

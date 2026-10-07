@@ -37,20 +37,19 @@
             </a>
         @endif
 
-        <div class="specimen-head" data-reveal>
-            <p class="specimen-no">Arsip № {{ str_pad($alat->id, 3, '0', STR_PAD_LEFT) }}</p>
-        </div>
-
-        <div class="detail-container">
-
-            <!-- IMAGE -->
-            <div class="detail-image fade-up" style="--bg: url('{{ gambar_alat($alat->gambar ?? null) }}')">
-
+        <article class="detail">
+            {{-- HERO sinematik --}}
+            <header class="detail-hero" data-reveal>
                 @if ($alat->gambar)
                     <img id="previewImg" src="{{ gambar_alat($alat->gambar) }}"
                         alt="{{ $alat->nama }}" loading="lazy">
                 @endif
-
+                <div class="detail-hero-shade"></div>
+                <div class="detail-hero-text">
+                    <p class="specimen-no">Arsip № {{ str_pad($alat->id, 3, '0', STR_PAD_LEFT) }}</p>
+                    <h1>{{ $alat->nama }}</h1>
+                    <p class="detail-origin">{{ optional($alat->pulau)->nama ?? 'Nusantara' }}</p>
+                </div>
                 @if ($alat->sumber_gambar)
                     <div class="atribusi-overlay">
                         Sumber:
@@ -60,40 +59,39 @@
                         Lisensi: {{ $alat->license ?? 'Lihat di sumber' }}
                     </div>
                 @endif
+            </header>
 
-            </div>
+            <div class="detail-grid">
+                <div class="detail-main">
+                    <div class="meta" data-reveal>
+                        <div class="meta-row"><span>Pulau</span><strong>{{ optional($alat->pulau)->nama ?? '-' }}</strong></div>
+                        <div class="meta-row"><span>Sumber bunyi</span><strong>{{ $alat->sumber_bunyi ?? '-' }}</strong></div>
+                        <div class="meta-row"><span>Kategori</span><strong>{{ $alat->kategori ?? '-' }}</strong></div>
+                    </div>
 
-            <!-- CONTENT -->
-            <div class="detail-content fade-up delay-1">
+                    <p class="description" data-reveal>
+                        {!! nl2br(e($alat->deskripsi)) !!}
+                    </p>
 
-                <h1>{{ $alat->nama }}</h1>
-
-                <div class="meta">
-                    <div class="meta-row"><span>Pulau</span><strong>{{ optional($alat->pulau)->nama ?? '-' }}</strong></div>
-                    <div class="meta-row"><span>Sumber bunyi</span><strong>{{ $alat->sumber_bunyi ?? '-' }}</strong></div>
-                    <div class="meta-row"><span>Kategori</span><strong>{{ $alat->kategori ?? '-' }}</strong></div>
+                    @if ($alat->audio)
+                        <div class="audio-box" data-reveal>
+                            <h3>Dengarkan Suara</h3>
+                            <audio controls>
+                                <source src="{{ audio_alat($alat->audio) }}" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    @endif
                 </div>
 
-                <p class="description">
-                    {!! nl2br(e($alat->deskripsi)) !!}
-                </p>
-
-                @if ($alat->audio)
-                    <div class="audio-box">
-                        <h3>Dengarkan Suara</h3>
-                        <audio controls>
-                            <source src="{{ audio_alat($alat->audio) }}" type="audio/mpeg">
-                        </audio>
-                    </div>
-                @endif
-
-                <button id="btnQuiz" class="btn-primary quiz-trigger">
-                    Coba Kuis
-                </button>
-
+                <aside class="detail-side" data-reveal>
+                    <p class="detail-side-eyebrow">Uji Telinga</p>
+                    <p class="detail-side-note">Seberapa kenal kamu dengan {{ $alat->nama }}?</p>
+                    <button id="btnQuiz" class="btn-primary quiz-trigger">
+                        Coba Kuis
+                    </button>
+                </aside>
             </div>
-
-        </div>
+        </article>
 
         <!-- QUIZ -->
         <div id="quizModal" class="quiz-modal">
@@ -120,7 +118,7 @@
                 <p id="quiz-feedback"></p>
 
                 <div class="quiz-actions">
-                    <button class="quiz-retry" type="button">Coba Lagi 🔁</button>
+                    <button class="quiz-retry" type="button">Coba Lagi</button>
                     <button class="quiz-close" type="button">Tutup</button>
                 </div>
 

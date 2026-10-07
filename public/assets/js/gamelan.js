@@ -51,10 +51,9 @@ document.addEventListener('DOMContentLoaded', function () {
         pad.addEventListener('pointerdown', function () {
             strike(parseFloat(pad.dataset.freq), pad.dataset.instrument);
 
-            var disc = pad.querySelector('.pad-disc') || pad;
             var ripple = document.createElement('span');
             ripple.className = 'pad-ripple';
-            disc.appendChild(ripple);
+            pad.appendChild(ripple);
             setTimeout(function () { ripple.remove(); }, 700);
 
             pad.classList.add('struck');
