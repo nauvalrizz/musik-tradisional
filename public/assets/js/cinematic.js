@@ -78,80 +78,46 @@
     }
 })();
 
-/* v33 — KENONG TRAVELER: morph beneran. Foto hero terbang turun jadi tombol kenong. */
+/* v34 — KENONG TRAVELER simpel: muncul di tengah layar pas scroll, terbang ke tombol */
 (function () {
-    var heroFig = document.querySelector('.gallery-fig');
-    var heroImg = document.querySelector('.gallery-fig img');
     var kenongBtn = document.querySelector('.pad-kenong');
     var bunyi = document.getElementById('arsip-bunyi');
-    if (!heroFig || !heroImg || !kenongBtn || !bunyi) return;
+    var heroImg = document.querySelector('.gallery-fig img');
+    if (!kenongBtn || !bunyi || !heroImg) return;
 
-    /* traveler: lingkaran foto kenong yang bisa terbang */
     var tr = document.createElement('div');
     tr.className = 'kenong-traveler';
-    var trim = document.createElement('img');
-    trim.src = heroImg.src;
-    trim.alt = '';
-    tr.appendChild(trim);
+    tr.innerHTML = '<img src="' + heroImg.src + '" alt="">';
     document.body.appendChild(tr);
 
-    var state = 'idle'; // idle | flying | arrived
-    var raf = null;
-
-    function heroPhotoRect() { return heroFig.getBoundingClientRect(); }
-    function btnRect() { return kenongBtn.getBoundingClientRect(); }
-
-    function fly() {
-        var hr = heroPhotoRect();
-        var br = btnRect();
-        var vh = window.innerHeight;
-
-        /* progress: 0 = hero masih penuh, 1 = tombol kenong di tengah layar */
-        var start = vh * 0.55;
-        var end = vh * 0.45;
-        var btnY = br.top + br.height / 2;
-        var p = (start - btnY) / (start - end);
-        p = Math.max(0, Math.min(1, p));
-
-        if (hr.bottom < vh * 0.7 && state === 'idle') {
-            /* lepas landas: sembunyikan foto asli, munculkan traveler */
-            state = 'flying';
-            heroFig.style.opacity = '0';
-            tr.style.opacity = '1';
-        }
-        if (state === 'flying') {
-            /* interpolasi posisi: dari foto hero ke tombol kenong */
-            var fx = hr.left + hr.width / 2;
-            var fy = Math.max(hr.top + hr.height / 2, vh * 0.3);
-            var tx = br.left + br.width / 2;
-            var ty = btnY;
-            var x = fx + (tx - fx) * p;
-            var y = fy + (ty - fy) * p;
-            var size = 220 - (220 - Math.max(br.width, 90)) * p;
-
-            tr.style.width = size + 'px';
-            tr.style.height = size + 'px';
-            tr.style.transform = 'translate(' + (x - size / 2) + 'px,' + (y - size / 2) + 'px)';
-
-            if (p >= 0.98) {
-                /* mendarat: traveler fade, tombol awakening */
-                state = 'arrived';
-                tr.style.opacity = '0';
-                kenongBtn.classList.add('awaken');
-                setTimeout(function () { kenongBtn.classList.remove('awaken'); }, 2600);
+    var done = false;
+    new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+            if (en.isIntersecting && !done) {
+                done = true;
+                var br = kenongBtn.getBoundingClientRect();
+                /* muncul di tengah layar */
+                tr.style.left = '50%';
+                tr.style.top = '40%';
+                tr.style.opacity = '1';
+                tr.style.transform = 'translate(-50%,-50%) scale(1)';
+                /* terbang ke tombol setelah 800ms */
+                setTimeout(function () {
+                    var x = br.left + br.width / 2;
+                    var y = br.top + br.height / 2;
+                    tr.style.transition = 'all 1s cubic-bezier(0.22,1,0.36,1)';
+                    tr.style.left = x + 'px';
+                    tr.style.top = y + 'px';
+                    tr.style.transform = 'translate(-50%,-50%) scale(0.3)';
+                    tr.style.opacity = '0.3';
+                    setTimeout(function () {
+                        tr.style.opacity = '0';
+                        kenongBtn.classList.add('awaken');
+                        setTimeout(function () { kenongBtn.classList.remove('awaken'); }, 2600);
+                    }, 1000);
+                }, 800);
             }
-        }
-        /* reset kalau balik ke atas */
-        if (hr.bottom > vh * 0.85 && state !== 'idle') {
-            state = 'idle';
-            heroFig.style.opacity = '';
-            tr.style.opacity = '0';
-        }
-        raf = null;
-    }
-
-    function onScroll() {
-        if (!raf) raf = requestAnimationFrame(fly);
-    }
-    window.addEventListener('scroll', onScroll, { passive: true });
+            if (!en.isIntersecting && en.boundingClientRect.top > 0) done = false;
+        });
+    }, { threshold: 0.3 }).observe(bunyi);
 })();
