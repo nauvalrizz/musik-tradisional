@@ -1,0 +1,69 @@
+/* WRAPPER */
+.custom-pagination-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+/* INFO TEXT */
+.pagination-info {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+/* LIST */
+.custom-pagination {
+    display: flex;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ITEM RESET */
+.custom-pagination .page-item {
+    list-style: none;
+}
+
+/* LINK BASE */
+.custom-pagination .page-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    color: #cbd5e1;
+    background: rgba(51, 65, 85, 0.6);
+    transition: 0.2s ease;
+}
+
+/* HOVER */
+.custom-pagination .page-link:hover {
+    background: var(--bronze);
+    color: var(--bronze-ink);
+    transform: translateY(-2px);
+}
+
+/* ACTIVE */
+.custom-pagination .active .page-link {
+    background: var(--bronze);
+    color: var(--bronze-ink);
+    font-weight: bold;
+}
+
+/* DISABLED */
+.custom-pagination .disabled .page-link {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* DOTS */
+.custom-pagination .dots {
+    background: transparent;
+}

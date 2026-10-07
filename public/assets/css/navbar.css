@@ -1,0 +1,39 @@
+/* ===============================
+   NAVBAR — warm charcoal + hairline perunggu
+=============================== */
+
+.navbar {
+    height: 76px;
+    background: rgba(20, 17, 10, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+}
+
+.navbar-brand {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 21px;
+    letter-spacing: 0.2px;
+    color: var(--ink) !important;
+}
+
+.navbar-brand .brand-bronze {
+    color: var(--bronze);
+}
+
+.nav-link {
+    color: var(--muted) !important;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: 0.2s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: var(--bronze-hi) !important;
+    border-color: var(--line);
+    background: rgba(201, 151, 63, 0.08);
+}

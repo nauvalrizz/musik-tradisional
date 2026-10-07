@@ -1,31 +1,62 @@
 const tooltip = document.getElementById('tooltip');
-const isDesktop = window.matchMedia('(hover: hover)').matches;
+const mapClickSound = new Audio('/assets/sound/map-click.mp3');
+mapClickSound.volume = 0.5;
+const paths = document.querySelectorAll('.map-svg path');
 
-document.querySelectorAll('.map-svg path').forEach(path => {
+paths.forEach(path => {
 
-    if (isDesktop && tooltip) {
+    // ======================
+    // TOOLTIP
+    // ======================
+    path.addEventListener('mouseenter', () => {
+        tooltip.textContent = path.dataset.nama || '';
+        tooltip.style.opacity = 1;
 
-        path.addEventListener('mouseenter', () => {
-            tooltip.textContent = path.dataset.nama || '';
-            tooltip.style.opacity = 1;
-            tooltip.style.transform = "translateY(-5px)";
-        });
-
-        path.addEventListener('mousemove', (e) => {
-            const offset = 15;
-
-            // pakai pageX biar stabil saat scroll
-            tooltip.style.left = (e.pageX + offset) + 'px';
-            tooltip.style.top  = (e.pageY + offset) + 'px';
-        });
-
-        path.addEventListener('mouseleave', () => {
-            tooltip.style.opacity = 0;
-        });
-    }
-
-    path.addEventListener('click', () => {
-        const link = path.dataset.link;
-        if (link) window.location.href = link;
+        // highlight focus
+        paths.forEach(p => p.classList.add('dim'));
+        path.classList.remove('dim');
     });
+
+    path.addEventListener('mousemove', (e) => {
+        tooltip.style.left = e.clientX + 'px';
+        tooltip.style.top = e.clientY + 'px';
+    });
+
+    path.addEventListener('mouseleave', () => {
+        tooltip.style.opacity = 0;
+
+        // reset opacity
+        paths.forEach(p => p.classList.remove('dim'));
+    });
+
+
+    // ======================
+    // CLICK EFFECT + SOUND
+    // ======================
+    path.addEventListener('click', (e) => {
+        //sound
+        if (mapClickSound) {
+            mapClickSound.pause();
+            mapClickSound.currentTime = 0;
+            mapClickSound.play().catch(() => { });
+        }
+
+        // 🌊 ripple effect
+        const ripple = document.createElement("span");
+        ripple.classList.add("ripple");
+
+        document.body.appendChild(ripple);
+
+        ripple.style.left = e.clientX + "px";
+        ripple.style.top = e.clientY + "px";
+
+        setTimeout(() => ripple.remove(), 600);
+
+        // ⏱ delay dikit biar efek keliatan
+        setTimeout(() => {
+            const link = path.dataset.link;
+            if (link) window.location.href = link;
+        }, 150);
+    });
+
 });

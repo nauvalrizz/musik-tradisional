@@ -2,53 +2,80 @@
 
 @section('content')
     <h1>Data Alat Musik</h1>
-    <h2>Tambah Alat Musik</h2>
+    <div class="card-form">
 
-    <form action="/admin/alat" method="POST" enctype="multipart/form-data">
+        <h2>Tambah Alat Musik</h2>
 
-        @csrf
+        <form action="/admin/alat" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <input type="text" name="nama" placeholder="Nama"><br><br>
+            <div class="form-group">
+                <label>Nama Alat</label>
+                <input type="text" name="nama">
+            </div>
 
-        <select name="pulau_id">
-            @foreach ($alat->unique('pulau_id') as $item)
-                <option value="{{ $item->pulau_id }}">
-                    {{ $item->pulau->nama ?? '-' }}
-                </option>
-            @endforeach
-        </select><br><br>
+            <div class="form-group">
+                <label>Pulau</label>
+                <select name="pulau_id">
+                    @foreach ($pulau as $p)
+                        <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <select name="kategori">
-            <option>Pukul</option>
-            <option>Petik</option>
-            <option>Tiup</option>
-            <option>Gesek</option>
-            <option>Ansambel</option>
-        </select><br><br>
+            <div class="form-group">
+                <label>Kategori</label>
+                <select name="kategori">
+                    @foreach ($kategori as $k)
+                        <option value="{{ $k }}">{{ $k }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <select name="sumber_bunyi">
-            <option>Idiofon</option>
-            <option>Aerofon</option>
-            <option>Kordofon</option>
-            <option>Membranofon</option>
-        </select>
-        <br><br>
+            <div class="form-group">
+                <label>Sumber Bunyi</label>
+                <select name="sumber_bunyi">
+                    @foreach ($sumber as $s)
+                        <option value="{{ $s }}">{{ $s }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <label>Gambar</label>
-        <input type="file" name="gambar"><br><br>
+            <div class="form-group">
+                <label>Gambar</label>
 
-        <label>Audio</label>
-        <input type="file" name="audio"><br><br>
+                <label class="custom-file">
+                    Pilih Gambar
+                    <input type="file" name="gambar" onchange="previewImage(event)">
+                </label>
 
+                <img id="preview" class="img-preview">
+            </div>
 
-        <textarea name="deskripsi" placeholder="Deskripsi"></textarea><br><br>
+            <div class="form-group">
+                <label>Audio</label>
+                <input type="file" name="audio">
+            </div>
 
-        <button type="submit">Tambah</button>
-    </form>
+            <div class="form-group">
+                <label>Deskripsi</label>
+                <textarea name="deskripsi"></textarea>
+            </div>
+
+            <button class="btn-save">Tambah</button>
+
+        </form>
+    </div>
 
     <hr>
 
-    <table border="1" cellpadding="10">
+    <form method="GET" action="/admin/alat" onsubmit="saveScroll()" style="margin-bottom:20px;">
+        <input type="text" name="search" placeholder="Cari alat musik..." value="{{ request('search') }}">
+
+        <button class="btn-cari" type="submit">Cari</button>
+    </form>
+
+    <table class="table-modern">
         <tr>
             <th>Nama</th>
             <th>Pulau</th>
@@ -68,7 +95,7 @@
 
                 <td>
                     @if ($item->gambar)
-                        <img src="{{ asset('storage/' . $item->gambar) }}" width="80" loading="lazy">
+                        <img src="{{ gambar_alat($item->gambar) }}" class="img-preview" loading="lazy">
                     @else
                         -
                     @endif
@@ -77,17 +104,26 @@
                 <td>
                     @if ($item->audio)
                         <audio controls width="150">
-                            <source src="{{ asset('storage/' . $item->audio) }}" type="audio/mpeg">
+                            <source src="{{ asset('assets/audio/alat-musik/' . $item->audio) }}" type="audio/mpeg">
                         </audio>
                     @endif
                 </td>
 
-                <td>
-                    <form action="/admin/alat/{{ $item->id }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
+                <td class="action-cell">
+
+                    <a href="/admin/alat/{{ $item->id }}/edit" class="btn-edit">
+                        Edit
+                    </a>
+
+                    <form action="/admin/alat/{{ $item->id }}" method="POST" onsubmit="return confirm('Yakin hapus?')"
+                        style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit">Hapus</button>
+                        <button type="submit" class="btn-delete">
+                            Hapus
+                        </button>
                     </form>
+
                 </td>
             </tr>
         @endforeach
@@ -95,4 +131,33 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $alat->links('pagination::bootstrap-5') }}
     </div>
+@section('scripts')
+    <script>
+        function previewImage(event) {
+            const img = document.getElementById('preview');
+            img.src = URL.createObjectURL(event.target.files[0]);
+            img.style.display = 'block';
+        }
+    </script>
+@endsection
+
+@if(session('success'))
+    <div class="toast show">
+        ✔ {{ session('success') }}
+    </div>
+@endif
+
+@section('scripts')
+    <script>
+        setTimeout(() => {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px)';
+            }
+        }, 2500);
+    </script>
+@endsection
+
+
 @endsection

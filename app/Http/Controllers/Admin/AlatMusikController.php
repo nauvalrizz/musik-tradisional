@@ -5,14 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AlatMusik;
 use Illuminate\Http\Request;
+use App\Models\Pulau;
 
 class AlatMusikController extends Controller
 {
     public function index()
     {
-        $alat = AlatMusik::with('pulau')->paginate(10);
+        $query = AlatMusik::with('pulau');
 
-        return view('admin.alat.index', compact('alat'));
+        if (request('search')) {
+            $query->where('nama', 'like', '%' . request('search') . '%');
+        }
+
+        $alat = $query->paginate(10);
+        $pulau = Pulau::all();
+        $kategori = ['Pukul', 'Petik', 'Tiup', 'Gesek', 'Ansambel'];
+        $sumber = ['Idiofon', 'Aerofon', 'Kordofon', 'Membranofon'];
+
+        return view('admin.alat.index', compact('alat', 'pulau', 'kategori', 'sumber'));
     }
 
     public function destroy($id)
@@ -20,7 +30,8 @@ class AlatMusikController extends Controller
         $alat = AlatMusik::findOrFail($id);
         $alat->delete();
 
-        return redirect('/admin/alat');
+        return redirect('/admin/alat')
+            ->with('success', 'Data berhasil dihapus!');
     }
 
     public function store(Request $request)
@@ -47,7 +58,8 @@ class AlatMusikController extends Controller
 
         AlatMusik::create($data);
 
-        return redirect('/admin/alat');
+        return redirect('/admin/alat')
+            ->with('success', 'Data berhasil ditambahkan!');
     }
 
     public function update(Request $request, $id)
@@ -76,13 +88,18 @@ class AlatMusikController extends Controller
 
         $alat->update($data);
 
-        return redirect('/admin/alat');
+        return redirect('/admin/alat')
+            ->with('success', 'Data berhasil diupdate!');
     }
 
     public function edit($id)
     {
         $alat = AlatMusik::findOrFail($id);
-        $pulau = \App\Models\Pulau::all();
-        return view('admin.alat.edit', compact('alat', 'pulau'));
+        $pulau = Pulau::all();
+
+        $kategori = ['Pukul', 'Petik', 'Tiup', 'Gesek', 'Ansambel'];
+        $sumber = ['Idiofon', 'Aerofon', 'Kordofon', 'Membranofon'];
+
+        return view('admin.alat.edit', compact('alat', 'pulau', 'kategori', 'sumber'));
     }
 }

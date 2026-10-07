@@ -1,0 +1,44 @@
+/* ===============================
+   HERO — kompak, alat di awal
+   =============================== */
+.hero--play {
+    padding: 96px 20px 84px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.hero-eyebrow {
+    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--bronze); margin-bottom: 20px; font-weight: 600;
+}
+.hero-title-sm {
+    font-family: var(--serif);
+    font-size: clamp(38px, 6vw, 64px);
+    font-weight: 600; letter-spacing: -0.5px; line-height: 1.1;
+    margin: 0 0 14px; color: var(--ink);
+}
+.hero-title-sm em { font-style: italic; color: var(--bronze); }
+.hero-sub {
+    font-size: 16px; color: var(--muted);
+    max-width: 580px; margin: 0 auto; line-height: 1.7;
+}
+.hero--play .gamelan { margin-top: 48px; }
+.scroll-cue {
+    margin-top: 56px; font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.scroll-cue span {
+    width: 1px; height: 44px;
+    background: linear-gradient(var(--bronze), transparent);
+    animation: cueDrop 1.8s ease-in-out infinite;
+}
+@keyframes cueDrop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+}
+@media (max-width: 768px) {
+    .hero--play { padding: 72px 16px 64px; }
+}

@@ -14,15 +14,10 @@ return new class extends Migration
         Schema::create('quiz_results', function (Blueprint $table) {
             $table->id();
             $table->string('session_id');
-            $table->unsignedBigInteger('alat_musik_id');
+            $table->unsignedBigInteger('alat_musik_id')->nullable(); // cukup ini
             $table->string('tipe_soal');
             $table->boolean('is_correct');
             $table->timestamps();
-
-            $table->foreign('alat_musik_id')
-                ->references('id')
-                ->on('alat_musik')
-                ->onDelete('cascade');
         });
     }
 

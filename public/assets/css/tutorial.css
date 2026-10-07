@@ -1,0 +1,129 @@
+.tutorial-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+}
+
+.tutorial-modal.active {
+    display: flex;
+}
+
+/* BOX */
+.tutorial-box {
+    width: 90%;
+    max-width: 480px;
+
+    background: #0f172a;
+    border-radius: 20px;
+    padding: 20px;
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+
+    animation: fadeUp 0.3s ease;
+}
+
+/* HEADER */
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tutorial-step {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.tutorial-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* IMAGE (🔥 INI YANG BIKIN GA KEKECILAN) */
+.tutorial-image {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* 🔥 ini kunci */
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.tutorial-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* isi penuh */
+}
+
+/* CONTENT */
+.tutorial-content h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.tutorial-content p {
+    font-size: 15px;
+    color: #94a3b8;
+    line-height: 1.5;
+}
+
+/* PROGRESS BAR */
+.tutorial-progress {
+    height: 6px;
+    background: #1e293b;
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+}
+
+#tutorialBar {
+    height: 100%;
+    width: 25%;
+    background: var(--bronze);
+    transition: 0.3s;
+}
+
+/* ACTION */
+.tutorial-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.tutorial-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+}
+
+#tutorialSkip {
+    background: #334155;
+    color: white;
+}
+
+#tutorialNext {
+    background: var(--bronze);
+    color: white;
+}
+
+/* ANIM */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,353 @@
+/* ================= GLOBAL ================= */
+button,
+a {
+    transition: all 0.2s ease;
+}
+
+/* ================= BACK BUTTON ================= */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--bronze-hi);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    transform: translateX(-4px);
+    background: rgba(201, 151, 63, 0.1);
+    color: var(--bronze-hi);
+}
+
+/* ================= CONTAINER ================= */
+.detail-container {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: stretch;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+/* ================= IMAGE ================= */
+.detail-image {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    isolation: isolate;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0f0c07;
+    border: 1px solid var(--line);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* blur background */
+.detail-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--bg) center/cover no-repeat;
+    filter: blur(30px);
+    opacity: 0.35;
+    transform: scale(1.2);
+    z-index: 0;
+}
+
+/* overlay */
+.detail-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center,
+            rgba(201, 151, 63, 0.06),
+            rgba(0, 0, 0, 0.5));
+    z-index: 0;
+}
+
+/* main image */
+.detail-image img {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+    cursor: zoom-in;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 30px;
+    border-radius: 12px;
+    transition: transform 0.5s ease;
+}
+
+.detail-image:hover img {
+    transform: scale(1.05);
+}
+
+/* fallback */
+.detail-image:empty::before {
+    content: "No Image Available";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 280px;
+    background: #1a1510;
+    color: var(--muted);
+}
+
+/* ================= CONTENT ================= */
+.detail-content h1 {
+    font-size: 44px;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+}
+
+.detail-content .meta {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.detail-content .description {
+    margin-top: 10px;
+    line-height: 1.75;
+    max-width: 500px;
+    color: var(--ink);
+}
+
+/* ================= AUDIO (SCOPED) ================= */
+.detail-content audio {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 12px;
+    border-radius: 999px;
+    padding: 6px 10px;
+    background: rgba(201, 151, 63, 0.08);
+    border: 1px solid var(--line);
+}
+
+.detail-content .audio-box h3 {
+    font-size: 22px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+/* ================= MODAL ================= */
+.img-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 8, 5, 0.94);
+    justify-content: center;
+    align-items: center;
+}
+
+.img-modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+}
+
+.img-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: var(--bronze-hi);
+    cursor: pointer;
+}
+
+#previewImg {
+    cursor: zoom-in;
+}
+
+/* ================= BUTTON ================= */
+.btn-primary {
+    margin-top: 30px;
+    padding: 12px 26px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    background: var(--bronze);
+    border: none;
+    color: var(--bronze-ink);
+    border-radius: 999px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    background: var(--bronze-hi);
+    color: var(--bronze-ink);
+    box-shadow: 0 12px 28px rgba(201, 151, 63, 0.3);
+}
+
+/* ===== ANIMATION ===== */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.6s ease forwards;
+}
+
+.fade-up.delay-1 { animation-delay: 0.2s; }
+.fade-up.delay-2 { animation-delay: 0.4s; }
+.fade-up.delay-3 { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+    .detail-container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .detail-image {
+        min-height: 220px;
+    }
+
+    .detail-image img {
+        padding: 12px;
+    }
+
+    .detail-content {
+        gap: 8px;
+        text-align: center;
+    }
+
+    .detail-content h1 {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    .detail-content .meta,
+    .detail-content .description {
+        font-size: 14px;
+    }
+
+    .detail-content audio {
+        max-width: 100%;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+}
+
+.atribusi-overlay {
+    pointer-events: auto;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 3;
+    background: rgba(10, 8, 5, 0.8);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.4;
+    padding: 6px 10px;
+    border-radius: 6px;
+    max-width: 80%;
+}
+
+.atribusi-overlay a {
+    color: var(--bronze-hi);
+    text-decoration: none;
+}
+
+/* ===== FIX FINAL (WAJIB ADA) ===== */
+.detail-image::before,
+.detail-image::after {
+    pointer-events: none !important;
+}
+
+.detail-image img {
+    pointer-events: auto !important;
+    cursor: zoom-in;
+    z-index: 5;
+}
+
+.atribusi-overlay {
+    pointer-events: auto;
+    z-index: 6;
+}
+
+.img-modal {
+    z-index: 99999;
+}
+
+/* ================= SPECIMEN HEAD — nomor katalog ================= */
+.specimen-head {
+    text-align: center;
+    margin: 14px 0 28px;
+}
+
+.specimen-no {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    letter-spacing: 4px;
+    font-weight: 600;
+    color: var(--bronze-hi);
+    text-transform: uppercase;
+}
+
+.specimen-no::before,
+.specimen-no::after {
+    content: "";
+    width: 44px;
+    height: 1px;
+    background: var(--line-strong);
+}
+
+/* ================= SPECIMEN META — baris label ================= */
+.detail-content .meta {
+    margin: 18px 0 6px;
+    max-width: 500px;
+}
+
+.meta-row {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+}
+
+.meta-row span {
+    flex: none;
+    min-width: 108px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    font-weight: 600;
+}
+
+.meta-row strong {
+    color: var(--ink);
+    font-weight: 600;
+}

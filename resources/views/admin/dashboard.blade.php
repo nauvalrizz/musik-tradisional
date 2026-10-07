@@ -1,42 +1,53 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1>Dashboard Admin</h1>
+    <div class="admin-container">
 
-    <div style="display:flex; gap:20px; margin:30px 0;">
+        <h1 class="admin-title">Dashboard Admin</h1>
 
-        <div style="flex:1; background:#1e293b; padding:20px; border-radius:10px;">
-            <h3>Total Alat Musik</h3>
-            <p style="font-size:28px;">{{ $totalAlat }}</p>
+        <!-- CARDS -->
+        <div class="admin-grid">
+
+            <div class="admin-card">
+                <div class="card-icon blue">🎵</div>
+                <div>
+                    <p class="card-label">Total Alat Musik</p>
+                    <h2>{{ $totalAlat }}</h2>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-icon green">🎯</div>
+                <div>
+                    <p class="card-label">Percobaan Kuis</p>
+                    <h2>{{ $totalQuiz }}</h2>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-icon yellow">✅</div>
+                <div>
+                    <p class="card-label">Jawaban Benar</p>
+                    <h2>{{ $totalBenar }}</h2>
+                </div>
+            </div>
+
         </div>
 
-        <div style="flex:1; background:#1e293b; padding:20px; border-radius:10px;">
-            <h3>Total Percobaan Kuis</h3>
-            <p style="font-size:28px;">{{ $totalQuiz }}</p>
+        <!-- MENU -->
+        <div class="admin-menu">
+
+            <a href="/admin/alat" class="menu-card blue">
+                <h3>Kelola Alat Musik</h3>
+                <p>Tambah, edit, dan hapus data</p>
+            </a>
+
+            <a href="/admin/statistik" class="menu-card green">
+                <h3>Statistik Kuis</h3>
+                <p>Lihat performa pengguna</p>
+            </a>
+
         </div>
-
-        <div style="flex:1; background:#1e293b; padding:20px; border-radius:10px;">
-            <h3>Jawaban Benar</h3>
-            <p style="font-size:28px;">{{ $totalBenar }}</p>
-        </div>
-
-    </div>
-
-    <hr>
-
-    <h2>Menu Admin</h2>
-
-    <div style="display:flex; gap:20px; margin-top:20px;">
-
-        <a href="/admin/alat"
-            style="background:#2563eb; padding:15px 25px; border-radius:8px; text-decoration:none; color:white;">
-            Kelola Alat Musik
-        </a>
-
-        <a href="/admin/statistik"
-            style="background:#16a34a; padding:15px 25px; border-radius:8px; text-decoration:none; color:white;">
-            Statistik Kuis
-        </a>
 
     </div>
 @endsection

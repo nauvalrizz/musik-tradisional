@@ -1,0 +1,74 @@
+/* ===============================
+   INTRO — tirai pembuka sinematik
+   Satu tirai, ≤1.5 dtk, sekali per sesi.
+=============================== */
+
+#introCurtain {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: #14110a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: inset(0 0 0 0);
+}
+
+#introCurtain.lift {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+    pointer-events: none;
+}
+
+.intro-inner {
+    text-align: center;
+    padding: 0 24px;
+}
+
+.intro-eyebrow {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.intro-word {
+    font-family: var(--serif);
+    font-size: clamp(42px, 9vw, 76px);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    line-height: 1.05;
+}
+
+.intro-line {
+    width: 180px;
+    height: 2px;
+    background: rgba(201, 151, 63, 0.18);
+    margin: 24px auto 0;
+    overflow: hidden;
+}
+
+.intro-line span {
+    display: block;
+    height: 100%;
+    background: var(--bronze);
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: introLine 0.8s 0.15s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+}
+
+@keyframes introLine {
+    to { transform: scaleX(1); }
+}
+
+/* kunci scroll selama intro */
+body.intro-lock {
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #introCurtain { display: none !important; }
+}

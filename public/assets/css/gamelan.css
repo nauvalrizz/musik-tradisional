@@ -1,0 +1,137 @@
+/* ===============================
+   RUANG BUNYI — ensemble gamelan mini
+=============================== */
+
+.gamelan-section {
+    scroll-margin-top: 90px;
+}
+
+.gamelan-pads {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: clamp(16px, 4vw, 40px);
+    flex-wrap: wrap;
+    margin-top: 44px;
+}
+
+/* tombol alat */
+.gamelan-pad {
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* piringan perunggu */
+.pad-disc {
+    position: relative;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 151, 63, 0.55);
+    background: radial-gradient(circle at 35% 30%,
+            #e3b95f 0%,
+            #c9973f 42%,
+            #8f6c26 78%,
+            #6b4f1c 100%);
+    overflow: hidden;
+    transition: transform 0.16s ease, box-shadow 0.3s ease;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* ukuran tiap alat — seperti set sungguhan */
+.pad-gong .pad-disc { width: 116px; height: 116px; }
+.pad-kempul .pad-disc { width: 98px; height: 98px; }
+.pad-kenong .pad-disc { width: 88px; height: 88px; }
+.pad-saron .pad-disc { width: 78px; height: 78px; }
+.pad-bonang .pad-disc { width: 68px; height: 68px; }
+
+/* pencu (tonjolan tengah) */
+.pad-boss {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 30%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f0cd7d, #a37c2c 70%);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* nama alat */
+.pad-name {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    transition: color 0.25s ease;
+}
+
+.gamelan-pad:hover .pad-disc {
+    box-shadow: 0 0 0 1px rgba(201, 151, 63, 0.6), 0 14px 34px rgba(201, 151, 63, 0.28);
+}
+
+.gamelan-pad:hover .pad-name {
+    color: var(--bronze-hi);
+}
+
+.gamelan-pad:active .pad-disc,
+.gamelan-pad.struck .pad-disc {
+    transform: scale(0.9);
+    box-shadow: 0 0 40px rgba(221, 178, 94, 0.6);
+}
+
+.gamelan-pad.struck .pad-name {
+    color: var(--bronze-hi);
+}
+
+/* ripple perunggu */
+.pad-ripple {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 225, 160, 0.9);
+    animation: padRipple 0.65s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes padRipple {
+    from { transform: scale(1); opacity: 0.9; }
+    to { transform: scale(4.6); opacity: 0; }
+}
+
+.gamelan-hint {
+    margin-top: 30px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .pad-gong .pad-disc { width: 84px; height: 84px; }
+    .pad-kempul .pad-disc { width: 72px; height: 72px; }
+    .pad-kenong .pad-disc { width: 64px; height: 64px; }
+    .pad-saron .pad-disc { width: 58px; height: 58px; }
+    .pad-bonang .pad-disc { width: 52px; height: 52px; }
+
+    .pad-name {
+        font-size: 9px;
+        letter-spacing: 2px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pad-ripple { display: none; }
+}

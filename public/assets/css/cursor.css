@@ -1,0 +1,25 @@
+/* ===============================
+   CURSOR — jejak tangga nada
+   Setiap gerak kursor menabur angka laras pelog.
+   =============================== */
+.note-trail {
+    position: fixed;
+    z-index: 60;
+    pointer-events: none;
+    color: var(--bronze);
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 600;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    text-shadow: 0 0 14px rgba(210, 162, 76, 0.55);
+    animation: noteTrail 1.15s ease-out forwards;
+}
+@keyframes noteTrail {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.6) rotate(-8deg); }
+    18%  { opacity: 0.95; }
+    100% { opacity: 0; transform: translate(-50%, -190%) scale(1.12) rotate(6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .note-trail { display: none; }
+}

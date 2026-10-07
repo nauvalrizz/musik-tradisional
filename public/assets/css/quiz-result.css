@@ -1,0 +1,215 @@
+/* ===============================
+   QUIZ RESULT PAGE — arsip bronze
+=============================== */
+
+.quiz-result {
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+/* ===== WRAPPER ===== */
+.quiz-result .quiz-page {
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* ===== CARD ===== */
+.quiz-result .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 40px 30px;
+    border-radius: 14px;
+
+    width: 100%;
+    max-width: 460px;
+
+    text-align: center;
+
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+
+    margin: 40px auto;
+}
+
+/* ===== TITLE ===== */
+.result-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* ===== SCORE ===== */
+.score {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 600;
+    color: var(--bronze-hi);
+    margin: 15px 0;
+    animation: popScore 0.5s ease;
+}
+
+@keyframes popScore {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ===== TEXT ===== */
+.result-text {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 5px;
+}
+
+.percent-text {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+/* ===== DIVIDER ===== */
+.result-divider {
+    width: 60%;
+    height: 1px;
+    margin: 14px auto;
+    background: var(--line-strong);
+}
+
+/* ===== ACTION BUTTON ===== */
+.quiz-result .quiz-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+/* PRIMARY */
+.quiz-result .btn-primary {
+    width: 100%;
+    max-width: 220px;
+    padding: 12px;
+    border-radius: 999px;
+
+    background: var(--bronze);
+    border: none;
+    color: var(--bronze-ink) !important;
+    text-decoration: none !important;
+
+    font-weight: 700;
+    transition: 0.2s;
+
+    box-shadow: 0 10px 25px rgba(201, 151, 63, 0.25);
+}
+
+.quiz-result .btn-primary:hover {
+    transform: translateY(-2px);
+    background: var(--bronze-hi);
+}
+
+/* SECONDARY */
+.quiz-result .btn-secondary {
+    width: 100%;
+    max-width: 220px;
+    padding: 12px;
+
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+
+    background: transparent;
+    color: var(--bronze-hi);
+    cursor: pointer;
+}
+
+.quiz-result .btn-secondary:hover {
+    background: rgba(201, 151, 63, 0.1);
+}
+
+/* BACK LINK */
+.back-home {
+    font-size: 14px;
+    color: var(--bronze-hi);
+    text-decoration: none;
+}
+
+.back-home:hover {
+    text-decoration: underline;
+}
+
+/* ===============================
+   REVIEW LIST
+=============================== */
+
+#reviewContainer {
+    margin-top: 25px;
+    text-align: left;
+}
+
+/* ITEM */
+.review-item {
+    background: #241d10;
+    border: 1px solid var(--line);
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    animation: fadeInUp 0.3s ease;
+}
+
+/* TEXT */
+.review-item p {
+    margin: 4px 0;
+    color: var(--ink);
+}
+
+/* STATE */
+.review-item .correct {
+    color: var(--bronze-hi);
+    font-weight: 600;
+}
+
+.review-item .wrong {
+    color: #e8a49a;
+    font-weight: 600;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===============================
+   MOBILE
+=============================== */
+
+@media (max-width: 768px) {
+    .quiz-result {
+        padding: 20px 12px;
+    }
+
+    .quiz-result .quiz-card {
+        padding: 25px 20px;
+        margin: 20px auto;
+    }
+
+    .score {
+        font-size: 48px;
+    }
+
+    .quiz-result .quiz-actions {
+        gap: 10px;
+    }
+}
