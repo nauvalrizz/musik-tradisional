@@ -781,7 +781,7 @@ button, .btn, a.btn-quiz-hero, .search-btn {
     transition: transform .16s cubic-bezier(0.22,1,0.36,1), box-shadow .2s ease;
 }
 button:hover, .btn:hover, a.btn-quiz-hero:hover, .search-btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 button:active, .btn:active, a.btn-quiz-hero:active, .search-btn:active {
     transform: translateY(0) scale(.96);
@@ -805,4 +805,30 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* v44 — PRO MAX refinement */
+/* Spacing konsisten 8px grid */
+.section-head { margin-bottom: 32px; }
+.section-head h2 { letter-spacing: -0.02em; line-height: 1.1; }
+/* Divider halus antar section */
+.gamelan-section, .browse-section, .islands-section,
+.collection-section, .quiz-invite {
+    border-top: 1px solid rgba(201,151,63,.12);
+}
+/* Card shadow profesional */
+.flip-card {
+    box-shadow: 0 1px 3px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.25);
+    transition: box-shadow .25s ease, transform .18s ease-out;
+}
+.flip-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,.4), 0 12px 32px rgba(201,151,63,.12);
+}
+/* Tombol: refined */
+.search-btn, .btn-quiz-hero {
+    letter-spacing: .06em; font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.search-btn:hover, .btn-quiz-hero:hover {
+    box-shadow: 0 4px 16px rgba(201,151,63,.25);
 }
