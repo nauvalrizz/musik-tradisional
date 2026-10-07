@@ -727,33 +727,36 @@ footer {
     .ombak-layer { animation: none; }
 }
 
-/* ================= v18 — BATIK MEGA MENDUNG (AI) ================= */
-/* Pola awan mega mendung perunggu di atas hitam, mengulang halus. */
-.batik-bg {
+/* ================= v19 — AWAN MEGA MENDUNG ================= */
+/* Satu motif awan disebar acak (via JS): samar, tidak brutal. */
+.awan-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: url('../img/mega-mendung.jpg?v=18');
-    background-repeat: repeat;
-    background-size: 620px 620px;
-    opacity: 0.42;
-    animation: megaDrift 140s linear infinite;
+    overflow: hidden;
 }
-@keyframes megaDrift {
-    from { background-position: 0 0; }
-    to   { background-position: 620px 0; }
+.awan {
+    position: absolute;
+    background: url('../img/awan.jpg?v=19') center / contain no-repeat;
+    mix-blend-mode: screen;
+    animation: awanFloat 110s ease-in-out infinite alternate;
 }
-/* Kanvas medan sinyal: titik-titik yang menjauh & menyala dekat kursor */
-#signal-field {
+@keyframes awanFloat {
+    from { margin-left: -26px; }
+    to   { margin-left: 26px; }
+}
+/* Riak bunyi: lingkaran mengembang mengikuti kursor (seperti gong) */
+#ripple-field {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
-    .batik-bg { animation: none; }
-    #signal-field { display: none; }
+    .awan { animation: none; }
+    #ripple-field { display: none; }
+}
 }
 }
 }

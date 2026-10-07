@@ -164,120 +164,84 @@ setTimeout(() => {
     }, { passive: true });
 })();
 
-// ================= v18 — MEDAN SINYAL =================
-// Titik-titik perunggu yang menjauh & menyala saat kursor dekat,
-// garis konstelasi + jejak halus. (ala porto, palet MuSantara)
+// ================= v19 — AWAN TERSEBAR =================
+// Satu motif awan diduplikat acak: posisi, ukuran, rotasi, opacity.
 (function () {
-    var canvas = document.getElementById('signal-field');
+    var bg = document.querySelector('.awan-bg');
+    if (!bg) return;
+    var seed = 11;
+    function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+    var N = 13;
+    for (var i = 0; i < N; i++) {
+        var el = document.createElement('span');
+        el.className = 'awan';
+        var w = 200 + rnd() * 340;
+        el.style.width = w.toFixed(0) + 'px';
+        el.style.height = (w * 0.475).toFixed(0) + 'px';
+        el.style.left = (rnd() * 100).toFixed(1) + '%';
+        el.style.top = (rnd() * 100).toFixed(1) + '%';
+        el.style.opacity = (0.05 + rnd() * 0.08).toFixed(2);
+        el.style.transform = 'translate(-50%,-50%) rotate(' + ((rnd() * 40) - 20).toFixed(1) + 'deg)' + (rnd() > 0.5 ? ' scaleX(-1)' : '');
+        el.style.animationDuration = (90 + rnd() * 80).toFixed(0) + 's';
+        el.style.animationDelay = (-rnd() * 60).toFixed(0) + 's';
+        bg.appendChild(el);
+    }
+})();
+
+// ================= v19 — RIAK BUNYI =================
+// Kursor meninggalkan riak lingkaran mengembang seperti bunyi gong.
+// Nempel di background, khas MuSantara (bukan tiruan porto).
+(function () {
+    var canvas = document.getElementById('ripple-field');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
 
     var ctx = canvas.getContext('2d');
-    var W = 0, H = 0, dpr = 1;
-    var points = [], trail = [], bursts = [];
-    var target = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.4 };
-    var pos = { x: target.x, y: target.y };
-    var visible = false, lastMove = 0;
-    var BRONZE = '201,151,63', BRONZE_HI = '238,196,116';
+    var W = 0, H = 0;
+    var ripples = [];
+    var lastX = -999, lastY = -999;
 
-    function seed() {
-        points = [];
-        var spacing = Math.max(120, Math.min(165, W / 9));
-        var r, c;
-        for (r = 0; r * spacing < H + spacing; r++) {
-            for (c = 0; c * spacing < W + spacing; c++) {
-                var jx = (Math.sin(c * 12.9898 + r * 78.233) * 43758.5453 % 1) * 26;
-                var jy = (Math.sin(c * 39.346 + r * 11.135) * 24634.6345 % 1) * 26;
-                points.push({ bx: c * spacing + spacing * 0.3 + jx, by: r * spacing + spacing * 0.3 + jy, c: c, r: r });
-            }
-        }
-    }
     function resize() {
         W = window.innerWidth; H = window.innerHeight;
-        dpr = Math.min(2, window.devicePixelRatio || 1);
+        var dpr = Math.min(2, window.devicePixelRatio || 1);
         canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
         canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        seed();
+    }
+
+    function spawn(x, y, big) {
+        var n = big ? 3 : 1;
+        for (var i = 0; i < n; i++) {
+            ripples.push({ x: x, y: y, r: 6 + i * 10, a: (big ? 0.4 : 0.28) - i * 0.09 });
+        }
+        if (ripples.length > 40) ripples.splice(0, ripples.length - 40);
     }
 
     document.addEventListener('pointermove', function (e) {
-        target.x = e.clientX; target.y = e.clientY;
-        visible = true; lastMove = performance.now();
-        trail.unshift({ x: target.x, y: target.y, life: 1 });
-        if (trail.length > 12) trail.length = 12;
+        var dx = e.clientX - lastX, dy = e.clientY - lastY;
+        if (dx * dx + dy * dy > 70 * 70) {
+            lastX = e.clientX; lastY = e.clientY;
+            spawn(e.clientX, e.clientY, false);
+        }
     }, { passive: true });
     document.addEventListener('pointerdown', function (e) {
-        target.x = e.clientX; target.y = e.clientY;
-        visible = true; lastMove = performance.now();
-        bursts.push({ x: target.x, y: target.y, life: 1 });
-        if (bursts.length > 5) bursts.shift();
+        spawn(e.clientX, e.clientY, true);
     }, { passive: true });
-    document.addEventListener('pointerleave', function () { visible = false; });
 
-    function draw(t) {
+    (function draw() {
         ctx.clearRect(0, 0, W, H);
-        pos.x += (target.x - pos.x) * 0.14;
-        pos.y += (target.y - pos.y) * 0.14;
-        var active = visible && (t - lastMove < 2200);
-        var radius = active ? 210 : 110;
-        var i, j, p, dx, dy, d, pull, x, y;
-        var rp = [];
-
-        for (i = 0; i < points.length; i++) {
-            p = points[i];
-            x = p.bx + Math.sin(t * 0.0004 + i * 1.7) * 5;
-            y = p.by + Math.cos(t * 0.00033 + i * 2.3) * 5;
-            dx = x - pos.x; dy = y - pos.y;
-            d = Math.sqrt(dx * dx + dy * dy) || 1;
-            pull = Math.max(0, 1 - d / radius);
-            if (active && pull > 0) { x += (dx / d) * pull * 20; y += (dy / d) * pull * 20; }
-            rp.push({ x: x, y: y, pull: pull, c: p.c, r: p.r });
-        }
-
-        ctx.lineWidth = 1;
-        for (i = 0; i < rp.length; i++) {
-            for (j = i + 1; j < rp.length; j++) {
-                var a = rp[i], b = rp[j];
-                if (Math.abs(a.c - b.c) > 1 || Math.abs(a.r - b.r) > 1) continue;
-                var ddx = b.x - a.x, ddy = b.y - a.y;
-                if (ddx * ddx + ddy * ddy > 170 * 170) continue;
-                var glow = Math.max(a.pull, b.pull);
-                ctx.strokeStyle = 'rgba(' + BRONZE + ',' + (0.05 + glow * 0.24).toFixed(3) + ')';
-                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-            }
-        }
-        for (i = 0; i < rp.length; i++) {
-            p = rp[i];
-            var sz = 1.4 + p.pull * 2.6;
-            ctx.fillStyle = 'rgba(' + (p.pull > 0.35 ? BRONZE_HI : BRONZE) + ',' + (0.22 + p.pull * 0.6).toFixed(3) + ')';
-            ctx.beginPath(); ctx.arc(p.x, p.y, sz, 0, 6.2832); ctx.fill();
-        }
-        if (trail.length > 1) {
-            ctx.beginPath(); ctx.moveTo(trail[0].x, trail[0].y);
-            for (i = 1; i < trail.length; i++) {
-                var pr = trail[i - 1], tr = trail[i];
-                ctx.quadraticCurveTo(pr.x, pr.y, (pr.x + tr.x) / 2, (pr.y + tr.y) / 2);
-            }
-            ctx.strokeStyle = 'rgba(' + BRONZE_HI + ',0.28)';
-            ctx.lineWidth = 1.4; ctx.stroke();
-        }
-        for (i = 0; i < trail.length; i++) {
-            tr = trail[i]; tr.life *= 0.92;
-            ctx.fillStyle = 'rgba(' + BRONZE + ',' + (tr.life * 0.32).toFixed(3) + ')';
-            ctx.beginPath(); ctx.arc(tr.x, tr.y, 2 + i * 0.5, 0, 6.2832); ctx.fill();
-        }
-        for (i = bursts.length - 1; i >= 0; i--) {
-            var bu = bursts[i]; bu.life *= 0.94;
-            if (bu.life < 0.02) { bursts.splice(i, 1); continue; }
-            ctx.strokeStyle = 'rgba(' + BRONZE_HI + ',' + (bu.life * 0.5).toFixed(3) + ')';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath(); ctx.arc(bu.x, bu.y, (1 - bu.life) * 90 + 8, 0, 6.2832); ctx.stroke();
+        for (var i = ripples.length - 1; i >= 0; i--) {
+            var rp = ripples[i];
+            rp.r += 1.7; rp.a *= 0.965;
+            if (rp.a < 0.012) { ripples.splice(i, 1); continue; }
+            ctx.strokeStyle = 'rgba(201,151,63,' + rp.a.toFixed(3) + ')';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, 6.2832); ctx.stroke();
         }
         requestAnimationFrame(draw);
-    }
+    })();
 
     resize();
     window.addEventListener('resize', resize);
-    requestAnimationFrame(draw);
 })();
