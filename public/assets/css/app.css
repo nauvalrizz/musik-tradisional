@@ -726,12 +726,6 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
     .grain { display: none; }
 }
-}
-}
-}
-}
-}
-}
 
 /* v24 — konsistensi galeri */
 .section-head {
