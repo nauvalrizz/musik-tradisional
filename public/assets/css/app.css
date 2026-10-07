@@ -727,8 +727,8 @@ footer {
     .ombak-layer { animation: none; }
 }
 
-/* ================= v20 — AWAN MEGA MENDUNG ================= */
-/* Sedikit awan tersebar rapi & samar. Gerak via JS (angin + apung). */
+/* ================= v21 — AWAN MEGA MENDUNG ================= */
+/* PNG transparan beneran (tanpa kotak). Fade-in halus setelah preload. */
 .awan-bg {
     position: fixed;
     inset: 0;
@@ -738,12 +738,15 @@ footer {
 }
 .awan {
     position: absolute;
-    background: url('../img/awan.jpg?v=20') center / contain no-repeat;
-    mix-blend-mode: screen;
+    background: url('../img/awan.png?v=21') center / contain no-repeat;
+    opacity: 0;
+    transition: opacity 1.6s ease;
     will-change: transform;
 }
+.awan.ready { opacity: var(--o, 0.08); }
 @media (prefers-reduced-motion: reduce) {
     .awan-bg { display: none; }
+}
 }
 }
 }

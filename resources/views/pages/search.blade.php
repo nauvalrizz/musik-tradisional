@@ -56,7 +56,7 @@
             @endif
         </form>
 
-        <div class="row g-4 mt-4">
+        <div class="row g-4 mt-4" data-stagger>
 
             @forelse($data as $item)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">

@@ -81,8 +81,8 @@
 {{-- ═══════════ TELUSURI ═══════════ --}}
 <section class="search-section" id="telusuri">
     <div class="container container-narrow">
-        <p class="section-eyebrow">Telusuri Arsip</p>
-        <h2 class="section-head">Cari alatnya <em>langsung.</em></h2>
+        <p class="section-eyebrow" data-reveal>Telusuri Arsip</p>
+        <h2 class="section-head" data-reveal>Cari alatnya <em>langsung.</em></h2>
         <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
         @include('components.search-box')
     </div>
@@ -91,8 +91,8 @@
 {{-- ═══════════ PULAU ═══════════ --}}
 <section class="map-section" id="pulau">
     <div class="container">
-        <p class="section-eyebrow">Jelajah Wilayah</p>
-        <h2 class="section-head">Pilih <em>Pulau.</em></h2>
+        <p class="section-eyebrow" data-reveal>Jelajah Wilayah</p>
+        <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
         @include('partials.map')
         <div id="tooltip" class="map-tooltip"></div>
     </div>
@@ -103,15 +103,15 @@
     <div class="container">
         <div class="koleksi-head">
             <div>
-                <p class="section-eyebrow">Koleksi Pilihan</p>
-                <h2 class="section-head">Buka <em>arsipnya.</em></h2>
+                <p class="section-eyebrow" data-reveal>Koleksi Pilihan</p>
+                <h2 class="section-head" data-reveal>Buka <em>arsipnya.</em></h2>
             </div>
             <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
                 <span class="dice" aria-hidden="true">&#9860;</span>
                 Jelajah Acak
             </a>
         </div>
-        <div class="koleksi-grid">
+        <div class="koleksi-grid" data-stagger>
             @foreach($featured as $item)
                 @include('components.card', ['item' => $item])
             @endforeach
@@ -122,8 +122,8 @@
 {{-- ═══════════ QUIZ ═══════════ --}}
 <section class="quiz-invite">
     <div class="container container-narrow">
-        <p class="section-eyebrow">Uji Telinga</p>
-        <h2 class="section-head">Seberapa kenal kamu <em>dengannya?</em></h2>
+        <p class="section-eyebrow" data-reveal>Uji Telinga</p>
+        <h2 class="section-head" data-reveal>Seberapa kenal kamu <em>dengannya?</em></h2>
         <p class="quiz-sub">Tujuh pertanyaan. Satu arsip penuh bunyi.</p>
         <div class="quiz-cta">
             <a href="/quiz-global" class="btn-quiz-hero" id="quizLocked">Mulai Kuis</a>

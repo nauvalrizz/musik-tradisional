@@ -24,7 +24,7 @@
 
         <!-- REAL CONTENT -->
         <div id="realContent" class="mt-4" style="display:none;">
-            <div class="row g-4">
+            <div class="row g-4" data-stagger>
 
                 <!-- EMPTY STATE -->
                 @if ($alat->isEmpty())

@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function show(el) { el.classList.add('in'); }
 
+    /* Stagger: anak [data-stagger] muncul berurutan. */
+    document.querySelectorAll('[data-stagger]').forEach(function (group) {
+        var kids = group.querySelectorAll('[data-reveal]');
+        kids.forEach(function (kid, i) {
+            kid.style.transitionDelay = Math.min(i * 90, 900) + 'ms';
+        });
+    });
+
     /* Fallback: tidak ada yang boleh stuck tak terlihat. */
     setTimeout(function () {
         els.forEach(show);
