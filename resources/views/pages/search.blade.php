@@ -80,5 +80,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/search-page.js') }}?v=13"></script>
+    <script src="{{ asset('assets/js/search-page.js') }}?v=14"></script>
 @endpush

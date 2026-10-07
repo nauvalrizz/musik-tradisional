@@ -686,10 +686,10 @@ footer {
     scroll-margin-top: 90px;
 }
 
-/* ================= v12 — OMBAK NUSANTARA =================
-   Latar gelombang berlapis yang bergerak pelan,
-   seperti laut di antara kepulauan. Sangat halus
-   agar teks tetap terbaca. */
+/* ================= v14 — OMBAK NUSANTARA =================
+   Latar gelombang laut berlapis: garis perunggu lebih tegas,
+   melayang + naik-turun lembut, loop mulus, dan bergeser
+   mengikuti kursor (parallax via JS). Tetap kalem. */
 .ombak-bg {
     position: fixed;
     inset: 0;
@@ -701,18 +701,27 @@ footer {
     position: absolute;
     left: -25%;
     width: 150%;
-    height: 22vh;
-    min-height: 140px;
+    height: 26vh;
+    min-height: 170px;
+    display: block;
     fill: none;
-    stroke: var(--bronze);
-    stroke-width: 1.5;
+    stroke: #c9973f;
+    stroke-width: 3;
+    animation:
+        ombakDrift var(--dur, 40s) linear infinite,
+        ombakBob var(--bob, 12s) ease-in-out infinite;
 }
-.ombak-layer.l1 { top: 8%;  opacity: 0.07; animation: ombakDrift 30s linear infinite; }
-.ombak-layer.l2 { top: 42%; opacity: 0.04;  animation: ombakDrift 68s linear infinite reverse; stroke-width: 1; }
-.ombak-layer.l3 { top: 76%; opacity: 0.05;  animation: ombakDrift 56s linear infinite; }
+/* tiap lapis bergeser tepat satu panjang gelombang -> loop mulus */
+.ombak-layer.l1 { top: 6%;  opacity: 0.12;  --shift: -25%;     --dur: 34s; --bob: 9s; }
+.ombak-layer.l2 { top: 40%; opacity: 0.09;  --shift: 33.333%;  --dur: 46s; --bob: 13s; }
+.ombak-layer.l3 { top: 72%; opacity: 0.075; --shift: -20%;     --dur: 60s; --bob: 17s; }
 @keyframes ombakDrift {
     from { transform: translateX(0); }
-    to   { transform: translateX(16.666%); }
+    to   { transform: translateX(var(--shift)); }
+}
+@keyframes ombakBob {
+    0%, 100% { margin-top: 0; }
+    50%      { margin-top: -16px; }
 }
 @media (prefers-reduced-motion: reduce) {
     .ombak-layer { animation: none; }
