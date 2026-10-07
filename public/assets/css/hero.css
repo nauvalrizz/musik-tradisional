@@ -35,10 +35,10 @@
     color: var(--bronze);
     font-weight: 600;
 }
-.hero-full .gamelan-pads {
+.bunyi-section .gamelan-pads {
     margin-top: 26px;
 }
-.hero-full .gamelan-hint {
+.bunyi-section .gamelan-hint {
     margin-top: 22px;
 }
 /* Cue scroll menempel di bawah viewport */
@@ -91,4 +91,25 @@
 @media (max-width: 768px) {
     .hero-full { padding: 96px 16px 100px; }
     .hero-ensemble-label { margin-top: 36px; }
+}
+
+/* ============ v22 — RUANG BUNYI (section sendiri) ============ */
+.bunyi-section {
+    position: relative;
+    padding: 110px 20px 120px;
+    text-align: center;
+}
+.bunyi-section .section-sub {
+    color: #b8a888;
+    margin-top: 14px;
+    font-size: 16px;
+}
+.bunyi-section .gamelan-pads {
+    margin-top: 44px;
+}
+.bunyi-section .rec-bar {
+    margin-top: 30px;
+}
+.bunyi-section .gamelan-hint {
+    margin-top: 20px;
 }

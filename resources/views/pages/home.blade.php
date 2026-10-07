@@ -28,8 +28,16 @@
             <a class="w-link" href="#koleksi">baca</a>
             ceritanya.
         </p>
+    </div>
+    <p class="scroll-cue" aria-hidden="true"><span></span>Gulir ke bawah</p>
+</section>
 
-        <p class="hero-ensemble-label hero-anim" id="arsip-bunyi" style="--d:0.35s">Arsip Bunyi Nusantara</p>
+{{-- ═══════════ RUANG BUNYI ═══════════ --}}
+<section class="bunyi-section" id="arsip-bunyi">
+    <div class="container">
+        <p class="section-eyebrow" data-reveal>Ruang Bunyi</p>
+        <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
+        <p class="section-sub" data-reveal>Lima alat gamelan yang bisa kamu mainkan langsung.</p>
 
         <div class="gamelan-pads" role="group" aria-label="Lima alat musik yang bisa diketuk">
             <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" aria-label="Angklung">
@@ -56,7 +64,7 @@
                 <span class="pad-name">Bonang</span>
             </button>
         </div>
-        <div class="rec-bar hero-anim" style="--d:0.55s">
+        <div class="rec-bar" data-reveal>
             <button type="button" id="btnRec" class="rec-btn rec-record" aria-label="Rekam tabuhan">
                 <i></i><span>Rekam</span>
             </button>
@@ -65,9 +73,8 @@
             </button>
             <p class="rec-status" id="recStatus">Ketuk Rekam, mainkan alatnya</p>
         </div>
-        <p class="gamelan-hint hero-anim" style="--d:0.6s">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
+        <p class="gamelan-hint" data-reveal>Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
     </div>
-    <p class="scroll-cue" aria-hidden="true"><span></span>Gulir ke bawah</p>
 </section>
 
 {{-- ═══════════ PAPER BAND ═══════════ --}}
