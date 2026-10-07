@@ -9,9 +9,12 @@
     <div class="quiz-page quiz-result">
         <div class="quiz-card">
 
-            <h2 class="result-title">Quiz selesai 🎉</h2>
+            <p class="result-eyebrow">Arsip Penilaian</p>
+            <h2 class="result-title">Hasil Ujian</h2>
 
-            <div id="score" class="score"></div>
+            <div class="score-seal">
+                <div id="score" class="score"></div>
+            </div>
 
             <p id="resultText" class="result-text"></p>
 
@@ -35,5 +38,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/quiz-result.js') }}"></script>
+    <script src="{{ asset('assets/js/quiz-result.js') }}?v=7"></script>
 @endpush

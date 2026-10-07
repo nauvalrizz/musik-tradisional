@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const questionEl = document.getElementById("question");
         const optionsEl = document.getElementById("options");
         const imgContainer = document.getElementById("quizImage");
-        document.getElementById("currentStep").innerText = current + 1;
-        document.getElementById("totalStep").innerText = questions.length;
+        document.getElementById("currentStep").innerText = String(current + 1).padStart(2, "0");
+        document.getElementById("totalStep").innerText = String(questions.length).padStart(2, "0");
 
         // 🔥 RESET STATE
         answered = false;
@@ -75,9 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (imgContainer) {
             let label = '';
 
-            if (q.tipe === 'nama') label = '🖼 Tebak Nama';
-            if (q.tipe === 'kategori') label = '🎵 Cara Main';
-            if (q.tipe === 'sumber') label = '🔊 Sumber Bunyi';
+            if (q.tipe === 'nama') label = 'Tebak Nama';
+            if (q.tipe === 'kategori') label = 'Cara Main';
+            if (q.tipe === 'sumber') label = 'Sumber Bunyi';
 
             imgContainer.innerHTML = `
             <p class="quiz-label">${label}</p>
@@ -97,10 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // =========================
         optionsEl.innerHTML = "";
 
-        q.options.forEach(opt => {
+        q.options.forEach((opt, idx) => {
             const btn = document.createElement("button");
             btn.className = "option";
-            btn.innerText = opt;
+            btn.dataset.value = opt;
+            btn.innerHTML = '<span class="opt-num">' + String(idx + 1).padStart(2, "0") + '</span><span class="opt-text">' + opt + '</span>';
 
             btn.onclick = () => {
                 if (!answered) {
@@ -183,17 +184,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCorrect) {
             score += 10;
             btn.classList.add("correct");
-            showToast("Jawaban benar! 🎉", "success");
+            showToast("Tepat.", "success");
         } else {
             btn.classList.add("wrong");
 
             buttons.forEach(b => {
-                if (b.innerText === q.correct) {
+                if (b.dataset.value === q.correct) {
                     b.classList.add("correct");
                 }
             });
 
-            showToast("Belum tepat 😅", "error");
+            showToast("Belum tepat.", "error");
         }
 
         loadingEl?.classList.add("active");
@@ -235,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
             console.error(err);
-            questionEl.innerText = 'Gagal load quiz ❌';
+            questionEl.innerText = 'Gagal memuat kuis.';
         }
     }
 
@@ -250,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timerEl.textContent = timeLeft;
 
         bar.style.width = "100%";
-        bar.style.background = "#22c55e";
+        bar.style.background = "var(--bronze)";
         bar.style.boxShadow = "none";
 
         clearInterval(timer);
@@ -265,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // warna timer
             if (timeLeft > 6) {
-                bar.style.background = "#22c55e";
+                bar.style.background = "var(--bronze)";
             } else if (timeLeft > 3) {
                 bar.style.background = "#facc15";
             } else {
@@ -316,14 +317,14 @@ document.addEventListener("DOMContentLoaded", () => {
             is_correct: 0
         });
 
-        showToast("Waktu habis ⏱️", "error");
+        showToast("Waktu habis.", "error");
 
         const buttons = document.querySelectorAll(".option");
         buttons.forEach(b => b.disabled = true);
 
         // highlight jawaban benar
         buttons.forEach(b => {
-            if (b.innerText === q.correct) {
+            if (b.dataset.value === q.correct) {
                 b.classList.add("correct");
             }
         });

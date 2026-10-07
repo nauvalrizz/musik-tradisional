@@ -244,9 +244,39 @@ footer {
     left: 0;
     height: 3px;
     width: 0%;
-    background: var(--bronze);
+    background: linear-gradient(90deg, var(--bronze), var(--bronze-hi));
+    box-shadow: 0 0 10px rgba(201, 151, 63, 0.55);
     z-index: 9999;
     transition: width 0.3s ease;
+}
+
+/* ================= v7 — GARIS KATALOG =================
+   Sapuan garis perunggu sekali saat halaman dimuat,
+   seperti pemindai mengarsipkan halaman museum.
+   Murni CSS, durasi terbatas (0.9s), tidak menutupi konten,
+   pointer-events none — mustahil stuck. */
+.page-sweep {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 5%, var(--bronze-hi) 50%, transparent 95%);
+    box-shadow: 0 0 12px rgba(201, 151, 63, 0.4);
+    z-index: 9998;
+    pointer-events: none;
+    animation: sweepDown 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes sweepDown {
+    0%   { top: 0;     opacity: 0; }
+    10%  {             opacity: 1; }
+    80%  {             opacity: 1; }
+    100% { top: 100vh; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-sweep { display: none; }
 }
 
 /* PAGINATION GLOBAL */

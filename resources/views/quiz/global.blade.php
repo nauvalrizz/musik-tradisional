@@ -10,7 +10,8 @@
             <div class="quiz-top">
 
                 <div class="quiz-timer">
-                    ⏱ <span id="quizTimer">10</span> detik
+                    <span class="timer-label">Waktu</span>
+                    <span id="quizTimer">10</span><span class="timer-unit">detik</span>
                 </div>
 
                 <div class="timer-bar">
@@ -18,8 +19,7 @@
                 </div>
 
                 <div class="quiz-meta">
-                    <span>Soal <span id="currentStep">1</span> / <span id="totalStep">10</span></span>
-                    <span class="quiz-sub">Gas terus</span>
+                    <span class="quiz-catalog">Arsip <span id="currentStep">01</span> / <span id="totalStep">10</span></span>
                 </div>
 
             </div>
@@ -54,5 +54,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/quiz-global.js') }}"></script>
+    <script src="{{ asset('assets/js/quiz-global.js') }}?v=7"></script>
 @endpush

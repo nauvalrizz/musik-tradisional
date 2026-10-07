@@ -23,23 +23,18 @@ document.addEventListener("DOMContentLoaded", () => {
     percentText.innerText = percent + '%';
 
     let text = "";
-    let emoji = "";
 
     if (percent === 100) {
-        text = "Sempurna!";
-        emoji = "🏆";
+        text = "Sempurna.";
     } else if (percent >= 80) {
-        text = "Keren banget";
-        emoji = "🔥";
+        text = "Sangat baik.";
     } else if (percent >= 60) {
-        text = "Lumayan bagus";
-        emoji = "👍";
+        text = "Cukup baik.";
     } else {
-        text = "Masih bisa ditingkatkan";
-        emoji = "💪";
+        text = "Masih bisa ditingkatkan.";
     }
 
-    resultText.innerText = text + " " + emoji;
+    resultText.innerText = text;
 
     if (percent >= 80 && typeof confetti === "function") {
         setTimeout(() => {
@@ -82,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
             } else {
                 userAnswerHtml = `
-                <p class="text-muted">⏱ Waktu habis</p>
+                <p class="text-muted">Waktu habis</p>
             `;
             }
 
