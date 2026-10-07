@@ -140,108 +140,71 @@ setTimeout(() => {
     }
 })();
 
-// ================= v15 — PARALLAX SCROLL SINEMATIK =================
-// Latar batik & ombak tertinggal halus saat scroll -> rasa kedalaman.
-(function () {
-    var batik = document.querySelector('.batik-bg');
-    var ombak = document.querySelector('.ombak-bg');
-    if (!batik && !ombak) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    var target = window.scrollY || 0, cur = target, ticking = false;
 
-    function update() {
-        cur += (target - cur) * 0.07;
-        if (batik) batik.style.translate = '0 ' + (cur * 0.05).toFixed(1) + 'px';
-        if (ombak) ombak.style.translate = '0 ' + (cur * 0.11).toFixed(1) + 'px';
-        if (Math.abs(target - cur) > 0.4) {
-            requestAnimationFrame(update);
-        } else { ticking = false; }
-    }
-    window.addEventListener('scroll', function () {
-        target = window.scrollY || 0;
-        if (!ticking) { ticking = true; requestAnimationFrame(update); }
-    }, { passive: true });
-})();
-
-// ================= v19 — AWAN TERSEBAR =================
-// Satu motif awan diduplikat acak: posisi, ukuran, rotasi, opacity.
+// ================= v20 — AWAN & ANGIN =================
+// Sedikit awan tersebar rapi & samar; minggir halus saat kursor dekat
+// seperti tertiup angin. Khas MuSantara, tenang.
 (function () {
     var bg = document.querySelector('.awan-bg');
     if (!bg) return;
-    var seed = 11;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var seed = 21;
     function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-    var N = 13;
-    for (var i = 0; i < N; i++) {
-        var el = document.createElement('span');
-        el.className = 'awan';
-        var w = 200 + rnd() * 340;
-        el.style.width = w.toFixed(0) + 'px';
-        el.style.height = (w * 0.475).toFixed(0) + 'px';
-        el.style.left = (rnd() * 100).toFixed(1) + '%';
-        el.style.top = (rnd() * 100).toFixed(1) + '%';
-        el.style.opacity = (0.05 + rnd() * 0.08).toFixed(2);
-        el.style.transform = 'translate(-50%,-50%) rotate(' + ((rnd() * 40) - 20).toFixed(1) + 'deg)' + (rnd() > 0.5 ? ' scaleX(-1)' : '');
-        el.style.animationDuration = (90 + rnd() * 80).toFixed(0) + 's';
-        el.style.animationDelay = (-rnd() * 60).toFixed(0) + 's';
-        bg.appendChild(el);
-    }
-})();
 
-// ================= v19 — RIAK BUNYI =================
-// Kursor meninggalkan riak lingkaran mengembang seperti bunyi gong.
-// Nempel di background, khas MuSantara (bukan tiruan porto).
-(function () {
-    var canvas = document.getElementById('ripple-field');
-    if (!canvas) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.matchMedia('(hover: none)').matches) return;
-
-    var ctx = canvas.getContext('2d');
-    var W = 0, H = 0;
-    var ripples = [];
-    var lastX = -999, lastY = -999;
-
-    function resize() {
-        W = window.innerWidth; H = window.innerHeight;
-        var dpr = Math.min(2, window.devicePixelRatio || 1);
-        canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function spawn(x, y, big) {
-        var n = big ? 3 : 1;
-        for (var i = 0; i < n; i++) {
-            ripples.push({ x: x, y: y, r: 6 + i * 10, a: (big ? 0.4 : 0.28) - i * 0.09 });
+    var clouds = [];
+    var cols = 4, rows = 2, i, c, r;
+    for (r = 0; r < rows; r++) {
+        for (c = 0; c < cols; c++) {
+            var el = document.createElement('span');
+            el.className = 'awan';
+            var w = 170 + rnd() * 150;
+            el.style.width = w.toFixed(0) + 'px';
+            el.style.height = (w * 0.475).toFixed(0) + 'px';
+            // posisi: satu awan per zona + jitter, jauh dari tepi
+            var hx = ((c + 0.5) / cols) * 100 + (rnd() * 10 - 5);
+            var hy = ((r + 0.5) / rows) * 100 + (rnd() * 12 - 6);
+            el.style.left = hx.toFixed(1) + '%';
+            el.style.top = hy.toFixed(1) + '%';
+            el.style.opacity = (0.04 + rnd() * 0.045).toFixed(2);
+            var rot = ((rnd() * 30) - 15).toFixed(1);
+            var flip = rnd() > 0.5 ? ' scaleX(-1)' : '';
+            clouds.push({ el: el, rot: rot, flip: flip, seed: rnd() * 6.28, x: 0, y: 0 });
+            bg.appendChild(el);
         }
-        if (ripples.length > 40) ripples.splice(0, ripples.length - 40);
     }
 
+    if (reduceMotion || window.matchMedia('(hover: none)').matches) return;
+
+    var mx = -9999, my = -9999;
     document.addEventListener('pointermove', function (e) {
-        var dx = e.clientX - lastX, dy = e.clientY - lastY;
-        if (dx * dx + dy * dy > 70 * 70) {
-            lastX = e.clientX; lastY = e.clientY;
-            spawn(e.clientX, e.clientY, false);
-        }
+        mx = e.clientX; my = e.clientY;
     }, { passive: true });
-    document.addEventListener('pointerdown', function (e) {
-        spawn(e.clientX, e.clientY, true);
-    }, { passive: true });
+    document.addEventListener('pointerleave', function () { mx = -9999; my = -9999; });
 
-    (function draw() {
-        ctx.clearRect(0, 0, W, H);
-        for (var i = ripples.length - 1; i >= 0; i--) {
-            var rp = ripples[i];
-            rp.r += 1.7; rp.a *= 0.965;
-            if (rp.a < 0.012) { ripples.splice(i, 1); continue; }
-            ctx.strokeStyle = 'rgba(201,151,63,' + rp.a.toFixed(3) + ')';
-            ctx.lineWidth = 1.2;
-            ctx.beginPath(); ctx.arc(rp.x, rp.y, rp.r, 0, 6.2832); ctx.stroke();
+    var W = window.innerWidth, H = window.innerHeight;
+    window.addEventListener('resize', function () { W = window.innerWidth; H = window.innerHeight; });
+
+    function frame(t) {
+        for (var k = 0; k < clouds.length; k++) {
+            var cl = clouds[k];
+            var rect = cl.el.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+            var dx = cx - mx, dy = cy - my;
+            var d = Math.sqrt(dx * dx + dy * dy) || 1;
+            var R = 260, push = 0;
+            if (d < R) push = (1 - d / R) * 52;
+            var tx = (dx / d) * push, ty = (dy / d) * push;
+            // apung idle lembut
+            tx += Math.sin(t * 0.00021 + cl.seed) * 9;
+            ty += Math.cos(t * 0.00017 + cl.seed * 1.6) * 7;
+            cl.x += (tx - cl.x) * 0.045;
+            cl.y += (ty - cl.y) * 0.045;
+            cl.el.style.transform = 'translate(-50%,-50%) translate(' +
+                cl.x.toFixed(1) + 'px,' + cl.y.toFixed(1) + 'px) rotate(' + cl.rot + 'deg)' + cl.flip;
         }
-        requestAnimationFrame(draw);
-    })();
-
-    resize();
-    window.addEventListener('resize', resize);
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
 })();

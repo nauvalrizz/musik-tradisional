@@ -727,8 +727,8 @@ footer {
     .ombak-layer { animation: none; }
 }
 
-/* ================= v19 — AWAN MEGA MENDUNG ================= */
-/* Satu motif awan disebar acak (via JS): samar, tidak brutal. */
+/* ================= v20 — AWAN MEGA MENDUNG ================= */
+/* Sedikit awan tersebar rapi & samar. Gerak via JS (angin + apung). */
 .awan-bg {
     position: fixed;
     inset: 0;
@@ -738,24 +738,13 @@ footer {
 }
 .awan {
     position: absolute;
-    background: url('../img/awan.jpg?v=19') center / contain no-repeat;
+    background: url('../img/awan.jpg?v=20') center / contain no-repeat;
     mix-blend-mode: screen;
-    animation: awanFloat 110s ease-in-out infinite alternate;
-}
-@keyframes awanFloat {
-    from { margin-left: -26px; }
-    to   { margin-left: 26px; }
-}
-/* Riak bunyi: lingkaran mengembang mengikuti kursor (seperti gong) */
-#ripple-field {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
+    will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
-    .awan { animation: none; }
-    #ripple-field { display: none; }
+    .awan-bg { display: none; }
+}
 }
 }
 }
