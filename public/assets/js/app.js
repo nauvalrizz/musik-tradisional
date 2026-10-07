@@ -183,15 +183,21 @@ setTimeout(() => {
     }, { passive: true });
     document.addEventListener('pointerleave', function () { mx = -9999; my = -9999; });
 
-    var W = window.innerWidth, H = window.innerHeight;
-    window.addEventListener('resize', function () { W = window.innerWidth; H = window.innerHeight; });
+    function homePos() {
+        for (var k = 0; k < clouds.length; k++) {
+            var cl = clouds[k];
+            var rect = cl.el.getBoundingClientRect();
+            cl.hx = rect.left + rect.width / 2;
+            cl.hy = rect.top + rect.height / 2;
+        }
+    }
+    homePos();
+    window.addEventListener('resize', homePos);
 
     function frame(t) {
         for (var k = 0; k < clouds.length; k++) {
             var cl = clouds[k];
-            var rect = cl.el.getBoundingClientRect();
-            var cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
-            var dx = cx - mx, dy = cy - my;
+            var dx = cl.hx - mx, dy = cl.hy - my;
             var d = Math.sqrt(dx * dx + dy * dy) || 1;
             var R = 260, push = 0;
             if (d < R) push = (1 - d / R) * 52;
