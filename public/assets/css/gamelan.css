@@ -318,3 +318,13 @@
 .gamelan-pad:active .pad-gong-disc, .gamelan-pad.struck .pad-gong-disc { transform: scale(.93); }
 .gamelan-pad:active .pad-drum, .gamelan-pad.struck .pad-drum { transform: scale(.94); }
 .gamelan-pad:active .pad-flute, .gamelan-pad.struck .pad-flute { transform: scale(.92); }
+
+/* v26 — glow interaktif */
+.gamelan-pad .pad-disc, .gamelan-pad .pad-kettle, .gamelan-pad .pad-gong-disc {
+    transition: transform .18s ease, box-shadow .25s ease;
+}
+.gamelan-pad:hover .pad-disc, .gamelan-pad:hover .pad-kettle, .gamelan-pad:hover .pad-gong-disc {
+    box-shadow: 0 10px 30px rgba(0,0,0,.5),
+        0 0 24px rgba(201,151,63,.35),
+        inset 0 2px 6px rgba(255,240,200,.35);
+}

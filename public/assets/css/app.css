@@ -515,8 +515,9 @@ footer {
 .browse-section,
 .islands-section,
 .collection-section,
-.quiz-invite {
-    padding: 96px 5vw;
+.quiz-invite,
+.search-section {
+    padding: 110px 5vw;
     scroll-margin-top: 70px;
     text-align: left;
 }
@@ -748,3 +749,11 @@ body::after {
     font-weight: 500;
     color: var(--bronze);
 }
+
+/* v26 — quiz CTA interaktif */
+.btn-quiz-hero {
+    transition: transform .2s ease, box-shadow .25s ease;
+    display: inline-block;
+}
+.btn-quiz-hero:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(201,151,63,.35); }
+.btn-quiz-hero:active { transform: translateY(-1px) scale(.98); }

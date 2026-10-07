@@ -382,3 +382,9 @@ body.search-active .search-section {
     border-bottom: 1px solid var(--bronze);
 }
 .filter-reset:hover { color: #ffe9b8; }
+
+/* v26 — search interaktif */
+.search-btn { transition: transform .15s ease, box-shadow .2s ease, background .2s ease; }
+.search-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(201,151,63,.3); }
+.search-btn:active { transform: translateY(0) scale(.97); }
+.search-input:focus { border-color: var(--bronze); box-shadow: 0 0 0 3px rgba(201,151,63,.15); outline: none; }
