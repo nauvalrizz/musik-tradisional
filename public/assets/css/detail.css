@@ -556,3 +556,9 @@ a {
     margin-bottom: 28px;
     flex-wrap: wrap;
 }
+
+/* v49 — howto box */
+.howto-box { background: rgba(201,151,63,.06); border: 1px solid rgba(201,151,63,.2);
+    border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+.howto-box h3 { color: var(--bronze); font-size: 18px; margin-bottom: 8px; }
+.howto-box p { color: var(--muted); line-height: 1.7; }

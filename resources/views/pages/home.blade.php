@@ -41,12 +41,51 @@
     <p class="scroll-cue" aria-hidden="true"><span></span>Gulir</p>
 </section>
 
+{{-- ═══════════ KISAH GAMELAN (scroll storytelling) ═══════════ --}}
+<section class="story-section" id="kisah">
+    <div class="container">
+        <p class="section-eyebrow" data-reveal><b>§</b><i></i>Kisah <span class="aksara" lang="jv">ꦒꦩꦼꦭꦤ꧀</span></p>
+        <div class="story-chapters">
+            <div class="story-chapter" data-reveal>
+                <span class="story-era">Abad ke-8</span>
+                <h3>Candi Borobudur</h3>
+                <p>Relief candi menunjukan ansambel musik perunggu — cikal bakal gamelan yang kita kenal.</p>
+            </div>
+            <div class="story-chapter" data-reveal>
+                <span class="story-era">Abad ke-14</span>
+                <h3>Majapahit</h3>
+                <p>Gamelan jadi musik istana. Gong ageng menandai kekuasaan raja.</p>
+            </div>
+            <div class="story-chapter" data-reveal>
+                <span class="story-era">Kini</span>
+                <h3>Arsip Hidup</h3>
+                <p>MuSantara mendigitalkan bunyi-bunyi ini agar tak hilang ditelan zaman.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ═══════════ TIMELINE ═══════════ --}}
+<section class="timeline-section" id="linimasa">
+    <div class="container">
+        <p class="section-eyebrow" data-reveal><b>◷</b><i></i>Linimasa <span class="aksara" lang="jv">ꦭꦶꦤꦶꦩꦱ</span></p>
+        <h2 class="section-head" data-reveal>Perjalanan <em>bunyinya.</em></h2>
+        <div class="timeline-track" data-reveal>
+            <div class="tl-item"><span class="tl-year">700an</span><span class="tl-dot"></span><p>Gamelan perunggu di relief Borobudur</p></div>
+            <div class="tl-item"><span class="tl-year">1300an</span><span class="tl-dot"></span><p>Era Majapahit, gong ageng istana</p></div>
+            <div class="tl-item"><span class="tl-year">1800an</span><span class="tl-dot"></span><p>Gamelan menyebar ke rakyat</p></div>
+            <div class="tl-item"><span class="tl-year">2026</span><span class="tl-dot"></span><p>MuSantara mengarsipkan digital</p></div>
+        </div>
+    </div>
+</section>
+
 {{-- ═══════════ RUANG BUNYI ═══════════ --}}
 <section class="bunyi-section" id="arsip-bunyi">
     <div class="container">
         <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi <span class="aksara" lang="jv">ꦫꦸꦮꦁꦧꦸꦚꦶ</span><span class="aksara-bg" aria-hidden="true">ꦒꦩꦼꦭꦤ꧀</span></p>
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
         <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
+        <button id="ambient-toggle" class="ambient-btn" data-reveal><i>♪</i> <span>Ambient</span></button>
 
         <div class="gamelan-pads" data-stagger role="group" aria-label="Delapan alat musik yang bisa diketuk">
             <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" data-reveal aria-label="Angklung">

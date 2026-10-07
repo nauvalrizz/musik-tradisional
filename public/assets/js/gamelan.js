@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
+    /* sound-reactive: body berdenyut ngikutin bunyi */
+    var analyser = null;
+    function pulseBody(intensity) {
+        document.body.style.setProperty('--pulse', intensity);
+    }
+
     function strike(freq, instrument) {
         if (!ensureCtx()) return;
         var partials = TIMBRES[instrument] || TIMBRES.saron;
@@ -64,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function () {
         pad.appendChild(ripple);
         setTimeout(function () { ripple.remove(); }, 700);
 
+        pulseBody(1);
+        setTimeout(function() { pulseBody(0); }, 300);
         pad.classList.add('struck');
         setTimeout(function () { pad.classList.remove('struck'); }, 320);
 
@@ -143,3 +151,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateRecUI();
 });
+
+/* v49 — ambient mode */
+(function() {
+    var btn = document.getElementById('ambient-toggle');
+    if (!btn) return;
+    var playing = false, timer = null;
+    var seq = [130.81, 164.81, 196.00, 164.81]; // kenong-saron-bonang pattern
+    var idx = 0;
+    btn.addEventListener('click', function() {
+        playing = !playing;
+        btn.classList.toggle('on', playing);
+        btn.querySelector('span').textContent = playing ? 'Matikan' : 'Ambient';
+        if (playing) {
+            timer = setInterval(function() {
+                var pads = document.querySelectorAll('.gamelan-pad');
+                if (pads[idx % pads.length]) pads[idx % pads.length].click();
+                idx++;
+            }, 1200);
+        } else {
+            clearInterval(timer);
+        }
+    });
+})();

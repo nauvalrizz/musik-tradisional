@@ -75,6 +75,11 @@
                         {!! nl2br(e($alat->deskripsi)) !!}
                     </p>
 
+                    <div class="howto-box" data-reveal>
+                        <h3>Cara Memainkan</h3>
+                        <p>Ketuk bagian tengah (pencu) dengan pemukul berlapis kain untuk bunyi bulat yang menggema. Ketukan di tepi menghasilkan nada lebih terang.</p>
+                    </div>
+
                     <div class="audio-box" data-reveal>
                         <h3>Dengarkan Suara</h3>
                         @if ($alat->audio)
