@@ -129,7 +129,7 @@ setTimeout(() => {
         cx += (tx - cx) * 0.045;
         cy += (ty - cy) * 0.045;
         layers.forEach(function (layer, i) {
-            var depth = (i + 1) * 16;
+            var depth = (i + 1) * 26;
             layer.style.translate = (cx * depth).toFixed(1) + 'px ' + (cy * depth * 0.6).toFixed(1) + 'px';
         });
         if (Math.abs(tx - cx) > 0.0005 || Math.abs(ty - cy) > 0.0005) {
