@@ -16,19 +16,37 @@
     $origin = optional($item->pulau)->nama;
 @endphp
 
-{{-- Spesimen v4: nomor katalog besar ala arsip museum --}}
-<a href="{{ url($url) }}" class="spesimen" data-reveal>
-    <div class="spesimen-media">
-        <img src="{{ $item->gambar ? gambar_alat($item->gambar) : asset('assets/img/default.png') }}"
-            alt="{{ $item->nama }}" loading="lazy">
-        <span class="spesimen-no">{{ $no }}</span>
-    </div>
-    <div class="spesimen-body">
-        @if ($origin)
-            <p class="spesimen-origin">{{ $origin }}</p>
-        @endif
-        <h3 class="spesimen-title">{{ $item->nama }}</h3>
-        <p class="spesimen-desc">{{ Str::limit($item->deskripsi, 80) }}</p>
-        <span class="spesimen-link">Buka arsip <i>&rarr;</i></span>
-    </div>
+{{-- Kartu flip arsip v8: depan foto + nomor katalog, belakang kartu indeks arsip --}}
+<a href="{{ url($url) }}" class="flip-card" data-reveal aria-label="{{ $item->nama }}">
+    <span class="flip-inner">
+        <span class="flip-front">
+            <img src="{{ $item->gambar ? gambar_alat($item->gambar) : asset('assets/img/default.png') }}"
+                alt="{{ $item->nama }}" loading="lazy">
+            <span class="flip-shade"></span>
+            <span class="flip-no">{{ $no }}</span>
+            <span class="flip-front-text">
+                @if ($origin)
+                    <span class="flip-origin">{{ $origin }}</span>
+                @endif
+                <span class="flip-title">{{ $item->nama }}</span>
+            </span>
+        </span>
+        <span class="flip-back">
+            <span class="flip-back-head">
+                <span class="flip-back-no">№ {{ $no }}</span>
+                <span class="flip-back-stamp">Arsip</span>
+            </span>
+            <span class="flip-back-title">{{ $item->nama }}</span>
+            <span class="flip-back-desc">{{ Str::limit($item->deskripsi, 140) }}</span>
+            <span class="flip-back-meta">
+                @if ($origin)
+                    <span><b>Pulau</b>{{ $origin }}</span>
+                @endif
+                @if ($item->sumber_bunyi)
+                    <span><b>Bunyi</b>{{ $item->sumber_bunyi }}</span>
+                @endif
+            </span>
+            <span class="flip-back-link">Buka arsip <i>&rarr;</i></span>
+        </span>
+    </span>
 </a>

@@ -1,23 +1,39 @@
+// Lightbox universal: tiap <img data-zoom> bisa diketuk untuk tampil fullscreen.
 export default function initImageModal() {
-    const img = document.getElementById("previewImg");
     const modal = document.getElementById("imgModal");
     const modalImg = document.getElementById("imgZoom");
+    const caption = document.getElementById("imgCaption");
     const closeBtn = document.querySelector(".img-close");
 
-    if (!img || !modal || !modalImg || !closeBtn) return; // 🔥 ini penting
+    if (!modal || !modalImg || !closeBtn) return;
 
-    img.onclick = function () {
-        modal.style.display = "flex";
-        modalImg.src = this.src;
-    };
+    function open(src, alt) {
+        modalImg.src = src;
+        modalImg.alt = alt || "";
+        if (caption) caption.textContent = alt || "";
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+    }
 
-    closeBtn.onclick = function () {
-        modal.style.display = "none";
-    };
+    function close() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+    }
 
-    modal.onclick = function (e) {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    };
+    document.querySelectorAll("img[data-zoom]").forEach(function (img) {
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", function () {
+            open(img.currentSrc || img.src, img.alt);
+        });
+    });
+
+    closeBtn.addEventListener("click", close);
+    modal.addEventListener("click", function (e) {
+        if (e.target === modal) close();
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("open")) close();
+    });
 }

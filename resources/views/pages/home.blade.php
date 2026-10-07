@@ -2,13 +2,26 @@
 
 @section('content')
 
+{{-- ═══════════ TABUHAN PEMBUKA — intro homepage ═══════════ --}}
+<div id="tabuhan" aria-hidden="true">
+    <span class="tabuhan-word w1">ANGKLUNG</span>
+    <span class="tabuhan-flash f1"></span>
+    <span class="tabuhan-word w2">SARON</span>
+    <span class="tabuhan-flash f2"></span>
+    <span class="tabuhan-word w3">BONANG</span>
+    <span class="tabuhan-flash f3"></span>
+    <span class="tabuhan-burst"></span>
+    <span class="tabuhan-brand">MUSANTARA</span>
+    <span class="tabuhan-skip">ketuk untuk lewati</span>
+</div>
+
 {{-- ═══════════ HERO — satu viewport penuh: penjelasan + alat ═══════════ --}}
 <section class="hero-full">
     <div class="container hero-full-inner">
         <p class="section-eyebrow hero-anim" style="--d:0.05s">Apa itu MuSantara?</p>
         <p class="manifesto hero-anim" style="--d:0.2s">
             MuSantara adalah arsip hidup alat musik tradisional Indonesia.
-            <span class="w-def" data-def="Ketuk lima alat gamelan di bawah — tiap alat berbunyi beda.">Ketuk</span>
+            <span class="w-def" data-def="Ketuk lima alat musik di bawah — tiap alat berbunyi beda.">Ketuk</span>
             bunyinya,
             <span class="w-def" data-def="Jelajahi peta dan temukan asal-usul tiap alat.">telusuri</span>
             asalnya,
@@ -19,10 +32,13 @@
 
         <p class="hero-ensemble-label hero-anim" style="--d:0.35s">Arsip Bunyi Nusantara</p>
 
-        <div class="gamelan-pads" role="group" aria-label="Ensemble gamelan yang bisa diketuk">
-            <button type="button" class="gamelan-pad pad-gong" data-instrument="gong" data-freq="65.41" aria-label="Gong Ageng">
-                <span class="pad-disc"><span class="pad-boss"></span></span>
-                <span class="pad-name">Gong Ageng</span>
+        <div class="gamelan-pads" role="group" aria-label="Lima alat musik yang bisa diketuk">
+            <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" aria-label="Angklung">
+                <span class="angklung-frame">
+                    <span class="angklung-bar"></span>
+                    <span class="angklung-tubes"><i></i><i></i><i></i></span>
+                </span>
+                <span class="pad-name">Angklung</span>
             </button>
             <button type="button" class="gamelan-pad pad-kempul" data-instrument="kempul" data-freq="98.00" aria-label="Kempul">
                 <span class="pad-hang"><span class="pad-disc"><span class="pad-boss"></span></span></span>

@@ -147,22 +147,50 @@ a {
 
 /* ================= MODAL ================= */
 .img-modal {
-    display: none;
+    display: flex;
+    flex-direction: column;
     position: fixed;
-    z-index: 9999;
+    z-index: 99999;
     inset: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 8, 5, 0.94);
+    background: rgba(10, 8, 5, 0.96);
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+    cursor: zoom-out;
+    padding: 24px;
+}
+
+.img-modal.open {
+    opacity: 1;
+    visibility: visible;
 }
 
 .img-modal-content {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 12px;
-    border: 1px solid var(--line);
+    max-width: min(92vw, 1100px);
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+    transform: scale(0.94);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: default;
+}
+
+.img-modal.open .img-modal-content {
+    transform: scale(1);
+}
+
+.img-caption {
+    margin-top: 14px;
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--bronze-hi);
+    letter-spacing: 0.04em;
 }
 
 .img-close {
@@ -258,8 +286,8 @@ a {
 .atribusi-overlay {
     pointer-events: auto;
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    top: 12px;
+    right: 12px;
     z-index: 3;
     background: rgba(10, 8, 5, 0.8);
     border: 1px solid var(--line);

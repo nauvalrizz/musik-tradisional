@@ -1,6 +1,6 @@
 /* ===============================
    RUANG BUNYI — lima alat, lima rupa
-   Gong, kempul gantung, kenong, saron, bonang.
+   Angklung, kempul gantung, kenong, saron, bonang.
    =============================== */
 .gamelan-pads {
     display: flex;
@@ -26,15 +26,6 @@
     to   { opacity: 1; transform: none; }
 }
 
-/* --- GONG AGENG: cakram besar --- */
-.pad-gong .pad-disc {
-    width: 118px; height: 118px; border-radius: 50%; position: relative;
-    background: radial-gradient(circle at 35% 30%, #eec76e, #c9973f 45%, #8a6420 80%, #6b4d18);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5),
-        inset 0 2px 6px rgba(255, 240, 200, 0.35),
-        inset 0 -8px 16px rgba(0, 0, 0, 0.4);
-    transition: transform 0.18s ease;
-}
 .pad-boss {
     position: absolute; top: 50%; left: 50%;
     width: 32px; height: 32px; transform: translate(-50%, -50%);
@@ -42,6 +33,36 @@
     background: radial-gradient(circle at 35% 30%, #f6dc92, #c9973f 70%);
     box-shadow: inset 0 -2px 6px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0,0,0,.3);
 }
+
+
+/* --- ANGKLUNG: tabung bambu gantung --- */
+.angklung-frame { display: flex; flex-direction: column; align-items: center; }
+.angklung-bar {
+    display: block; width: 96px; height: 8px; border-radius: 4px;
+    background: linear-gradient(180deg, #d8b36a, #a87f3d 70%, #7a5a1c);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45),
+        inset 0 1px 2px rgba(255, 240, 200, 0.4);
+}
+.angklung-tubes { display: flex; align-items: flex-start; gap: 10px; margin-top: 3px; }
+.angklung-tubes i {
+    width: 16px; display: block; border-radius: 2px 2px 7px 7px; position: relative;
+    background: linear-gradient(180deg, #eec76e, #c9973f 55%, #8a6420);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45),
+        inset 0 1px 2px rgba(255, 240, 200, 0.4),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.25);
+}
+.angklung-tubes i::after {
+    content: ""; position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(20, 12, 4, 0.45);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.5);
+}
+.angklung-tubes i:nth-child(1) { height: 50px; }
+.angklung-tubes i:nth-child(2) { height: 70px; }
+.angklung-tubes i:nth-child(3) { height: 58px; }
+.gamelan-pad:hover .angklung-tubes i { transform: translateY(4px); }
+.gamelan-pad:hover .angklung-tubes i:nth-child(2) { transition-delay: 0.04s; }
+.gamelan-pad:hover .angklung-tubes i:nth-child(3) { transition-delay: 0.08s; }
 
 /* --- KEMPUL: cakram gantung bertali --- */
 .pad-kempul .pad-hang { position: relative; padding-top: 30px; }
@@ -126,6 +147,15 @@
 .gamelan-pad.struck .pad-bars i { transform: translateY(3px); }
 .gamelan-pad:active .pad-pots i,
 .gamelan-pad.struck .pad-pots i { transform: scale(0.88); }
+.gamelan-pad:active .angklung-tubes i,
+.gamelan-pad.struck .angklung-tubes i { animation: angklungShake 0.32s ease; }
+.gamelan-pad.struck .angklung-tubes i:nth-child(2) { animation-delay: 0.05s; }
+.gamelan-pad.struck .angklung-tubes i:nth-child(3) { animation-delay: 0.1s; }
+@keyframes angklungShake {
+    0%, 100% { transform: translateX(0) rotate(0); }
+    25% { transform: translateX(-3px) rotate(-2.5deg); }
+    75% { transform: translateX(3px) rotate(2.5deg); }
+}
 
 .pad-ripple {
     position: absolute; top: 38%; left: 50%;

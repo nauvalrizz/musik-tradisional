@@ -278,6 +278,103 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     .page-sweep { display: none; }
 }
+/* ================= v8 — TABUHAN PEMBUKA =================
+   Intro homepage: tiga nama alat musik "ditabuh" bergantian
+   (sapuan + kilat perunggu), lalu meledak menjadi halaman inti.
+   Murni CSS; keyframe terakhir visibility:hidden sehingga
+   mustahil menghalangi walau JS gagal. Klik = lewati. */
+#tabuhan {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #0d0a05;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    animation: tabuhanOut 0.55s cubic-bezier(0.5, 0, 0.75, 0) 2.1s both;
+}
+@keyframes tabuhanOut {
+    to { opacity: 0; visibility: hidden; transform: scale(1.18); }
+}
+.tabuhan-word {
+    position: absolute;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: clamp(44px, 11vw, 110px);
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    opacity: 0;
+    white-space: nowrap;
+}
+.tabuhan-word.w1 { animation: tabuhStrike 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both; }
+.tabuhan-word.w2 { animation: tabuhStrike 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.63s both; }
+.tabuhan-word.w3 { animation: tabuhStrike 0.55s cubic-bezier(0.22, 1, 0.36, 1) 1.18s both; }
+@keyframes tabuhStrike {
+    0%   { opacity: 0; transform: translateX(-70px) scale(0.92); }
+    22%  { opacity: 1; transform: translateX(0) scale(1.06); }
+    68%  { opacity: 1; transform: translateX(0) scale(1); }
+    100% { opacity: 0; transform: translateX(70px) scale(0.94); }
+}
+.tabuhan-flash {
+    position: absolute;
+    width: 130%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 10%, var(--bronze-hi) 50%, transparent 90%);
+    box-shadow: 0 0 18px rgba(201, 151, 63, 0.7);
+    opacity: 0;
+}
+.tabuhan-flash.f1 { animation: tabuhFlash 0.55s ease 0.08s both; }
+.tabuhan-flash.f2 { animation: tabuhFlash 0.55s ease 0.63s both; }
+.tabuhan-flash.f3 { animation: tabuhFlash 0.55s ease 1.18s both; }
+@keyframes tabuhFlash {
+    0%   { opacity: 0; transform: scaleX(0); }
+    30%  { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1.25); }
+}
+.tabuhan-burst {
+    position: absolute;
+    width: 24px; height: 24px;
+    border: 2px solid var(--bronze-hi);
+    border-radius: 50%;
+    opacity: 0;
+    animation: tabuhBurst 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.68s both;
+}
+@keyframes tabuhBurst {
+    0%   { opacity: 1; transform: scale(0); }
+    100% { opacity: 0; transform: scale(34); }
+}
+.tabuhan-brand {
+    position: absolute;
+    font-family: var(--serif);
+    font-size: clamp(30px, 7vw, 64px);
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+    color: var(--bronze-hi);
+    opacity: 0;
+    animation: tabuhBrand 0.45s ease 1.62s both;
+    white-space: nowrap;
+}
+@keyframes tabuhBrand {
+    from { opacity: 0; transform: scale(0.82); }
+    to   { opacity: 1; transform: scale(1); }
+}
+.tabuhan-skip {
+    position: absolute;
+    bottom: 28px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: tabuhSkip 0.4s ease 0.9s both;
+}
+@keyframes tabuhSkip { to { opacity: 0.8; } }
+@media (prefers-reduced-motion: reduce) {
+    #tabuhan { display: none; }
+}
+
 
 /* PAGINATION GLOBAL */
 .pagination {

@@ -76,3 +76,22 @@ AOS.init({
 
 setTimeout(() => {
 }, 1000);
+
+// ================= TABUHAN PEMBUKA =================
+// Hapus overlay intro setelah animasi selesai; pengaman bila
+// animationend tak menyala, dan klik untuk lewati.
+(function () {
+    var t = document.getElementById('tabuhan');
+    if (!t) return;
+    var done = false;
+    function finish() {
+        if (done) return;
+        done = true;
+        if (t.parentNode) t.parentNode.removeChild(t);
+    }
+    t.addEventListener('animationend', function (e) {
+        if (e.target === t) finish();
+    });
+    t.addEventListener('click', finish);
+    setTimeout(finish, 3500);
+})();

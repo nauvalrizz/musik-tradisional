@@ -41,7 +41,7 @@
             {{-- HERO sinematik --}}
             <header class="detail-hero" data-reveal>
                 @if ($alat->gambar)
-                    <img id="previewImg" src="{{ gambar_alat($alat->gambar) }}"
+                    <img id="previewImg" data-zoom src="{{ gambar_alat($alat->gambar) }}"
                         alt="{{ $alat->nama }}" loading="lazy">
                 @endif
                 <div class="detail-hero-shade"></div>
@@ -123,12 +123,6 @@
                 </div>
 
             </div>
-        </div>
-
-        <!-- IMAGE MODAL -->
-        <div id="imgModal" class="img-modal">
-            <span class="img-close">&times;</span>
-            <img class="img-modal-content" id="imgZoom">
         </div>
 
     </div>

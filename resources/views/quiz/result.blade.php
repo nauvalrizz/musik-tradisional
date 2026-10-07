@@ -38,5 +38,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/quiz-result.js') }}?v=7"></script>
+    <script src="{{ asset('assets/js/quiz-result.js') }}?v=8"></script>
 @endpush

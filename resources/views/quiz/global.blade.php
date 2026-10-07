@@ -54,5 +54,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('assets/js/quiz-global.js') }}?v=7"></script>
+    <script src="{{ asset('assets/js/quiz-global.js') }}?v=8"></script>
 @endpush
