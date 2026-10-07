@@ -833,23 +833,23 @@ html { scroll-behavior: smooth; }
     box-shadow: 0 4px 16px rgba(201,151,63,.25);
 }
 
-/* v45 — EDITORIAL LAYOUT */
-/* Chapter number raksasa sebagai elemen desain */
-.section-eyebrow { position: relative; }
+/* v45+50 — EDITORIAL BALANCED */
+/* Chapter number sebagai aksen kecil, bukan raksasa */
+.section-eyebrow { position: relative; text-align: center; }
 .section-eyebrow b {
-    font-size: clamp(48px, 8vw, 96px);
-    font-weight: 800; line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(201,151,63,.45);
-    display: block; margin-bottom: -8px;
+    font-size: 14px; font-weight: 700; letter-spacing: .2em;
+    color: var(--bronze);
+    display: inline-block; margin-right: 12px;
 }
-/* Variasi alignment per section (asimetris editorial) */
-#arsip-bunyi .section-head, #arsip-bunyi .section-sub { text-align: left; }
-#arsip-bunyi .section-eyebrow { text-align: left; }
-.browse-section .section-head, .browse-section .section-sub { text-align: right; }
-.browse-section .section-eyebrow { text-align: right; }
-.browse-section .section-eyebrow b { margin-left: auto; }
-.islands-section .section-head { text-align: center; max-width: 700px; margin-inline: auto; }
+/* Semua section header center untuk balance */
+.section-head, .section-sub { text-align: center; }
+.section-head { max-width: 700px; margin-inline: auto; }
+.section-sub { max-width: 560px; margin-inline: auto; }
+/* Elemen abstrak: lingkaran perunggu melayang */
+.section-eyebrow::after {
+    content: ""; display: block; width: 48px; height: 2px;
+    background: var(--bronze); margin: 16px auto 0; opacity: .6;
+}
 /* Pull quote band: editorial */
 .quote-band blockquote {
     font-size: clamp(24px, 4vw, 40px);
@@ -863,23 +863,8 @@ html { scroll-behavior: smooth; }
     font-size: 1.6em; font-weight: 700; color: var(--bronze);
 }
 
-/* v46 — Aksara Jawa */
-.aksara {
-    font-family: 'Noto Sans Javanese', serif;
-    font-size: 0.85em; color: rgba(201,151,63,.65);
-    letter-spacing: .02em; margin-left: 8px;
-    vertical-align: baseline;
-}
-/* v47 — Aksara RAKSASA background */
-.section-eyebrow { position: relative; overflow: visible; }
-.aksara-bg {
-    font-family: 'Noto Sans Javanese', serif;
-    position: absolute; right: 0; top: -40px;
-    font-size: clamp(80px, 14vw, 180px);
-    color: rgba(201,151,63,.10);
-    line-height: 1; pointer-events: none; user-select: none;
-    z-index: 0;
-}
+
+
 
 /* v48 — Tekstur batik kawung halus */
 body::before {

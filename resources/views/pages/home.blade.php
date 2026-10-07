@@ -44,22 +44,32 @@
 {{-- ═══════════ KISAH GAMELAN (scroll storytelling) ═══════════ --}}
 <section class="story-section" id="kisah">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>§</b><i></i>Kisah <span class="aksara" lang="jv">ꦒꦩꦼꦭꦤ꧀</span></p>
+        <p class="section-eyebrow" data-reveal><b>§</b><i></i>Kisah</p>
         <div class="story-chapters">
             <div class="story-chapter" data-reveal>
-                <span class="story-era">Abad ke-8</span>
-                <h3>Candi Borobudur</h3>
-                <p>Relief candi menunjukan ansambel musik perunggu — cikal bakal gamelan yang kita kenal.</p>
+                <span class="story-era">Sumatera</span>
+                <h3>Talempong Minang</h3>
+                <p>Gong-gong kecil dari tanah Minangkabau, dimainkan dengan irama rancak yang lincah.</p>
             </div>
             <div class="story-chapter" data-reveal>
-                <span class="story-era">Abad ke-14</span>
-                <h3>Majapahit</h3>
-                <p>Gamelan jadi musik istana. Gong ageng menandai kekuasaan raja.</p>
+                <span class="story-era">Jawa & Bali</span>
+                <h3>Gamelan Perunggu</h3>
+                <p>Orkestra perunggu dari keraton — gong ageng, kenong, saron dalam harmoni berlapis.</p>
             </div>
             <div class="story-chapter" data-reveal>
-                <span class="story-era">Kini</span>
-                <h3>Arsip Hidup</h3>
-                <p>MuSantara mendigitalkan bunyi-bunyi ini agar tak hilang ditelan zaman.</p>
+                <span class="story-era">Kalimantan</span>
+                <h3>Sampe Dayak</h3>
+                <p>Kecapi Dayak yang dipetik, mengiringi tarian dan ritual hutan Kalimantan.</p>
+            </div>
+            <div class="story-chapter" data-reveal>
+                <span class="story-era">Sulawesi</span>
+                <h3>Kolintang</h3>
+                <p>Xylophone kayu dari Minahasa, nadanya ceria seperti matahari timur.</p>
+            </div>
+            <div class="story-chapter" data-reveal>
+                <span class="story-era">Maluku & Papua</span>
+                <h3>Tifa</h3>
+                <p>Gendang satu sisi yang menghentak — jantungnya upacara adat timur Indonesia.</p>
             </div>
         </div>
     </div>
@@ -68,13 +78,13 @@
 {{-- ═══════════ TIMELINE ═══════════ --}}
 <section class="timeline-section" id="linimasa">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>◷</b><i></i>Linimasa <span class="aksara" lang="jv">ꦭꦶꦤꦶꦩꦱ</span></p>
+        <p class="section-eyebrow" data-reveal><b>◷</b><i></i>Linimasa</p>
         <h2 class="section-head" data-reveal>Perjalanan <em>bunyinya.</em></h2>
         <div class="timeline-track" data-reveal>
-            <div class="tl-item"><span class="tl-year">700an</span><span class="tl-dot"></span><p>Gamelan perunggu di relief Borobudur</p></div>
-            <div class="tl-item"><span class="tl-year">1300an</span><span class="tl-dot"></span><p>Era Majapahit, gong ageng istana</p></div>
-            <div class="tl-item"><span class="tl-year">1800an</span><span class="tl-dot"></span><p>Gamelan menyebar ke rakyat</p></div>
-            <div class="tl-item"><span class="tl-year">2026</span><span class="tl-dot"></span><p>MuSantara mengarsipkan digital</p></div>
+            <div class="tl-item"><span class="tl-year">Barat</span><span class="tl-dot"></span><p>Talempong & saluang dari Sumatera</p></div>
+            <div class="tl-item"><span class="tl-year">Tengah</span><span class="tl-dot"></span><p>Gamelan & angklung Jawa-Bali-Sunda</p></div>
+            <div class="tl-item"><span class="tl-year">Timur</span><span class="tl-dot"></span><p>Kolintang, tifa, sampe</p></div>
+            <div class="tl-item"><span class="tl-year">Kini</span><span class="tl-dot"></span><p>MuSantara mengarsipkan semuanya</p></div>
         </div>
     </div>
 </section>
@@ -82,7 +92,7 @@
 {{-- ═══════════ RUANG BUNYI ═══════════ --}}
 <section class="bunyi-section" id="arsip-bunyi">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi <span class="aksara" lang="jv">ꦫꦸꦮꦁꦧꦸꦚꦶ</span><span class="aksara-bg" aria-hidden="true">ꦒꦩꦼꦭꦤ꧀</span></p>
+        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi</p>
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
         <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
         <button id="ambient-toggle" class="ambient-btn" data-reveal><i>♪</i> <span>Ambient</span></button>
@@ -148,7 +158,7 @@
 {{-- ═══════════ TELUSURI ═══════════ --}}
 <section class="search-section" id="telusuri">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip <span class="aksara" lang="jv">ꦠꦼꦭꦸꦱꦸꦫꦶ</span><span class="aksara-bg" aria-hidden="true">ꦠꦼꦭꦸꦱꦸꦫꦶ</span></p>
+        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip</p>
         <h2 class="section-head" data-reveal>Cari alatnya <em>langsung.</em></h2>
         <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
         @include('components.search-box')
@@ -158,7 +168,7 @@
 {{-- ═══════════ PULAU ═══════════ --}}
 <section class="map-section" id="pulau">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah <span class="aksara" lang="jv">ꦥꦸꦭꦺꦴ</span><span class="aksara-bg" aria-hidden="true">ꦤꦸꦱꦤ꧀ꦠꦫ</span></p>
+        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah</p>
         <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
         @include('partials.map')
         <div id="tooltip" class="map-tooltip"></div>
@@ -170,7 +180,7 @@
     <div class="container">
         <div class="koleksi-head">
             <div>
-                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan <span class="aksara" lang="jv">ꦏꦺꦴꦭꦺꦏ꧀ꦱꦶ</span><span class="aksara-bg" aria-hidden="true">ꦏꦺꦴꦭꦺꦏ꧀ꦱꦶ</span></p>
+                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan</p>
                 <h2 class="section-head" data-reveal>Buka <em>arsipnya.</em></h2>
             </div>
             <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
@@ -189,7 +199,7 @@
 {{-- ═══════════ QUIZ ═══════════ --}}
 <section class="quiz-invite">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>05</b><i></i>Uji Telinga <span class="aksara" lang="jv">ꦠꦼꦱ꧀</span></p>
+        <p class="section-eyebrow" data-reveal><b>05</b><i></i>Uji Telinga</p>
         <h2 class="section-head" data-reveal>Seberapa kenal kamu <em>dengannya?</em></h2>
         <p class="quiz-sub">Tujuh pertanyaan. Satu arsip penuh bunyi.</p>
         <div class="quiz-cta">
