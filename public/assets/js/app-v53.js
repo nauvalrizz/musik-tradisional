@@ -116,8 +116,18 @@ setTimeout(() => {
     var current = 0;
     function update() {
         pages.forEach(function(pg, i) {
-            pg.classList.toggle('flipped', i < current);
             pg.style.zIndex = pages.length - Math.abs(i - current);
+            if (i < current) {
+                if (!pg.classList.contains('flipped')) {
+                    pg.classList.add('flipping');
+                    setTimeout(function() {
+                        pg.classList.remove('flipping');
+                        pg.classList.add('flipped');
+                    }, 550);
+                }
+            } else {
+                pg.classList.remove('flipped', 'flipping');
+            }
         });
         prev.disabled = current === 0;
         next.disabled = current === pages.length - 1;
