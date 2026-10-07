@@ -33,6 +33,7 @@ Route::get('/admin/statistik', [StatistikController::class, 'index']);
 
 Route::get('/pulau/{slug}', [PulauController::class, 'show']);
 
+Route::get('/acak', [AlatController::class, 'acak']);
 Route::get('/alat/{id}', [AlatController::class, 'show']);
 
 Route::post('/quiz/submit', [QuizController::class, 'submit']);

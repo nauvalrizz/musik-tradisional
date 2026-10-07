@@ -56,7 +56,16 @@
                 <span class="pad-name">Bonang</span>
             </button>
         </div>
-        <p class="gamelan-hint hero-anim" style="--d:0.55s">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
+        <div class="rec-bar hero-anim" style="--d:0.55s">
+            <button type="button" id="btnRec" class="rec-btn rec-record" aria-label="Rekam tabuhan">
+                <i></i><span>Rekam</span>
+            </button>
+            <button type="button" id="btnPlay" class="rec-btn rec-play" aria-label="Putar rekaman">
+                <b>&#9654;</b><span>Putar</span>
+            </button>
+            <p class="rec-status" id="recStatus">Ketuk Rekam, mainkan alatnya</p>
+        </div>
+        <p class="gamelan-hint hero-anim" style="--d:0.6s">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
     </div>
     <p class="scroll-cue" aria-hidden="true"><span></span>Gulir ke bawah</p>
 </section>
@@ -92,8 +101,16 @@
 {{-- ═══════════ KOLEKSI ═══════════ --}}
 <section class="koleksi" id="koleksi">
     <div class="container">
-        <p class="section-eyebrow">Koleksi Pilihan</p>
-        <h2 class="section-head">Buka <em>arsipnya.</em></h2>
+        <div class="koleksi-head">
+            <div>
+                <p class="section-eyebrow">Koleksi Pilihan</p>
+                <h2 class="section-head">Buka <em>arsipnya.</em></h2>
+            </div>
+            <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
+                <span class="dice" aria-hidden="true">&#9860;</span>
+                Jelajah Acak
+            </a>
+        </div>
         <div class="koleksi-grid">
             @foreach($featured as $item)
                 @include('components.card', ['item' => $item])

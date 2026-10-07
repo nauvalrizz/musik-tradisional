@@ -100,12 +100,30 @@ class AlatController extends Controller
 
         shuffle($opsi);
 
+        // ===== ALAT TERKAIT: satu pulau atau satu sumber bunyi =====
+        $terkait = AlatMusik::with('pulau')
+            ->where('id', '!=', $alat->id)
+            ->where(function ($q) use ($alat) {
+                $q->where('pulau_id', $alat->pulau_id)
+                    ->orWhere('sumber_bunyi', $alat->sumber_bunyi);
+            })
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
         return view('pages.detail', compact(
             'alat',
             'pertanyaan',
             'jawabanBenar',
             'opsi',
-            'tipeSoal'
+            'tipeSoal',
+            'terkait'
         ));
+    }
+
+    public function acak()
+    {
+        $alat = AlatMusik::inRandomOrder()->firstOrFail();
+        return redirect('/alat/' . $alat->id);
     }
 }

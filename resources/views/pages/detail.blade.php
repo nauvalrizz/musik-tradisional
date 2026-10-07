@@ -75,14 +75,22 @@
                         {!! nl2br(e($alat->deskripsi)) !!}
                     </p>
 
-                    @if ($alat->audio)
-                        <div class="audio-box" data-reveal>
-                            <h3>Dengarkan Suara</h3>
+                    <div class="audio-box" data-reveal>
+                        <h3>Dengarkan Suara</h3>
+                        @if ($alat->audio)
                             <audio controls>
                                 <source src="{{ audio_alat($alat->audio) }}" type="audio/mpeg">
                             </audio>
-                        </div>
-                    @endif
+                        @else
+                            <button type="button" id="btnSynth" class="synth-btn"
+                                data-sumber="{{ $alat->sumber_bunyi ?? 'Idiofon' }}">
+                                <span class="synth-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                                Putar karakter bunyi
+                                <small>{{ $alat->sumber_bunyi ?? 'Idiofon' }} &middot; sintetis</small>
+                            </button>
+                            <p class="synth-note">Rekaman asli belum tersedia — ini sintesis karakter bunyinya.</p>
+                        @endif
+                    </div>
                 </div>
 
                 <aside class="detail-side" data-reveal>
@@ -93,6 +101,26 @@
                     </button>
                 </aside>
             </div>
+
+            @if ($terkait->count())
+                <section class="terkait" data-reveal>
+                    <div class="terkait-head">
+                        <div>
+                            <p class="section-eyebrow">Jelajah Lebih Jauh</p>
+                            <h2 class="section-head">Arsip <em>terkait.</em></h2>
+                        </div>
+                        <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
+                            <span class="dice" aria-hidden="true">&#9860;</span>
+                            Jelajah Acak
+                        </a>
+                    </div>
+                    <div class="koleksi-grid">
+                        @foreach ($terkait as $item)
+                            @include('components.card', ['item' => $item])
+                        @endforeach
+                    </div>
+                </section>
+            @endif
         </article>
 
         <!-- QUIZ -->
@@ -128,4 +156,8 @@
         </div>
 
     </div>
+@push('scripts')
+    <script src="{{ asset('assets/js/detail-synth.js') }}?v=11"></script>
+@endpush
+
 @endsection

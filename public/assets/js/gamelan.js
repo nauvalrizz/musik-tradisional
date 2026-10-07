@@ -47,23 +47,96 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function hitPad(pad) {
+        var freq = parseFloat(pad.dataset.freq);
+        var inst = pad.dataset.instrument;
+        strike(freq, inst);
+        // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
+        if (inst === 'angklung') {
+            setTimeout(function () { strike(freq * 1.005, inst); }, 90);
+        }
+
+        var ripple = document.createElement('span');
+        ripple.className = 'pad-ripple';
+        pad.appendChild(ripple);
+        setTimeout(function () { ripple.remove(); }, 700);
+
+        pad.classList.add('struck');
+        setTimeout(function () { pad.classList.remove('struck'); }, 320);
+
+        // rekam ketukan
+        if (recState.recording) {
+            recState.events.push({
+                idx: Array.prototype.indexOf.call(pads, pad),
+                t: Date.now() - recState.start
+            });
+            updateRecUI();
+        }
+    }
+
     pads.forEach(function (pad) {
-        pad.addEventListener('pointerdown', function () {
-            var freq = parseFloat(pad.dataset.freq);
-            var inst = pad.dataset.instrument;
-            strike(freq, inst);
-            // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
-            if (inst === 'angklung') {
-                setTimeout(function () { strike(freq * 1.005, inst); }, 90);
-            }
-
-            var ripple = document.createElement('span');
-            ripple.className = 'pad-ripple';
-            pad.appendChild(ripple);
-            setTimeout(function () { ripple.remove(); }, 700);
-
-            pad.classList.add('struck');
-            setTimeout(function () { pad.classList.remove('struck'); }, 320);
-        });
+        pad.addEventListener('pointerdown', function () { hitPad(pad); });
     });
+
+    /* ================= MODE REKAM ================= */
+    var recState = { recording: false, playing: false, events: [], start: 0, timers: [] };
+    var btnRec = document.getElementById('btnRec');
+    var btnPlay = document.getElementById('btnPlay');
+    var recStatus = document.getElementById('recStatus');
+
+    function updateRecUI() {
+        if (!btnRec || !btnPlay || !recStatus) return;
+        btnRec.classList.toggle('rec-on', recState.recording);
+        btnRec.querySelector('span').textContent = recState.recording ? 'Berhenti' : 'Rekam';
+        btnPlay.disabled = recState.recording || recState.playing || recState.events.length === 0;
+        if (recState.recording) {
+            recStatus.textContent = 'Merekam… ' + recState.events.length + ' ketukan';
+        } else if (recState.playing) {
+            recStatus.textContent = 'Memutar…';
+        } else if (recState.events.length) {
+            recStatus.textContent = recState.events.length + ' ketukan terekam';
+        } else {
+            recStatus.textContent = 'Ketuk Rekam, mainkan alatnya';
+        }
+    }
+
+    function stopPlayback() {
+        recState.timers.forEach(clearTimeout);
+        recState.timers = [];
+        recState.playing = false;
+        updateRecUI();
+    }
+
+    if (btnRec) {
+        btnRec.addEventListener('click', function () {
+            if (recState.playing) stopPlayback();
+            recState.recording = !recState.recording;
+            if (recState.recording) {
+                recState.events = [];
+                recState.start = Date.now();
+            }
+            updateRecUI();
+        });
+    }
+
+    if (btnPlay) {
+        btnPlay.addEventListener('click', function () {
+            if (!recState.events.length || recState.playing) return;
+            if (recState.recording) {
+                recState.recording = false;
+            }
+            recState.playing = true;
+            updateRecUI();
+            recState.events.forEach(function (ev) {
+                recState.timers.push(setTimeout(function () {
+                    var pad = pads[ev.idx];
+                    if (pad) hitPad(pad);
+                }, ev.t));
+            });
+            var total = recState.events[recState.events.length - 1].t + 600;
+            recState.timers.push(setTimeout(stopPlayback, total));
+        });
+    }
+
+    updateRecUI();
 });

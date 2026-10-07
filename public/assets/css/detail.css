@@ -463,3 +463,96 @@ a {
     .detail-hero-text { padding: 28px 24px; }
     .detail-hero-text { padding: 24px; }
 }
+
+/* --- tombol karakter bunyi sintetis --- */
+.synth-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 24px;
+    background: #1a1409;
+    border: 1px solid var(--bronze);
+    border-radius: 6px;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.15s ease;
+    text-align: left;
+}
+.synth-btn:hover { background: #241b0d; }
+.synth-btn:active { transform: scale(0.97); }
+.synth-btn small {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 3px;
+}
+.synth-wave { display: inline-flex; align-items: flex-end; gap: 3px; height: 26px; }
+.synth-wave i {
+    width: 4px;
+    background: var(--bronze-hi);
+    border-radius: 2px;
+    height: 8px;
+    transition: height 0.2s ease;
+}
+.synth-wave i:nth-child(1) { height: 10px; }
+.synth-wave i:nth-child(2) { height: 18px; }
+.synth-wave i:nth-child(3) { height: 26px; }
+.synth-wave i:nth-child(4) { height: 14px; }
+.synth-btn.playing .synth-wave i { animation: waveDance 0.5s ease-in-out infinite alternate; }
+.synth-btn.playing .synth-wave i:nth-child(2) { animation-delay: 0.12s; }
+.synth-btn.playing .synth-wave i:nth-child(3) { animation-delay: 0.24s; }
+.synth-btn.playing .synth-wave i:nth-child(4) { animation-delay: 0.36s; }
+@keyframes waveDance { from { height: 6px; } to { height: 26px; } }
+.synth-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+}
+
+/* --- arsip terkait --- */
+.terkait { margin-top: 80px; }
+.terkait-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+.acak-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border: 1px dashed var(--bronze);
+    border-radius: 4px;
+    color: var(--bronze-hi);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s ease, border-style 0.25s ease;
+    white-space: nowrap;
+}
+.acak-btn:hover { background: rgba(201,151,63,0.1); border-style: solid; }
+.acak-btn .dice { font-size: 20px; line-height: 1; }
+.acak-btn:hover .dice { animation: diceRoll 0.6s ease; }
+@keyframes diceRoll {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+}
+.koleksi-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}

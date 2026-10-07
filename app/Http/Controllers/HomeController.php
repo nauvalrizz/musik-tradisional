@@ -19,8 +19,10 @@ class HomeController extends Controller
     {
         $q = $request->q;
         $kategori = $request->kategori;
+        $pulau = $request->pulau;
+        $sumber = $request->sumber;
 
-        $query = AlatMusik::query();
+        $query = AlatMusik::with('pulau');
 
         if ($q) {
             $query->where('nama', 'like', "%$q%");
@@ -30,9 +32,20 @@ class HomeController extends Controller
             $query->where('kategori', $kategori);
         }
 
-        $data = $query->paginate(12);
+        if ($pulau) {
+            $query->where('pulau_id', $pulau);
+        }
 
-        return view('pages.search', compact('data', 'q', 'kategori'));
+        if ($sumber) {
+            $query->where('sumber_bunyi', $sumber);
+        }
+
+        $data = $query->paginate(12)->withQueryString();
+
+        $pulaus = \App\Models\Pulau::orderBy('nama')->get();
+        $sumbers = AlatMusik::distinct()->orderBy('sumber_bunyi')->pluck('sumber_bunyi');
+
+        return view('pages.search', compact('data', 'q', 'kategori', 'pulau', 'sumber', 'pulaus', 'sumbers'));
     }
     public function liveSearch(Request $request)
 {

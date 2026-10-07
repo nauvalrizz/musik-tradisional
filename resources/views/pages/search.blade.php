@@ -14,11 +14,37 @@
                 @if ($q)
                     untuk &ldquo;{{ $q }}&rdquo;
                 @endif
-                @if (!empty($kategori))
-                    &middot; Kategori: <strong>{{ $kategori }}</strong>
-                @endif
             </p>
         </div>
+
+        <form method="GET" action="{{ url('/search') }}" class="filter-bar" data-reveal>
+            <input type="hidden" name="q" value="{{ $q }}">
+            <label class="filter-field">
+                <span>Pulau</span>
+                <select name="pulau" onchange="this.form.submit()">
+                    <option value="">Semua</option>
+                    @foreach ($pulaus as $pl)
+                        <option value="{{ $pl->id }}" {{ (string) $pulau === (string) $pl->id ? 'selected' : '' }}>
+                            {{ $pl->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </label>
+            <label class="filter-field">
+                <span>Sumber Bunyi</span>
+                <select name="sumber" onchange="this.form.submit()">
+                    <option value="">Semua</option>
+                    @foreach ($sumbers as $sb)
+                        <option value="{{ $sb }}" {{ $sumber === $sb ? 'selected' : '' }}>
+                            {{ $sb }}
+                        </option>
+                    @endforeach
+                </select>
+            </label>
+            @if ($pulau || $sumber)
+                <a href="{{ url('/search?q=' . urlencode($q ?? '')) }}" class="filter-reset">Atur ulang</a>
+            @endif
+        </form>
 
         <div class="row g-4 mt-4">
 

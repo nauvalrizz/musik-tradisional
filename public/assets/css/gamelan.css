@@ -174,3 +174,56 @@
 @media (prefers-reduced-motion: reduce) {
     .gamelan-pad { animation: none; }
 }
+
+/* --- MODE REKAM --- */
+.rec-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+.rec-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.rec-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.rec-record i {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background 0.25s ease;
+}
+.rec-record:hover { border-color: var(--bronze); }
+.rec-record.rec-on { border-color: #c1543c; color: #e8a49a; }
+.rec-record.rec-on i {
+    background: #c1543c;
+    animation: recBlink 1s ease-in-out infinite;
+}
+@keyframes recBlink { 50% { opacity: 0.35; } }
+.rec-play b { font-size: 11px; color: var(--bronze-hi); font-style: normal; }
+.rec-play:hover:not(:disabled) { border-color: var(--bronze); background: rgba(201,151,63,0.08); }
+.rec-status {
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin: 0;
+    min-width: 200px;
+    text-align: left;
+}
+@media (max-width: 640px) {
+    .rec-status { min-width: 0; width: 100%; text-align: center; }
+}

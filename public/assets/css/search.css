@@ -296,3 +296,50 @@ body.search-active .search-section {
     line-height: 1.7;
 }
 .search-sub b { color: var(--bronze-hi); font-weight: 600; }
+
+/* --- filter bar --- */
+.filter-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 26px 0 8px;
+    padding: 18px 20px;
+    background: #161009;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+}
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+}
+.filter-field span {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+.filter-field select {
+    background: #0f0c07;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-size: 14px;
+    min-width: 170px;
+    cursor: pointer;
+}
+.filter-field select:focus {
+    outline: none;
+    border-color: var(--bronze);
+}
+.filter-reset {
+    font-size: 13px;
+    color: var(--bronze-hi);
+    text-decoration: none;
+    padding: 9px 4px;
+    border-bottom: 1px solid var(--bronze);
+}
+.filter-reset:hover { color: #ffe9b8; }
