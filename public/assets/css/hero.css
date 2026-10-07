@@ -239,3 +239,15 @@
 .gallery-hero.hero-leaving .hero-meta { opacity: 0; transition-delay: .1s; }
 .gallery-hero.hero-leaving .gallery-fig { transform: scale(1.08); }
 .gallery-fig { transition: transform .6s ease; }
+
+/* v32 — kenong traveler */
+.kenong-traveler {
+    position: fixed; top: 0; left: 0; z-index: 900;
+    width: 220px; height: 220px; border-radius: 50%;
+    overflow: hidden; opacity: 0; pointer-events: none;
+    transition: opacity .4s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 40px rgba(201,151,63,.3);
+    border: 3px solid rgba(201,151,63,.5);
+}
+.kenong-traveler img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-fig { transition: opacity .4s ease, transform .6s ease; }
