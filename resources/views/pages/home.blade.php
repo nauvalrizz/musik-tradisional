@@ -44,7 +44,7 @@
 {{-- ═══════════ RUANG BUNYI ═══════════ --}}
 <section class="bunyi-section" id="arsip-bunyi">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi <span class="aksara" lang="jv">ꦫꦸꦮꦁꦧꦸꦚꦶ</span></p>
+        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi <span class="aksara" lang="jv">ꦫꦸꦮꦁꦧꦸꦚꦶ</span><span class="aksara-bg" aria-hidden="true">ꦒꦩꦼꦭꦤ꧀</span></p>
         <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
         <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
 
@@ -109,7 +109,7 @@
 {{-- ═══════════ TELUSURI ═══════════ --}}
 <section class="search-section" id="telusuri">
     <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip <span class="aksara" lang="jv">ꦠꦼꦭꦸꦱꦸꦫꦶ</span></p>
+        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip <span class="aksara" lang="jv">ꦠꦼꦭꦸꦱꦸꦫꦶ</span><span class="aksara-bg" aria-hidden="true">ꦠꦼꦭꦸꦱꦸꦫꦶ</span></p>
         <h2 class="section-head" data-reveal>Cari alatnya <em>langsung.</em></h2>
         <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
         @include('components.search-box')
@@ -119,7 +119,7 @@
 {{-- ═══════════ PULAU ═══════════ --}}
 <section class="map-section" id="pulau">
     <div class="container">
-        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah <span class="aksara" lang="jv">ꦥꦸꦭꦺꦴ</span></p>
+        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah <span class="aksara" lang="jv">ꦥꦸꦭꦺꦴ</span><span class="aksara-bg" aria-hidden="true">ꦤꦸꦱꦤ꧀ꦠꦫ</span></p>
         <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
         @include('partials.map')
         <div id="tooltip" class="map-tooltip"></div>
@@ -131,7 +131,7 @@
     <div class="container">
         <div class="koleksi-head">
             <div>
-                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan <span class="aksara" lang="jv">ꦏꦺꦴꦭꦺꦏ꧀ꦱꦶ</span></p>
+                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan <span class="aksara" lang="jv">ꦏꦺꦴꦭꦺꦏ꧀ꦱꦶ</span><span class="aksara-bg" aria-hidden="true">ꦏꦺꦴꦭꦺꦏ꧀ꦱꦶ</span></p>
                 <h2 class="section-head" data-reveal>Buka <em>arsipnya.</em></h2>
             </div>
             <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>

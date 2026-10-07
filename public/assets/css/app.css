@@ -870,3 +870,13 @@ html { scroll-behavior: smooth; }
     letter-spacing: .02em; margin-left: 8px;
     vertical-align: baseline;
 }
+/* v47 — Aksara RAKSASA background */
+.section-eyebrow { position: relative; overflow: visible; }
+.aksara-bg {
+    font-family: 'Noto Sans Javanese', serif;
+    position: absolute; right: 0; top: -40px;
+    font-size: clamp(80px, 14vw, 180px);
+    color: rgba(201,151,63,.10);
+    line-height: 1; pointer-events: none; user-select: none;
+    z-index: 0;
+}
