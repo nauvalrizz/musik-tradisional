@@ -33,8 +33,6 @@ html.js [data-reveal].in { opacity: 1; transform: none; }
 }
 .flip-front,
 .flip-back {
-    position: absolute;
-    inset: 0;
     display: block;
     overflow: hidden;
     border-radius: 4px;
@@ -42,6 +40,12 @@ html.js [data-reveal].in { opacity: 1; transform: none; }
     -webkit-backface-visibility: hidden;
     border: 1px solid var(--line);
     background: var(--card);
+}
+/* depan menentukan tinggi kartu (in-flow); belakang menutupinya */
+.flip-front { position: relative; }
+.flip-back {
+    position: absolute;
+    inset: 0;
 }
 
 /* ---------- DEPAN ---------- */

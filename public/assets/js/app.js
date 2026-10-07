@@ -107,3 +107,35 @@ setTimeout(() => {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 })();
+
+// ================= OMBAK PARALLAX =================
+// Lapisan ombak bergeser halus mengikuti kursor (beda kedalaman
+// tiap lapis). Hanya transform — ringan untuk GPU.
+(function () {
+    var layers = document.querySelectorAll('.ombak-layer');
+    if (!layers.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+    document.addEventListener('pointermove', function (e) {
+        tx = e.clientX / window.innerWidth - 0.5;
+        ty = e.clientY / window.innerHeight - 0.5;
+        if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: true });
+
+    function tick() {
+        cx += (tx - cx) * 0.045;
+        cy += (ty - cy) * 0.045;
+        layers.forEach(function (layer, i) {
+            var depth = (i + 1) * 16;
+            layer.style.translate = (cx * depth).toFixed(1) + 'px ' + (cy * depth * 0.6).toFixed(1) + 'px';
+        });
+        if (Math.abs(tx - cx) > 0.0005 || Math.abs(ty - cy) > 0.0005) {
+            raf = requestAnimationFrame(tick);
+        } else {
+            raf = null;
+        }
+    }
+})();
