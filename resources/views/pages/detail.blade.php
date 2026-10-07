@@ -38,27 +38,29 @@
         @endif
 
         <article class="detail">
-            {{-- HERO sinematik --}}
+            {{-- HERO arsip: foto terkontain + blok judul --}}
             <header class="detail-hero" data-reveal>
-                @if ($alat->gambar)
-                    <img id="previewImg" data-zoom src="{{ gambar_alat($alat->gambar) }}"
-                        alt="{{ $alat->nama }}" loading="lazy">
-                @endif
-                <div class="detail-hero-shade"></div>
+                <div class="detail-hero-media">
+                    @if ($alat->gambar)
+                        <img id="previewImg" data-zoom src="{{ gambar_alat($alat->gambar) }}"
+                            alt="{{ $alat->nama }}" loading="lazy">
+                    @endif
+                    <div class="detail-hero-shade"></div>
+                    @if ($alat->sumber_gambar)
+                        <div class="atribusi-overlay">
+                            Sumber:
+                            <a href="{{ $alat->sumber_gambar }}" target="_blank">
+                                {{ $alat->author ?? 'Wikimedia Commons' }}
+                            </a><br>
+                            Lisensi: {{ $alat->license ?? 'Lihat di sumber' }}
+                        </div>
+                    @endif
+                </div>
                 <div class="detail-hero-text">
                     <p class="specimen-no">Arsip № {{ str_pad($alat->id, 3, '0', STR_PAD_LEFT) }}</p>
                     <h1>{{ $alat->nama }}</h1>
                     <p class="detail-origin">{{ optional($alat->pulau)->nama ?? 'Nusantara' }}</p>
                 </div>
-                @if ($alat->sumber_gambar)
-                    <div class="atribusi-overlay">
-                        Sumber:
-                        <a href="{{ $alat->sumber_gambar }}" target="_blank">
-                            {{ $alat->author ?? 'Wikimedia Commons' }}
-                        </a><br>
-                        Lisensi: {{ $alat->license ?? 'Lihat di sumber' }}
-                    </div>
-                @endif
             </header>
 
             <div class="detail-grid">

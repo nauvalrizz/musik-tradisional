@@ -4,11 +4,11 @@
 
 {{-- ═══════════ TABUHAN PEMBUKA — intro homepage ═══════════ --}}
 <div id="tabuhan" aria-hidden="true">
-    <span class="tabuhan-word w1">ANGKLUNG</span>
+    <span class="tabuhan-medal m1"><img src="{{ asset('storage/img/angklung.jpg') }}" alt=""></span>
     <span class="tabuhan-flash f1"></span>
-    <span class="tabuhan-word w2">SARON</span>
+    <span class="tabuhan-medal m2"><img src="{{ asset('storage/img/bonang.jpg') }}" alt=""></span>
     <span class="tabuhan-flash f2"></span>
-    <span class="tabuhan-word w3">BONANG</span>
+    <span class="tabuhan-medal m3"><img src="{{ asset('storage/img/gong.jpg') }}" alt=""></span>
     <span class="tabuhan-flash f3"></span>
     <span class="tabuhan-burst"></span>
     <span class="tabuhan-brand">MUSANTARA</span>

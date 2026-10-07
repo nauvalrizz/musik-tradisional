@@ -87,6 +87,7 @@ setTimeout(() => {
     function finish() {
         if (done) return;
         done = true;
+        try { sessionStorage.setItem('tabuhan_shown', '1'); } catch (e) {}
         if (t.parentNode) t.parentNode.removeChild(t);
     }
     t.addEventListener('animationend', function (e) {

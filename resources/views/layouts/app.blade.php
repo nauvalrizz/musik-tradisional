@@ -8,6 +8,13 @@
     <title>@yield('title', 'Musik Nusantara')</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        try {
+            if (sessionStorage.getItem('tabuhan_shown')) {
+                document.documentElement.classList.add('tabuhan-done');
+            }
+        } catch (e) {}
+    </script>
 
     <!-- ✅ BOOTSTRAP (HARUS DULU) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,22 +26,22 @@
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/intro.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/cursor.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/gamelan.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/map.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/detail.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-modal.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-global.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-result.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/animation.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/tutorial.css') }}?v=8">
-    <link rel="stylesheet" href="{{ asset('assets/css/pagination.css') }}?v=8">
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/intro.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/cursor.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/gamelan.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/map.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/detail.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/quiz-modal.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/quiz-global.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/quiz-result.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/animation.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/tutorial.css') }}?v=9">
+    <link rel="stylesheet" href="{{ asset('assets/css/pagination.css') }}?v=9">
 </head>
 
 <body>
@@ -71,21 +78,21 @@
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
 
     <!-- ================= CUSTOM JS ================= -->
-    <script src="{{ asset('assets/js/tooltip.js') }}?v=8" defer></script>
-    <script src="{{ asset('assets/js/quiz.js') }}?v=8" defer></script>
+    <script src="{{ asset('assets/js/tooltip.js') }}?v=9" defer></script>
+    <script src="{{ asset('assets/js/quiz.js') }}?v=9" defer></script>
 
     <!-- ================= MAIN ================= -->
-    <script type="module" src="{{ asset('assets/js/app.js') }}?v=8"></script>
+    <script type="module" src="{{ asset('assets/js/app.js') }}?v=9"></script>
     <!-- ================= TUTORIAL ================= -->
-    <script src="{{ asset('assets/js/tutorial.js') }}?v=8" defer></script>
+    <script src="{{ asset('assets/js/tutorial.js') }}?v=9" defer></script>
     <!-- ================= MAP ================= -->
-    <script src="{{ asset('assets/js/map.js') }}?v=8" defer></script>
+    <script src="{{ asset('assets/js/map.js') }}?v=9" defer></script>
 
-    <script src="{{ asset('assets/js/search.js') }}?v=8"></script>
-    <script src="{{ asset('assets/js/intro.js') }}?v=8" defer></script>
-    <script src="{{ asset('assets/js/cursor.js') }}?v=8" defer></script>
-    <script src="{{ asset('assets/js/reveal.js') }}?v=8" defer></script>
-    <script src="{{ asset('assets/js/gamelan.js') }}?v=8" defer></script>
+    <script src="{{ asset('assets/js/search.js') }}?v=9"></script>
+    <script src="{{ asset('assets/js/intro.js') }}?v=9" defer></script>
+    <script src="{{ asset('assets/js/cursor.js') }}?v=9" defer></script>
+    <script src="{{ asset('assets/js/reveal.js') }}?v=9" defer></script>
+    <script src="{{ asset('assets/js/gamelan.js') }}?v=9" defer></script>
 
     @stack('scripts')
 
