@@ -727,9 +727,9 @@ footer {
     .ombak-layer { animation: none; }
 }
 
-/* ================= v16 — BATIK MEGA MENDUNG ================= */
-/* Awan mega mendung (Cirebon): berlapis, kalem. Polanya "disenter"
-   kursor — bagian dekat cursor menyala, sisanya samar. */
+/* ================= v17 — BATIK MEGA MENDUNG ================= */
+/* Awan berlapis gaya Cirebon: daun kontur konsentris, baris zig-zag.
+   Kalem, merata — tanpa senter agar fokus tetap ke konten. */
 .batik-bg {
     position: fixed;
     inset: 0;
@@ -737,33 +737,22 @@ footer {
     pointer-events: none;
     overflow: hidden;
 }
-.batik-bg svg {
+.mega-base {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    left: -360px;
+    width: calc(100% + 360px);
     height: 100%;
     display: block;
-}
-.mega-base {
-    opacity: 0.055;
-    left: -300px;
-    width: calc(100% + 300px);
-    animation: megaDrift 160s linear infinite;
+    opacity: 0.075;
+    animation: megaDrift 170s linear infinite;
+    will-change: translate;
 }
 @keyframes megaDrift {
     from { transform: translateX(0); }
-    to   { transform: translateX(-300px); }
-}
-/* lapisan terang: hanya terlihat di sekitar kursor (mask senter) */
-.megamendung-lit {
-    --mx: 50vw;
-    --my: 40vh;
-    opacity: 0.5;
-    -webkit-mask-image: radial-gradient(circle 280px at var(--mx) var(--my), #000 0%, transparent 72%);
-    mask-image: radial-gradient(circle 280px at var(--mx) var(--my), #000 0%, transparent 72%);
+    to   { transform: translateX(-360px); }
 }
 @media (prefers-reduced-motion: reduce) {
     .mega-base { animation: none; }
-    .megamendung-lit { display: none; }
+}
 }
 }
