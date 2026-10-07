@@ -30,15 +30,8 @@ body {
     transition: opacity 0.3s ease;
 }
 
-/* fade in */
-body:not(.loaded) {
-    opacity: 0;
-}
-
-/* fade out */
-body.fade-out {
-    opacity: 0;
-}
+/* v6 — tidak ada lagi opacity gating: halaman selalu terlihat,
+   tidak bergantung JS. Entrance di-handle per-section via CSS. */
 
 /* ---- film grain: satu-satunya "efek" global ---- */
 body::before {

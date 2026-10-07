@@ -5,7 +5,6 @@ import initImageModal from './image-modal.js';
 
 // ================= INIT =================
 document.addEventListener('DOMContentLoaded', () => {
-    document.body.classList.add('loaded');
     initImageModal();
 });
 
@@ -28,8 +27,6 @@ document.addEventListener('click', function (e) {
 
     e.preventDefault();
 
-    // 🔥 tandain ini navigation biasa
-    sessionStorage.setItem('navType', 'normal');
 
     const loader = document.getElementById('topLoader');
 
@@ -43,7 +40,6 @@ document.addEventListener('click', function (e) {
         }, 10);
     }
 
-    document.body.classList.add('fade-out');
 
     setTimeout(() => {
         if (loader) loader.style.width = '100%';
@@ -63,12 +59,10 @@ window.addEventListener('load', () => {
         }, 300);
     }
 
-    document.body.classList.remove('fade-out');
 });
 
 // ================= BACK BUTTON FIX =================
 window.addEventListener('pageshow', () => {
-    document.body.classList.remove('fade-out');
 
     const loader = document.getElementById('topLoader');
     if (loader) loader.style.width = '0%';
@@ -81,5 +75,4 @@ AOS.init({
 });
 
 setTimeout(() => {
-    document.body.classList.remove('fade-out');
 }, 1000);
