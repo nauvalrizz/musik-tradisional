@@ -237,8 +237,7 @@
 .gallery-hero.hero-leaving .hero-title { opacity: 0; transform: translateY(-60px); }
 .gallery-hero.hero-leaving .hero-sub { opacity: 0; transform: translateY(-40px); transition-delay: .05s; }
 .gallery-hero.hero-leaving .hero-meta { opacity: 0; transition-delay: .1s; }
-.gallery-hero.hero-leaving .gallery-fig { transform: scale(1.08); }
-.gallery-fig { transition: transform .6s ease; }
+.gallery-hero.hero-leaving .gallery-fig { }
 
 /* v32 — kenong traveler */
 .kenong-traveler {

@@ -17,10 +17,6 @@
             nav.classList.toggle('scrolled', y > 40);
         }
 
-        /* Parallax: foto hero bergerak lebih lambat */
-        if (fig && y < window.innerHeight * 1.2) {
-            fig.style.transform = 'translateY(' + Math.round(y * 0.4) + 'px)';
-        }
         /* Hero leaving: konten fade saat scroll */
         if (hero) {
             hero.classList.toggle('hero-leaving', y > window.innerHeight * 0.35);
@@ -82,7 +78,7 @@
     }
 })();
 
-/* v32 — KENONG TRAVELER: morph beneran. Foto hero terbang turun jadi tombol kenong. */
+/* v33 — KENONG TRAVELER: morph beneran. Foto hero terbang turun jadi tombol kenong. */
 (function () {
     var heroFig = document.querySelector('.gallery-fig');
     var heroImg = document.querySelector('.gallery-fig img');
