@@ -26,26 +26,45 @@
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/intro.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/cursor.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/gamelan.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/map.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/detail.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-modal.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-global.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-result.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/animation.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/tutorial.css') }}?v=14">
-    <link rel="stylesheet" href="{{ asset('assets/css/pagination.css') }}?v=14">
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/intro.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/cursor.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/gamelan.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/map.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/detail.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/quiz-modal.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/quiz-global.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/quiz-result.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/animation.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/tutorial.css') }}?v=15">
+    <link rel="stylesheet" href="{{ asset('assets/css/pagination.css') }}?v=15">
 </head>
 
 <body>
     <!-- OMBAK NUSANTARA: lapisan gelombang beranimasi -->
+    <div class="batik-bg" aria-hidden="true">
+        <svg width="100%" height="100%">
+            <defs>
+                <pattern id="kawung" width="160" height="160" patternUnits="userSpaceOnUse">
+                    <g fill="none" stroke="#c9973f" stroke-width="1.3">
+                        <ellipse cx="0" cy="0" rx="24" ry="42"/><ellipse cx="0" cy="0" rx="42" ry="24"/>
+                        <ellipse cx="160" cy="0" rx="24" ry="42"/><ellipse cx="160" cy="0" rx="42" ry="24"/>
+                        <ellipse cx="0" cy="160" rx="24" ry="42"/><ellipse cx="0" cy="160" rx="42" ry="24"/>
+                        <ellipse cx="160" cy="160" rx="24" ry="42"/><ellipse cx="160" cy="160" rx="42" ry="24"/>
+                        <ellipse cx="80" cy="80" rx="24" ry="42"/><ellipse cx="80" cy="80" rx="42" ry="24"/>
+                        <circle cx="80" cy="80" r="5"/>
+                        <circle cx="0" cy="0" r="5"/><circle cx="160" cy="0" r="5"/>
+                        <circle cx="0" cy="160" r="5"/><circle cx="160" cy="160" r="5"/>
+                    </g>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#kawung)"/>
+        </svg>
+    </div>
     <div class="ombak-bg" aria-hidden="true">
         <svg class="ombak-layer l1" viewBox="0 0 2400 200" preserveAspectRatio="none">
             <path d="M0,100 C100,40 200,40 300,100 C400,160 500,160 600,100 C700,40 800,40 900,100 C1000,160 1100,160 1200,100 C1300,40 1400,40 1500,100 C1600,160 1700,160 1800,100 C1900,40 2000,40 2100,100 C2200,160 2300,160 2400,100" />
@@ -57,6 +76,8 @@
             <path d="M0,100 C80,60 160,60 240,100 C320,140 400,140 480,100 C560,60 640,60 720,100 C800,140 880,140 960,100 C1040,60 1120,60 1200,100 C1280,140 1360,140 1440,100 C1520,60 1600,60 1680,100 C1760,140 1840,140 1920,100 C2000,60 2080,60 2160,100 C2240,140 2320,140 2400,100" />
         </svg>
     </div>
+
+    <div class="cursor-glow" aria-hidden="true"></div>
     <!-- ================= CURSOR GLOW ================= -->
 
     <!-- GLOBAL ELEMENT -->
@@ -90,21 +111,21 @@
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
 
     <!-- ================= CUSTOM JS ================= -->
-    <script src="{{ asset('assets/js/tooltip.js') }}?v=14" defer></script>
-    <script src="{{ asset('assets/js/quiz.js') }}?v=14" defer></script>
+    <script src="{{ asset('assets/js/tooltip.js') }}?v=15" defer></script>
+    <script src="{{ asset('assets/js/quiz.js') }}?v=15" defer></script>
 
     <!-- ================= MAIN ================= -->
-    <script type="module" src="{{ asset('assets/js/app.js') }}?v=14"></script>
+    <script type="module" src="{{ asset('assets/js/app.js') }}?v=15"></script>
     <!-- ================= TUTORIAL ================= -->
-    <script src="{{ asset('assets/js/tutorial.js') }}?v=14" defer></script>
+    <script src="{{ asset('assets/js/tutorial.js') }}?v=15" defer></script>
     <!-- ================= MAP ================= -->
-    <script src="{{ asset('assets/js/map.js') }}?v=14" defer></script>
+    <script src="{{ asset('assets/js/map.js') }}?v=15" defer></script>
 
-    <script src="{{ asset('assets/js/search.js') }}?v=14"></script>
-    <script src="{{ asset('assets/js/intro.js') }}?v=14" defer></script>
-    <script src="{{ asset('assets/js/cursor.js') }}?v=14" defer></script>
-    <script src="{{ asset('assets/js/reveal.js') }}?v=14" defer></script>
-    <script src="{{ asset('assets/js/gamelan.js') }}?v=14" defer></script>
+    <script src="{{ asset('assets/js/search.js') }}?v=15"></script>
+    <script src="{{ asset('assets/js/intro.js') }}?v=15" defer></script>
+    <script src="{{ asset('assets/js/cursor.js') }}?v=15" defer></script>
+    <script src="{{ asset('assets/js/reveal.js') }}?v=15" defer></script>
+    <script src="{{ asset('assets/js/gamelan.js') }}?v=15" defer></script>
 
     @stack('scripts')
 

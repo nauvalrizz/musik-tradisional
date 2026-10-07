@@ -139,3 +139,53 @@ setTimeout(() => {
         }
     }
 })();
+
+// ================= v15 — CAHAYA LENTERA =================
+// Cahaya hangat mengikuti kursor dengan lerp halus.
+(function () {
+    var glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    var tx = innerWidth / 2, ty = innerHeight / 3, cx = tx, cy = ty, raf = null, shown = false;
+
+    document.addEventListener('pointermove', function (e) {
+        tx = e.clientX; ty = e.clientY;
+        if (!shown) { shown = true; glow.classList.add('on'); cx = tx; cy = ty; }
+        if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: true });
+
+    function tick() {
+        cx += (tx - cx) * 0.08;
+        cy += (ty - cy) * 0.08;
+        glow.style.translate = cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px';
+        if (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) {
+            raf = requestAnimationFrame(tick);
+        } else { raf = null; }
+    }
+})();
+
+// ================= v15 — PARALLAX SCROLL SINEMATIK =================
+// Latar batik & ombak tertinggal halus saat scroll -> rasa kedalaman.
+(function () {
+    var batik = document.querySelector('.batik-bg');
+    var ombak = document.querySelector('.ombak-bg');
+    if (!batik && !ombak) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var target = window.scrollY || 0, cur = target, ticking = false;
+
+    function update() {
+        cur += (target - cur) * 0.07;
+        if (batik) batik.style.translate = '0 ' + (cur * 0.05).toFixed(1) + 'px';
+        if (ombak) ombak.style.translate = '0 ' + (cur * 0.11).toFixed(1) + 'px';
+        if (Math.abs(target - cur) > 0.4) {
+            requestAnimationFrame(update);
+        } else { ticking = false; }
+    }
+    window.addEventListener('scroll', function () {
+        target = window.scrollY || 0;
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+})();

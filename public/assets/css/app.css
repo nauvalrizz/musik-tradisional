@@ -726,3 +726,54 @@ footer {
 @media (prefers-reduced-motion: reduce) {
     .ombak-layer { animation: none; }
 }
+
+/* ================= v15 — BATIK KAWUNG ================= */
+/* Pola batik Kawung (Jawa): geometris, rapi, arsip banget.
+   Sangat tipis sebagai tekstur, melayang super pelan. */
+.batik-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.055;
+}
+.batik-bg svg {
+    position: absolute;
+    left: -160px;
+    width: calc(100% + 160px);
+    height: 100%;
+    display: block;
+    animation: batikDrift 150s linear infinite;
+}
+@keyframes batikDrift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-160px); }
+}
+
+/* ================= v15 — CAHAYA LENTERA ================= */
+/* Cahaya hangat mengikuti kursor, seperti lentera di ruang arsip.
+   Beda dari spotlight porto: lebih hangat, lebih kecil, screen-blend. */
+.cursor-glow {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 560px;
+    height: 560px;
+    margin: -280px 0 0 -280px;
+    background: radial-gradient(circle,
+        rgba(216, 164, 74, 0.13) 0%,
+        rgba(201, 151, 63, 0.05) 42%,
+        transparent 68%);
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    will-change: translate;
+}
+.cursor-glow.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+    .batik-bg svg { animation: none; }
+    .cursor-glow { display: none; }
+}
