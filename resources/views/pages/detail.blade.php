@@ -8,33 +8,36 @@
     elseif ($from === 'pulau') { $backUrl = url('/pulau/'.$slug); $backText = '← '.ucfirst($slug); }
 @endphp
 <div class="wrap">
-<div class="detail-top">
-<a href="{{ $backUrl }}" class="btn-line magnet reveal">{{ $backText }}</a>
+<div style="padding:7rem 0 1rem">
+<a href="{{ $backUrl }}" class="clay-btn reveal">{{ $backText }}</a>
 </div>
-<div class="detail-grid">
-<div class="detail-media reveal">
-<figure class="obj-fig">
+<div class="hero-grid" style="padding:1rem 0 2rem">
+<div class="pedestal reveal">
+<div class="pring" aria-hidden="true"></div>
+<div class="pbase" aria-hidden="true"></div>
+<div class="pobj">
 @if($alat->gambar)
 <img src="{{ gambar_alat($alat->gambar) }}" alt="{{ $alat->nama }}" data-zoom>
 @endif
-</figure>
+</div>
 @if($alat->sumber_gambar)
-<p class="attr">Sumber: <a href="{{ $alat->sumber_gambar }}" target="_blank" rel="noopener">{{ $alat->author ?? 'Wikimedia Commons' }}</a> · {{ $alat->license ?? 'Lihat di sumber' }}</p>
+<p class="attr" style="position:absolute;bottom:-1.6rem;font-size:.72rem;color:var(--muted)">Sumber: <a href="{{ $alat->sumber_gambar }}" target="_blank" rel="noopener" style="color:var(--light)">{{ $alat->author ?? 'Wikimedia Commons' }}</a></p>
 @endif
 </div>
-<div class="detail-info reveal">
-<p class="obj-num">Arsip № {{ str_pad($alat->id,3,'0',STR_PAD_LEFT) }}</p>
-<h1>{{ $alat->nama }}</h1>
-<p class="origin">{{ optional($alat->pulau)->nama ?? 'Nusantara' }} · {{ $alat->sumber_bunyi ?? '—' }}</p>
+<div class="reveal">
+<p class="hero-kicker">ARSIP № {{ str_pad($alat->id,3,'0',STR_PAD_LEFT) }}</p>
+<h1 class="hero-title" style="font-size:clamp(2rem,4.5vw,3rem)">{{ $alat->nama }}</h1>
+<p class="hero-sub">{{ optional($alat->pulau)->nama ?? 'Nusantara' }} · {{ $alat->sumber_bunyi ?? '—' }}</p>
 
 @if($alat->audio)
-<div class="dplayer">
-<div class="prow">
-<button class="play-btn magnet" id="btnAudio" aria-label="Putar rekaman">▶</button>
-<div><p style="font-weight:600">Rekaman Asli</p><p class="time">{{ $alat->nama }}</p></div>
+<div class="audio-console" style="margin:1.6rem 0">
+<div style="display:flex;align-items:center;gap:1.1rem">
+<button class="hero-play" id="btnAudio" aria-label="Putar rekaman" style="position:static">▶</button>
+<div><p class="ttl">Rekaman Asli</p><p class="sub">{{ $alat->nama }}</p></div>
 </div>
 <audio id="audioEl" src="{{ audio_alat($alat->audio) }}" preload="none"></audio>
-<div class="hero-wave" id="audioWave" aria-hidden="true" style="justify-content:flex-start;margin-top:1rem">@for($i=0;$i<24;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
+<div class="waveform" id="audioWave" aria-hidden="true">@for($i=0;$i<28;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
+<div class="audio-time"><span>00:00</span><span>REKAMAN</span></div>
 </div>
 @push('scripts')
 <script>
@@ -47,24 +50,25 @@ a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio'
 </script>
 @endpush
 @else
-<div class="dplayer">
-<div class="prow">
-<button class="play-btn magnet" id="btnSynth" data-sumber="{{ $alat->sumber_bunyi ?? 'Idiofon' }}" aria-label="Putar sintesis">▶</button>
-<div><p style="font-weight:600">Karakter Bunyi</p><p class="time">Sintesis · {{ $alat->sumber_bunyi ?? 'Idiofon' }}</p></div>
+<div class="audio-console" style="margin:1.6rem 0">
+<div style="display:flex;align-items:center;gap:1.1rem">
+<button class="hero-play" id="btnSynth" data-sumber="{{ $alat->sumber_bunyi ?? 'Idiofon' }}" aria-label="Putar sintesis" style="position:static">▶</button>
+<div><p class="ttl">Karakter Bunyi</p><p class="sub">Sintesis · {{ $alat->sumber_bunyi ?? 'Idiofon' }}</p></div>
 </div>
-<div class="hero-wave" id="synthWave" aria-hidden="true" style="justify-content:flex-start;margin-top:1rem">@for($i=0;$i<24;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
-<p class="attr">Rekaman asli belum tersedia — sintesis karakter bunyinya.</p>
+<div class="waveform" id="synthWave" aria-hidden="true">@for($i=0;$i<28;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
+<p class="attr" style="font-size:.78rem;color:var(--muted)">Rekaman asli belum tersedia — sintesis karakter bunyinya.</p>
 </div>
 @endif
 
-<dl class="spec">
-<div><dt class="k">Pulau</dt><dd>{{ optional($alat->pulau)->nama ?? '—' }}</dd></div>
-<div><dt class="k">Sumber Bunyi</dt><dd>{{ $alat->sumber_bunyi ?? '—' }}</dd></div>
-<div><dt class="k">Kategori</dt><dd>{{ $alat->kategori ?? '—' }}</dd></div>
-</dl>
-<div class="prose">{!! nl2br(e($alat->deskripsi)) !!}</div>
+<div class="plaque-grid">
+<div class="plaque"><p class="k">PULAU</p><p class="v">{{ optional($alat->pulau)->nama ?? '—' }}</p></div>
+<div class="plaque"><p class="k">SUMBER BUNYI</p><p class="v">{{ $alat->sumber_bunyi ?? '—' }}</p></div>
+<div class="plaque"><p class="k">KATEGORI</p><p class="v">{{ $alat->kategori ?? '—' }}</p></div>
+</div>
+<div style="color:var(--muted);max-width:60ch;line-height:1.8">{!! nl2br(e($alat->deskripsi)) !!}</div>
 <div style="margin-top:2rem">
-<button class="btn-line magnet quiz-trigger" type="button">Kuis: {{ $alat->nama }} <span class="arw">→</span></button>
+<button class="clay-btn quiz-trigger" type="button">Kuis: {{ $alat->nama }} <span class="arw">→</span></button>
+</div>
 </div>
 </div>
 </div>
@@ -73,19 +77,7 @@ a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio'
 <div class="sect-label reveal" style="margin-top:1rem"><span class="n">→</span><span class="t">Lanjutkan Menjelajah</span></div>
 <div class="objects">
 @foreach($terkait->take(4) as $idx => $item)
-<article class="obj">
-<a href="{{ url('/alat/'.$item->id) }}" aria-label="{{ $item->nama }}">
-<figure class="obj-fig">
-@if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" data-zoom>@endif
-</figure>
-<div class="obj-meta">
-<span class="n">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
-<span class="t">{{ $item->nama }}<small>{{ optional($item->pulau)->nama ?? '—' }}</small></span>
-<span class="a">→</span>
-</div>
-<div class="obj-accent" aria-hidden="true"></div>
-</a>
-</article>
+@include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach
 </div>
 @endif
@@ -104,8 +96,8 @@ a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio'
 </div>
 <p id="quiz-feedback" aria-live="polite"></p>
 <div style="display:flex;gap:.6rem;justify-content:center;margin-top:1rem">
-<button class="btn-line quiz-retry" type="button">Coba Lagi</button>
-<button class="btn-line quiz-close" type="button">Tutup</button>
+<button class="clay-btn quiz-retry" type="button">Coba Lagi</button>
+<button class="clay-btn quiz-close" type="button">Tutup</button>
 </div>
 </div>
 </div>

@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         q.options.forEach((opt, idx) => {
             const btn = document.createElement("button");
-            btn.className = "option";
+            btn.className = "quiz-opt";
             btn.dataset.value = opt;
             btn.innerHTML = '<span class="opt-num">' + String(idx + 1).padStart(2, "0") + '</span><span class="opt-text">' + opt + '</span>';
 

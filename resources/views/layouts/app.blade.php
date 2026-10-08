@@ -9,18 +9,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/css/living.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=121') }}">
 </head>
 <body>
 <a class="skip" href="#main">Lewati ke konten</a>
 
 {{-- LOADER --}}
 <div id="loader" aria-hidden="true">
-<div class="l-logo">MUSANTARA</div>
-<div class="l-sub">ARSIP MUSIK TRADISIONAL INDONESIA</div>
-<div class="l-count">01 — 08</div>
-<div class="l-line"><i></i><span class="l-dot"></span></div>
-<div class="l-load">MEMUAT KOLEKSI…</div>
+<div class="lg" aria-hidden="true"></div>
+<div class="lt">MUSANTARA</div>
+<div class="ls">ARSIP BUNYI NUSANTARA</div>
+<div class="lbar"><i id="lbarFill"></i></div>
 </div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
@@ -30,37 +29,28 @@
 <button class="mp-x" id="mpClose" aria-label="Tutup">×</button>
 </div>
 
-<header class="site-head" id="siteHead">
-<div class="wrap head-inner">
-<a class="brand" href="{{ url('/') }}">MUSANTARA<small>ARSIP BUNYI</small></a>
-<nav class="head-nav" aria-label="Navigasi utama">
-<a href="{{ url('/') }}#bunyi">Arsip</a>
-<a href="{{ url('/') }}#pulau">Pulau</a>
-<a href="{{ url('/') }}#koleksi">Koleksi</a>
-<a href="/quiz-global">Kuis</a>
-</nav>
-<form class="head-search" action="{{ route('search') }}" method="GET" role="search">
-<input type="text" name="q" placeholder="Cari dalam arsip…" aria-label="Cari dalam arsip" value="{{ request('q') }}" autocomplete="off">
-<button type="submit" aria-label="Cari">→</button>
-</form>
+<nav class="nav-console" id="siteHeader" aria-label="Navigasi utama">
+<a href="{{ url('/') }}" class="nav-brand">MUSA<em>N</em>TARA</a>
+<button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
+<div class="nav-links" id="navLinks">
+<a href="{{ url('/') }}#arsip" class="nav-link">ARSIP</a>
+<a href="{{ url('/') }}#jelajahi" class="nav-link">JELAJAHI</a>
+<a href="{{ url('/') }}#pulau" class="nav-link">PULAU</a>
+<a href="{{ url('/') }}#koleksi" class="nav-link">KOLEKSI</a>
+<a href="{{ route('quiz.global') }}" class="nav-link">KUIS</a>
 </div>
-</header>
+<form class="nav-search" action="{{ route('search') }}" method="get" role="search">
+<input type="search" name="q" placeholder="Cari dalam arsip…" aria-label="Cari dalam arsip">
+<button type="submit" aria-label="Cari">⌕</button>
+</form>
+</nav>
 
 <main id="main">@yield('content')</main>
 
-<footer class="site-foot">
-<div class="wrap foot-grid">
-<div class="foot-brand">
-<span class="brand">MUSANTARA</span>
-<p style="margin-top:.6rem">Arsip bunyi hidup — instrumen, tempat, dan cerita dari kepulauan Indonesia.</p>
-</div>
-<nav class="foot-nav" aria-label="Navigasi footer">
-<a href="{{ url('/') }}#bunyi">Arsip Bunyi</a>
-<a href="{{ url('/') }}#pulau">Kepulauan</a>
-<a href="{{ url('/') }}#koleksi">Koleksi</a>
-<a href="/quiz-global">Kuis</a>
-</nav>
-<p class="foot-note">© {{ date('Y') }} MuSantara<br>Arsip budaya Indonesia</p>
+<footer>
+<div class="wrap fgrid">
+<div><p class="fl">MUSA<em>N</em>TARA</p><p class="fm" style="margin-top:.4rem">ARSIP BUNYI NUSANTARA · TANAH LIAT DIGITAL</p></div>
+<div class="fm">© 2026 MuSantara · Dibentuk dari tanah, untuk bunyi</div>
 </div>
 </footer>
 
@@ -85,7 +75,9 @@ window.addEventListener('load', function(){
     document.getElementById('loader').classList.add('done');
     document.documentElement.classList.remove('loading');
     // entry stagger
-    var els = document.querySelectorAll('.hero-top,.hero-stage,.hero-meta,.scroll-hint');
+    var bf=document.getElementById('lbarFill');
+    if(bf){ var w=0; var iv=setInterval(function(){ w+=8; if(w>=100){w=100;clearInterval(iv);} bf.style.width=w+'%'; },140); }
+    var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
     els.forEach(function(el,i){
       el.style.opacity='0'; el.style.transform='translateY(18px)';
       el.style.transition='opacity .7s ease '+(i*130)+'ms,transform .7s ease '+(i*130)+'ms';
@@ -168,13 +160,15 @@ if(heroObj && !touch && !reduced){
   heroStage.addEventListener('mouseleave', function(){ heroObj.style.transform=''; });
 }
 
-/* ——— HEADER COMPACT ——— */
-var head = document.getElementById('siteHead'), lastY=0;
+/* ——— NAV CONSOLE SHRINK + MOBILE MENU ——— */
+var nc = document.getElementById('siteHeader');
 window.addEventListener('scroll', function(){
-  var y = window.scrollY;
-  head.classList.toggle('compact', y>120 && y>lastY);
-  lastY=y;
+  if(nc) nc.classList.toggle('shrink', window.scrollY>80);
 }, {passive:true});
+var nt=document.getElementById('navToggle'),nl=document.getElementById('navLinks');
+if(nt&&nl){ nt.addEventListener('click',function(){
+  var open=nl.classList.toggle('open'); nt.setAttribute('aria-expanded',open);
+}); nl.addEventListener('click',function(e){ if(e.target.closest('a')) nl.classList.remove('open'); }); }
 
 /* ——— REVEAL ——— */
 var io=new IntersectionObserver(function(es){

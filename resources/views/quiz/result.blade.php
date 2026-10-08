@@ -14,10 +14,10 @@
 <p id="resultText" style="font-size:1.05rem"></p>
 <p id="percentText" style="font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:.4rem;letter-spacing:.1em"></p>
 <div style="display:flex;gap:1.4rem;justify-content:center;margin:1.8rem 0;flex-wrap:wrap">
-<a href="/quiz-global" class="btn-line magnet">Ulangi <span class="arw">→</span></a>
-<a href="/" class="btn-line magnet">Beranda <span class="arw">→</span></a>
+<a href="/quiz-global" class="clay-btn">Ulangi <span class="arw">→</span></a>
+<a href="/" class="clay-btn">Beranda <span class="arw">→</span></a>
 </div>
-<button id="toggleReview" class="btn-line" style="margin:0 auto">Lihat Review</button>
+<button id="toggleReview" class="clay-btn" style="margin:0 auto">Lihat Review</button>
 <div id="reviewContainer" style="margin-top:1.4rem;text-align:left"></div>
 </div>
 </div>

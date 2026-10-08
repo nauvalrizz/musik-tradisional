@@ -1,22 +1,25 @@
+@props(['item','idx'=>0])
 @php
     $url = '/alat/' . $item->id;
     if (request()->routeIs('pulau.*') || request()->segment(1) === 'pulau') {
         $url .= '?from=pulau&slug=' . request()->segment(2);
     }
-    if (request()->has('q') && request()->segment(1) === 'search') {
-        $url .= '?from=search&q=' . urlencode(request('q'));
-    }
 @endphp
 <article class="obj">
+<div class="clay-card">
 <a href="{{ url($url) }}" aria-label="{{ $item->nama }}">
-<figure class="obj-fig">
+<div class="fig">
+<span class="idx">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
 @if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" data-zoom>@endif
-</figure>
-<div class="obj-meta">
-<span class="n">→</span>
-<span class="t">{{ $item->nama }}<small>{{ optional($item->pulau)->nama ?? '—' }}</small></span>
-<span class="a">→</span>
 </div>
-<div class="obj-accent" aria-hidden="true"></div>
+<div class="meta">
+<h3>{{ $item->nama }}</h3>
+<p class="rg">{{ optional($item->pulau)->nama ?? '' }}{{ $item->sumber_bunyi ? ' · '.$item->sumber_bunyi : '' }}</p>
+<div class="row">
+<span class="cat">{{ strtoupper($item->sumber_bunyi ?? 'TRADISIONAL') }}</span>
+<button type="button" class="clay-play gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$item->nama)) }}" data-freq="{{ 196 + ($item->id % 8) * 49 }}" aria-label="Dengarkan {{ $item->nama }}">▶</button>
+</div>
+</div>
 </a>
+</div>
 </article>
