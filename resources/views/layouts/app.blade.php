@@ -31,11 +31,28 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 @php
 $entrances=['e-rise','e-slide','e-rot','e-roll'];
 $litems = ($loaderItems ?? collect())->take(4);
+// Ikon SVG clay per tipe instrumen (ganti foto asli di loader saja)
+function loaderIcon($nama){
+  $n = strtolower($nama);
+  $c1='#62483A'; $c2='#3A2E25'; $t='#A95135';
+  if(str_contains($n,'kendang')||str_contains($n,'gendang')||str_contains($n,'tifa')||str_contains($n,'bedug')||str_contains($n,'babun'))
+    return '<svg viewBox="0 0 100 100" width="72" height="72"><rect x="22" y="36" width="56" height="28" rx="14" fill="'.$c1.'"/><ellipse cx="22" cy="50" rx="9" ry="14" fill="#C9B59D"/><ellipse cx="78" cy="50" rx="9" ry="14" fill="#C9B59D"/><rect x="40" y="68" width="20" height="22" rx="4" fill="'.$c2.'"/></svg>';
+  if(str_contains($n,'saron')||str_contains($n,'bonang')||str_contains($n,'kenong')||str_contains($n,'kolintang')||str_contains($n,'gambang')||str_contains($n,'talempong'))
+    return '<svg viewBox="0 0 100 100" width="72" height="72"><rect x="14" y="66" width="72" height="12" rx="5" fill="'.$c2.'"/><rect x="20" y="52" width="10" height="14" rx="2" fill="'.$t.'"/><rect x="34" y="48" width="10" height="18" rx="2" fill="'.$t.'"/><rect x="48" y="44" width="10" height="22" rx="2" fill="'.$t.'"/><rect x="62" y="48" width="10" height="18" rx="2" fill="'.$t.'"/><rect x="76" y="52" width="6" height="14" rx="2" fill="'.$t.'"/></svg>';
+  if(str_contains($n,'sasando'))
+    return '<svg viewBox="0 0 100 100" width="72" height="72"><path d="M50 14 L78 82 L22 82 Z" fill="'.$c1.'"/><line x1="50" y1="14" x2="50" y2="82" stroke="#C9B59D" stroke-width="2"/><line x1="40" y1="30" x2="40" y2="82" stroke="#C9B59D" stroke-width="1.4"/><line x1="60" y1="30" x2="60" y2="82" stroke="#C9B59D" stroke-width="1.4"/><ellipse cx="50" cy="86" rx="20" ry="5" fill="'.$c2.'"/></svg>';
+  if(str_contains($n,'angklung'))
+    return '<svg viewBox="0 0 100 100" width="72" height="72"><line x1="18" y1="26" x2="82" y2="26" stroke="'.$c2.'" stroke-width="6" stroke-linecap="round"/><rect x="26" y="30" width="9" height="42" rx="4" fill="'.$c1.'"/><rect x="40" y="30" width="9" height="52" rx="4" fill="'.$c1.'"/><rect x="54" y="30" width="9" height="42" rx="4" fill="'.$c1.'"/><rect x="68" y="30" width="9" height="34" rx="4" fill="'.$c1.'"/></svg>';
+  if(str_contains($n,'sape')||str_contains($n,'saluang')||str_contains($n,'kecapi'))
+    return '<svg viewBox="0 0 100 100" width="72" height="72"><ellipse cx="50" cy="62" rx="18" ry="22" fill="'.$c1.'"/><rect x="46" y="8" width="8" height="42" rx="3" fill="'.$c2.'"/><line x1="50" y1="12" x2="50" y2="78" stroke="#C9B59D" stroke-width="1.6"/><line x1="44" y1="14" x2="44" y2="72" stroke="#C9B59D" stroke-width="1.2"/><line x1="56" y1="14" x2="56" y2="72" stroke="#C9B59D" stroke-width="1.2"/></svg>';
+  // default: gong
+  return '<svg viewBox="0 0 100 100" width="72" height="72"><circle cx="50" cy="42" r="28" fill="'.$c1.'"/><circle cx="50" cy="42" r="10" fill="'.$t.'"/><circle cx="50" cy="42" r="28" fill="none" stroke="'.$c2.'" stroke-width="3"/><line x1="24" y1="66" x2="22" y2="90" stroke="'.$c2.'" stroke-width="5" stroke-linecap="round"/><line x1="76" y1="66" x2="78" y2="90" stroke="'.$c2.'" stroke-width="5" stroke-linecap="round"/></svg>';
+}
 if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { $lfallback=false; }
 @endphp
 @foreach($litems as $li => $it)
 <div class="lped {{ $entrances[$li % 4] }}"><div class="llight"></div>
-<div class="lobj">@if(!$lfallback)<img src="{{ gambar_alat($it->gambar) }}" alt="">@else<div class="lclay"></div>@endif</div>
+<div class="lobj">{!! $lfallback ? '<div class="lclay"></div>' : loaderIcon($it->nama) !!}</div>
 <div class="lbase"></div>
 <div class="lrip"></div>
 </div>
