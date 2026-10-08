@@ -26,7 +26,7 @@
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app-v82.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/app-v83.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/navbar-v71.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
@@ -109,6 +109,41 @@
 
     @include('components.tutorial')
 
+<script>
+/* v83 — zoom SIMPLE, tanpa module */
+(function() {
+    function openModal(src, alt) {
+        var m = document.getElementById('imgModal');
+        var im = document.getElementById('imgZoom');
+        var cap = document.getElementById('imgCaption');
+        if (!m || !im) return;
+        im.src = src;
+        im.alt = alt || '';
+        if (cap) cap.textContent = alt || '';
+        m.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        var m = document.getElementById('imgModal');
+        if (!m) return;
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('click', function(e) {
+        var img = e.target.closest('img[data-zoom]');
+        if (img) {
+            openModal(img.currentSrc || img.src, img.alt);
+            return;
+        }
+        if (e.target.closest('.img-close') || e.target.id === 'imgModal') {
+            closeModal();
+        }
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModal();
+    });
+})();
+</script>
 </body>
 
 </html>
