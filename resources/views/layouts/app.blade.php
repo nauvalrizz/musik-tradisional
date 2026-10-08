@@ -102,9 +102,6 @@ var touch = window.matchMedia('(hover: none)').matches;
 document.documentElement.classList.add('loading');
 window.addEventListener('load', function(){
   setTimeout(function(){
-    document.getElementById('loader').classList.add('done');
-    document.documentElement.classList.remove('loading');
-    // entry stagger
     // LIFECYCLE: LOADING_ACTIVE -> LOADING_COMPLETE -> ENTERING_MUSEUM -> HOME
     var loader=document.getElementById('loader');
     var peds=document.querySelectorAll('.lped');
@@ -126,6 +123,11 @@ window.addEventListener('load', function(){
     setTimeout(function(){ loader.classList.add('logo'); }, lastMs);
     // ENTERING_MUSEUM: kamera maju masuk, bukan fade hitam
     setTimeout(function(){ loader.classList.add('enter'); }, lastMs+450);
+    // HOME: baru sekarang loader boleh hilang
+    setTimeout(function(){
+      loader.classList.add('done');
+      document.documentElement.classList.remove('loading');
+    }, lastMs+450+650);
     var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
     els.forEach(function(el,i){
       el.style.opacity='0'; el.style.transform='translateY(18px)';
