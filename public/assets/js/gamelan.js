@@ -56,12 +56,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    var realAudio = null;
+    var realAudio = null, realTimer = null;
     function playReal(url) {
         try {
             if (realAudio) { realAudio.pause(); }
+            clearTimeout(realTimer);
             realAudio = new Audio(url);
             realAudio.play().catch(function(){});
+            realAudio.addEventListener('ended', function(){ clearTimeout(realTimer); });
+            realTimer = setTimeout(function(){
+                if (realAudio) { realAudio.pause(); realAudio.currentTime = 0; }
+            }, 2000);
         } catch (e) {}
     }
 

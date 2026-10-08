@@ -197,14 +197,22 @@ if(cur && !touch){
 var mp=document.getElementById('miniPlayer'),mpN=document.getElementById('mpName'),
     mpS=document.getElementById('mpSub'),mpF=document.getElementById('mpFill'),
     mpT=document.getElementById('mpToggle'),mpTimer=null;
-function mpShow(name,sub){
+var mpHideT=null;
+function mpShow(name,sub,dur){
   mpN.textContent=name; mpS.textContent=sub||'MuSantara';
   mp.classList.add('show'); mpT.textContent='❚❚';
-  clearInterval(mpTimer); var p=0;
-  mpTimer=setInterval(function(){ p+=2; if(p>=100){p=0;} mpF.style.width=p+'%'; },120);
+  clearInterval(mpTimer); clearTimeout(mpHideT);
+  dur=dur||2000;
+  var p=0, steps=25;
+  mpTimer=setInterval(function(){
+    p+=100/steps;
+    if(p>=100){ p=100; clearInterval(mpTimer); }
+    mpF.style.width=p+'%';
+  }, dur/steps);
+  mpHideT=setTimeout(function(){ mp.classList.remove('show'); clearInterval(mpTimer); }, dur+800);
 }
 document.getElementById('mpClose').addEventListener('click',function(){
-  mp.classList.remove('show'); clearInterval(mpTimer);
+  mp.classList.remove('show'); clearInterval(mpTimer); clearTimeout(mpHideT);
 });
 mpT.addEventListener('click',function(){
   var playing=mpT.textContent==='❚❚';

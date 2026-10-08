@@ -45,13 +45,16 @@ class HomeController extends Controller
             }
         }
 
-        // Ruang Bunyi: audio DB asli per instrumen (single source of truth)
+        // Ruang Bunyi: dibaca dari DB (single source of truth)
+        // Urutan ensemble gamelan tetap, tapi tiap slot resolve ke record DB asli
         $ruangBunyi = [];
         foreach (['gong','kempul','kenong','saron','bonang','gambang','demung','peking'] as $kw) {
             $rec = AlatMusik::where('nama', 'LIKE', "%{$kw}%")->first();
+            if (!$rec) continue; // tidak ada di DB: slot dilewati, bukan diisi dummy
             $ruangBunyi[$kw] = [
-                'nama' => $rec ? $rec->nama : ucfirst($kw),
-                'audio' => ($rec && $rec->audio) ? audio_alat($rec->audio) : null,
+                'db_id' => $rec->id,
+                'nama' => $rec->nama,
+                'audio' => $rec->audio ? audio_alat($rec->audio) : null,
             ];
         }
 
