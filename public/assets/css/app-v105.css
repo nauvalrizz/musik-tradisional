@@ -16,6 +16,10 @@
     --line: rgba(143, 78, 54, 0.18);
     --line-strong: rgba(143, 78, 54, 0.45);
     --serif: 'Fraunces', 'Georgia', serif;
+    --bronze: var(--clay);
+    --bronze-hi: var(--clay-hi);
+    --bronze-deep: var(--clay-deep);
+    --bronze-ink: var(--clay-ink);
 }
 
 body {

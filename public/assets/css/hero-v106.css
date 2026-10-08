@@ -1,0 +1,251 @@
+/* ===============================
+   HERO v5 — satu viewport penuh
+   Penjelasan + alat dalam 100svh.
+   Konten bawah tidak mengintip.
+   =============================== */
+/* ============ v23 — GALLERY HERO ============ */
+/* Ruang pamer: jangkar kiri-bawah, tipografi raksasa terfragmentasi,
+   foto alat bertabrakan dengan teks. Anti-template tengah. */
+.gallery-hero {
+    min-height: 100svh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 120px 5vw 9vh;
+    overflow: hidden;
+}
+.exhibit-no {
+    position: absolute;
+    top: 104px;
+    left: 5vw;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7a6f5e;
+    margin: 0;
+}
+.exhibit-no b {
+    color: var(--bronze);
+    font-weight: 700;
+}
+.exhibit-no i {
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: rgba(201,151,63,.5);
+}
+.gallery-fig {
+    position: absolute;
+    right: 1vw;
+    top: 10vh;
+    width: min(48vw, 660px);
+    margin: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+.gallery-fig img {
+    width: 100%;
+    display: block;
+    -webkit-mask-image: radial-gradient(ellipse 68% 62% at 50% 48%, #000 28%, transparent 70%);
+    mask-image: radial-gradient(ellipse 68% 62% at 50% 48%, #000 28%, transparent 70%);
+}
+.gallery-fig figcaption {
+    margin-top: 6px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8a7c5f;
+    text-align: right;
+    padding-right: 8%;
+}
+.gallery-fig figcaption b { color: var(--bronze); }
+.gallery-type {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+}
+.gallery-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(3.4rem, 10.5vw, 9.2rem);
+    line-height: .94;
+    letter-spacing: -.03em;
+    color: #2e2620;
+    margin: 0;
+}
+.gallery-title > span { display: block; }
+.gallery-title em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--bronze);
+    padding-left: .35em;
+}
+.gallery-sub {
+    margin: 26px 0 0;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: #5a4f42;
+    max-width: 44ch;
+    line-height: 1.75;
+}
+.gallery-sub a {
+    color: var(--bronze-hi, #e0aa4e);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
+    font-weight: 600;
+}
+.gallery-hero .scroll-cue {
+    position: absolute;
+    right: 5vw;
+    bottom: 4vh;
+}
+.scroll-cue {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8a7c5f;
+    margin: 0;
+}
+.scroll-cue span {
+    display: block;
+    width: 1px;
+    height: 44px;
+    background: rgba(201,151,63,.6);
+    animation: cueDrop 2.2s cubic-bezier(.65,0,.35,1) infinite;
+    transform-origin: top;
+}
+@keyframes cueDrop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+}
+/* chapter label: nomor pameran */
+.section-eyebrow b {
+    color: var(--bronze);
+    font-weight: 700;
+    margin-right: 10px;
+}
+.section-eyebrow i {
+    display: inline-block;
+    width: 34px;
+    height: 1px;
+    background: rgba(201,151,63,.5);
+    vertical-align: middle;
+    margin-right: 12px;
+}
+/* entrance blur-rise sinematik */
+@keyframes heroRise {
+    from { opacity: 0; transform: translateY(36px); filter: blur(14px); }
+    to   { opacity: 1; transform: none; filter: blur(0); }
+}
+/* Entrance murni CSS bertahap — tidak bergantung JS, tidak bisa stuck. */
+.hero-anim {
+    animation: heroIn 0.9s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+    animation-delay: var(--d, 0s);
+}
+@keyframes heroIn {
+    from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-anim { animation: none; }
+    .scroll-cue { animation: none; }
+    .scroll-cue span { animation: none; }
+}
+@media (max-width: 768px) {
+    .hero-full { padding: 96px 16px 100px; }
+    .hero-ensemble-label { margin-top: 36px; }
+}
+
+/* ============ v22 — RUANG BUNYI (section sendiri) ============ */
+.bunyi-section {
+    position: relative;
+    padding: 110px 5vw 120px;
+    text-align: left;
+}
+.bunyi-section .container { margin: 0; max-width: none; }
+.bunyi-section .gamelan-pads { justify-content: flex-start; }
+.bunyi-section .section-sub {
+    color: #7a6f5e;
+    margin-top: 14px;
+    font-size: 16px;
+}
+.bunyi-section .gamelan-pads {
+    margin-top: 44px;
+}
+.bunyi-section .rec-bar {
+    margin-top: 30px;
+}
+.bunyi-section .gamelan-hint {
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .gallery-hero { padding: 110px 6vw 10vh; }
+    .gallery-fig {
+        width: 88vw;
+        right: -12vw;
+        top: 12vh;
+        opacity: .5;
+        z-index: 1;
+    }
+    .gallery-type { z-index: 2; }
+    .gallery-title { font-size: clamp(3rem, 17vw, 5.5rem); }
+    .exhibit-no { top: 92px; }
+}
+
+::selection { background: #c9973f; color: #14100a; }
+
+/* v28 — sinematik: parallax fig + handoff kenong */
+.gallery-fig { will-change: transform; }
+.gamelan-pad.handoff .pad-kettle { animation: handoffPulse 1.8s ease; }
+@keyframes handoffPulse {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.18); box-shadow: 0 0 60px rgba(201,151,63,.7),
+        0 10px 26px rgba(0,0,0,.5), inset 0 2px 6px rgba(255,240,200,.3); }
+    50% { transform: scale(1.05); }
+    75% { transform: scale(1.12); box-shadow: 0 0 40px rgba(201,151,63,.5),
+        0 10px 26px rgba(0,0,0,.5); }
+    100% { transform: scale(1); }
+}
+.gamelan-pad.handoff .pad-kettle { animation: handoffPulse 2.2s ease; }
+/* ring mengembang */
+.gamelan-pad.handoff::after {
+    content: ""; position: absolute; inset: -8px; border-radius: 50%;
+    border: 2px solid rgba(201,151,63,.6);
+    animation: handoffRing 2.2s ease-out;
+    pointer-events: none;
+}
+@keyframes handoffRing {
+    0% { transform: scale(.7); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* v31 — hero exit dramatis */
+.gallery-hero .hero-title,
+.gallery-hero .hero-sub,
+.gallery-hero .hero-meta {
+    transition: opacity .5s ease, transform .6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-hero.hero-leaving .hero-title { opacity: 0; transform: translateY(-60px); }
+.gallery-hero.hero-leaving .hero-sub { opacity: 0; transform: translateY(-40px); transition-delay: .05s; }
+.gallery-hero.hero-leaving .hero-meta { opacity: 0; transition-delay: .1s; }
+.gallery-hero.hero-leaving .gallery-fig { }
+
+/* v34 — kenong traveler simpel */
+.kenong-traveler {
+    position: fixed; z-index: 900;
+    width: 200px; height: 200px; border-radius: 50%;
+    overflow: hidden; opacity: 0; pointer-events: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 40px rgba(201,151,63,.3);
+    border: 3px solid rgba(201,151,63,.5);
+}
+.kenong-traveler img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-fig { transition: opacity .4s ease, transform .6s ease; }
