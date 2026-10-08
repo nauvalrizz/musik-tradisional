@@ -1,5 +1,21 @@
 /* Ruang Bunyi: ensemble gamelan mini (Web Audio API, tanpa file audio).
    Tiap alat punya timbre sendiri: partial inharmonic + decay eksponensial. */
+/* ═══ CARD DENGARKAN: audio asli DB, terisolasi dari synth ═══ */
+var _cardAudio = null, _cardTimer = null;
+function playCardAudio(btn) {
+    var url = btn.getAttribute('data-card-audio') || '';
+    if (!url) return;
+    try {
+        if (_cardAudio) { _cardAudio.pause(); }
+        clearTimeout(_cardTimer);
+        _cardAudio = new Audio(url);
+        _cardAudio.play().catch(function(){});
+        _cardTimer = setTimeout(function(){
+            if (_cardAudio) { _cardAudio.pause(); _cardAudio.currentTime = 0; }
+        }, 2000);
+    } catch (e) {}
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     var pads = document.querySelectorAll('.gamelan-pad');
     if (!pads.length) return;
