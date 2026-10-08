@@ -21,12 +21,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    /* Toggle dua arah: masuk -> .in, keluar -> lepas .in */
+    /* Toggle dua arah dengan hysteresis anti-flicker:
+       masuk saat 15% terlihat, keluar saat sudah <5% (tidak kedip di tepi) */
     var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-            en.target.classList.toggle('in', en.isIntersecting);
+            var el = en.target;
+            if (en.intersectionRatio >= 0.15) {
+                el.classList.add('in');
+            } else if (en.intersectionRatio < 0.05) {
+                el.classList.remove('in');
+            }
+            /* di antara 5-15%: biarkan state terakhir (anti flicker) */
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: [0, 0.05, 0.15, 0.5, 1], rootMargin: '0px 0px -8% 0px' });
 
     els.forEach(function (el) { io.observe(el); });
 });
