@@ -477,7 +477,7 @@ html.loading,html.loading body{overflow:hidden}
   background:radial-gradient(circle at 35% 30%,var(--terra),var(--terra-d));color:#fff;
   display:grid;place-items:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;font-weight:500;
   box-shadow:0 3px 6px rgba(0,0,0,.45),inset 0 1px 2px rgba(255,255,255,.25),inset 0 -3px 5px rgba(0,0,0,.3);
-  transition:transform var(--int) var(--ease);z-index:3}
+  transition:transform var(--int) var(--ease);z-index:5}
 .pod-sound{position:absolute;bottom:8px;right:10px;left:auto;transform:none;z-index:3;
   aspect-ratio:auto;min-width:0;
   display:inline-flex;align-items:center;gap:.35rem;border:none;white-space:nowrap;cursor:pointer;
