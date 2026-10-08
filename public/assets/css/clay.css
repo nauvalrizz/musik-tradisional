@@ -461,7 +461,7 @@ html.loading,html.loading body{overflow:hidden}
 
 
 .pod-obj img.ld{opacity:1}
-.pod-base{position:relative;width:100%;margin-top:-14px;padding:1.5rem 1.1rem 1.1rem;
+.pod-base{position:relative;z-index:3;width:100%;margin-top:-14px;padding:1.5rem 1.1rem 1.1rem;
   border-radius:44% 56% 52% 48%/28% 30% 34% 30%;
   background:linear-gradient(155deg,var(--clay1),#231D18 80%);
   box-shadow:0 3px 6px rgba(0,0,0,.45),0 12px 26px rgba(0,0,0,.3),
@@ -487,7 +487,7 @@ html.loading,html.loading body{overflow:hidden}
   box-shadow:0 3px 6px rgba(0,0,0,.45),inset 0 1px 0 rgba(229,214,192,.12);
   opacity:0;transition:all var(--int) var(--ease)}
 .pod-wave{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;
-  align-items:center;gap:2px;height:14px;opacity:0;transition:opacity var(--int);z-index:2}
+  align-items:center;gap:2px;height:14px;opacity:0;transition:opacity var(--int);z-index:4}
 .pod-wave i{width:2px;background:var(--terra);border-radius:1px;min-height:3px}
 .pod.playing .pod-wave{opacity:1}
 .pod.playing .pod-wave i{animation:lwv .8s ease-in-out infinite alternate}
