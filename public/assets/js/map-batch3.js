@@ -8,8 +8,8 @@
     /* Kategori dominan per pulau */
     var CATS = {
         'sumatra': 'pukul', 'jawa': 'pukul', 'kalimantan': 'petik',
-        'sulawesi': 'pukul', 'bali-nusa-tenggara': 'pukul',
-        'maluku': 'pukul', 'papua': 'pukul'
+        'sulawesi': 'tiup', 'bali-nusa-tenggara': 'pukul',
+        'maluku': 'pukul', 'papua': 'tiup'
     };
     var CAT_COLORS = {
         'pukul': 'rgba(201,151,63,',   // emas
@@ -94,7 +94,9 @@
     filterBar.innerHTML =
         '<button data-cat="all" class="active">Semua</button>' +
         '<button data-cat="pukul">Pukul</button>' +
-        '<button data-cat="petik">Petik</button>';
+        '<button data-cat="tiup">Tiup</button>' +
+        '<button data-cat="petik">Petik</button>' +
+        '<button data-cat="gesek">Gesek</button>';
     container.appendChild(filterBar);
 
     filterBar.addEventListener('click', function(e) {
