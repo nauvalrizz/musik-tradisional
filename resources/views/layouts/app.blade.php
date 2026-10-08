@@ -1,113 +1,42 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>@yield('title', 'Musik Nusantara')</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>@yield('title', 'MuSantara — Arsip Bunyi Nusantara')</title>
+    <meta name="description" content="Arsip bunyi alat musik tradisional Indonesia.">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script>
-        try {
-            if (sessionStorage.getItem('tabuhan_shown')) {
-                document.documentElement.classList.add('tabuhan-done');
-            }
-        } catch (e) {}
-    </script>
-
-    <!-- ✅ BOOTSTRAP (HARUS DULU) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <!-- AOS -->
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-    <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-v110.css') }}">
 </head>
-
 <body>
-<div id="loader">
-    <div class="loader-m">M</div>
-    <div class="loader-bar"><i></i></div>
-    <div class="loader-text">Memuat Arsip</div>
-</div>
-    <!-- OMBAK NUSANTARA: lapisan gelombang beranimasi -->
-
-
-    <!-- ================= CURSOR GLOW ================= -->
-
-    <!-- GLOBAL ELEMENT -->
-    <div id="tooltip"></div>
-    <div id="topLoader"></div>
-    <div class="page-sweep" aria-hidden="true"></div>
-
+    <a class="skip" href="#main">Lewati ke konten</a>
     @include('partials.navbar')
-
-    <div class="grain" aria-hidden="true"></div>
-    <div class="main-wrapper">
+    <main id="main">
         @yield('content')
-    </div>
-
+    </main>
     @include('partials.footer')
 
-    <!-- GLOBAL UI -->
-    <div id="toast" class="custom-toast"></div>
-
-    <!-- LIGHTBOX GLOBAL -->
+    <!-- Lightbox (v83 simple) -->
     <div id="imgModal" class="img-modal" aria-hidden="true">
         <span class="img-close" role="button" aria-label="Tutup">&times;</span>
         <img class="img-modal-content" id="imgZoom" alt="">
         <p class="img-caption" id="imgCaption"></p>
     </div>
 
-    <!-- ================= LIBRARY ================= -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
-
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js" defer></script>
-
-    <!-- ================= CUSTOM JS ================= -->
-    <script src="{{ asset('assets/js/tooltip.js') }}?v=53" defer></script>
-    <script src="{{ asset('assets/js/quiz.js') }}?v=53" defer></script>
-
-    <!-- ================= MAIN ================= -->
-    <script type="module" src="{{ asset('assets/js/app-v81.js') }}"></script>
-    <!-- ================= TUTORIAL ================= -->
-    <script src="{{ asset('assets/js/tutorial.js') }}?v=53" defer></script>
-    <!-- ================= MAP ================= -->
-    <script src="{{ asset('assets/js/map-batch1.js') }}?v=90" defer></script>
-    <script src="{{ asset('assets/js/map-batch3.js') }}?v=91" defer></script>
-    <script src="{{ asset('assets/js/batik-divider.js') }}?v=95" defer></script>
-    <script src="{{ asset('assets/js/wayang-rays.js') }}?v=96" defer></script>
-    <script src="{{ asset('assets/js/map-batch2.js') }}?v=88" defer></script>
-
-    <script src="{{ asset('assets/js/search.js') }}?v=53"></script>
-    <script src="{{ asset('assets/js/intro.js') }}?v=53" defer></script>
-    <script src="{{ asset('assets/js/cursor.js') }}?v=53" defer></script>
-    <script src="{{ asset('assets/js/reveal-v60.js') }}" defer></script>
-    <script src="{{ asset('assets/js/cinematic-v68.js') }}?v=53" defer></script>
-    <script src="{{ asset('assets/js/tilt3d.js') }}?v=53" defer></script>
-    <script src="{{ asset('assets/js/gamelan.js') }}?v=53" defer></script>
-
+    <script src="{{ asset('assets/js/gamelan.js') }}?v=110" defer></script>
+    <script src="{{ asset('assets/js/search.js') }}?v=110" defer></script>
     @stack('scripts')
-
-    @include('components.tutorial')
-
 <script>
-/* v83 — zoom SIMPLE, tanpa module */
 (function() {
     function openModal(src, alt) {
         var m = document.getElementById('imgModal');
         var im = document.getElementById('imgZoom');
         var cap = document.getElementById('imgCaption');
         if (!m || !im) return;
-        im.src = src;
-        im.alt = alt || '';
+        im.src = src; im.alt = alt || '';
         if (cap) cap.textContent = alt || '';
         m.classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -120,19 +49,27 @@
     }
     document.addEventListener('click', function(e) {
         var img = e.target.closest('img[data-zoom]');
-        if (img) {
-            openModal(img.currentSrc || img.src, img.alt);
-            return;
-        }
-        if (e.target.closest('.img-close') || e.target.id === 'imgModal') {
-            closeModal();
-        }
+        if (img) { openModal(img.currentSrc || img.src, img.alt); return; }
+        if (e.target.closest('.img-close') || e.target.id === 'imgModal') closeModal();
     });
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeModal();
     });
+    // Reveal on scroll
+    var io = new IntersectionObserver(function(es) {
+        es.forEach(function(en) {
+            if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+    // Batik draw
+    var bb = document.querySelector('.batik-band');
+    if (bb) {
+        new IntersectionObserver(function(es, o) {
+            es.forEach(function(en) { if (en.isIntersecting) { bb.classList.add('drawn'); o.disconnect(); } });
+        }, { threshold: 0.3 }).observe(bb);
+    }
 })();
 </script>
 </body>
-
 </html>
