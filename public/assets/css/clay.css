@@ -565,3 +565,20 @@ html.loading,html.loading body{overflow:hidden}
   opacity:0;transition:opacity .4s;min-height:1.4em}
 #loader.logo .lphase{opacity:0}
 .lped.up ~ .lphase, #loader .lphase{opacity:1}
+
+/* ——— LOADER: museum signage + floor progress + lights ——— */
+.load-sign span{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:var(--light);
+  background:linear-gradient(145deg,var(--clay2),var(--clay1));padding:.7rem 1.4rem .7rem 1.7rem;
+  border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(229,214,192,.12);
+  opacity:0;transform:translateY(8px);transition:all .6s var(--ease)}
+#loader.wide .load-sign span{opacity:1;transform:none}
+.lfloor{display:flex;gap:.5rem}
+.lfloor i{width:44px;height:5px;border-radius:3px;background:#241E18;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.6);transition:all .4s var(--ease)}
+.lfloor i.lit{background:linear-gradient(90deg,var(--terra-d),var(--terra));
+  box-shadow:0 0 8px rgba(169,81,53,.5),inset 0 1px 0 rgba(255,255,255,.2)}
+.lped .llight{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);width:10px;height:10px;
+  border-radius:50%;background:#3A2E25;margin-bottom:6px;transition:all .5s var(--ease)}
+.lped.lit .llight{background:var(--terra);box-shadow:0 0 14px rgba(169,81,53,.8)}
+.lped .lobj{filter:brightness(.72);transition:filter .6s var(--ease)}
+.lped.lit .lobj{filter:brightness(1)}

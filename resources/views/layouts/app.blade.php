@@ -9,6 +9,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Critical: first frame = dark museum, no flash */
+html{background:#141110}html.loading,html.loading body{overflow:hidden}
+#loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;overflow:hidden}
+#loader .load-cam{transition:transform 2.2s cubic-bezier(.22,1,.36,1);transform:scale(1.18) translateY(26px)}
+#loader.wide .load-cam{transform:scale(1) translateY(0)}
+#loader.enter .load-cam{transform:scale(1.12) translateY(-14px)}
+#loader.done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+</style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=121') }}">
 </head>
 <body>
@@ -16,6 +25,8 @@
 
 {{-- LOADER --}}
 <div id="loader" aria-hidden="true">
+<div class="load-cam" style="display:flex;flex-direction:column;align-items:center;gap:1.2rem">
+<div class="load-sign"><span>NUSANTARA ORCHESTRA</span></div>
 <div class="load-scene">
 @php
 $entrances=['e-rise','e-slide','e-rot','e-roll'];
@@ -23,12 +34,14 @@ $litems = ($loaderItems ?? collect())->take(4);
 if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { $lfallback=false; }
 @endphp
 @foreach($litems as $li => $it)
-<div class="lped {{ $entrances[$li % 4] }}">
+<div class="lped {{ $entrances[$li % 4] }}"><div class="llight"></div>
 <div class="lobj">@if(!$lfallback)<img src="{{ gambar_alat($it->gambar) }}" alt="">@else<div class="lclay"></div>@endif</div>
 <div class="lbase"></div>
 <div class="lrip"></div>
 </div>
 @endforeach
+</div>
+<div class="lfloor"><i></i><i></i><i></i><i></i></div>
 </div>
 <p class="lphase" id="lphase">MEMBANGUN RUANG MUSIK</p>
 <div class="lwave" aria-hidden="true">@for($i=0;$i<18;$i++)<i style="height:{{ 30+($i*37%70) }}%;animation-delay:{{ $i*70 }}ms"></i>@endfor</div>
@@ -92,15 +105,27 @@ window.addEventListener('load', function(){
     document.getElementById('loader').classList.add('done');
     document.documentElement.classList.remove('loading');
     // entry stagger
-    // Orchestra: pedestal naik bertahap, lalu instrumen + ripple
+    // LIFECYCLE: LOADING_ACTIVE -> LOADING_COMPLETE -> ENTERING_MUSEUM -> HOME
+    var loader=document.getElementById('loader');
     var peds=document.querySelectorAll('.lped');
     var lp=document.getElementById('lphase');
-    var phases=['MEMBANGUN RUANG MUSIK','MENYIAPKAN KOLEKSI','MENYALAKAN RUANG BUNYI'];
+    var fl=document.querySelectorAll('.lfloor i');
+    var phases=['MEMBANGUN RUANG MUSIK','MENYUSUN KOLEKSI','MENYALAKAN RUANG BUNYI'];
+    // Camera: mulai low/close, lalu pull back
+    requestAnimationFrame(function(){ loader.classList.add('wide'); });
     peds.forEach(function(pd,i){
-      setTimeout(function(){ pd.classList.add('up'); }, 250+i*300);
-      setTimeout(function(){ pd.classList.add('show'); if(lp&&phases[i]) lp.textContent=phases[i]; }, 800+i*300);
+      setTimeout(function(){ pd.classList.add('up'); }, 200+i*280);
+      setTimeout(function(){
+        pd.classList.add('show');
+        setTimeout(function(){ pd.classList.add('lit'); if(fl[i]) fl[i].classList.add('lit'); }, 450);
+        if(lp&&phases[Math.min(i,2)]) lp.textContent=phases[Math.min(i,2)];
+      }, 700+i*280);
     });
-    setTimeout(function(){ document.getElementById('loader').classList.add('logo'); }, 2000);
+    var lastMs = 700+(peds.length-1)*280+900;
+    // LOADING_COMPLETE: logo + wave
+    setTimeout(function(){ loader.classList.add('logo'); }, lastMs);
+    // ENTERING_MUSEUM: kamera maju masuk, bukan fade hitam
+    setTimeout(function(){ loader.classList.add('enter'); }, lastMs+450);
     var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
     els.forEach(function(el,i){
       el.style.opacity='0'; el.style.transform='translateY(18px)';
@@ -109,7 +134,7 @@ window.addEventListener('load', function(){
         el.style.opacity='1'; el.style.transform='none';
       });});
     });
-  }, reduced ? 100 : 2500);
+  }, reduced ? 100 : 700+3*280+900+450+650);
 });
 // fallback: jangan kunci selamanya
 setTimeout(function(){
