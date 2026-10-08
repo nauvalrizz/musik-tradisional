@@ -1,10 +1,12 @@
 /* MUSANTARA — The Living Sound Archive
    Dark atmospheric interactive museum. */
 :root{
-  --bg:#181614; --bg2:#211D19; --surface:#29231E; --surface2:#312923;
+  --bg:#151311; --bg2:#211D19; --surface:#29231E; --surface2:#312923;
   --text:#E8DFD1; --text2:#A99D8C; --muted:#766D62;
   --accent:#C85E38; --accent2:#8D6B4D; --moss:#66735E;
   --line:rgba(232,223,209,.10); --line2:rgba(232,223,209,.06);
+  --fast:150ms;--std:300ms;--slow:600ms;--ambient:10s;
+  --ease:cubic-bezier(.22,1,.36,1);
   --display:"Fraunces",Georgia,serif; --body:"Manrope",system-ui,sans-serif; --mono:"DM Mono",monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -253,3 +255,36 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   #loader{transition:none}
   .hero-wave i{animation:none}
 }
+
+/* ——— CUSTOM CURSOR ——— */
+@media(hover:hover) and (pointer:fine){
+  body{cursor:none}
+  a,button,.gamelan-pad,.clay-disc,.pad-row,input,select{cursor:none}
+  #cursor{position:fixed;top:0;left:0;z-index:400;pointer-events:none;transform:translate(-50%,-50%)}
+  #cursor .cdot{width:8px;height:8px;border-radius:50%;background:var(--accent);transition:all var(--fast) var(--ease);display:block}
+  #cursor .clabel{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:.55rem;letter-spacing:.18em;color:#fff;opacity:0;transition:opacity var(--fast);white-space:nowrap}
+  #cursor.hov .cdot{width:34px;height:34px;background:transparent;border:1px solid var(--accent)}
+  #cursor.snd .cdot{width:52px;height:52px;background:rgba(200,94,56,.16);border:1px solid var(--accent)}
+  #cursor.snd .clabel{opacity:1}
+  #cursor.opn .cdot{width:52px;height:52px;background:rgba(232,223,209,.08);border:1px solid var(--text2)}
+  #cursor.opn .clabel{opacity:1}
+}
+@media(hover:none){#cursor{display:none}}
+
+/* ——— MINI PLAYER ——— */
+#miniPlayer{position:fixed;bottom:1rem;left:50%;transform:translate(-50%,140%);z-index:150;
+  display:flex;align-items:center;gap:1rem;background:var(--surface2);border:1px solid var(--line);
+  padding:.7rem 1.1rem;min-width:min(420px,calc(100vw - 2rem));box-shadow:0 18px 44px rgba(0,0,0,.5);
+  transition:transform .4s var(--ease)}
+#miniPlayer.show{transform:translate(-50%,0)}
+#miniPlayer .mp-dot{width:2.6rem;height:2.6rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;flex-shrink:0;font-size:.85rem}
+#miniPlayer .mp-info{flex:1;min-width:0}
+#miniPlayer .mp-name{font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#miniPlayer .mp-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+#miniPlayer .mp-bar{height:3px;background:var(--bg);margin-top:.4rem;border-radius:2px;overflow:hidden}
+#miniPlayer .mp-fill{height:100%;background:var(--accent);width:0%;transition:width .3s linear}
+#miniPlayer .mp-x{color:var(--muted);font-size:1.1rem;padding:.3rem;flex-shrink:0}
+#miniPlayer .mp-x:hover{color:var(--text)}
+
+a:active,button:active,.pad-row:active{transform:translateY(1px)}
+.play-btn:active,.pdot:active{transform:scale(.93)!important}

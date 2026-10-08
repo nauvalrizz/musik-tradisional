@@ -12,7 +12,8 @@ class PulauController extends Controller
         $pulau = Pulau::where('slug', $slug)->firstOrFail();
 
         $alat = AlatMusik::where('pulau_id', $pulau->id)->get();
+        $featured = AlatMusik::where('pulau_id', $pulau->id)->whereNotNull('gambar')->where('gambar','!=','')->inRandomOrder()->first();
 
-        return view('pages.pulau', compact('pulau', 'alat'));
+        return view('pages.pulau', compact('pulau', 'alat', 'featured'));
     }
 }

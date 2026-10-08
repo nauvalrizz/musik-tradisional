@@ -23,6 +23,12 @@
 <div class="l-load">MEMUAT KOLEKSI…</div>
 </div>
 <div id="ambient" aria-hidden="true"></div>
+<div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
+<div id="miniPlayer" role="region" aria-label="Pemutar mini">
+<button class="mp-dot" id="mpToggle" aria-label="Putar/Jeda">▶</button>
+<div class="mp-info"><p class="mp-name" id="mpName">—</p><p class="mp-sub" id="mpSub">—</p><div class="mp-bar"><div class="mp-fill" id="mpFill"></div></div></div>
+<button class="mp-x" id="mpClose" aria-label="Tutup">×</button>
+</div>
 
 <header class="site-head" id="siteHead">
 <div class="wrap head-inner">
@@ -94,6 +100,45 @@ setTimeout(function(){
   var l=document.getElementById('loader');
   if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); }
 }, 4500);
+
+/* ——— CUSTOM CURSOR ——— */
+var cur=document.getElementById('cursor'),clab=cur?cur.querySelector('.clabel'):null;
+if(cur && !touch){
+  var cx=0,cy=0,px=0,py=0;
+  document.addEventListener('mousemove',function(e){cx=e.clientX;cy=e.clientY;},{passive:true});
+  (function cl(){
+    px+=(cx-px)*.35; py+=(cy-py)*.35;
+    cur.style.left=px+'px'; cur.style.top=py+'px';
+    requestAnimationFrame(cl);
+  })();
+  document.addEventListener('mouseover',function(e){
+    var t=e.target.closest('a,button,input,select,.gamelan-pad');
+    cur.className='';
+    if(!t) return;
+    if(t.closest('.gamelan-pad,.play-btn,.pdot,.pad-row,.clay-disc,.hero-play')){cur.classList.add('snd');clab.textContent='BUNYI';}
+    else if(t.closest('a')){cur.classList.add('opn');clab.textContent='BUKA';}
+    else{cur.classList.add('hov');}
+  });
+}
+
+/* ——— MINI PLAYER ——— */
+var mp=document.getElementById('miniPlayer'),mpN=document.getElementById('mpName'),
+    mpS=document.getElementById('mpSub'),mpF=document.getElementById('mpFill'),
+    mpT=document.getElementById('mpToggle'),mpTimer=null;
+function mpShow(name,sub){
+  mpN.textContent=name; mpS.textContent=sub||'MuSantara';
+  mp.classList.add('show'); mpT.textContent='❚❚';
+  clearInterval(mpTimer); var p=0;
+  mpTimer=setInterval(function(){ p+=2; if(p>=100){p=0;} mpF.style.width=p+'%'; },120);
+}
+document.getElementById('mpClose').addEventListener('click',function(){
+  mp.classList.remove('show'); clearInterval(mpTimer);
+});
+mpT.addEventListener('click',function(){
+  var playing=mpT.textContent==='❚❚';
+  mpT.textContent=playing?'▶':'❚❚';
+  if(playing) clearInterval(mpTimer);
+});
 
 /* ——— AMBIENT CURSOR LIGHT ——— */
 var amb = document.getElementById('ambient');
@@ -178,6 +223,7 @@ document.querySelectorAll('.gamelan-pad,.pad-row,.clay-disc').forEach(function(p
   p.addEventListener('click',function(){
     var nm=p.dataset.instrument||'—';
     if(st) st.textContent='♪ '+nm.toUpperCase()+' · '+(p.dataset.freq||'')+' Hz';
+    if(typeof mpShow==='function') mpShow(nm.charAt(0).toUpperCase()+nm.slice(1), 'Ruang Bunyi · '+(p.dataset.freq||'')+' Hz');
     document.querySelectorAll('.pad-row.playing').forEach(function(o){o.classList.remove('playing');});
     if(p.classList.contains('pad-row')) p.classList.add('playing');
     var w=p.closest('.stage-panel,.hero-meta,.dplayer,.player')?.querySelector('.hero-wave,.wave');
