@@ -258,7 +258,7 @@ const clk=new THREE.Clock();
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
 <div class="wrap">
-<div class="sect-label reveal"><span class="n">01 / ARSIP</span><span class="t">Ruang Bunyi</span><span class="ln"></span></div>
+<div class="sect-label reveal"><span class="n">01 / ARSIP</span><span class="t">Musantara</span><span class="ln"></span></div>
 <div class="gamelan gamelan-sec">
 <div class="gamelan-frame reveal">
 @php

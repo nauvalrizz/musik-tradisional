@@ -86,8 +86,8 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
 <div class="nav-links" id="navLinks">
 <span class="nav-marker" aria-hidden="true"></span>
-<a href="{{ url('/') }}#arsip" class="nav-link" data-nav="arsip">ARSIP</a>
 <a href="{{ url('/') }}#jelajahi" class="nav-link" data-nav="jelajahi">JELAJAHI</a>
+<a href="{{ url('/') }}#arsip" class="nav-link" data-nav="arsip">ARSIP</a>
 <a href="{{ url('/') }}#pulau" class="nav-link" data-nav="pulau">PULAU</a>
 <a href="{{ url('/') }}#koleksi" class="nav-link" data-nav="koleksi">KOLEKSI</a>
 <a href="{{ url('/ruang-bunyi') }}" class="nav-link" data-nav="ruang-bunyi">RUANG BUNYI</a>
