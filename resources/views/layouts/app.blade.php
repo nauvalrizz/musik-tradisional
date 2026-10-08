@@ -27,7 +27,7 @@
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-v70.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/navbar-v67.css') }}?v=53">
+    <link rel="stylesheet" href="{{ asset('assets/css/navbar-v71.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=53">
@@ -86,7 +86,7 @@
     <script src="{{ asset('assets/js/quiz.js') }}?v=53" defer></script>
 
     <!-- ================= MAIN ================= -->
-    <script type="module" src="{{ asset('assets/js/app-v70.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/app-v71.js') }}"></script>
     <!-- ================= TUTORIAL ================= -->
     <script src="{{ asset('assets/js/tutorial.js') }}?v=53" defer></script>
     <!-- ================= MAP ================= -->
