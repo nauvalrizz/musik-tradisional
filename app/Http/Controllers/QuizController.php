@@ -17,11 +17,6 @@ class QuizController extends Controller
      */
     public function global()
     {
-        if (session('explored_count', 0) < 3) {
-            return redirect('/')
-                ->with('error', 'Eksplor minimal 3 alat musik dulu!');
-        }
-
         $data = AlatMusik::inRandomOrder()->take(5)->get();
 
         $allKategori = ['Petik', 'Pukul', 'Tiup', 'Gesek', 'Goyang', 'Getar'];
@@ -58,11 +53,6 @@ class QuizController extends Controller
      */
     public function result()
     {
-        if (session('explored_count', 0) < 3) {
-            return redirect('/')
-                ->with('error', 'Eksplor minimal 3 alat musik dulu!');
-        }
-
         return view('quiz.result');
     }
 
