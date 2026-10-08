@@ -668,3 +668,14 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 #hero3d{touch-action:pan-y;cursor:grab}
 #hero3d:active{cursor:grabbing}
 @media(prefers-reduced-motion:reduce){#heroTitle .typed-cursor{display:none}}
+
+/* ——— RUANG BUNYI: recognizable instrument pads ——— */
+.rb-pad{display:flex;flex-direction:column;align-items:center;gap:.55rem;padding:1rem .7rem}
+.rb-svg{width:76px;height:76px;filter:drop-shadow(0 5px 8px rgba(0,0,0,.45));transition:transform .25s var(--ease)}
+.rb-pad:hover .rb-svg{transform:translateY(-3px) scale(1.05)}
+.rb-pad.struck .rb-svg{animation:rbhit .35s ease-out}
+@keyframes rbhit{0%{transform:scale(1)}35%{transform:scale(.93)}100%{transform:scale(1)}}
+.rb-pad b{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--paper);font-weight:500}
+.rb-pad[data-audio=""]{opacity:.55}
+.rb-pad[data-audio=""]::after{content:'TANPA AUDIO';font-family:var(--mono);font-size:.52rem;color:var(--muted);letter-spacing:.12em}
+@media(prefers-reduced-motion:reduce){.rb-pad.struck .rb-svg{animation:none}}

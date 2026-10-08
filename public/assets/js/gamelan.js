@@ -56,10 +56,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    var realAudio = null;
+    function playReal(url) {
+        try {
+            if (realAudio) { realAudio.pause(); }
+            realAudio = new Audio(url);
+            realAudio.play().catch(function(){});
+        } catch (e) {}
+    }
+
     function hitPad(pad) {
         var freq = parseFloat(pad.dataset.freq);
         var inst = pad.dataset.instrument;
-        strike(freq, inst);
+        if (pad.dataset.audio) { playReal(pad.dataset.audio); }
+        else { strike(freq, inst); }
         // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
         if (inst === 'angklung') {
             setTimeout(function () { strike(freq * 1.005, inst); }, 90);

@@ -45,7 +45,17 @@ class HomeController extends Controller
             }
         }
 
-        return view('pages.home', compact('hero', 'regions', 'islandCounts', 'heroInstruments'));
+        // Ruang Bunyi: audio DB asli per instrumen (single source of truth)
+        $ruangBunyi = [];
+        foreach (['gong','kempul','kenong','saron','bonang','gambang','demung','peking'] as $kw) {
+            $rec = AlatMusik::where('nama', 'LIKE', "%{$kw}%")->first();
+            $ruangBunyi[$kw] = [
+                'nama' => $rec ? $rec->nama : ucfirst($kw),
+                'audio' => ($rec && $rec->audio) ? audio_alat($rec->audio) : null,
+            ];
+        }
+
+        return view('pages.home', compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi'));
     }
     public function search(Request $request)
     {
