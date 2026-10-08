@@ -3,16 +3,18 @@
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
 
-    /* Koordinat tengah tiap pulau (viewBox 2000x1000) */
-    var CENTERS = {
-        'sumatra': [280, 380],
-        'jawa': [700, 720],
-        'kalimantan': [1010, 380],
-        'sulawesi': [1360, 440],
-        'bali-nusa-tenggara': [920, 760],
-        'maluku': [1610, 480],
-        'papua': [1820, 560]
-    };
+    /* Koordinat = tengah asli tiap pulau via getBBox (bukan tebakan) */
+    function getCenters() {
+        var centers = {};
+        svg.querySelectorAll('path[data-slug]').forEach(function(path) {
+            try {
+                var bb = path.getBBox();
+                centers[path.dataset.slug] = [bb.x + bb.width/2, bb.y + bb.height/2];
+            } catch(e) {}
+        });
+        return centers;
+    }
+    var CENTERS = getCenters();
 
     /* Koneksi: alat sejenis antar pulau */
     var LINKS = [
@@ -52,11 +54,7 @@
         markerGroup.appendChild(dot);
         // Klik marker = klik pulau
         [ring, dot].forEach(function(el) {
-            el.style.cursor = 'pointer';
-            el.addEventListener('click', function() {
-                var path = svg.querySelector('path[data-slug="' + slug + '"]');
-                if (path) path.dispatchEvent(new MouseEvent('click', {bubbles: true}));
-            });
+            el.style.pointerEvents = 'none'; // jangan block hover/tooltip pulau
         });
     });
 
