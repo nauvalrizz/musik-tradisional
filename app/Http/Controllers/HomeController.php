@@ -9,18 +9,27 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $featured = AlatMusik::inRandomOrder()
-            ->limit(6)
-            ->get();
+        // Hero: satu instrumen berfoto
+        $hero = AlatMusik::whereNotNull('gambar')->where('gambar', '!=', '')
+            ->inRandomOrder()->first();
 
-        // Jumlah alat per pulau (untuk tooltip peta)
+        // Koleksi per region (maks 4 per pulau, yg berfoto dulu)
+        $regions = [];
+        foreach (\App\Models\Pulau::orderBy('id')->get() as $pl) {
+            $items = AlatMusik::where('pulau_id', $pl->id)
+                ->whereNotNull('gambar')->where('gambar', '!=', '')
+                ->inRandomOrder()->limit(4)->get();
+            if ($items->count()) $regions[] = ['pulau' => $pl, 'items' => $items];
+        }
+
+        // Jumlah alat per pulau (untuk peta)
         $islandCounts = AlatMusik::join('pulau', 'alat_musik.pulau_id', '=', 'pulau.id')
             ->selectRaw('pulau.slug, COUNT(*) as jml')
             ->groupBy('pulau.slug')
             ->pluck('jml', 'slug')
             ->toArray();
 
-        return view('pages.home', compact('featured', 'islandCounts'));
+        return view('pages.home', compact('hero', 'regions', 'islandCounts'));
     }
     public function search(Request $request)
     {

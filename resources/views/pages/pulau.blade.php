@@ -1,28 +1,34 @@
 @extends('layouts.app')
 @section('title', $pulau->nama . ' — MuSantara')
 @section('content')
-<section class="section">
-<div class="wrap">
-<header class="section-head reveal">
-<div class="sec-num">◈</div>
-<div class="sec-title">
-<p class="eyebrow">Koleksi Pulau</p>
+<div class="wrap" style="padding:3rem 0">
+<a href="{{ url('/') }}#pulau" class="back-link reveal">← Kepulauan</a>
+<div class="chapter-head reveal" style="margin-bottom:2rem">
+<span class="ch-index">Wilayah</span>
+<div class="ch-title">
 <h2>{{ $pulau->nama }}</h2>
-<p><strong>{{ $alat->count() }}</strong> alat musik terarsip dari wilayah ini.</p>
+<p>{{ $alat->count() }} instrumen terarsip dari wilayah ini.</p>
 </div>
-</header>
+</div>
 @if($alat->isEmpty())
-<div class="search-card reveal" style="text-align:center">
-<p>Belum ada data alat musik di pulau ini.</p>
-<a class="btn" href="{{ url('/') }}" style="margin-top:1rem">Kembali ke Beranda</a>
-</div>
+<div class="player reveal" style="text-align:center"><p>Belum ada data di wilayah ini.</p></div>
 @else
-<div class="cards">
-@foreach($alat as $item)
-<x-card :item="$item" />
+<div class="objects">
+@foreach($alat as $idx => $item)
+<article class="object reveal">
+<a href="{{ url('/alat/'.$item->id.'?from=pulau&slug='.$pulau->slug) }}">
+<figure class="object-fig">
+@if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" data-zoom>@endif
+</figure>
+<div class="object-label">
+<span class="obj-num">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
+<p class="obj-name">{{ $item->nama }}</p>
+<p class="obj-meta">{{ $item->sumber_bunyi ?? '—' }}</p>
+</div>
+</a>
+</article>
 @endforeach
 </div>
 @endif
 </div>
-</section>
 @endsection
