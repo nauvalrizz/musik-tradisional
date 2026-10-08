@@ -1,91 +1,212 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="loading">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>@yield('title','MuSantara — Arsip Musik Tradisional Indonesia')</title>
-<meta name="description" content="Arsip digital interaktif alat musik tradisional Indonesia.">
+<title>@yield('title','MuSantara — Arsip Bunyi Nusantara')</title>
+<meta name="description" content="Arsip digital hidup alat musik tradisional Indonesia.">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/css/museum.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/living.css') }}">
 </head>
 <body>
 <a class="skip" href="#main">Lewati ke konten</a>
-<header class="site-head">
+
+{{-- LOADER --}}
+<div id="loader" aria-hidden="true">
+<div class="l-logo">MUSANTARA</div>
+<div class="l-sub">ARSIP MUSIK TRADISIONAL INDONESIA</div>
+<div class="l-count">01 — 08</div>
+<div class="l-line"><i></i><span class="l-dot"></span></div>
+<div class="l-load">MEMUAT KOLEKSI…</div>
+</div>
+<div id="ambient" aria-hidden="true"></div>
+
+<header class="site-head" id="siteHead">
 <div class="wrap head-inner">
-<a class="brand" href="{{ url('/') }}">MuSantara<small>ARSIP MUSIK TRADISIONAL</small></a>
+<a class="brand" href="{{ url('/') }}">MUSANTARA<small>ARSIP BUNYI</small></a>
 <nav class="head-nav" aria-label="Navigasi utama">
-<a href="{{ url('/') }}#bunyi">Arsip</a>
-<a href="{{ url('/') }}#telusuri">Jelajahi</a>
-<a href="{{ url('/') }}#pulau">Pulau</a>
-<a href="{{ url('/') }}#koleksi">Koleksi</a>
-</nav>
-<form class="head-search" action="{{ route('search') }}" method="GET" role="search">
-<input type="text" name="q" placeholder="Cari instrumen…" aria-label="Cari instrumen" value="{{ request('q') }}">
-<button type="submit" aria-label="Cari">→</button>
-</form>
-</div>
-</header>
-<main id="main">@yield('content')</main>
-<footer class="site-foot">
-<div class="wrap foot-grid">
-<div class="foot-brand">
-<span class="brand">MuSantara</span>
-<p>Arsip digital alat musik tradisional Indonesia — suara, tempat, dan cerita.</p>
-</div>
-<nav class="foot-nav" aria-label="Navigasi footer">
 <a href="{{ url('/') }}#bunyi">Arsip</a>
 <a href="{{ url('/') }}#pulau">Pulau</a>
 <a href="{{ url('/') }}#koleksi">Koleksi</a>
 <a href="/quiz-global">Kuis</a>
 </nav>
-<p class="foot-note">© {{ date('Y') }} MuSantara<br>Edukasi budaya Indonesia</p>
+<form class="head-search" action="{{ route('search') }}" method="GET" role="search">
+<input type="text" name="q" placeholder="Cari dalam arsip…" aria-label="Cari dalam arsip" value="{{ request('q') }}" autocomplete="off">
+<button type="submit" aria-label="Cari">→</button>
+</form>
+</div>
+</header>
+
+<main id="main">@yield('content')</main>
+
+<footer class="site-foot">
+<div class="wrap foot-grid">
+<div class="foot-brand">
+<span class="brand">MUSANTARA</span>
+<p style="margin-top:.6rem">Arsip bunyi hidup — instrumen, tempat, dan cerita dari kepulauan Indonesia.</p>
+</div>
+<nav class="foot-nav" aria-label="Navigasi footer">
+<a href="{{ url('/') }}#bunyi">Arsip Bunyi</a>
+<a href="{{ url('/') }}#pulau">Kepulauan</a>
+<a href="{{ url('/') }}#koleksi">Koleksi</a>
+<a href="/quiz-global">Kuis</a>
+</nav>
+<p class="foot-note">© {{ date('Y') }} MuSantara<br>Arsip budaya Indonesia</p>
 </div>
 </footer>
-<div id="imgModal" class="img-modal" aria-hidden="true" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(38,35,31,.92);align-items:center;justify-content:center;flex-direction:column;padding:1rem">
-<span class="img-close" role="button" aria-label="Tutup" style="position:absolute;top:1rem;right:1.4rem;font-size:2rem;color:#F3EEE4;cursor:pointer">&times;</span>
+
+<div id="imgModal" style="display:none;position:fixed;inset:0;z-index:250;background:rgba(12,10,8,.94);align-items:center;justify-content:center;flex-direction:column;padding:1rem">
+<span class="img-close" role="button" aria-label="Tutup" style="position:absolute;top:1rem;right:1.4rem;font-size:2rem;color:#E8DFD1;cursor:pointer">&times;</span>
 <img id="imgZoom" alt="" style="max-width:min(92vw,860px);max-height:80vh">
-<p id="imgCaption" style="color:#8A8177;font-family:var(--mono);font-size:.7rem;margin-top:.7rem"></p>
+<p id="imgCaption" style="color:#766D62;font-family:var(--mono);font-size:.68rem;margin-top:.7rem"></p>
 </div>
+
 <script src="{{ asset('assets/js/gamelan.js') }}" defer></script>
 @stack('scripts')
 <script>
 (function(){
-var m=document.getElementById('imgModal'),im=document.getElementById('imgZoom'),cp=document.getElementById('imgCaption');
-function openM(s,a){im.src=s;im.alt=a||'';cp.textContent=a||'';m.style.display='flex';document.body.style.overflow='hidden';}
-function closeM(){m.style.display='none';document.body.style.overflow='';}
-document.addEventListener('click',function(e){var t=e.target.closest('img[data-zoom]');if(t){openM(t.currentSrc||t.src,t.alt);return;}if(e.target.closest('.img-close')||e.target===m)closeM();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
-var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('visible');io.unobserve(en.target);}});},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
-/* Peta */
+"use strict";
+var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var touch = window.matchMedia('(hover: none)').matches;
+
+/* ——— LOADER 2.2s ——— */
+document.documentElement.classList.add('loading');
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    document.getElementById('loader').classList.add('done');
+    document.documentElement.classList.remove('loading');
+    // entry stagger
+    var els = document.querySelectorAll('.hero-top,.hero-stage,.hero-meta,.scroll-hint');
+    els.forEach(function(el,i){
+      el.style.opacity='0'; el.style.transform='translateY(18px)';
+      el.style.transition='opacity .7s ease '+(i*130)+'ms,transform .7s ease '+(i*130)+'ms';
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        el.style.opacity='1'; el.style.transform='none';
+      });});
+    });
+  }, reduced ? 100 : 2200);
+});
+// fallback: jangan kunci selamanya
+setTimeout(function(){
+  var l=document.getElementById('loader');
+  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); }
+}, 4500);
+
+/* ——— AMBIENT CURSOR LIGHT ——— */
+var amb = document.getElementById('ambient');
+if(!touch && !reduced && amb){
+  var ax=innerWidth/2, ay=innerHeight/3, tx=ax, ty=ay, shown=false;
+  document.addEventListener('mousemove', function(e){
+    tx=e.clientX; ty=e.clientY;
+    if(!shown){ amb.style.opacity='1'; shown=true; }
+  }, {passive:true});
+  (function loop(){
+    ax += (tx-ax)*0.06; ay += (ty-ay)*0.06;
+    amb.style.left=ax+'px'; amb.style.top=ay+'px';
+    requestAnimationFrame(loop);
+  })();
+}
+
+/* ——— HERO 3D TILT ——— */
+var heroObj = document.getElementById('heroObject');
+if(heroObj && !touch && !reduced){
+  var heroStage = document.getElementById('heroStage');
+  heroStage.addEventListener('mousemove', function(e){
+    var r = heroStage.getBoundingClientRect();
+    var x = (e.clientX - r.left)/r.width - .5;
+    var y = (e.clientY - r.top)/r.height - .5;
+    heroObj.style.transform = 'rotateY('+(x*6)+'deg) rotateX('+(-y*5)+'deg)';
+  });
+  heroStage.addEventListener('mouseleave', function(){ heroObj.style.transform=''; });
+}
+
+/* ——— HEADER COMPACT ——— */
+var head = document.getElementById('siteHead'), lastY=0;
+window.addEventListener('scroll', function(){
+  var y = window.scrollY;
+  head.classList.toggle('compact', y>120 && y>lastY);
+  lastY=y;
+}, {passive:true});
+
+/* ——— REVEAL ——— */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(en){
+    if(en.isIntersecting){
+      en.target.classList.add('visible');
+      // stagger cards
+      if(en.target.classList.contains('obj')){
+        var sibs=[].slice.call(en.target.parentNode.children);
+        var idx=sibs.indexOf(en.target);
+        en.target.style.transitionDelay=(idx*80)+'ms';
+      }
+      io.unobserve(en.target);
+    }
+  });
+},{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.reveal,.obj').forEach(function(el){ io.observe(el); });
+
+/* ——— MAP ——— */
 var NAMES={'sumatra':'Sumatera','jawa':'Jawa','kalimantan':'Kalimantan','sulawesi':'Sulawesi','bali-nusa-tenggara':'Bali & Nusa Tenggara','maluku':'Maluku','papua':'Papua'};
 var dc=document.getElementById('island-data'),COUNTS={};
 try{COUNTS=JSON.parse(dc?dc.dataset.counts:'{}');}catch(e){}
-var info=document.getElementById('regionInfo');
-document.querySelectorAll('.map-frame path[data-slug]').forEach(function(p){
-var s=p.dataset.slug;
-p.addEventListener('click',function(){window.location.href='/pulau/'+s;});
-p.addEventListener('mouseenter',function(){if(info)info.textContent=NAMES[s]+' — '+(COUNTS[s]||0)+' instrumen. Klik untuk menjelajah →';});
+var rBar=document.getElementById('regionBar');
+document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(p){
+  var s=p.dataset.slug;
+  p.addEventListener('mouseenter',function(){
+    document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(o){ if(o!==p) o.classList.add('dim'); });
+    if(rBar){
+      rBar.querySelector('.rn').textContent=NAMES[s]||s;
+      rBar.querySelector('.rc').textContent=(COUNTS[s]||0)+' instrumen';
+      rBar.classList.add('has-sel');
+    }
+  });
+  p.addEventListener('mouseleave',function(){
+    document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(o){ o.classList.remove('dim'); });
+  });
+  p.addEventListener('click',function(){
+    p.classList.add('lift');
+    setTimeout(function(){ window.location.href='/pulau/'+s; }, 320);
+  });
 });
-/* Pads -> status */
+
+/* ——— PADS: status + wave ——— */
 var st=document.getElementById('soundStatus');
-document.querySelectorAll('.gamelan-pad,.clay-disc').forEach(function(p){
-p.addEventListener('click',function(){
-var nm=p.dataset.instrument||'gong';
-if(st)st.textContent='♪ '+(NAMES[nm]||nm).toUpperCase();
-p.classList.add('hit');setTimeout(function(){p.classList.remove('hit');},300);
+document.querySelectorAll('.gamelan-pad,.pad-row,.clay-disc').forEach(function(p){
+  p.addEventListener('click',function(){
+    var nm=p.dataset.instrument||'—';
+    if(st) st.textContent='♪ '+nm.toUpperCase()+' · '+(p.dataset.freq||'')+' Hz';
+    document.querySelectorAll('.pad-row.playing').forEach(function(o){o.classList.remove('playing');});
+    if(p.classList.contains('pad-row')) p.classList.add('playing');
+    var w=p.closest('.stage-panel,.hero-meta,.dplayer,.player')?.querySelector('.hero-wave,.wave');
+    if(w){ w.classList.add('on','playing'); setTimeout(function(){w.classList.remove('on','playing');},3800); }
+  });
 });
+
+/* ——— MAGNETIC (subtle) ——— */
+if(!touch && !reduced){
+  document.querySelectorAll('.magnet,.btn-line,.play-btn').forEach(function(b){
+    b.addEventListener('mousemove',function(e){
+      var r=b.getBoundingClientRect();
+      var x=e.clientX-(r.left+r.width/2), y=e.clientY-(r.top+r.height/2);
+      b.style.transform='translate('+(x*.08)+'px,'+(y*.08)+'px)';
+    });
+    b.addEventListener('mouseleave',function(){ b.style.transform=''; });
+  });
+}
+
+/* ——— LIGHTBOX ——— */
+var m=document.getElementById('imgModal'),im=document.getElementById('imgZoom'),cp=document.getElementById('imgCaption');
+function openM(s,a){ im.src=s; im.alt=a||''; cp.textContent=a||''; m.style.display='flex'; document.body.style.overflow='hidden'; }
+function closeM(){ m.style.display='none'; document.body.style.overflow=''; }
+document.addEventListener('click',function(e){
+  var t=e.target.closest('img[data-zoom]');
+  if(t){ openM(t.currentSrc||t.src,t.alt); return; }
+  if(e.target.closest('.img-close')||e.target===m) closeM();
 });
-/* Waveform anim */
-document.querySelectorAll('.play-btn,.clay-disc,.obj-play').forEach(function(b){
-b.addEventListener('click',function(){
-var w=b.closest('.player,.sound-panel,.obj-label,.sound-stage')?.querySelector('.wave');
-if(w){w.classList.add('playing');setTimeout(function(){w.classList.remove('playing');},4000);}
-});
-});
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); });
 })();
 </script>
 </body>

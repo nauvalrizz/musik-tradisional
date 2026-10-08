@@ -8,106 +8,104 @@
     elseif ($from === 'pulau') { $backUrl = url('/pulau/'.$slug); $backText = '← '.ucfirst($slug); }
 @endphp
 <div class="wrap">
-<a href="{{ $backUrl }}" class="back-link reveal">{{ $backText }}</a>
+<div class="detail-top">
+<a href="{{ $backUrl }}" class="btn-line magnet reveal">{{ $backText }}</a>
+</div>
 <div class="detail-grid">
 <div class="detail-media reveal">
-<figure class="object-fig">
+<figure class="obj-fig">
 @if($alat->gambar)
 <img src="{{ gambar_alat($alat->gambar) }}" alt="{{ $alat->nama }}" data-zoom>
 @endif
 </figure>
 @if($alat->sumber_gambar)
-<p class="obj-meta" style="margin-top:.8rem">Sumber: <a href="{{ $alat->sumber_gambar }}" target="_blank" rel="noopener" style="text-decoration:underline">{{ $alat->author ?? 'Wikimedia Commons' }}</a> · {{ $alat->license ?? 'Lihat di sumber' }}</p>
+<p class="attr">Sumber: <a href="{{ $alat->sumber_gambar }}" target="_blank" rel="noopener">{{ $alat->author ?? 'Wikimedia Commons' }}</a> · {{ $alat->license ?? 'Lihat di sumber' }}</p>
 @endif
 </div>
 <div class="detail-info reveal">
 <p class="obj-num">Arsip № {{ str_pad($alat->id,3,'0',STR_PAD_LEFT) }}</p>
 <h1>{{ $alat->nama }}</h1>
-<p class="obj-meta">{{ optional($alat->pulau)->nama ?? 'Nusantara' }} · {{ $alat->sumber_bunyi ?? '—' }} · {{ $alat->kategori ?? '—' }}</p>
-<div class="obj-rule" style="margin:1.2rem 0"></div>
+<p class="origin">{{ optional($alat->pulau)->nama ?? 'Nusantara' }} · {{ $alat->sumber_bunyi ?? '—' }}</p>
+
 @if($alat->audio)
-<div class="player" style="margin-bottom:1.6rem">
-<div class="player-row">
-<button class="play-btn" id="btnAudio" aria-label="Putar rekaman">▶</button>
+<div class="dplayer">
+<div class="prow">
+<button class="play-btn magnet" id="btnAudio" aria-label="Putar rekaman">▶</button>
 <div><p style="font-weight:600">Rekaman Asli</p><p class="time">{{ $alat->nama }}</p></div>
 </div>
 <audio id="audioEl" src="{{ audio_alat($alat->audio) }}" preload="none"></audio>
-<div class="wave" id="audioWave" aria-hidden="true">@for($i=0;$i<24;$i++)<i style="height:{{ 20+($i*41%80) }}%"></i>@endfor</div>
+<div class="hero-wave" id="audioWave" aria-hidden="true" style="justify-content:flex-start;margin-top:1rem">@for($i=0;$i<24;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
 </div>
 @push('scripts')
 <script>
 document.getElementById('btnAudio')?.addEventListener('click',function(){
 var a=document.getElementById('audioEl'),w=document.getElementById('audioWave');
-if(a.paused){a.play();w.classList.add('playing');this.textContent='❚❚';}
-else{a.pause();w.classList.remove('playing');this.textContent='▶';}
-a.onended=function(){w.classList.remove('playing');document.getElementById('btnAudio').textContent='▶';};
+if(a.paused){a.play();w.classList.add('on');this.textContent='❚❚';}
+else{a.pause();w.classList.remove('on');this.textContent='▶';}
+a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio').textContent='▶';};
 });
 </script>
 @endpush
 @else
-<div class="player" style="margin-bottom:1.6rem">
-<div class="player-row">
-<button class="play-btn" id="btnSynth" data-sumber="{{ $alat->sumber_bunyi ?? 'Idiofon' }}" aria-label="Putar sintesis">▶</button>
+<div class="dplayer">
+<div class="prow">
+<button class="play-btn magnet" id="btnSynth" data-sumber="{{ $alat->sumber_bunyi ?? 'Idiofon' }}" aria-label="Putar sintesis">▶</button>
 <div><p style="font-weight:600">Karakter Bunyi</p><p class="time">Sintesis · {{ $alat->sumber_bunyi ?? 'Idiofon' }}</p></div>
 </div>
-<div class="wave" id="synthWave" aria-hidden="true">@for($i=0;$i<24;$i++)<i style="height:{{ 20+($i*41%80) }}%"></i>@endfor</div>
-<p class="obj-meta" style="margin-top:.8rem">Rekaman asli belum tersedia.</p>
+<div class="hero-wave" id="synthWave" aria-hidden="true" style="justify-content:flex-start;margin-top:1rem">@for($i=0;$i<24;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
+<p class="attr">Rekaman asli belum tersedia — sintesis karakter bunyinya.</p>
 </div>
 @endif
-<dl class="spec-table">
+
+<dl class="spec">
 <div><dt class="k">Pulau</dt><dd>{{ optional($alat->pulau)->nama ?? '—' }}</dd></div>
 <div><dt class="k">Sumber Bunyi</dt><dd>{{ $alat->sumber_bunyi ?? '—' }}</dd></div>
 <div><dt class="k">Kategori</dt><dd>{{ $alat->kategori ?? '—' }}</dd></div>
 </dl>
 <div class="prose">{!! nl2br(e($alat->deskripsi)) !!}</div>
-<div style="margin-top:1.8rem">
-<button class="quiz-opt quiz-trigger" type="button" style="text-align:center;font-weight:600">Coba Kuis: {{ $alat->nama }} →</button>
+<div style="margin-top:2rem">
+<button class="btn-line magnet quiz-trigger" type="button">Kuis: {{ $alat->nama }} <span class="arw">→</span></button>
 </div>
 </div>
 </div>
 
 @if($terkait->count())
-<div class="region-block reveal" style="margin-top:1rem">
-<div class="region-head">
-<span class="region-num">→</span>
-<span class="region-name">Arsip Terkait</span>
-<a class="region-count" href="{{ url('/acak') }}">Acak →</a>
-</div>
+<div class="sect-label reveal" style="margin-top:1rem"><span class="n">→</span><span class="t">Lanjutkan Menjelajah</span></div>
 <div class="objects">
-@foreach($terkait as $idx => $item)
-<article class="object">
-<a href="{{ url('/alat/'.$item->id) }}">
-<figure class="object-fig">
+@foreach($terkait->take(4) as $idx => $item)
+<article class="obj">
+<a href="{{ url('/alat/'.$item->id) }}" aria-label="{{ $item->nama }}">
+<figure class="obj-fig">
 @if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" data-zoom>@endif
 </figure>
-<div class="object-label">
-<span class="obj-num">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
-<p class="obj-name">{{ $item->nama }}</p>
-<p class="obj-meta">{{ optional($item->pulau)->nama ?? '—' }}</p>
+<div class="obj-meta">
+<span class="n">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
+<span class="t">{{ $item->nama }}<small>{{ optional($item->pulau)->nama ?? '—' }}</small></span>
+<span class="a">→</span>
 </div>
+<div class="obj-accent" aria-hidden="true"></div>
 </a>
 </article>
 @endforeach
-</div>
 </div>
 @endif
 </div>
 
 {{-- Quiz modal --}}
-<div id="quizModal" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(38,35,31,.9);align-items:center;justify-content:center;padding:1rem">
-<div class="quiz-card reveal" style="max-width:480px;width:100%;position:relative;max-height:90vh;overflow-y:auto">
-<button class="quiz-close" aria-label="Tutup" style="position:absolute;top:1rem;right:1.2rem;font-size:1.6rem">×</button>
-<p class="obj-num">Kuis Cepat</p>
-<p style="margin:.6rem 0"><strong>{{ $alat->nama }}</strong><br>{{ $pertanyaan }}</p>
+<div id="quizModal" aria-hidden="true">
+<div class="quiz-card">
+<button class="quiz-close" aria-label="Tutup" style="position:absolute;top:1rem;right:1.2rem;font-size:1.5rem;color:var(--text2)">×</button>
+<p class="obj-num" style="font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted)">KUIS CEPAT</p>
+<p style="margin:.7rem 0"><strong>{{ $alat->nama }}</strong><br><span style="color:var(--text2)">{{ $pertanyaan }}</span></p>
 <div class="quiz-options" data-correct="{{ $jawabanBenar }}" data-id="{{ $alat->id }}" data-tipe="{{ $tipeSoal }}">
 @foreach($opsi as $o)
-<button class="quiz-opt quiz-choice" type="button" data-value="{{ $o }}">{{ $o }}</button>
+<button class="quiz-choice" type="button" data-value="{{ $o }}">{{ $o }}</button>
 @endforeach
 </div>
-<p id="quiz-feedback" aria-live="polite" style="min-height:1.5rem;font-weight:600"></p>
-<div style="display:flex;gap:.6rem;justify-content:center;margin-top:.8rem">
-<button class="quiz-opt quiz-retry" type="button" style="margin:0;width:auto">Coba Lagi</button>
-<button class="quiz-opt quiz-close" type="button" style="margin:0;width:auto">Tutup</button>
+<p id="quiz-feedback" aria-live="polite"></p>
+<div style="display:flex;gap:.6rem;justify-content:center;margin-top:1rem">
+<button class="btn-line quiz-retry" type="button">Coba Lagi</button>
+<button class="btn-line quiz-close" type="button">Tutup</button>
 </div>
 </div>
 </div>
@@ -116,10 +114,9 @@ a.onended=function(){w.classList.remove('playing');document.getElementById('btnA
 <script src="{{ asset('assets/js/detail-synth.js') }}"></script>
 <script src="{{ asset('assets/js/quiz.js') }}"></script>
 <script>
-/* synth wave anim */
 document.getElementById('btnSynth')?.addEventListener('click',function(){
 var w=document.getElementById('synthWave');
-w.classList.add('playing');setTimeout(function(){w.classList.remove('playing');},3500);
+if(w){w.classList.add('on');setTimeout(function(){w.classList.remove('on');},3500);}
 });
 </script>
 @endpush

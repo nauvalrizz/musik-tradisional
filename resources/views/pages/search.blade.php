@@ -2,52 +2,51 @@
 @section('title', 'Pencarian — MuSantara')
 @section('content')
 <div class="wrap">
-<section class="search-hero">
-<p class="hero-kicker reveal">Pencarian Arsip</p>
-<h1 class="reveal" style="font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight:500;margin-bottom:.6rem">
-@if($q) &ldquo;{{ $q }}&rdquo; @else Jelajahi @endif
-</h1>
-<p class="reveal" style="color:var(--ink2)"><strong>{{ $data->total() }}</strong> hasil ditemukan.</p>
-<form method="GET" action="{{ url('/search') }}" class="reveal" style="margin-top:1.6rem">
-<div class="search-bar">
-<input type="text" name="q" value="{{ $q }}" placeholder="Cari instrumen…" aria-label="Cari instrumen">
-<button type="submit">Cari</button>
+<div class="search-head reveal">
+<p class="hero-kicker">Pencarian Arsip</p>
+<h1>@if($q)&ldquo;{{ $q }}&rdquo;@else Jelajahi @endif</h1>
+<p class="cnt">{{ $data->total() }} hasil ditemukan</p>
+<form method="GET" action="{{ url('/search') }}" class="reveal" style="margin-top:1.4rem">
+<div class="search-bar" style="display:flex;gap:.7rem;max-width:34rem">
+<input type="text" name="q" value="{{ $q }}" placeholder="Cari dalam arsip…" aria-label="Cari" style="flex:1;background:var(--surface);border:1px solid var(--line);padding:.75rem 1rem;color:var(--text);border-radius:2px">
+<button type="submit" class="btn-line magnet" style="border:1px solid var(--line);padding:.75rem 1.4rem;border-radius:2px">Cari</button>
 </div>
-<div class="filters">
+<div class="sfilters">
 <select name="pulau" onchange="this.form.submit()" aria-label="Filter pulau">
 <option value="">Semua Pulau</option>
 @foreach($pulaus as $pl)
 <option value="{{ $pl->id }}" {{ (string)$pulau===(string)$pl->id ? 'selected' : '' }}>{{ $pl->nama }}</option>
 @endforeach
 </select>
-<select name="sumber" onchange="this.form.submit()" aria-label="Filter sumber bunyi">
+<select name="sumber" onchange="this.form.submit()" aria-label="Filter sumber">
 <option value="">Semua Sumber</option>
 @foreach($sumbers as $sb)
 <option value="{{ $sb }}" {{ $sumber===$sb ? 'selected' : '' }}>{{ $sb }}</option>
 @endforeach
 </select>
 @if($pulau || $sumber || $q)
-<a href="{{ url('/search') }}" class="back-link" style="margin:0;align-self:center">Atur ulang</a>
+<a href="{{ url('/search') }}" class="btn-line" style="align-self:center">Atur ulang</a>
 @endif
 </div>
 </form>
-</section>
-<div style="padding:2.5rem 0">
+</div>
+<div style="padding-bottom:4rem">
 @if($data->isEmpty())
-<div class="player reveal" style="text-align:center"><p>Tidak ditemukan. Coba kata kunci lain.</p></div>
+<div class="quiz-card reveal" style="text-align:center"><p style="color:var(--text2)">Tidak ditemukan. Coba kata kunci lain.</p></div>
 @else
 <div class="objects">
 @foreach($data as $idx => $item)
-<article class="object reveal">
-<a href="{{ url('/alat/'.$item->id.'?from=search&q='.urlencode($q ?? '')) }}">
-<figure class="object-fig">
+<article class="obj">
+<a href="{{ url('/alat/'.$item->id.'?from=search&q='.urlencode($q ?? '')) }}" aria-label="{{ $item->nama }}">
+<figure class="obj-fig">
 @if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" data-zoom>@endif
 </figure>
-<div class="object-label">
-<span class="obj-num">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
-<p class="obj-name">{{ $item->nama }}</p>
-<p class="obj-meta">{{ optional($item->pulau)->nama ?? '—' }} · {{ $item->sumber_bunyi ?? '—' }}</p>
+<div class="obj-meta">
+<span class="n">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
+<span class="t">{{ $item->nama }}<small>{{ optional($item->pulau)->nama ?? '—' }} · {{ $item->sumber_bunyi ?? '—' }}</small></span>
+<span class="a">→</span>
 </div>
+<div class="obj-accent" aria-hidden="true"></div>
 </a>
 </article>
 @endforeach
