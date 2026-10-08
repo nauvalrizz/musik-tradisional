@@ -16,6 +16,12 @@
 </div>
 </aside>
 </div>
+<div class="hero-pad-wrap reveal">
+<button type="button" class="hero-pad gamelan-pad" data-instrument="gong" data-freq="98" aria-label="Pukul gong">
+<span>Gong</span><small>Ketuk aku</small>
+</button>
+</div>
+<p class="hero-hint">↑ COBA KETUK</p>
 </section>
 
 {{-- DIVIDER --}}
@@ -27,7 +33,7 @@
 <section class="section" id="bunyi">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">♪</div>
+<div class="sec-num"><span>♪</span></div>
 <div class="sec-title">
 <p class="eyebrow">Ruang Dengar</p>
 <h2>Ketuk dan dengarkan.</h2>
@@ -46,10 +52,10 @@
 </section>
 
 {{-- TELUSURI --}}
-<section class="section" id="telusuri">
+<section class="section section-alt" id="telusuri">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">⌕</div>
+<div class="sec-num"><span>⌕</span></div>
 <div class="sec-title">
 <p class="eyebrow">Indeks — Telusuri</p>
 <h2>Cari lewat nama, bahan, atau wilayah.</h2>
@@ -69,10 +75,10 @@
 </section>
 
 {{-- PULAU --}}
-<section class="section" id="pulau">
+<section class="section section-wide" id="pulau">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">◈</div>
+<div class="sec-num"><span>◈</span></div>
 <div class="sec-title">
 <p class="eyebrow">Peta — Pulau</p>
 <h2>Tujuh wilayah, tujuh warna bunyi.</h2>
@@ -90,7 +96,7 @@
 <section class="section" id="koleksi">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">✦</div>
+<div class="sec-num"><span>✦</span></div>
 <div class="sec-title">
 <p class="eyebrow">Koleksi — Pilihan</p>
 <h2>Enam artefak pilihan.</h2>
