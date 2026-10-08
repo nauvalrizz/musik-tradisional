@@ -17,7 +17,7 @@ function playCardAudio(btn) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    var pads = document.querySelectorAll('.gamelan-pad');
+    var pads = document.querySelectorAll('.gamelan-pad:not([data-pod-audio])');
     if (!pads.length) return;
 
     var ctx = null, master = null;
