@@ -652,3 +652,10 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 #hero3d canvas{border-radius:var(--r-m)}
 .hero-play.playing{background:linear-gradient(145deg,var(--terra),var(--terra-d));color:#fff}
 @media(prefers-reduced-motion:reduce){#heroTitle,.as-soundfield i{animation:none}}
+
+/* ——— HERO v3: title breathing + drag cursor ——— */
+#heroTitle{animation:titlesheen 9s ease-in-out infinite, titlebreathe 7s ease-in-out infinite}
+@keyframes titlebreathe{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(-4px);opacity:.96}}
+#hero3d{touch-action:pan-y;cursor:grab}
+#hero3d:active{cursor:grabbing}
+@media(prefers-reduced-motion:reduce){#heroTitle{animation:none}}

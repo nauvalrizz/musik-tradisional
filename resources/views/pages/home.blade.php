@@ -43,18 +43,23 @@
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
 </script>
+<script>
+window.HERO_DATA = @json($heroInstruments ?? []);
+</script>
 <script type="module">
 import * as THREE from 'three';
 (function(){
-// ═══ SINGLE SOURCE OF TRUTH ═══
-const INSTRUMENTS={
-  gong:{id:'gong',name:'GONG',origin:'JAWA · PERUNGGU',freq:98,decay:3.2,viz:'deep',
-    desc:'Gong ageng — jantung gamelan'},
-  kenong:{id:'kenong',name:'KENONG',origin:'JAWA · PERUNGGU',freq:220,decay:1.6,viz:'pulse',
-    desc:'Kenong — penanda irama gamelan'},
-  angklung:{id:'angklung',name:'ANGKLUNG',origin:'SUNDA · BAMBU',freq:440,decay:1.1,viz:'layered',
-    desc:'Angklung — orkestra bambu Sunda'},
+// ═══ SINGLE SOURCE OF TRUTH: database records ═══
+const DB = window.HERO_DATA || {};
+const INSTRUMENTS = {
+  gong:   Object.assign({id:'gong',   model:'gong',   viz:'deep'},    DB.gong||{}),
+  kenong: Object.assign({id:'kenong', model:'kenong', viz:'pulse'},   DB.kenong||{}),
+  angklung:Object.assign({id:'angklung',model:'angklung',viz:'layered'},DB.angklung||{}),
 };
+Object.values(INSTRUMENTS).forEach(o=>{
+  o.name=(o.nama||o.id).toUpperCase();
+  o.origin=((o.region||'Nusantara')+(o.sumber?' · '+o.sumber:'')).toUpperCase();
+});
 let SEL=INSTRUMENTS.gong;
 const stage=document.getElementById('heroArtifact'), box=document.getElementById('hero3d');
 let renderer;
@@ -128,10 +133,12 @@ function buildAngklung(){
   vib=t=>{tubes.forEach((tg,i)=>{tg.rotation.z=Math.sin(t*24+i*1.3)*.045;tg.position.x=tg.userData.baseX+Math.sin(t*24+i)*.012;});};
 }
 function select(id){
+  stopAllAudio(); stop();
   SEL=INSTRUMENTS[id]||INSTRUMENTS.gong; clearG();
   ({gong:buildGong,kenong:buildKenong,angklung:buildAngklung}[SEL.id])();
   scene.add(G);
   G.scale.setScalar(.01); // transisi masuk
+  userRY=0;userRX=0;velY=0;G.rotation.set(0,0,0);
   document.getElementById('heroName').textContent=SEL.name;
   document.getElementById('heroOrigin').textContent=SEL.origin;
   document.getElementById('heroPlayBtn').setAttribute('aria-label','Bunyikan '+SEL.name);
@@ -139,25 +146,24 @@ function select(id){
     const on=b.dataset.id===SEL.id;
     b.classList.toggle('active',on); b.setAttribute('aria-selected',on);
   });
+  refreshPlayBtn();
 }
-// Audio: synth per instrumen (arsitektur audio hero yang sudah ada)
-let AC=null;
-function playAudio(){
-  try{
-    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
-    if(AC.state==='suspended')AC.resume();
-    const t=AC.currentTime, f=SEL.freq, d=SEL.decay;
-    const mk=(type,freq,vol,dec)=>{
-      const o=AC.createOscillator(),g=AC.createGain();
-      o.type=type;o.frequency.value=freq;
-      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.02);
-      g.gain.exponentialRampToValueAtTime(.0001,t+dec);
-      o.connect(g).connect(AC.destination);o.start(t);o.stop(t+dec+.1);
-    };
-    if(SEL.id==='gong'){mk('sine',f,.5,d);mk('sine',f*2.02,.2,d*.7);mk('sine',f*2.94,.1,d*.5);}
-    else if(SEL.id==='kenong'){mk('triangle',f,.45,d);mk('sine',f*2.4,.15,d*.6);}
-    else{mk('triangle',f,.4,d);mk('sine',f*2,.12,d*.7);mk('sine',f*3.01,.06,d*.5);}
-  }catch(e){}
+// Audio: REAL database audio — satu <audio> per instrumen
+const audioEls={};
+Object.values(INSTRUMENTS).forEach(o=>{
+  if(o.audio){
+    const a=document.createElement('audio');
+    a.src=o.audio; a.preload='none';
+    audioEls[o.id]=a;
+    a.addEventListener('ended',()=>{ if(SEL.id===o.id) stop(); });
+  }
+});
+function stopAllAudio(){ Object.values(audioEls).forEach(a=>{a.pause();a.currentTime=0;}); }
+function refreshPlayBtn(){
+  const pb=document.getElementById('heroPlayBtn');
+  if(!pb)return;
+  if(!audioEls[SEL.id]){ pb.disabled=true; pb.style.opacity='.35'; pb.title='Audio belum tersedia'; }
+  else{ pb.disabled=false; pb.style.opacity=''; pb.title=''; }
 }
 // Visual reaksi per instrumen
 function ripple(){
@@ -171,14 +177,18 @@ function ripple(){
 }
 let sounding=false, vibT=0;
 function play(){
-  playAudio(); ripple();
+  const a=audioEls[SEL.id];
+  if(!a) return; // tidak ada audio DB: jangan substitusi bunyi lain
+  stopAllAudio();
+  a.currentTime=0;
+  a.play().catch(()=>{});
+  ripple();
   sounding=true; vibT=0; stage.classList.add('sounding');
   const pb=document.getElementById('heroPlayBtn');
   if(pb){pb.classList.add('playing');pb.innerHTML='&#10074;&#10074;';}
   if(window.mpShow) mpShow(SEL.name.charAt(0)+SEL.name.slice(1).toLowerCase(),'Artefak · '+SEL.origin);
   const st=document.getElementById('soundStatus');
-  if(st) st.textContent='♪ '+SEL.name+' · '+SEL.origin;
-  clearTimeout(stage._pt); stage._pt=setTimeout(stop, SEL.decay*1000+300);
+  if(st) st.textContent='\u266A '+SEL.name+' \u00B7 '+SEL.origin;
 }
 function stop(){
   sounding=false; stage.classList.remove('sounding');
@@ -191,31 +201,46 @@ document.getElementById('heroPlayBtn').addEventListener('click',play);
 document.getElementById('heroSelector').addEventListener('click',e=>{
   const b=e.target.closest('.hs-btn'); if(b) select(b.dataset.id);
 });
-// Parallax pointer (desktop)
-const hoverOK=matchMedia('(hover:hover)').matches;
-if(hoverOK){
-  stage.addEventListener('mousemove',e=>{
-    const r=stage.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-    if(G){G.rotation.y=x*.5;G.position.x=x*.25;}
-    cam.position.x=x*.7; cam.position.y=1.5-y*.3;
-    const tb=document.getElementById('heroTitleBlock');
-    if(tb) tb.style.transform='translate('+(-x*10)+'px,'+(-y*8)+'px)';
-  });
-  stage.addEventListener('mouseleave',()=>{cam.position.x=0;cam.position.y=1.5;
-    const tb=document.getElementById('heroTitleBlock'); if(tb)tb.style.transform='';});
+// Manual drag rotation — artefak museum yang bisa diputar tangan
+let dragging=false, lastX=0, lastY=0, velY=0, dragRX=0, userRY=0, userRX=0;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function dragStart(x,y){dragging=true;lastX=x;lastY=y;velY=0;}
+function dragMove(x,y){
+  if(!dragging||!G)return;
+  const dx=x-lastX, dy=y-lastY; lastX=x; lastY=y;
+  userRY+=dx*.008; userRX=Math.max(-.35,Math.min(.35,userRX+dy*.004));
+  velY=dx*.008;
+  G.rotation.y=userRY; G.rotation.x=userRX;
 }
+function dragEnd(){dragging=false;}
+box.addEventListener('pointerdown',e=>{box.setPointerCapture(e.pointerId);dragStart(e.clientX,e.clientY);});
+box.addEventListener('pointermove',e=>dragMove(e.clientX,e.clientY));
+box.addEventListener('pointerup',dragEnd);
+box.addEventListener('pointercancel',dragEnd);
+// Cegah drag = klik play: hanya play jika tidak bergerak
+let downPos=null;
+box.addEventListener('pointerdown',e=>{downPos=[e.clientX,e.clientY];});
+box.addEventListener('click',e=>{
+  if(downPos && Math.hypot(e.clientX-downPos[0],e.clientY-downPos[1])>8){e.stopImmediatePropagation();return;}
+},true);
 function rs(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
 new ResizeObserver(rs).observe(box); rs();
 select('gong');
+refreshPlayBtn();
 const clk=new THREE.Clock();
 (function loop(){
   requestAnimationFrame(loop);
   const t=clk.getElapsedTime();
   if(G){
     if(G.scale.x<1)G.scale.setScalar(Math.min(1,G.scale.x+.03)); // transisi masuk
-    if(!sounding)G.rotation.y+= (hoverOK?0:Math.sin(t*.2)*.002)+ (hoverOK?0:.0012);
-    else{vibT+=.016;if(vib)vib(vibT);}
+    if(sounding){vibT+=.016;if(vib)vib(vibT);}
+    else if(!dragging && !reduced){
+      // idle: micro-rotation + breathing, settle setelah drag
+      if(Math.abs(velY)>.0002){ userRY+=velY; velY*=.95; G.rotation.y=userRY; }
+      else { userRY+=Math.sin(t*.18)*.0009; G.rotation.y=userRY; }
+      G.position.y=Math.sin(t*.5)*.02; // breathing
+      warm.intensity=9+Math.sin(t*.4)*1.2; // cahaya hidup
+    }
   }
   for(let i=rings.length-1;i>=0;i--){const r=rings[i];r.t+=.016;if(r.t<0)continue;
     const k=r.t/r.spd;

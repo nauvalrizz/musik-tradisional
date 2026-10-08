@@ -29,7 +29,23 @@ class HomeController extends Controller
             ->pluck('jml', 'slug')
             ->toArray();
 
-        return view('pages.home', compact('hero', 'regions', 'islandCounts'));
+        // Hero: 3 instrumen permanen dari DB (single source of truth untuk audio)
+        $heroInstruments = [];
+        foreach (['gong' => 'gong', 'kenong' => 'kenong', 'angklung' => 'angklung'] as $id => $kw) {
+            $rec = AlatMusik::where('nama', 'LIKE', "%{$kw}%")->first();
+            if ($rec) {
+                $heroInstruments[$id] = [
+                    'id' => $id,
+                    'db_id' => $rec->id,
+                    'nama' => $rec->nama,
+                    'region' => optional($rec->pulau)->nama ?? 'Nusantara',
+                    'sumber' => $rec->sumber_bunyi,
+                    'audio' => $rec->audio ? audio_alat($rec->audio) : null,
+                ];
+            }
+        }
+
+        return view('pages.home', compact('hero', 'regions', 'islandCounts', 'heroInstruments'));
     }
     public function search(Request $request)
     {
