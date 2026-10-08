@@ -85,12 +85,13 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <a href="{{ url('/') }}" class="nav-brand">MUSA<em>N</em>TARA</a>
 <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
 <div class="nav-links" id="navLinks">
-<a href="{{ url('/') }}#arsip" class="nav-link">ARSIP</a>
-<a href="{{ url('/') }}#jelajahi" class="nav-link">JELAJAHI</a>
-<a href="{{ url('/') }}#pulau" class="nav-link">PULAU</a>
-<a href="{{ url('/') }}#koleksi" class="nav-link">KOLEKSI</a>
-<a href="{{ url('/ruang-bunyi') }}" class="nav-link">RUANG BUNYI</a>
-<a href="{{ url('/quiz-global') }}" class="nav-link">KUIS</a>
+<span class="nav-marker" aria-hidden="true"></span>
+<a href="{{ url('/') }}#arsip" class="nav-link" data-nav="arsip">ARSIP</a>
+<a href="{{ url('/') }}#jelajahi" class="nav-link" data-nav="jelajahi">JELAJAHI</a>
+<a href="{{ url('/') }}#pulau" class="nav-link" data-nav="pulau">PULAU</a>
+<a href="{{ url('/') }}#koleksi" class="nav-link" data-nav="koleksi">KOLEKSI</a>
+<a href="{{ url('/ruang-bunyi') }}" class="nav-link" data-nav="ruang-bunyi">RUANG BUNYI</a>
+<a href="{{ url('/quiz-global') }}" class="nav-link" data-nav="kuis">KUIS</a>
 </div>
 <form class="nav-search" action="{{ route('search') }}" method="get" role="search">
 <input type="search" name="q" placeholder="Cari dalam arsip…" aria-label="Cari dalam arsip">
@@ -355,6 +356,80 @@ var nt=document.getElementById('navToggle'),nl=document.getElementById('navLinks
 if(nt&&nl){ nt.addEventListener('click',function(){
   var open=nl.classList.toggle('open'); nt.setAttribute('aria-expanded',open);
 }); nl.addEventListener('click',function(e){ if(e.target.closest('a')) nl.classList.remove('open'); }); }
+
+/* ——— NAVBAR ACTIVE STATE: museum navigation marker ——— */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.nav-link[data-nav]'));
+  var marker=document.querySelector('.nav-marker');
+  var path=window.location.pathname.replace(/\/$/,'');
+  var isHome=(path===''||path==='/');
+  var current=null;
+
+  function setActive(key){
+    if(current===key) return;
+    current=key;
+    links.forEach(function(a){
+      var on=a.getAttribute('data-nav')===key;
+      a.classList.toggle('active',on);
+      if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    // gerakkan marker ke link aktif
+    if(marker){
+      var act=document.querySelector('.nav-link.active');
+      if(act){
+        var lr=act.getBoundingClientRect(), nr=act.parentElement.getBoundingClientRect();
+        var x=lr.left-nr.left+lr.width/2;
+        marker.style.transform='translateX('+x+'px)';
+        marker.style.opacity='1';
+      } else { marker.style.opacity='0'; }
+    }
+  }
+
+  // Route-based: halaman terpisah
+  if(path.indexOf('/ruang-bunyi')===0) setActive('ruang-bunyi');
+  else if(path.indexOf('/quiz')===0) setActive('kuis');
+  else if(isHome){
+    // Section-based: IntersectionObserver
+    var secs=['jelajahi','arsip','pulau','koleksi'];
+    var vis={};
+    var so=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        vis[en.target.id]=en.isIntersecting?en.intersectionRatio:0;
+      });
+      // pilih section dengan visibility tertinggi (stabil, anti-flicker)
+      var best=null,bestR=0.12;
+      secs.forEach(function(id){ if((vis[id]||0)>bestR){bestR=vis[id];best=id;} });
+      if(best) setActive(best);
+      else if(window.scrollY<120) setActive('jelajahi');
+    },{rootMargin:'-38% 0px -52% 0px',threshold:[0,0.15,0.3,0.5]});
+    secs.forEach(function(id){ var el=document.getElementById(id); if(el) so.observe(el); });
+    // initial
+    setTimeout(function(){ if(!current) setActive(window.scrollY<120?'jelajahi':'arsip'); },300);
+  }
+
+  // Smooth scroll dengan offset navbar
+  document.querySelectorAll('a[href*="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var href=a.getAttribute('href');
+      var hash=href.indexOf('#')>=0?href.slice(href.indexOf('#')):null;
+      if(!hash||hash.length<2) return;
+      // hanya untuk anchor di homepage
+      if(href.charAt(0)==='#'||(isHome&&href.indexOf(window.location.origin)===0)){
+        var t=document.querySelector(hash);
+        if(t){
+          e.preventDefault();
+          var nh=(nc?nc.offsetHeight:70)+14;
+          var y=t.getBoundingClientRect().top+window.scrollY-nh;
+          window.scrollTo({top:y,behavior:reduced?'auto':'smooth'});
+          history.replaceState(null,'',hash);
+        }
+      }
+    });
+  });
+
+  // Reposisi marker saat resize
+  var rT; window.addEventListener('resize',function(){ clearTimeout(rT); rT=setTimeout(function(){ var c=current; current=null; setActive(c); },200); });
+})();
 
 /* ——— REVEAL ——— */
 var io=new IntersectionObserver(function(es){
