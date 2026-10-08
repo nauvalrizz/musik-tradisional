@@ -1412,11 +1412,9 @@ body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
     .batik-divider { opacity: 0.5; }
 }
 
-50% { transform: skewX(-12deg) translateX(60px); opacity: 1; }
-}
 .gallery-hero .container { position: relative; z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
-    .wayang-shadow, 
+    .wayang-shadow { display: none; }
 }
 @media (max-width: 768px) {
     .wayang-shadow { width: 70vw; opacity: 0.1; }
