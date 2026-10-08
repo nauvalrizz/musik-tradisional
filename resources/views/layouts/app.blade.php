@@ -18,7 +18,7 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 #loader.enter .load-cam{transform:scale(1.12) translateY(-14px)}
 #loader.done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
 </style>
-<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=121') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=153') }}">
 </head>
 <body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 
