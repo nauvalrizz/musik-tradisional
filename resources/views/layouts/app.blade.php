@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/app-v110.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/app-v111.css') }}">
 </head>
 <body>
     <a class="skip" href="#main">Lewati ke konten</a>
