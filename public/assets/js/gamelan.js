@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function () {
         var freq = parseFloat(pad.dataset.freq);
         var inst = pad.dataset.instrument;
         if (pad.dataset.audio) { playReal(pad.dataset.audio); }
-        else { strike(freq, inst); }
+        else if (!pad.hasAttribute('data-pod-audio')) { strike(freq, inst); }
+        /* card (data-pod-audio) tanpa audio DB: JANGAN bunyikan synth fake */
         // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
         if (inst === 'angklung') {
             setTimeout(function () { strike(freq * 1.005, inst); }, 90);
