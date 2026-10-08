@@ -1,49 +1,28 @@
 @extends('layouts.app')
-
+@section('title', $pulau->nama . ' — MuSantara')
 @section('content')
-    <div class="container">
-
-        <!-- HEADER ARSIP -->
-        <div class="page-head" data-reveal>
-            <p class="page-eyebrow">Koleksi Pulau</p>
-            <h1 class="page-title">{{ $pulau->nama }}</h1>
-            <div class="page-rule"></div>
-            <p class="page-sub"><strong>{{ $alat->count() }}</strong> alat musik terarsip</p>
-        </div>
-
-        <!-- SKELETON LOADER -->
-        <div id="pageLoader" class="mt-4">
-            <div class="row g-4">
-                @for ($i = 0; $i < 6; $i++)
-                    <div class="col-12 col-sm-6 col-md-4">
-                        <x-skeleton-card />
-                    </div>
-                @endfor
-            </div>
-        </div>
-
-        <!-- REAL CONTENT -->
-        <div id="realContent" class="mt-4" style="display:none;">
-            <div class="row g-4" data-stagger>
-
-                <!-- EMPTY STATE -->
-                @if ($alat->isEmpty())
-                    <div class="text-center mt-4">
-                        <p>Tidak ada data alat musik di pulau ini</p>
-                    </div>
-                @endif
-
-                <!-- LIST DATA -->
-                @foreach ($alat as $item)
-                    <div class="col-12 col-sm-6 col-md-4">
-
-                        <x-card :item="$item" />
-
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-
-    </div>
+<section class="section">
+<div class="wrap">
+<header class="section-head reveal">
+<div class="sec-num">◈</div>
+<div class="sec-title">
+<p class="eyebrow">Koleksi Pulau</p>
+<h2>{{ $pulau->nama }}</h2>
+<p><strong>{{ $alat->count() }}</strong> alat musik terarsip dari wilayah ini.</p>
+</div>
+</header>
+@if($alat->isEmpty())
+<div class="search-card reveal" style="text-align:center">
+<p>Belum ada data alat musik di pulau ini.</p>
+<a class="btn" href="{{ url('/') }}" style="margin-top:1rem">Kembali ke Beranda</a>
+</div>
+@else
+<div class="cards">
+@foreach($alat as $item)
+<x-card :item="$item" />
+@endforeach
+</div>
+@endif
+</div>
+</section>
 @endsection
