@@ -260,6 +260,46 @@ if(!touch && !reduced){
   });
 }
 
+/* ——— HERO: typing title (fallback aman: teks penuh di HTML) ——— */
+(function(){
+  var el=document.getElementById('heroTitle'); if(!el) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; // tampil penuh
+  var full=el.getAttribute('data-full')||'MUSANTARA';
+  el.setAttribute('aria-label',full);
+  var wrap=document.createElement('span'); wrap.className='typed-wrap'; wrap.setAttribute('aria-hidden','true');
+  var cursor=document.createElement('span'); cursor.className='typed-cursor';
+  el.textContent=''; el.appendChild(wrap); el.appendChild(cursor);
+  var paused=false;
+  var hero3d=document.getElementById('hero3d');
+  if(hero3d){
+    hero3d.addEventListener('pointerdown',function(){paused=true;});
+    addEventListener('pointerup',function(){setTimeout(function(){paused=false;},1500);});
+  }
+  function render(n){
+    wrap.innerHTML='';
+    for(var j=0;j<n;j++){
+      var c=document.createElement('span');
+      c.className='tchar'; c.textContent=full[j];
+      wrap.appendChild(c);
+    }
+  }
+  var i=0, mode='type';
+  function tick(){
+    if(paused){ setTimeout(tick,600); return; }
+    if(mode==='type'){
+      i++; render(i); el.classList.add('typing');
+      if(i>=full.length){ mode='hold'; el.classList.remove('typing'); setTimeout(tick,2200); return; }
+      setTimeout(tick,150);
+    }else if(mode==='hold'){
+      mode='del'; setTimeout(tick,400);
+    }else{
+      i--; render(Math.max(i,0));
+      if(i<=0){ mode='type'; setTimeout(tick,1000); return; }
+      setTimeout(tick,100);
+    }
+  }
+  render(0); tick();
+})();
 /* Hero 3D: parallax & sounding di-handle modul Three.js di home.blade.php */
 
 /* ——— CARD IMAGE PARALLAX (subtle) ——— */

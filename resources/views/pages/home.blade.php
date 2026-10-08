@@ -7,7 +7,7 @@
 <div class="hero-grid">
 <div class="reveal" id="heroTitleBlock">
 <p class="hero-kicker" id="heroEyebrow">DIGITAL MUSEUM OF INDONESIAN SOUND</p>
-<h1 class="hero-title" id="heroTitle">Musa<span>ntara</span></h1>
+<h1 class="hero-title" id="heroTitle" data-full="MUSANTARA">MUSANTARA</h1>
 <p class="hero-sub">Museum tanah liat digital untuk alat musik tradisional Indonesia. Sentuh, tekan, dengarkan — setiap objek punya bunyi.</p>
 <div class="hero-ctas">
 <a href="#arsip" class="clay-btn primary">Jelajahi Arsip <span class="arw">→</span></a>

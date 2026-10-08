@@ -652,14 +652,16 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 .hero-play.playing{background:linear-gradient(145deg,var(--terra),var(--terra-d));color:#fff}
 @media(prefers-reduced-motion:reduce){#heroTitle,.as-soundfield i{animation:none}}
 
-/* ——— HERO v5: safe title idle (visible selalu) ——— */
-#heroTitle{opacity:1;visibility:visible;animation:tsafe 9s ease-in-out infinite;will-change:transform}
-@keyframes tsafe{
-  0%,100%{transform:translate3d(0,0,0) scale(1)}
-  25%{transform:translate3d(0,-2px,0) scale(1.004)}
-  50%{transform:translate3d(0,0,0) scale(1)}
-  75%{transform:translate3d(0,2px,0) scale(1.004)}
-}
+/* ——— HERO v6: typing title (container selalu visible) ——— */
+#heroTitle{position:relative;opacity:1;visibility:visible;animation:none}
+#heroTitle::before{content:attr(data-full);visibility:hidden;white-space:nowrap}
+#heroTitle .typed-wrap{position:absolute;left:0;top:0;white-space:nowrap}
+#heroTitle .tchar{display:inline-block;animation:charin .16s ease-out}
+@keyframes charin{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:none}}
+#heroTitle .typed-cursor{display:inline-block;width:2px;height:.92em;background:var(--terra);
+  margin-left:4px;vertical-align:-.06em;opacity:0;border-radius:1px}
+#heroTitle.typing .typed-cursor{animation:cursorblink .62s steps(1) infinite}
+@keyframes cursorblink{0%,55%{opacity:.9}56%,100%{opacity:0}}
 #hero3d{touch-action:pan-y;cursor:grab}
 #hero3d:active{cursor:grabbing}
-@media(prefers-reduced-motion:reduce){#heroTitle{animation:none}}
+@media(prefers-reduced-motion:reduce){#heroTitle .typed-cursor{display:none}}
