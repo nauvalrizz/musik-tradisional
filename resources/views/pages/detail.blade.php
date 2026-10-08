@@ -75,7 +75,7 @@ a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio'
 
 @if($terkait->count())
 <div class="sect-label reveal" style="margin-top:1rem"><span class="n">→</span><span class="t">Lanjutkan Menjelajah</span></div>
-<div class="objects">
+<div class="pods">
 @foreach($terkait->take(4) as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach

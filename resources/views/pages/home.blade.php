@@ -80,26 +80,9 @@
 <div class="sect-label reveal"><span class="n">03 / ARSIP</span><span class="t">Koleksi</span><span class="ln"></span></div>
 @foreach($regions as $ri => $rg)
 <div class="sect-label reveal" style="margin:2.4rem 0 1.6rem"><span class="n">{{ $rg['pulau']->nama }}</span><span class="t" style="font-size:1rem">{{ $rg['items']->count() }} objek</span><span class="ln"></span></div>
-<div class="objects shelf">
+<div class="pods">
 @foreach($rg['items'] as $idx => $item)
-<article class="obj idle-{{ ['a','b','c'][$idx % 3] }}">
-<div class="clay-card">
-<a href="{{ url('/alat/'.$item->id) }}" aria-label="{{ $item->nama }}">
-<div class="fig">
-<span class="idx">{{ str_pad($idx+1,2,'0',STR_PAD_LEFT) }}</span>
-@if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" data-zoom>@endif
-</div>
-<div class="meta">
-<h3>{{ $item->nama }}</h3>
-<p class="rg">{{ $rg['pulau']->nama }}{{ $item->sumber_bunyi ? ' · '.$item->sumber_bunyi : '' }}</p>
-<div class="row">
-<span class="cat">{{ strtoupper($item->sumber_bunyi ?? 'TRADISIONAL') }}</span>
-<button type="button" class="sound-tag gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$item->nama)) }}" data-freq="{{ 196 + ($item->id % 8) * 49 }}" aria-label="Dengarkan {{ $item->nama }}">▶ DENGARKAN</button>
-</div>
-</div>
-</a>
-</div>
-</article>
+@include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach
 </div>
 @endforeach

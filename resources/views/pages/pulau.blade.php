@@ -48,7 +48,7 @@
 <a href="{{ url('/') }}#pulau" class="clay-btn">Kembali ke Pulau <span class="arw">→</span></a>
 </div>
 @else
-<div class="objects">
+<div class="pods">
 @foreach($alat as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach

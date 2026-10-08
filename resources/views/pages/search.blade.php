@@ -35,7 +35,7 @@
 <a href="{{ url('/search') }}" class="clay-btn">Atur ulang</a>
 </div>
 @else
-<div class="objects shelf" style="margin-top:2rem">
+<div class="pods" style="margin-top:2rem">
 @foreach($data as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach

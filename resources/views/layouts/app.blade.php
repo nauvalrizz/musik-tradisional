@@ -16,10 +16,19 @@
 
 {{-- LOADER --}}
 <div id="loader" aria-hidden="true">
-<div class="lg" aria-hidden="true"></div>
+<div class="load-scene">
+@php $entrances=['e-rise','e-slide','e-rot','e-roll']; @endphp
+@foreach(($loaderItems ?? collect())->take(4) as $li => $it)
+<div class="lped {{ $entrances[$li % 4] }}">
+<div class="lobj"><img src="{{ gambar_alat($it->gambar) }}" alt=""></div>
+<div class="lbase"></div>
+<div class="lrip"></div>
+</div>
+@endforeach
+</div>
+<div class="lwave" aria-hidden="true">@for($i=0;$i<18;$i++)<i style="height:{{ 30+($i*37%70) }}%;animation-delay:{{ $i*70 }}ms"></i>@endfor</div>
 <div class="lt">MUSANTARA</div>
 <div class="ls">ARSIP BUNYI NUSANTARA</div>
-<div class="lbar"><i id="lbarFill"></i></div>
 </div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
@@ -78,8 +87,13 @@ window.addEventListener('load', function(){
     document.getElementById('loader').classList.add('done');
     document.documentElement.classList.remove('loading');
     // entry stagger
-    var bf=document.getElementById('lbarFill');
-    if(bf){ var w=0; var iv=setInterval(function(){ w+=8; if(w>=100){w=100;clearInterval(iv);} bf.style.width=w+'%'; },140); }
+    // Orchestra: pedestal naik bertahap, lalu instrumen + ripple
+    var peds=document.querySelectorAll('.lped');
+    peds.forEach(function(pd,i){
+      setTimeout(function(){ pd.classList.add('up'); }, 250+i*300);
+      setTimeout(function(){ pd.classList.add('show'); }, 800+i*300);
+    });
+    setTimeout(function(){ document.getElementById('loader').classList.add('logo'); }, 1900);
     var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
     els.forEach(function(el,i){
       el.style.opacity='0'; el.style.transform='translateY(18px)';
@@ -88,7 +102,7 @@ window.addEventListener('load', function(){
         el.style.opacity='1'; el.style.transform='none';
       });});
     });
-  }, reduced ? 100 : 2200);
+  }, reduced ? 100 : 2500);
 });
 // fallback: jangan kunci selamanya
 setTimeout(function(){
@@ -197,8 +211,8 @@ if(pobj && !touch && !reduced){
 
 /* ——— CARD IMAGE PARALLAX (subtle) ——— */
 if(!touch && !reduced){
-  document.querySelectorAll('.clay-card').forEach(function(c){
-    var img=c.querySelector('.fig img'); if(!img) return;
+  document.querySelectorAll('.clay-card,.pod').forEach(function(c){
+    var img=c.querySelector('.fig img,.pod-obj img'); if(!img) return;
     c.addEventListener('mousemove',function(e){
       var r=c.getBoundingClientRect();
       var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
@@ -209,7 +223,7 @@ if(!touch && !reduced){
 }
 
 /* ——— IMAGE LOADING STATES ——— */
-document.querySelectorAll('.clay-card .fig img,.pedestal .pobj img').forEach(function(img){
+document.querySelectorAll('.clay-card .fig img,.pedestal .pobj img,.pod-obj img').forEach(function(img){
   function done(){ img.classList.add('ld'); }
   function err(){ var f=img.closest('.fig'); if(f) f.classList.add('img-err'); img.style.display='none'; }
   if(img.complete && img.naturalWidth>0) done();
@@ -248,7 +262,7 @@ var io=new IntersectionObserver(function(es){
     if(en.isIntersecting){
       en.target.classList.add('visible');
       // stagger cards
-      if(en.target.classList.contains('obj')){
+      if(en.target.classList.contains('obj')||en.target.classList.contains('pod')){
         var sibs=[].slice.call(en.target.parentNode.children);
         var idx=sibs.indexOf(en.target);
         en.target.style.transitionDelay=(idx*80)+'ms';
@@ -257,7 +271,7 @@ var io=new IntersectionObserver(function(es){
     }
   });
 },{threshold:.08,rootMargin:'0px 0px -6% 0px'});
-document.querySelectorAll('.reveal,.obj').forEach(function(el){ io.observe(el); });
+document.querySelectorAll('.reveal,.obj,.pod').forEach(function(el){ io.observe(el); });
 
 /* ——— MAP ——— */
 var NAMES={'sumatra':'Sumatera','jawa':'Jawa','kalimantan':'Kalimantan','sulawesi':'Sulawesi','bali-nusa-tenggara':'Bali & Nusa Tenggara','maluku':'Maluku','papua':'Papua'};
@@ -290,6 +304,10 @@ document.querySelectorAll('.gamelan-pad,.pad-row,.clay-disc').forEach(function(p
     var nm=p.dataset.instrument||'—';
     if(st) st.textContent='♪ '+nm.toUpperCase()+' · '+(p.dataset.freq||'')+' Hz';
     if(typeof mpShow==='function') mpShow(nm.charAt(0).toUpperCase()+nm.slice(1), 'Ruang Bunyi · '+(p.dataset.freq||'')+' Hz');
+    if(p.hasAttribute('data-pod-audio')){
+      document.querySelectorAll('.pod.playing').forEach(function(o){o.classList.remove('playing');});
+      var pod=p.closest('.pod'); if(pod){ pod.classList.add('playing'); setTimeout(function(){pod.classList.remove('playing');},4000); }
+    }
     document.querySelectorAll('.pad-row.playing').forEach(function(o){o.classList.remove('playing');});
     if(p.classList.contains('pad-row')) p.classList.add('playing');
     var w=p.closest('.stage-panel,.hero-meta,.dplayer,.player')?.querySelector('.hero-wave,.wave');
