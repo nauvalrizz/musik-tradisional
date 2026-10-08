@@ -1,4 +1,4 @@
-@props(['item','idx'=>0])
+@php $idx = $idx ?? 0; @endphp
 @php
     $url = '/alat/' . $item->id;
     if (request()->routeIs('pulau.*') || request()->segment(1) === 'pulau') {
