@@ -2,225 +2,182 @@
 
 @section('content')
 
-{{-- ═══════════ TABUHAN PEMBUKA — intro homepage ═══════════ --}}
-<div id="tabuhan" aria-hidden="true">
-    <span class="tabuhan-medal m1"><img src="{{ asset('storage/img/angklung.jpg') }}" alt=""></span>
-    <span class="tabuhan-flash f1"></span>
-    <span class="tabuhan-medal m2"><img src="{{ asset('storage/img/bonang.jpg') }}" alt=""></span>
-    <span class="tabuhan-flash f2"></span>
-    <span class="tabuhan-medal m3"><img src="{{ asset('storage/img/gong.jpg') }}" alt=""></span>
-    <span class="tabuhan-flash f3"></span>
-    <span class="tabuhan-burst"></span>
-    <span class="tabuhan-brand">MUSANTARA</span>
-    <span class="tabuhan-skip">ketuk untuk lewati</span>
-</div>
+<main id="main">
+    {{-- ═══════════ HERO ═══════════ --}}
+    <section class="hero" id="top">
+        <div class="frame hero-layout">
+            <div class="hero-copy">
+                <div class="archive-label">001 — Arsip Terbuka — Indonesia</div>
+                <h1>ARSIP <em>Bunyi</em><span class="title-nusantara">NUSANTARA</span></h1>
+            </div>
+            <aside class="hero-side">
+                <p>Jejak bunyi dari logam, kayu, kulit, bambu, dan dawai — ditata sebagai ruang dengar untuk warisan yang terus hidup.</p>
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="#bunyi">Mulai mendengar <span class="arrow" aria-hidden="true">&rarr;</span></a>
+                    <a class="btn" href="#koleksi">Buka koleksi</a>
+                </div>
+            </aside>
+        </div>
+        <div class="scroll-mark" aria-hidden="true">GULIR UNTUK MENELUSURI</div>
+    </section>
 
-{{-- ═══════════ HERO — satu viewport penuh: penjelasan + alat ═══════════ --}}
-<section class="gallery-hero">
-    <p class="exhibit-no hero-anim" style="--d:.05s"><b>001</b><i></i>Arsip Terbuka &mdash; Indonesia</p>
-
-    <figure class="gallery-fig hero-anim" style="--d:.35s">
-        <img src="{{ asset('assets/img/hero-gong.jpg') }}?v=24" alt="Kenong perunggu dalam sorotan museum" fetchpriority="high">
-        <figcaption><b>Fig. 01</b> &mdash; Kenong perunggu, Jawa Tengah</figcaption>
-    </figure>
-
-    <div class="gallery-type">
-        <h1 class="gallery-title">
-            <span class="hero-anim" style="--d:.15s">ARSIP</span>
-            <span class="hero-anim" style="--d:.3s"><em>Bunyi</em></span>
-            <span class="hero-anim" style="--d:.45s">NUSANTARA</span>
-        </h1>
-        <p class="gallery-sub hero-anim" style="--d:.6s">
-            Arsip hidup alat musik tradisional Indonesia.
-            <a href="#arsip-bunyi">Ketuk</a> bunyinya,
-            <a href="#telusuri">telusuri</a> asalnya,
-            <a href="#koleksi">baca</a> ceritanya.
-        </p>
+    {{-- ═══════════ BATIK DIVIDER ═══════════ --}}
+    <div class="batik-band" aria-hidden="true">
+        <svg viewBox="0 0 1200 120" role="presentation">
+            <path d="M0 60C30 10 90 10 120 60S210 110 240 60 330 10 360 60 450 110 480 60 570 10 600 60 690 110 720 60 810 10 840 60 930 110 960 60 1050 10 1080 60 1170 110 1200 60M0 60C30 110 90 110 120 60S210 10 240 60 330 110 360 60 450 10 480 60 570 110 600 60 690 10 720 60 810 110 840 60 930 10 960 60 1050 110 1080 60 1170 10 1200 60M60 0C10 30 10 90 60 120M60 0C110 30 110 90 60 120M180 0C130 30 130 90 180 120M180 0C230 30 230 90 180 120M300 0C250 30 250 90 300 120M300 0C350 30 350 90 300 120M420 0C370 30 370 90 420 120M420 0C470 30 470 90 420 120M540 0C490 30 490 90 540 120M540 0C590 30 590 90 540 120M660 0C610 30 610 90 660 120M660 0C710 30 710 90 660 120M780 0C730 30 730 90 780 120M780 0C830 30 830 90 780 120M900 0C850 30 850 90 900 120M900 0C950 30 950 90 900 120M1020 0C970 30 970 90 1020 120M1020 0C1070 30 1070 90 1020 120M1140 0C1090 30 1090 90 1140 120M1140 0C1190 30 1190 90 1140 120"/>
+        </svg>
     </div>
 
-    <p class="scroll-cue" aria-hidden="true"><span></span>Gulir</p>
-</section>
+    {{-- ═══════════ KISAH ═══════════ --}}
+    <section class="section" id="kisah" aria-labelledby="kisah-title">
+        <div class="frame">
+            <header class="section-head reveal">
+                <div class="section-index" aria-hidden="true">00</div>
+                <div>
+                    <div class="archive-label">Prolog — Kisah</div>
+                    <h2 id="kisah-title">Bunyi adalah cara ingatan bergerak.</h2>
+                    <p>Instrumen tidak berdiri sendiri. Ia hidup melalui pembuat, pemain, upacara, panggung, dan ruang sosialnya.</p>
+                </div>
+            </header>
+            <div class="story-grid">
+                <aside class="story-note reveal">
+                    <div class="archive-label">Catatan kurator / 001</div>
+                    <p>Setiap alat musik adalah ingatan yang bisa disentuh.</p>
+                    <span class="source-link">Arsip MuSantara</span>
+                </aside>
+                <article class="story-copy reveal">
+                    <p>Di Nusantara, musik diwariskan lewat tubuh: pola pukulan diingat tangan, laras dikenali telinga, dan permainan dipelajari bersama.</p>
+                    <p>Arsip ini menata jejak — nama, bahan, wilayah, fungsi, dan hubungan antarbunyi — agar pembaca dapat masuk dari rasa ingin tahu.</p>
+                </article>
+            </div>
+        </div>
+    </section>
 
-</div>
-
-{{-- ═══════════ KISAH GAMELAN (scroll storytelling) ═══════════ --}}
-<section class="story-section" id="kisah">
-    <div class="container">
-        <p class="section-eyebrow" data-reveal><b>§</b><i></i>Kisah</p>
-        <div class="book-scene" data-reveal>
-            <div class="book" id="kisah-book">
-                <div class="book-page" data-page="0">
-                    <span class="page-era">Sumatera</span>
-                    <h3>Talempong Minang</h3>
-                    <p>Gong-gong kecil dari tanah Minangkabau, dimainkan dengan irama rancak yang lincah.</p>
-                    <span class="page-num">1 / 5</span>
+    {{-- ═══════════ RUANG BUNYI (GAMELAN) ═══════════ --}}
+    <section class="section sound-section" id="bunyi" aria-labelledby="bunyi-title">
+        <div class="frame">
+            <header class="section-head reveal">
+                <div class="section-index" aria-hidden="true">01</div>
+                <div>
+                    <div class="archive-label">Ruang Dengar — Gamelan</div>
+                    <h2 id="bunyi-title">Sentuh satu. Dengarkan ruangnya.</h2>
+                    <p>Lima warna bunyi disusun sebagai sketsa sonik. Ketuk untuk memicu nada.</p>
                 </div>
-                <div class="book-page" data-page="1">
-                    <span class="page-era">Jawa & Bali</span>
-                    <h3>Gamelan Perunggu</h3>
-                    <p>Orkestra perunggu dari keraton — gong ageng, kenong, saron dalam harmoni berlapis.</p>
-                    <span class="page-num">2 / 5</span>
+            </header>
+            <div class="ensemble reveal">
+                <div class="instrument-stage">
+                    <div class="stage-rings" aria-hidden="true"></div>
+                    <div class="sound-readout" aria-live="polite">
+                        <span id="sound-kicker">SIAP DIDENGARKAN</span>
+                        <strong id="sound-name">Gamelan</strong>
+                        <div class="wave" id="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
                 </div>
-                <div class="book-page" data-page="2">
-                    <span class="page-era">Kalimantan</span>
-                    <h3>Sampe Dayak</h3>
-                    <p>Kecapi Dayak yang dipetik, mengiringi tarian dan ritual hutan Kalimantan.</p>
-                    <span class="page-num">3 / 5</span>
-                </div>
-                <div class="book-page" data-page="3">
-                    <span class="page-era">Sulawesi</span>
-                    <h3>Kolintang</h3>
-                    <p>Xylophone kayu dari Minahasa, nadanya ceria seperti matahari timur.</p>
-                    <span class="page-num">4 / 5</span>
-                </div>
-                <div class="book-page" data-page="4">
-                    <span class="page-era">Maluku & Papua</span>
-                    <h3>Tifa</h3>
-                    <p>Gendang satu sisi yang menghentak — jantungnya upacara adat timur Indonesia.</p>
-                    <span class="page-num">5 / 5</span>
+                <div class="pads" role="group" aria-label="Lima alat gamelan yang bisa diketuk">
+                    <button type="button" class="pad gamelan-pad" data-instrument="gong" data-freq="98" aria-label="Gong">
+                        <span class="pad-number">01</span><span class="pad-name">Gong</span><span class="pad-note">DALAM</span>
+                    </button>
+                    <button type="button" class="pad gamelan-pad" data-instrument="kempul" data-freq="147" aria-label="Kempul">
+                        <span class="pad-number">02</span><span class="pad-name">Kempul</span><span class="pad-note">BULAT</span>
+                    </button>
+                    <button type="button" class="pad gamelan-pad" data-instrument="kenong" data-freq="220" aria-label="Kenong">
+                        <span class="pad-number">03</span><span class="pad-name">Kenong</span><span class="pad-note">TEGAS</span>
+                    </button>
+                    <button type="button" class="pad gamelan-pad" data-instrument="saron" data-freq="392" aria-label="Saron">
+                        <span class="pad-number">04</span><span class="pad-name">Saron</span><span class="pad-note">TERANG</span>
+                    </button>
+                    <button type="button" class="pad gamelan-pad" data-instrument="bonang" data-freq="523.25" aria-label="Bonang">
+                        <span class="pad-number">05</span><span class="pad-name">Bonang</span><span class="pad-note">RINCI</span>
+                    </button>
                 </div>
             </div>
-            <div class="book-nav">
-                <button id="book-prev" aria-label="Halaman sebelumnya">‹</button>
-                <button id="book-next" aria-label="Halaman berikutnya">›</button>
+            <p class="audio-note">Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
+        </div>
+    </section>
+
+    {{-- ═══════════ TELUSURI ═══════════ --}}
+    <section class="section" id="telusuri" aria-labelledby="telusuri-title">
+        <div class="frame">
+            <header class="section-head reveal">
+                <div class="section-index" aria-hidden="true">02</div>
+                <div>
+                    <div class="archive-label">Indeks — Telusuri</div>
+                    <h2 id="telusuri-title">Cari lewat nama, bahan, atau wilayah.</h2>
+                    <p>Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari.</p>
+                </div>
+            </header>
+            <div class="search-shell reveal">
+                <div class="search-copy">
+                    <h3>Satu pintu untuk banyak bunyi.</h3>
+                    <p>Telusuri seluruh arsip alat musik tradisional Indonesia.</p>
+                </div>
+                <div class="search-area">
+                    @include('components.search-box')
+                </div>
             </div>
-            <p class="book-hint">Ketuk panah untuk membuka halaman</p>
         </div>
-    </div>
-</section>
+    </section>
 
-{{-- ═══════════ TIMELINE ═══════════ --}}
-<section class="timeline-section" id="linimasa">
-    <div class="container">
-        <p class="section-eyebrow" data-reveal><b>◷</b><i></i>Linimasa</p>
-        <h2 class="section-head" data-reveal>Perjalanan <em>bunyinya.</em></h2>
-        <div class="timeline-track" data-reveal>
-            <div class="tl-item"><span class="tl-year">Barat</span><span class="tl-dot"></span><p>Talempong & saluang dari Sumatera</p></div>
-            <div class="tl-item"><span class="tl-year">Tengah</span><span class="tl-dot"></span><p>Gamelan & angklung Jawa-Bali-Sunda</p></div>
-            <div class="tl-item"><span class="tl-year">Timur</span><span class="tl-dot"></span><p>Kolintang, tifa, sampe</p></div>
-            <div class="tl-item"><span class="tl-year">Kini</span><span class="tl-dot"></span><p>MuSantara mengarsipkan semuanya</p></div>
-        </div>
-    </div>
-</section>
-
-{{-- ═══════════ RUANG BUNYI ═══════════ --}}
-<section class="bunyi-section" id="arsip-bunyi">
-    <div class="container">
-        <p class="section-eyebrow" data-reveal><b>01</b><i></i>Ruang Bunyi</p>
-        <h2 class="section-head" data-reveal>Ketuk <em>alatnya.</em></h2>
-        <p class="section-sub" data-reveal>Delapan alat gamelan yang bisa kamu mainkan langsung.</p>
-        <button id="ambient-toggle" class="ambient-btn" data-reveal><i>♪</i> <span>Ambient</span></button>
-
-        <div class="gamelan-pads" data-stagger role="group" aria-label="Delapan alat musik yang bisa diketuk">
-            <button type="button" class="gamelan-pad pad-angklung" data-instrument="angklung" data-freq="261.63" data-reveal aria-label="Angklung">
-                <span class="angklung-frame">
-                    <span class="angklung-bar"></span>
-                    <span class="angklung-tubes"><i></i><i></i><i></i></span>
-                </span>
-                <span class="pad-name">Angklung</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-kempul" data-instrument="kempul" data-freq="98.00" data-reveal aria-label="Kempul">
-                <span class="pad-hang"><span class="pad-disc"><span class="pad-boss"></span></span></span>
-                <span class="pad-name">Kempul</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-kenong" data-instrument="kenong" data-freq="130.81" data-reveal aria-label="Kenong">
-                <span class="pad-kettle"><span class="pad-kettle-rim"></span></span>
-                <span class="pad-name">Kenong</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-saron" data-instrument="saron" data-freq="164.81" data-reveal aria-label="Saron">
-                <span class="pad-bars"><i></i><i></i><i></i><i></i><i></i><i></i></span>
-                <span class="pad-name">Saron</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-bonang" data-instrument="bonang" data-freq="196.00" data-reveal aria-label="Bonang">
-                <span class="pad-pots"><i></i><i></i><i></i><i></i><i></i><i></i></span>
-                <span class="pad-name">Bonang</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-gong" data-instrument="gong" data-freq="65.41" data-reveal aria-label="Gong Ageng">
-                <span class="pad-gong-frame"><span class="pad-gong-disc"><span class="pad-gong-boss"></span></span></span>
-                <span class="pad-name">Gong</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-kendang" data-instrument="kendang" data-freq="146.83" data-reveal aria-label="Kendang">
-                <span class="pad-drum"><span class="pad-drum-head left"></span><span class="pad-drum-body"></span><span class="pad-drum-head right"></span></span>
-                <span class="pad-name">Kendang</span>
-            </button>
-            <button type="button" class="gamelan-pad pad-suling" data-instrument="suling" data-freq="523.25" data-reveal aria-label="Suling">
-                <span class="pad-flute"><i></i><i></i><i></i><i></i><i></i></span>
-                <span class="pad-name">Suling</span>
-            </button>
-        </div>
-        <div class="rec-bar" data-reveal>
-            <button type="button" id="btnRec" class="rec-btn rec-record" aria-label="Rekam tabuhan">
-                <i></i><span>Rekam</span>
-            </button>
-            <button type="button" id="btnPlay" class="rec-btn rec-play" aria-label="Putar rekaman">
-                <b>&#9654;</b><span>Putar</span>
-            </button>
-            <p class="rec-status" id="recStatus">Ketuk Rekam, mainkan alatnya</p>
-        </div>
-        <p class="gamelan-hint" data-reveal>Nyalakan suara perangkatmu, lalu ketuk alatnya.</p>
-    </div>
-</section>
-
-{{-- ═══════════ PAPER BAND ═══════════ --}}
-<section class="paper-band">
-    <div class="container container-narrow">
-        <p class="paper-quote">"Setiap alat musik adalah ingatan yang bisa disentuh."</p>
-        <p class="paper-cap">Arsip MuSantara</p>
-    </div>
-</section>
-
-{{-- ═══════════ TELUSURI ═══════════ --}}
-<section class="search-section" id="telusuri">
-    <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>02</b><i></i>Telusuri Arsip</p>
-        <h2 class="section-head" data-reveal>Cari alatnya <em>langsung.</em></h2>
-        <p class="search-sub">Ketik nama alat musik — misalnya <b>sasando</b> atau <b>gamelan</b> — lalu tekan Cari untuk menelusuri arsip.</p>
-        @include('components.search-box')
-    </div>
-</section>
-
-{{-- ═══════════ PULAU ═══════════ --}}
-<section class="map-section" id="pulau">
-    <div class="container">
-        <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah</p>
-        <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
-        @include('partials.map')
-        <div id="island-data" data-counts='@json($islandCounts ?? [])' style="display:none"></div>
-    </div>
-</section>
-
-{{-- ═══════════ KOLEKSI ═══════════ --}}
-<section class="koleksi" id="koleksi">
-    <div class="container">
-        <div class="koleksi-head">
-            <div>
-                <p class="section-eyebrow" data-reveal><b>04</b><i></i>Koleksi Pilihan</p>
-                <h2 class="section-head" data-reveal>Buka <em>arsipnya.</em></h2>
+    {{-- ═══════════ PULAU ═══════════ --}}
+    <section class="section" id="pulau" aria-labelledby="pulau-title">
+        <div class="frame">
+            <header class="section-head reveal">
+                <div class="section-index" aria-hidden="true">03</div>
+                <div>
+                    <div class="archive-label">Peta Dengar — 07 Titik</div>
+                    <h2 id="pulau-title">Bentang bunyi lintas pulau.</h2>
+                    <p>Pilih satu pulau untuk menelusuri alat musik dari wilayah tersebut.</p>
+                </div>
+            </header>
+            <div class="reveal">
+                @include('partials.map')
+                <div id="island-data" data-counts='@json($islandCounts ?? [])' style="display:none"></div>
             </div>
-            <a href="{{ url('/acak') }}" class="acak-btn" data-no-transition>
-                <span class="dice" aria-hidden="true">&#9860;</span>
-                Jelajah Acak
-            </a>
         </div>
-        <div class="koleksi-grid" data-stagger>
-            @foreach($featured as $item)
-                @include('components.card', ['item' => $item])
-            @endforeach
-        </div>
-    </div>
-</section>
+    </section>
 
-{{-- ═══════════ QUIZ ═══════════ --}}
-<section class="quiz-invite">
-    <div class="container container-narrow">
-        <p class="section-eyebrow" data-reveal><b>05</b><i></i>Uji Telinga</p>
-        <h2 class="section-head" data-reveal>Seberapa kenal kamu <em>dengannya?</em></h2>
-        <p class="quiz-sub">Tujuh pertanyaan. Satu arsip penuh bunyi.</p>
-        <div class="quiz-cta">
-            <a href="/quiz-global" class="btn-quiz-hero" id="quizLocked">Mulai Kuis</a>
-            <p class="quiz-note" id="quizHint">Selesaikan tur alat dulu untuk membuka kuis.</p>
+    {{-- ═══════════ KOLEKSI ═══════════ --}}
+    <section class="section" id="koleksi" aria-labelledby="koleksi-title">
+        <div class="frame">
+            <header class="section-head reveal">
+                <div class="section-index" aria-hidden="true">04</div>
+                <div>
+                    <div class="archive-label">Pilihan Koleksi</div>
+                    <h2 id="koleksi-title">Buka arsipnya.</h2>
+                    <p>Ketuk kartu untuk membaca kisah tiap alat musik.</p>
+                </div>
+            </header>
+            <div class="collection-grid reveal">
+                @foreach($featured as $item)
+                    @php
+                        $url = '/alat/' . $item->id;
+                        $origin = optional($item->pulau)->nama;
+                    @endphp
+                    <a href="{{ url($url) }}" class="artifact-card" aria-label="{{ $item->nama }}">
+                        <div class="artifact-figure">
+                            <img src="{{ $item->gambar ? gambar_alat($item->gambar) : asset('assets/img/default.png') }}"
+                                alt="{{ $item->nama }}" loading="lazy">
+                        </div>
+                        <div class="artifact-meta">
+                            <div class="archive-label">FIG. {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}{{ $origin ? ' — ' . $origin : '' }}</div>
+                            <h3>{{ $item->nama }}</h3>
+                            <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 120) }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    {{-- ═══════════ QUIZ ═══════════ --}}
+    <section class="quiz" aria-labelledby="quiz-title">
+        <div class="frame quiz-copy reveal">
+            <div class="archive-label">Uji Telinga</div>
+            <h2 id="quiz-title">Seberapa jauh kamu <em>mendengar?</em></h2>
+            <p>Tujuh pertanyaan. Satu arsip penuh bunyi.</p>
+            <a href="/quiz-global" class="btn btn-primary">Mulai kuis <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        </div>
+    </section>
+</main>
 
 @endsection

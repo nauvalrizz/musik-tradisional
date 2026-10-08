@@ -20,28 +20,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- FONT -->
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app-v109.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/navbar-v71.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/intro.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/cursor.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/gamelan.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/map.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/detail.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-modal.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-global.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/quiz-result.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/animation.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/tutorial.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/pagination.css') }}?v=53">
+    <link rel="stylesheet" href="{{ asset('assets/css/app-v110.css') }}">
 </head>
 
 <body>
