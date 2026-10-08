@@ -377,3 +377,32 @@ html.loading .reveal,html.loading .obj{transition:none}
 .quiz-choice.wrong{background:linear-gradient(145deg,#8A4030,var(--terra-d));color:#fff}
 .quiz-shell{max-width:640px;margin:0 auto;padding:7rem 0 4rem}
 .quiz-q{font-size:1.15rem;font-weight:600;margin-bottom:1.2rem}
+
+/* ——— SCROLL PROGRESS ——— */
+#scrollProg{position:fixed;top:0;left:0;right:0;height:4px;z-index:210;background:var(--bg0);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
+#scrollProg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--terra-d),var(--terra));
+  border-radius:0 2px 2px 0;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+
+/* ——— MAP TOOLTIP ——— */
+#mapTip{position:fixed;z-index:220;pointer-events:none;opacity:0;transform:translate(-50%,-130%) scale(.94);
+  transition:opacity var(--fast) var(--ease),transform var(--fast) var(--ease);
+  background:linear-gradient(145deg,var(--clay2),var(--clay1));border-radius:var(--r-s);
+  padding:.7rem 1rem;text-align:center;white-space:nowrap;
+  box-shadow:0 4px 10px rgba(0,0,0,.5),inset 0 1px 0 rgba(229,214,192,.12)}
+#mapTip.show{opacity:1;transform:translate(-50%,-130%) scale(1)}
+#mapTip .mt-n{font-weight:700;font-size:.88rem}
+#mapTip .mt-c{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--terra)}
+
+/* ——— CARD IMAGE LOADING ——— */
+.clay-card .fig{background:radial-gradient(circle at 50% 35%,var(--clay2),var(--bg0) 85%)}
+.clay-card .fig img{opacity:0;transition:opacity .5s var(--ease),transform .7s var(--ease)}
+.clay-card .fig img.ld{opacity:1}
+.clay-card .fig.img-err::after{content:"ARTIFAK TIDAK DAPAT DIMUAT";position:absolute;inset:0;
+  display:grid;place-items:center;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;color:var(--muted);
+  padding:1rem;text-align:center}
+.pedestal .pobj img{opacity:0;transition:opacity .6s var(--ease)}
+.pedestal .pobj img.ld{opacity:1}
+
+/* ——— MAGNETIC ——— */
+.magnet{transition:transform var(--int) var(--ease),box-shadow var(--int) var(--ease)}

@@ -45,6 +45,8 @@
 </form>
 </nav>
 
+<div id="scrollProg" aria-hidden="true"><i></i></div>
+<div id="mapTip" aria-hidden="true"><p class="mt-n"></p><p class="mt-c"></p></div>
 <main id="main">@yield('content')</main>
 
 <footer>
@@ -158,6 +160,75 @@ if(heroObj && !touch && !reduced){
     heroObj.style.transform = 'rotateY('+(x*6)+'deg) rotateX('+(-y*5)+'deg)';
   });
   heroStage.addEventListener('mouseleave', function(){ heroObj.style.transform=''; });
+}
+
+/* ——— SCROLL PROGRESS ——— */
+var spb=document.querySelector('#scrollProg i');
+window.addEventListener('scroll',function(){
+  var h=document.documentElement, max=h.scrollHeight-h.clientHeight;
+  if(spb) spb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+},{passive:true});
+
+/* ——— MAGNETIC (2-5px) ——— */
+if(!touch && !reduced){
+  document.querySelectorAll('.clay-btn.primary,.hero-play,.nav-search button').forEach(function(b){
+    b.classList.add('magnet');
+    b.addEventListener('mousemove',function(e){
+      var r=b.getBoundingClientRect();
+      var x=(e.clientX-r.left-r.width/2)/r.width, y=(e.clientY-r.top-r.height/2)/r.height;
+      b.style.transform='translate('+(x*5).toFixed(1)+'px,'+(y*5).toFixed(1)+'px)';
+    });
+    b.addEventListener('mouseleave',function(){ b.style.transform=''; });
+  });
+}
+
+/* ——— HERO TILT (max 4deg) ——— */
+var pobj=document.querySelector('.pedestal .pobj');
+if(pobj && !touch && !reduced){
+  var ped=pobj.closest('.pedestal');
+  ped.addEventListener('mousemove',function(e){
+    var r=ped.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    pobj.style.transform='rotateY('+(x*8)+'deg) rotateX('+(-y*7)+'deg) translateY(-4px)';
+  });
+  ped.addEventListener('mouseleave',function(){ pobj.style.transform=''; });
+}
+
+/* ——— CARD IMAGE PARALLAX (subtle) ——— */
+if(!touch && !reduced){
+  document.querySelectorAll('.clay-card').forEach(function(c){
+    var img=c.querySelector('.fig img'); if(!img) return;
+    c.addEventListener('mousemove',function(e){
+      var r=c.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      img.style.translate=(x*-6).toFixed(1)+'px '+(y*-6).toFixed(1)+'px';
+    });
+    c.addEventListener('mouseleave',function(){ img.style.translate=''; });
+  });
+}
+
+/* ——— IMAGE LOADING STATES ——— */
+document.querySelectorAll('.clay-card .fig img,.pedestal .pobj img').forEach(function(img){
+  function done(){ img.classList.add('ld'); }
+  function err(){ var f=img.closest('.fig'); if(f) f.classList.add('img-err'); img.style.display='none'; }
+  if(img.complete && img.naturalWidth>0) done();
+  else{ img.addEventListener('load',done); img.addEventListener('error',err); }
+});
+
+/* ——— MAP TOOLTIP ——— */
+var mtip=document.getElementById('mapTip');
+if(mtip){
+  document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(p){
+    p.addEventListener('mousemove',function(e){
+      var s=p.dataset.slug, nm=(typeof NAMES!=='undefined'&&NAMES[s])?NAMES[s]:s;
+      var c=(typeof COUNTS!=='undefined'&&COUNTS[s]!=null)?COUNTS[s]:'—';
+      mtip.querySelector('.mt-n').textContent=nm.toUpperCase();
+      mtip.querySelector('.mt-c').textContent=c+' INSTRUMEN · LIHAT →';
+      mtip.style.left=e.clientX+'px'; mtip.style.top=e.clientY+'px';
+      mtip.classList.add('show');
+    });
+    p.addEventListener('mouseleave',function(){ mtip.classList.remove('show'); });
+  });
 }
 
 /* ——— NAV CONSOLE SHRINK + MOBILE MENU ——— */
