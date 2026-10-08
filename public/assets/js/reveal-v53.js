@@ -31,4 +31,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { threshold: [0, 0.10, 0.15, 0.5, 1], rootMargin: '0px 0px -5% 0px' });
 
     els.forEach(function (el) { io.observe(el); });
+
+    /* Fallback: pastikan yang di viewport langsung tampil */
+    setTimeout(function() {
+        els.forEach(function(el) {
+            var r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight * 0.9 && r.bottom > 0) {
+                el.classList.add('in');
+            }
+        });
+    }, 300);
 });
