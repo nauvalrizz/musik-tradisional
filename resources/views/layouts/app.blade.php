@@ -275,30 +275,35 @@ if(!touch && !reduced){
     hero3d.addEventListener('pointerdown',function(){paused=true;});
     addEventListener('pointerup',function(){setTimeout(function(){paused=false;},1500);});
   }
-  function render(n){
-    wrap.innerHTML='';
-    for(var j=0;j<n;j++){
+  var chars=[];
+  function setCount(n){
+    if(n>chars.length){
       var c=document.createElement('span');
-      c.className='tchar'; c.textContent=full[j];
-      wrap.appendChild(c);
+      c.className='tchar enter'; c.textContent=full[chars.length];
+      wrap.appendChild(c); chars.push(c);
+      (function(elm){setTimeout(function(){elm.classList.remove('enter');},280);})(c);
+    }else if(n<chars.length){
+      var last=chars.pop();
+      last.classList.add('leave');
+      (function(elm){setTimeout(function(){if(elm.parentNode)elm.parentNode.removeChild(elm);},200);})(last);
     }
   }
   var i=0, mode='type';
   function tick(){
     if(paused){ setTimeout(tick,600); return; }
     if(mode==='type'){
-      i++; render(i); el.classList.add('typing');
-      if(i>=full.length){ mode='hold'; el.classList.remove('typing'); setTimeout(tick,2200); return; }
-      setTimeout(tick,150);
+      i++; setCount(i); el.classList.add('typing');
+      if(i>=full.length){ mode='hold'; el.classList.remove('typing'); setTimeout(tick,2000); return; }
+      setTimeout(tick,180);
     }else if(mode==='hold'){
       mode='del'; setTimeout(tick,400);
     }else{
-      i--; render(Math.max(i,0));
+      i--; setCount(Math.max(i,0));
       if(i<=0){ mode='type'; setTimeout(tick,1000); return; }
-      setTimeout(tick,100);
+      setTimeout(tick,140);
     }
   }
-  render(0); tick();
+  tick();
 })();
 /* Hero 3D: parallax & sounding di-handle modul Three.js di home.blade.php */
 

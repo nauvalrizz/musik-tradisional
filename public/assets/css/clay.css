@@ -656,8 +656,11 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 #heroTitle{position:relative;opacity:1;visibility:visible;animation:none}
 #heroTitle::before{content:attr(data-full);visibility:hidden;white-space:nowrap}
 #heroTitle .typed-wrap{position:absolute;left:0;top:0;white-space:nowrap}
-#heroTitle .tchar{display:inline-block;animation:charin .16s ease-out}
-@keyframes charin{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:none}}
+#heroTitle .tchar{display:inline-block}
+#heroTitle .tchar.enter{animation:charin .22s ease-out}
+@keyframes charin{from{opacity:0;transform:translateY(2px)}to{opacity:1;transform:translateY(0)}}
+#heroTitle .tchar.leave{animation:charout .18s ease-in forwards}
+@keyframes charout{to{opacity:0;transform:translateY(-1px)}}
 #heroTitle .typed-cursor{display:inline-block;width:2px;height:.92em;background:var(--terra);
   margin-left:4px;vertical-align:-.06em;opacity:0;border-radius:1px}
 #heroTitle.typing .typed-cursor{animation:cursorblink .62s steps(1) infinite}
