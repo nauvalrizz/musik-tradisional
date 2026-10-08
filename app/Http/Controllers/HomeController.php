@@ -29,7 +29,18 @@ class HomeController extends Controller
             ->pluck('jml', 'slug')
             ->toArray();
 
-        return view('pages.home', compact('hero', 'regions', 'islandCounts'));
+        // Tipe 3D + audio untuk hero (single source of truth)
+        $heroTipe = 'gong'; $heroFreq = 98;
+        if ($hero) {
+            $nm = strtolower($hero->nama);
+            if (str_contains($nm,'kendang')||str_contains($nm,'gendang')||str_contains($nm,'tifa')||str_contains($nm,'bedug')||str_contains($nm,'babun')) { $heroTipe='kendang'; $heroFreq=180; }
+            elseif (str_contains($nm,'saron')||str_contains($nm,'bonang')||str_contains($nm,'kenong')||str_contains($nm,'kolintang')||str_contains($nm,'gambang')||str_contains($nm,'talempong')) { $heroTipe='saron'; $heroFreq=392; }
+            elseif (str_contains($nm,'sasando')) { $heroTipe='sasando'; $heroFreq=329; }
+            elseif (str_contains($nm,'angklung')) { $heroTipe='angklung'; $heroFreq=440; }
+            elseif (str_contains($nm,'sape')||str_contains($nm,'saluang')||str_contains($nm,'kecapi')||str_contains($nm,'serunai')) { $heroTipe='sape'; $heroFreq=293; }
+        }
+
+        return view('pages.home', compact('hero', 'regions', 'islandCounts', 'heroTipe', 'heroFreq'));
     }
     public function search(Request $request)
     {
