@@ -37,21 +37,44 @@
 </div>
 <audio id="audioEl" src="{{ audio_alat($alat->audio) }}" preload="none"></audio>
 <div class="waveform" id="audioWave" aria-hidden="true">@for($i=0;$i<28;$i++)<i style="height:{{ 18+($i*47%82) }}%"></i>@endfor</div>
-<div class="audio-time"><span>00:00</span><span>REKAMAN</span></div>
+<div class="audio-time"><span id="tCur">00:00</span><span id="tDur">--:--</span></div>
 </div>
 @push('scripts')
 <script>
 (function(){
 var b=document.getElementById('btnAudio'),a=document.getElementById('audioEl'),w=document.getElementById('audioWave');
+var tC=document.getElementById('tCur'),tD=document.getElementById('tDur');
 if(!b||!a||!w) return;
+var bars=w.querySelectorAll('i'), raf=null;
+function fmt(s){ if(!isFinite(s)||s<0) return '--:--'; s=Math.floor(s);
+  return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function draw(){
+  var d=a.duration||0, c=a.currentTime||0, p=d>0?c/d:0;
+  if(tC) tC.textContent=fmt(c);
+  if(tD) tD.textContent=fmt(d);
+  var lit=Math.round(p*bars.length);
+  bars.forEach(function(br,i){ br.classList.toggle('lit', i<lit); });
+  if(!a.paused&&!a.ended) raf=requestAnimationFrame(draw); else raf=null;
+}
 function sync(){
   var playing=!a.paused&&!a.ended;
   w.classList.toggle('playing',playing);
   b.classList.toggle('playing',playing);
   b.textContent=playing?'\u275A\u275A':'\u25B6';
+  if(playing&&!raf) draw(); else if(!playing&&raf){cancelAnimationFrame(raf);raf=null;}
+  if(a.ended) draw(); // pastikan 100% di akhir
 }
 b.addEventListener('click',function(){ if(a.paused){a.play();}else{a.pause();} });
 a.addEventListener('play',sync);a.addEventListener('pause',sync);a.addEventListener('ended',sync);
+a.addEventListener('loadedmetadata',function(){ if(tD) tD.textContent=fmt(a.duration); draw(); });
+// klik waveform = seek (kalau durasi ada)
+w.addEventListener('click',function(e){
+  var d=a.duration; if(!d||!isFinite(d)) return;
+  var r=w.getBoundingClientRect();
+  a.currentTime=((e.clientX-r.left)/r.width)*d;
+  draw();
+});
+w.style.cursor='pointer';
 })();
 </script>
 @endpush
