@@ -436,7 +436,7 @@ if(!touch && !reduced){
 /* ——— CARD: tombol dengarkan jangan navigasi ——— */
 document.addEventListener('click',function(e){
   var b=e.target.closest('.pod-sound');
-  if(b){ e.preventDefault(); e.stopPropagation(); }
+  if(b){ e.preventDefault(); }
 },true);
 /* ——— LIGHTBOX ——— */
 var m=document.getElementById('imgModal'),im=document.getElementById('imgZoom'),cp=document.getElementById('imgCaption');
