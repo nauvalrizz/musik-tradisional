@@ -21,19 +21,14 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    /* Toggle dua arah dengan hysteresis anti-flicker:
-       masuk saat 15% terlihat, keluar saat sudah <5% (tidak kedip di tepi) */
+    /* Masuk saat 15% terlihat, langsung hilang saat <30% (tidak nunggu ketutup) */
     var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
-            var el = en.target;
-            if (en.intersectionRatio >= 0.15) {
-                el.classList.add('in');
-            } else if (en.intersectionRatio < 0.05) {
-                el.classList.remove('in');
-            }
-            /* di antara 5-15%: biarkan state terakhir (anti flicker) */
+            var r = en.intersectionRatio;
+            if (r >= 0.15) en.target.classList.add('in');
+            else if (r < 0.10) en.target.classList.remove('in');
         });
-    }, { threshold: [0, 0.05, 0.15, 0.5, 1], rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: [0, 0.10, 0.15, 0.5, 1], rootMargin: '0px 0px -5% 0px' });
 
     els.forEach(function (el) { io.observe(el); });
 });
