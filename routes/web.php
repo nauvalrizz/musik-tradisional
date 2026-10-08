@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PulauController;
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RuangBunyiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\StatistikController;
 
@@ -41,6 +42,8 @@ Route::post('/quiz/submit', [QuizController::class, 'submit']);
 Route::get('/quiz/questions', [QuizController::class, 'getQuestions']);
 
 Route::get('/api/search', [HomeController::class, 'ajaxSearch']);
+
+Route::get('/ruang-bunyi', [RuangBunyiController::class, 'index']);
 
 Route::get('/quiz-global', [QuizController::class, 'global'])
     ->middleware('check.explore');

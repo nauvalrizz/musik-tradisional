@@ -37,6 +37,7 @@
 <a href="{{ url('/') }}#jelajahi" class="nav-link">JELAJAHI</a>
 <a href="{{ url('/') }}#pulau" class="nav-link">PULAU</a>
 <a href="{{ url('/') }}#koleksi" class="nav-link">KOLEKSI</a>
+<a href="{{ url('/ruang-bunyi') }}" class="nav-link">RUANG BUNYI</a>
 <a href="{{ url('/quiz-global') }}" class="nav-link">KUIS</a>
 </div>
 <form class="nav-search" action="{{ route('search') }}" method="get" role="search">

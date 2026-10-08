@@ -12,6 +12,7 @@
 <div class="hero-ctas">
 <a href="#arsip" class="clay-btn primary">Jelajahi Arsip <span class="arw">→</span></a>
 <a href="#pulau" class="clay-btn">Peta Kepulauan</a>
+<a href="{{ url('/ruang-bunyi') }}" class="clay-btn">Ruang Bunyi 3D</a>
 </div>
 <div class="hero-meta">
 <div><b>{{ array_sum($islandCounts ?? []) }}</b><span>INSTRUMEN</span></div>
@@ -81,7 +82,7 @@
 <div class="sect-label reveal" style="margin:2.4rem 0 1.6rem"><span class="n">{{ $rg['pulau']->nama }}</span><span class="t" style="font-size:1rem">{{ $rg['items']->count() }} objek</span><span class="ln"></span></div>
 <div class="objects shelf">
 @foreach($rg['items'] as $idx => $item)
-<article class="obj">
+<article class="obj idle-{{ ['a','b','c'][$idx % 3] }}">
 <div class="clay-card">
 <a href="{{ url('/alat/'.$item->id) }}" aria-label="{{ $item->nama }}">
 <div class="fig">
@@ -93,7 +94,7 @@
 <p class="rg">{{ $rg['pulau']->nama }}{{ $item->sumber_bunyi ? ' · '.$item->sumber_bunyi : '' }}</p>
 <div class="row">
 <span class="cat">{{ strtoupper($item->sumber_bunyi ?? 'TRADISIONAL') }}</span>
-<button type="button" class="clay-play gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$item->nama)) }}" data-freq="{{ 196 + ($item->id % 8) * 49 }}" aria-label="Dengarkan {{ $item->nama }}">▶</button>
+<button type="button" class="sound-tag gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$item->nama)) }}" data-freq="{{ 196 + ($item->id % 8) * 49 }}" aria-label="Dengarkan {{ $item->nama }}">▶ DENGARKAN</button>
 </div>
 </div>
 </a>
