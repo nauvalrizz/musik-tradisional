@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (pad.dataset.audio) { playReal(pad.dataset.audio); }
         else if (!pad.hasAttribute('data-pod-audio')) { strike(freq, inst); }
         /* card (data-pod-audio) tanpa audio DB: JANGAN bunyikan synth fake */
-        // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
-        if (inst === 'angklung') {
+        // angklung digoyang: tabuhan kedua menyusul 90ms kemudian (hanya Ruang Bunyi, bukan card)
+        if (inst === 'angklung' && !pad.hasAttribute('data-pod-audio')) {
             setTimeout(function () { strike(freq * 1.005, inst); }, 90);
         }
 
