@@ -389,35 +389,38 @@ if(nt&&nl){ nt.addEventListener('click',function(){
   if(path==='/ruang-bunyi') setActive('ruang-bunyi');
   else if(path==='/quiz-global'||path==='/quiz-result') setActive('kuis');
   else if(isHome){
-    // Section-based: IntersectionObserver
+    // Section-based: hitung deterministik dari posisi scroll (anti-stuck)
     var secs=['jelajahi','arsip','pulau','koleksi'];
-    var vis={};
-    function sectionFromScroll(){
-      // fallback: section terakhir yang top-nya sudah lewat 40% viewport
-      var y=window.scrollY+window.innerHeight*0.4, cand=null;
+    var secTops={};
+    function measureSecs(){
       secs.forEach(function(id){
         var el=document.getElementById(id);
-        if(el && el.getBoundingClientRect().top+window.scrollY<=y) cand=id;
+        if(el) secTops[id]=el.getBoundingClientRect().top+window.scrollY;
+      });
+    }
+    function activeFromScroll(){
+      var y=window.scrollY+window.innerHeight*0.35, cand=secs[0];
+      secs.forEach(function(id){
+        if(secTops[id]!==undefined && secTops[id]<=y) cand=id;
       });
       return cand;
     }
-    var so=new IntersectionObserver(function(es){
-      es.forEach(function(en){
-        vis[en.target.id]=en.isIntersecting?en.intersectionRatio:0;
+    var ticking=false;
+    function onScrollNav(){
+      if(ticking) return; ticking=true;
+      requestAnimationFrame(function(){
+        ticking=false;
+        var a=activeFromScroll();
+        if(a) setActive(a);
       });
-      // pilih section dengan visibility tertinggi (stabil, anti-flicker)
-      var best=null,bestR=0.12;
-      secs.forEach(function(id){ if((vis[id]||0)>bestR){bestR=vis[id];best=id;} });
-      if(best) setActive(best);
-      else {
-        // TIDAK ADA section di band observasi → hitung dari posisi scroll (anti-stuck)
-        var fb=sectionFromScroll();
-        if(fb) setActive(fb);
-      }
-    },{rootMargin:'-38% 0px -52% 0px',threshold:[0,0.15,0.3,0.5]});
-    secs.forEach(function(id){ var el=document.getElementById(id); if(el) so.observe(el); });
-    // initial: hitung dari posisi aktual, bukan hardcoded
-    setTimeout(function(){ if(!current){ var fb=sectionFromScroll(); if(fb) setActive(fb); } },300);
+    }
+    measureSecs();
+    window.addEventListener('scroll',onScrollNav,{passive:true});
+    window.addEventListener('resize',function(){ measureSecs(); onScrollNav(); });
+    // initial + setelah load (gambar bisa geser layout)
+    setActive(activeFromScroll());
+    window.addEventListener('load',function(){ measureSecs(); onScrollNav(); });
+    setTimeout(function(){ measureSecs(); onScrollNav(); },800);
   }
 
   // Smooth scroll dengan offset navbar
