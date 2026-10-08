@@ -60,28 +60,8 @@
         });
     });
 
-    /* 5. Garis koneksi animasi */
-    var linkGroup = document.createElementNS(NS, 'g');
-    linkGroup.setAttribute('class', 'link-layer');
-    svg.insertBefore(linkGroup, markerGroup);
 
-    LINKS.forEach(function(link, idx) {
-        var a = CENTERS[link[0]], b = CENTERS[link[1]];
-        if (!a || !b) return;
-        // Kurva bezier
-        var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2 - 60;
-        var path = document.createElementNS(NS, 'path');
-        path.setAttribute('d', 'M' + a[0] + ',' + a[1] + ' Q' + mx + ',' + my + ' ' + b[0] + ',' + b[1]);
-        path.setAttribute('class', 'island-link');
-        path.style.animationDelay = (idx * 0.5) + 's';
-        // Tooltip koneksi
-        var title = document.createElementNS(NS, 'title');
-        title.textContent = link[2];
-        path.appendChild(title);
-        linkGroup.appendChild(path);
-    });
-
-    /* 6. 3D tilt ngikutin mouse */
+    /* 5. 3D tilt ngikutin mouse */
     if (container && !window.matchMedia('(pointer: coarse)').matches) {
         container.style.perspective = '1200px';
         svg.style.transition = 'transform 0.2s ease-out';
