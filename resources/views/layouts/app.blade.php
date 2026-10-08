@@ -26,7 +26,7 @@
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app-v84.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/app-v85.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/navbar-v71.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
@@ -96,6 +96,7 @@
     <script src="{{ asset('assets/js/tutorial.js') }}?v=53" defer></script>
     <!-- ================= MAP ================= -->
     <script src="{{ asset('assets/js/map-batch1.js') }}?v=84" defer></script>
+    <script src="{{ asset('assets/js/map-batch2.js') }}?v=85" defer></script>
 
     <script src="{{ asset('assets/js/search.js') }}?v=53"></script>
     <script src="{{ asset('assets/js/intro.js') }}?v=53" defer></script>
