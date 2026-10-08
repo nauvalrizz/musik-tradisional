@@ -268,7 +268,7 @@ if(!touch && !reduced){
   el.setAttribute('aria-label',full);
   var wrap=document.createElement('span'); wrap.className='typed-wrap'; wrap.setAttribute('aria-hidden','true');
   var cursor=document.createElement('span'); cursor.className='typed-cursor';
-  el.textContent=''; el.appendChild(wrap); el.appendChild(cursor);
+  el.textContent=''; wrap.appendChild(cursor); el.appendChild(wrap);
   var paused=false;
   var hero3d=document.getElementById('hero3d');
   if(hero3d){
@@ -280,7 +280,7 @@ if(!touch && !reduced){
     if(n>chars.length){
       var c=document.createElement('span');
       c.className='tchar enter'; c.textContent=full[chars.length];
-      wrap.appendChild(c); chars.push(c);
+      wrap.insertBefore(c,cursor); chars.push(c);
       (function(elm){setTimeout(function(){elm.classList.remove('enter');},280);})(c);
     }else if(n<chars.length){
       var last=chars.pop();

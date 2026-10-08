@@ -662,7 +662,7 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 #heroTitle .tchar.leave{animation:charout .18s ease-in forwards}
 @keyframes charout{to{opacity:0;transform:translateY(-1px)}}
 #heroTitle .typed-cursor{display:inline-block;width:2px;height:.92em;background:var(--terra);
-  margin-left:4px;vertical-align:-.06em;opacity:0;border-radius:1px}
+  margin-left:3px;vertical-align:-.06em;opacity:0;border-radius:1px}
 #heroTitle.typing .typed-cursor{animation:cursorblink .62s steps(1) infinite}
 @keyframes cursorblink{0%,55%{opacity:.9}56%,100%{opacity:0}}
 #hero3d{touch-action:pan-y;cursor:grab}
