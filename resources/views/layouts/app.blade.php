@@ -27,7 +27,7 @@
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
     <link rel="stylesheet" href="{{ asset('assets/css/app-v63.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/navbar-v66.css') }}?v=53">
+    <link rel="stylesheet" href="{{ asset('assets/css/navbar-v67.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=53">
