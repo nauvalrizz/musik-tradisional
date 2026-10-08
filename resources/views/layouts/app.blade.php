@@ -17,15 +17,20 @@
 {{-- LOADER --}}
 <div id="loader" aria-hidden="true">
 <div class="load-scene">
-@php $entrances=['e-rise','e-slide','e-rot','e-roll']; @endphp
-@foreach(($loaderItems ?? collect())->take(4) as $li => $it)
+@php
+$entrances=['e-rise','e-slide','e-rot','e-roll'];
+$litems = ($loaderItems ?? collect())->take(4);
+if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { $lfallback=false; }
+@endphp
+@foreach($litems as $li => $it)
 <div class="lped {{ $entrances[$li % 4] }}">
-<div class="lobj"><img src="{{ gambar_alat($it->gambar) }}" alt=""></div>
+<div class="lobj">@if(!$lfallback)<img src="{{ gambar_alat($it->gambar) }}" alt="">@else<div class="lclay"></div>@endif</div>
 <div class="lbase"></div>
 <div class="lrip"></div>
 </div>
 @endforeach
 </div>
+<p class="lphase" id="lphase">MEMBANGUN RUANG MUSIK</p>
 <div class="lwave" aria-hidden="true">@for($i=0;$i<18;$i++)<i style="height:{{ 30+($i*37%70) }}%;animation-delay:{{ $i*70 }}ms"></i>@endfor</div>
 <div class="lt">MUSANTARA</div>
 <div class="ls">ARSIP BUNYI NUSANTARA</div>
@@ -89,11 +94,13 @@ window.addEventListener('load', function(){
     // entry stagger
     // Orchestra: pedestal naik bertahap, lalu instrumen + ripple
     var peds=document.querySelectorAll('.lped');
+    var lp=document.getElementById('lphase');
+    var phases=['MEMBANGUN RUANG MUSIK','MENYIAPKAN KOLEKSI','MENYALAKAN RUANG BUNYI'];
     peds.forEach(function(pd,i){
       setTimeout(function(){ pd.classList.add('up'); }, 250+i*300);
-      setTimeout(function(){ pd.classList.add('show'); }, 800+i*300);
+      setTimeout(function(){ pd.classList.add('show'); if(lp&&phases[i]) lp.textContent=phases[i]; }, 800+i*300);
     });
-    setTimeout(function(){ document.getElementById('loader').classList.add('logo'); }, 1900);
+    setTimeout(function(){ document.getElementById('loader').classList.add('logo'); }, 2000);
     var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
     els.forEach(function(el,i){
       el.style.opacity='0'; el.style.transform='translateY(18px)';

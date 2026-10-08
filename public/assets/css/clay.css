@@ -455,13 +455,11 @@ html.loading,html.loading body{overflow:hidden}
 .pod-link{display:block;position:relative;padding:1rem .6rem 0}
 .pod-stage{position:relative;display:flex;flex-direction:column;align-items:center;
   transition:transform var(--int) var(--ease)}
-.pod-shadow{position:absolute;bottom:64px;left:50%;transform:translateX(-50%);
+.pod-shadow{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
   width:62%;height:22px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);
-  transition:all var(--int) var(--ease)}
-.pod-obj{position:relative;z-index:2;width:68%;aspect-ratio:1;display:grid;place-items:center;
-  transition:transform var(--int) var(--ease-phys)}
-.pod-obj img{width:88%;height:88%;object-fit:contain;opacity:0;transition:opacity .5s,transform .7s var(--ease);
-  filter:drop-shadow(0 14px 18px rgba(0,0,0,.5))}
+  transition:all var(--int) var(--ease);z-index:1}
+
+
 .pod-obj img.ld{opacity:1}
 .pod-base{position:relative;z-index:1;width:100%;margin-top:-14px;padding:1.5rem 1.1rem 1.1rem;
   border-radius:44% 56% 52% 48%/28% 30% 34% 30%;
@@ -500,7 +498,7 @@ html.loading,html.loading body{overflow:hidden}
 .pod-link:hover .pod-stage{transform:translateY(-2px)}
 .pod-link:hover .pod-obj{transform:translateY(-7px) rotate(-1deg)}
 .pod-link:hover .pod-obj img{transform:scale(1.04)}
-.pod-link:hover .pod-shadow{width:70%;bottom:60px;background:radial-gradient(ellipse,rgba(0,0,0,.6),transparent 70%)}
+.pod-link:hover .pod-shadow{width:70%;background:radial-gradient(ellipse,rgba(0,0,0,.6),transparent 70%)}
 .pod-link:hover .pod-base{transform:translateY(-2px);
   box-shadow:0 5px 10px rgba(0,0,0,.45),0 20px 40px rgba(0,0,0,.35),
              inset 0 2px 3px rgba(229,214,192,.14),inset 0 -5px 10px rgba(0,0,0,.28)}
@@ -538,3 +536,32 @@ html.loading,html.loading body{overflow:hidden}
   .pod-seal{width:38px;height:38px;font-size:.46rem}
 }
 @media(max-width:380px){.pods{grid-template-columns:1fr 1fr}}
+
+/* ═══ POD: fixed stage heights (anti uneven) ═══ */
+.pods{align-items:stretch}
+.pod{display:flex}
+.pod-link{display:flex;flex:1;width:100%}
+.pod-stage{flex:1;display:flex;flex-direction:column;width:100%}
+.pod-obj{height:200px;flex-shrink:0;width:100%;display:grid;place-items:center;position:relative;z-index:2;
+  transition:transform var(--int) var(--ease-phys)}
+.pod-obj img{max-width:82%;max-height:82%;width:auto;height:auto;object-fit:contain;opacity:0;
+  transition:opacity .5s,transform .7s var(--ease);filter:drop-shadow(0 14px 18px rgba(0,0,0,.5))}
+.pod-obj img.ld{opacity:1}
+.pod-obj .pod-noimg{width:72px;height:72px;border-radius:48% 52% 50% 50%/52% 48% 52% 48%;
+  background:radial-gradient(circle at 35% 30%,var(--warm),var(--clay1));
+  box-shadow:inset 0 2px 4px rgba(229,214,192,.15),inset 0 -4px 8px rgba(0,0,0,.35)}
+.pod-base{flex:1;display:flex;flex-direction:column}
+.pod-plaque{flex:1}
+.pod-plaque h3{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  min-height:2.5em;line-height:1.25}
+@media(max-width:860px){.pod-obj{height:150px}}
+@media(max-width:380px){.pod-obj{height:140px}}
+
+/* ═══ LOADER fallback clay + phase text ═══ */
+.lped .lclay{width:100%;height:100%;border-radius:48% 52% 50% 50%/52% 48% 52% 48%;
+  background:radial-gradient(circle at 35% 30%,var(--warm),var(--clay1) 70%);
+  box-shadow:inset 0 2px 4px rgba(229,214,192,.15),inset 0 -5px 10px rgba(0,0,0,.35)}
+.lphase{font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;color:var(--muted);
+  opacity:0;transition:opacity .4s;min-height:1.4em}
+#loader.logo .lphase{opacity:0}
+.lped.up ~ .lphase, #loader .lphase{opacity:1}
