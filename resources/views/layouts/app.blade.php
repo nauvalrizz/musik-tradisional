@@ -98,51 +98,64 @@ if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { 
 var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var touch = window.matchMedia('(hover: none)').matches;
 
-/* ——— LOADER 2.2s ——— */
+/* ——— LOADER: orchestra mulai LANGSUNG, hide nunggu ready ——— */
 document.documentElement.classList.add('loading');
-window.addEventListener('load', function(){
+(function(){
+  var loader=document.getElementById('loader');
+  var peds=document.querySelectorAll('.lped');
+  var lp=document.getElementById('lphase');
+  var fl=document.querySelectorAll('.lfloor i');
+  var phases=['MEMBANGUN RUANG MUSIK','MENYUSUN KOLEKSI','MENYALAKAN RUANG BUNYI'];
+  var winReady=false, animDone=false;
+  function tryEnter(){
+    if(winReady && animDone && !loader.classList.contains('done')){
+      // ENTERING_MUSEUM: kamera maju masuk
+      loader.classList.add('enter');
+      setTimeout(function(){
+        loader.classList.add('done');
+        document.documentElement.classList.remove('loading');
+      }, 650);
+    }
+  }
+  window.addEventListener('load', function(){ winReady=true; tryEnter(); });
+  // Orchestra mulai segera (script di akhir body, DOM siap)
+  var startDelay = reduced ? 0 : 150;
   setTimeout(function(){
-    // LIFECYCLE: LOADING_ACTIVE -> LOADING_COMPLETE -> ENTERING_MUSEUM -> HOME
-    var loader=document.getElementById('loader');
-    var peds=document.querySelectorAll('.lped');
-    var lp=document.getElementById('lphase');
-    var fl=document.querySelectorAll('.lfloor i');
-    var phases=['MEMBANGUN RUANG MUSIK','MENYUSUN KOLEKSI','MENYALAKAN RUANG BUNYI'];
-    // Camera: mulai low/close, lalu pull back
-    requestAnimationFrame(function(){ loader.classList.add('wide'); });
+    loader.classList.add('wide'); // camera pull back
     peds.forEach(function(pd,i){
-      setTimeout(function(){ pd.classList.add('up'); }, 200+i*280);
+      setTimeout(function(){ pd.classList.add('up'); }, i*280);
       setTimeout(function(){
         pd.classList.add('show');
         setTimeout(function(){ pd.classList.add('lit'); if(fl[i]) fl[i].classList.add('lit'); }, 450);
         if(lp&&phases[Math.min(i,2)]) lp.textContent=phases[Math.min(i,2)];
-      }, 700+i*280);
+      }, 500+i*280);
     });
-    var lastMs = 700+(peds.length-1)*280+900;
-    // LOADING_COMPLETE: logo + wave
-    setTimeout(function(){ loader.classList.add('logo'); }, lastMs);
-    // ENTERING_MUSEUM: kamera maju masuk, bukan fade hitam
-    setTimeout(function(){ loader.classList.add('enter'); }, lastMs+450);
-    // HOME: baru sekarang loader boleh hilang
-    setTimeout(function(){
-      loader.classList.add('done');
-      document.documentElement.classList.remove('loading');
-    }, lastMs+450+650);
-    var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
-    els.forEach(function(el,i){
-      el.style.opacity='0'; el.style.transform='translateY(18px)';
-      el.style.transition='opacity .7s ease '+(i*130)+'ms,transform .7s ease '+(i*130)+'ms';
+    var lastMs = 500+(peds.length-1)*280+900;
+    setTimeout(function(){ loader.classList.add('logo'); }, lastMs); // LOADING_COMPLETE
+    setTimeout(function(){ animDone=true; tryEnter(); }, lastMs+400);
+  }, startDelay);
+  // Entry stagger homepage (di balik loader)
+  var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
+  els.forEach(function(el,i){
+    el.style.opacity='0'; el.style.transform='translateY(18px)';
+    el.style.transition='opacity .7s ease '+(i*130)+'ms,transform .7s ease '+(i*130)+'ms';
+  });
+  // Reveal homepage tepat saat loader done
+  var mo=new MutationObserver(function(){
+    if(loader.classList.contains('done')){
       requestAnimationFrame(function(){requestAnimationFrame(function(){
-        el.style.opacity='1'; el.style.transform='none';
+        els.forEach(function(el){ el.style.opacity='1'; el.style.transform='none'; });
       });});
-    });
-  }, reduced ? 100 : 700+3*280+900+450+650);
-});
+      mo.disconnect();
+    }
+  });
+  mo.observe(loader,{attributes:true,attributeFilter:['class']});
+})();
 // fallback: jangan kunci selamanya
 setTimeout(function(){
   var l=document.getElementById('loader');
   if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); }
-}, 4500);
+}, 8000);
 
 /* ——— CUSTOM CURSOR ——— */
 var cur=document.getElementById('cursor'),clab=cur?cur.querySelector('.clabel'):null;
