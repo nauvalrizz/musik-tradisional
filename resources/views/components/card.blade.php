@@ -26,7 +26,7 @@
 </div>
 </div>
 <div class="pod-wave" aria-hidden="true">@for($i=0;$i<12;$i++)<i style="height:{{ 25+($i*41%75) }}%;animation-delay:{{ $i*60 }}ms"></i>@endfor</div>
-<button type="button" class="pod-sound gamelan-pad" data-card-audio="{{ $item->audio ? audio_alat($item->audio) : '' }}" data-card-name="{{ $item->nama }}" data-pod-audio aria-label="Dengarkan {{ $item->nama }}" onclick="playCardAudio(this);return false;">▶ DENGARKAN</button>
+<span class="pod-catalog" aria-hidden="true">COLLECTION {{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</span>
 </div>
 </a>
 </article>

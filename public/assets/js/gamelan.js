@@ -1,23 +1,7 @@
 /* Ruang Bunyi: ensemble gamelan mini (Web Audio API, tanpa file audio).
    Tiap alat punya timbre sendiri: partial inharmonic + decay eksponensial. */
-/* ═══ CARD DENGARKAN: audio asli DB, terisolasi dari synth ═══ */
-var _cardAudio = null, _cardTimer = null;
-function playCardAudio(btn) {
-    var url = btn.getAttribute('data-card-audio') || '';
-    if (!url) return;
-    try {
-        if (_cardAudio) { _cardAudio.pause(); }
-        clearTimeout(_cardTimer);
-        _cardAudio = new Audio(url);
-        _cardAudio.play().catch(function(){});
-        _cardTimer = setTimeout(function(){
-            if (_cardAudio) { _cardAudio.pause(); _cardAudio.currentTime = 0; }
-        }, 2000);
-    } catch (e) {}
-}
-
 document.addEventListener('DOMContentLoaded', function () {
-    var pads = document.querySelectorAll('.gamelan-pad:not([data-pod-audio])');
+    var pads = document.querySelectorAll('.gamelan-pad');
     if (!pads.length) return;
 
     var ctx = null, master = null;
@@ -87,16 +71,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function hitPad(pad) {
-        var isCard = pad.hasAttribute('data-pod-audio');
-        if (isCard) {
-            /* CARD: hanya audio asli DB. Tanpa audio = diam, TANPA synth. */
-            if (pad.dataset.audio) { playReal(pad.dataset.audio); }
-            return;
-        }
         var freq = parseFloat(pad.dataset.freq);
         var inst = pad.dataset.instrument;
         strike(freq, inst);
-        // angklung digoyang: tabuhan kedua menyusul 90ms kemudian (hanya Ruang Bunyi)
+        // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
         if (inst === 'angklung') {
             setTimeout(function () { strike(freq * 1.005, inst); }, 90);
         }
