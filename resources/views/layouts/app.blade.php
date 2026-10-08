@@ -26,9 +26,9 @@
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app-v106.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/app-v107.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/navbar-v71.css') }}?v=53">
-    <link rel="stylesheet" href="{{ asset('assets/css/hero-v106.css') }}?v=53">
+    <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/card.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/intro.css') }}?v=53">
