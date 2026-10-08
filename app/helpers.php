@@ -59,7 +59,12 @@ if (!function_exists('audio_alat')) {
             return asset($filename);
         }
 
-        // ✅ PRIORITAS: file fisik di docroot (htdocs/storage/audio) - layout server InfinityFree
+        // ✅ PRIORITAS UTAMA: file audio terverifikasi di assets/js/audio/ (51 MP3 asli)
+        if (file_exists(public_path('assets/js/audio/' . $filename))) {
+            return asset('assets/js/audio/' . $filename);
+        }
+
+        // file fisik di docroot (htdocs/storage/audio) - layout server InfinityFree
         if (file_exists(public_path('storage/audio/' . $filename))) {
             return asset('storage/audio/' . $filename);
         }
@@ -72,11 +77,6 @@ if (!function_exists('audio_alat')) {
         // 🔁 fallback lama
         if (file_exists(public_path('assets/audio/alat-musik/' . $filename))) {
             return asset('assets/audio/alat-musik/' . $filename);
-        }
-
-        // ✅ Audio asli instrumen: public/assets/js/audio/ (gong.mp3, angklung.mp3, ...)
-        if (file_exists(public_path('assets/js/audio/' . $filename))) {
-            return asset('assets/js/audio/' . $filename);
         }
 
         return null;
