@@ -82,55 +82,54 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <svg id="wayangBg" viewBox="0 0 420 920" preserveAspectRatio="xMidYMax slice">
 <defs>
 <linearGradient id="wclay" x1="0" y1="0" x2="1" y2="1">
-<stop offset="0" stop-color="#7a5f45" stop-opacity=".6"/>
-<stop offset=".45" stop-color="#5a4534" stop-opacity=".42"/>
-<stop offset="1" stop-color="#33271e" stop-opacity=".18"/>
+<stop offset="0" stop-color="#7a5f45" stop-opacity=".62"/>
+<stop offset=".45" stop-color="#5a4534" stop-opacity=".44"/>
+<stop offset="1" stop-color="#33271e" stop-opacity=".20"/>
 </linearGradient>
 <linearGradient id="wshade" x1="0" y1="0" x2="0" y2="1">
 <stop offset="0" stop-color="#000" stop-opacity="0"/>
-<stop offset="1" stop-color="#0d0a08" stop-opacity=".55"/>
+<stop offset="1" stop-color="#0d0a08" stop-opacity=".5"/>
 </linearGradient>
-<filter id="wsoft"><feGaussianBlur stdDeviation="1.2"/></filter>
 </defs>
-<g>
-<!-- ===== MAHKOTA (crown) ===== -->
-<path fill="url(#wclay)" d="M210 18 L222 78 L238 34 L252 82 L268 30 L280 86 L292 44 L300 92 L210 100 Z"/>
-<path fill="url(#wclay)" d="M196 100 Q210 88 224 100 L228 140 L192 140 Z"/>
-<circle cx="246" cy="58" r="5" fill="url(#wclay)"/>
-<circle cx="272" cy="62" r="4" fill="url(#wclay)"/>
-<!-- ===== WAJAH PROFIL ===== -->
-<path fill="url(#wclay)" d="M192 140 Q218 138 232 152 L238 168 L250 178 L242 186 L236 200 Q234 224 214 232 L198 230 L190 190 Z"/>
-<path fill="url(#wclay)" d="M232 168 Q244 170 246 180 Q238 184 230 180 Z"/>
-<!-- mata wayang -->
-<path d="M214 176 Q224 174 230 178" stroke="#2a2019" stroke-width="2.5" fill="none" opacity=".6"/>
-<!-- ===== LEHER ===== -->
-<path fill="url(#wclay)" d="M198 230 L214 230 L212 262 L196 262 Z"/>
-<!-- kalung -->
-<path d="M194 244 Q204 252 214 244" stroke="#2a2019" stroke-width="3" fill="none" opacity=".5"/>
-<!-- ===== BADAN + KAIN ===== -->
-<path fill="url(#wclay)" d="M188 262 Q204 254 220 262 L228 340 L236 480 L244 640 L170 640 L178 480 L184 340 Z"/>
-<!-- lipatan kain -->
-<path d="M196 360 L192 620 M208 360 L208 624 M220 360 L226 620" stroke="#241b14" stroke-width="2" opacity=".45" fill="none"/>
+<g fill="url(#wclay)">
+<!-- ===== GELUNG MAHKOTA (lengkung khas) ===== -->
+<path d="M168 96 Q150 60 172 34 Q196 10 218 32 Q230 44 224 62 Q214 52 204 58 Q192 66 196 84 Z"/>
+<path d="M172 100 Q160 78 176 60 L186 68 Q176 82 184 96 Z"/>
+<!-- mahkota depan -->
+<path d="M186 108 L200 58 L212 104 L226 62 L238 108 L250 72 L258 112 L186 118 Z"/>
+<!-- ===== KEPALA PROFIL (hadap kiri) ===== -->
+<path d="M184 118 Q206 116 218 128 L224 142 L216 148 L220 162 Q218 182 200 188 L186 184 L180 150 Z"/>
+<!-- hidung mancung -->
+<path d="M184 148 L172 158 L184 162 Z"/>
+<!-- ===== LEHER + BAHU ===== -->
+<path d="M192 188 L206 188 L204 214 L190 214 Z"/>
+<path d="M178 214 Q204 206 230 216 L236 236 L172 236 Z"/>
+<!-- ===== BADAN ===== -->
+<path d="M176 236 Q204 230 232 238 L238 320 L242 420 L170 420 L174 320 Z"/>
 <!-- sabuk -->
-<path fill="url(#wclay)" d="M182 400 L232 400 L230 424 L184 424 Z" opacity=".85"/>
-<!-- selempang dada -->
-<path fill="url(#wclay)" d="M188 280 L206 274 L226 360 L212 368 Z" opacity=".75"/>
-<!-- ===== LENGAN KANAN (terangkat) ===== -->
-<path fill="url(#wclay)" d="M220 280 Q252 292 270 270 L282 252 L292 260 L280 282 Q262 306 228 306 Z"/>
-<!-- tangan -->
-<path fill="url(#wclay)" d="M282 252 Q296 246 302 254 L298 268 Q288 266 282 260 Z"/>
-<!-- ===== LENGAN KIRI (turun) ===== -->
-<path fill="url(#wclay)" d="M188 282 Q168 310 162 350 L158 400 L172 402 L178 352 Q184 316 194 300 Z"/>
-<path fill="url(#wclay)" d="M158 400 Q154 420 162 428 L176 426 L172 402 Z"/>
-<!-- ===== KAKI ===== -->
-<path fill="url(#wclay)" d="M182 640 L196 640 L192 760 L178 760 Z"/>
-<path fill="url(#wclay)" d="M212 640 L226 640 L232 760 L218 760 Z"/>
-<!-- alas -->
-<ellipse cx="205" cy="772" rx="48" ry="10" fill="url(#wclay)" opacity=".5"/>
-<!-- ===== KERIS ===== -->
-<path fill="url(#wclay)" d="M228 420 L252 468 L244 474 L222 432 Z" opacity=".8"/>
+<path d="M172 380 L240 380 L238 402 L174 402 Z" opacity=".85"/>
+<!-- ===== LENGAN KANAN (terentang ke depan/kiri) ===== -->
+<path d="M178 244 Q150 260 128 250 L112 238 L104 248 L122 264 Q148 280 182 272 Z"/>
+<!-- tangan kanan -->
+<path d="M104 248 Q92 244 88 252 L96 262 Q104 260 110 254 Z"/>
+<!-- ===== LENGAN KIRI (tertekuk) ===== -->
+<path d="M232 244 Q258 260 264 290 L268 320 L254 324 L248 294 Q244 272 230 264 Z"/>
+<path d="M254 324 Q258 340 250 348 L238 344 L242 322 Z"/>
+<!-- ===== KAIN ===== -->
+<path d="M170 402 L242 402 L252 560 L246 580 L236 566 L228 584 L218 568 L208 586 L198 570 L188 588 L178 572 L168 590 L158 574 L152 560 Z"/>
+<!-- lipatan -->
+<path d="M188 430 L184 560 M204 430 L204 566 M220 430 L224 560" stroke="#241b14" stroke-width="2" opacity=".4" fill="none"/>
+<!-- ===== KAKI KANAN (maju) ===== -->
+<path d="M184 580 L200 580 L194 700 L188 760 L172 760 L178 700 Z"/>
+<!-- ===== KAKI KIRI (mundur, lutut tekuk) ===== -->
+<path d="M214 580 L230 580 L244 660 L252 720 L262 760 L246 764 L234 722 L222 660 Z"/>
+<!-- alas kaki -->
+<ellipse cx="180" cy="768" rx="26" ry="7" opacity=".5"/>
+<ellipse cx="254" cy="768" rx="26" ry="7" opacity=".5"/>
+<!-- ===== SELENDANG ===== -->
+<path d="M232 250 Q280 280 300 340 L290 348 Q272 296 230 272 Z" opacity=".7"/>
 <!-- ===== SHADING ===== -->
-<rect x="120" y="0" width="200" height="920" fill="url(#wshade)"/>
+<rect x="80" y="0" width="240" height="920" fill="url(#wshade)"/>
 </g>
 </svg>
 </div>
