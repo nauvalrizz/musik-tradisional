@@ -47,38 +47,13 @@ if (!function_exists('audio_alat')) {
             return null;
         }
         $filename = trim(str_replace('\\', '/', (string)$filename));
-        if ($filename === '') {
+        if ($filename === '' || str_contains($filename, '..')) {
             return null;
         }
-
         if (str_starts_with($filename, 'http')) {
             return $filename;
         }
-
-        if (str_contains($filename, 'assets/')) {
-            return asset($filename);
-        }
-
-        // ✅ PRIORITAS UTAMA: file audio terverifikasi di assets/js/audio/ (51 MP3 asli)
-        if (file_exists(public_path('assets/js/audio/' . $filename))) {
-            return asset('assets/js/audio/' . $filename);
-        }
-
-        // file fisik di docroot (htdocs/storage/audio) - layout server InfinityFree
-        if (file_exists(public_path('storage/audio/' . $filename))) {
-            return asset('storage/audio/' . $filename);
-        }
-
-        // 🔁 Storage disk standar Laravel
-        if (Storage::disk('public')->exists('audio/' . $filename)) {
-            return asset('storage/audio/' . $filename);
-        }
-
-        // 🔁 fallback lama
-        if (file_exists(public_path('assets/audio/alat-musik/' . $filename))) {
-            return asset('assets/audio/alat-musik/' . $filename);
-        }
-
-        return null;
+        // Langsung ke file audio terverifikasi. $filename dari DB (mis. saluang.mp3).
+        $filename = basename($filename);
+        return asset('assets/js/audio/' . $filename);
     }
-}
