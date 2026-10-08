@@ -385,9 +385,9 @@ if(nt&&nl){ nt.addEventListener('click',function(){
     }
   }
 
-  // Route-based: halaman terpisah
-  if(path.indexOf('/ruang-bunyi')===0) setActive('ruang-bunyi');
-  else if(path.indexOf('/quiz')===0) setActive('kuis');
+  // Route-based: EXACT matching (bukan substring)
+  if(path==='/ruang-bunyi') setActive('ruang-bunyi');
+  else if(path==='/quiz-global'||path==='/quiz-result') setActive('kuis');
   else if(isHome){
     // Section-based: IntersectionObserver
     var secs=['jelajahi','arsip','pulau','koleksi'];
