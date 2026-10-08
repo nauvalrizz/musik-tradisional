@@ -78,36 +78,48 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 </div>
 <div id="ambient" aria-hidden="true">
 <svg id="wayangBg" viewBox="0 0 420 920" preserveAspectRatio="xMidYMax slice">
-<g fill="#3d2f24">
-<!-- gelung mahkota -->
-<path d="M168 96 Q150 60 172 34 Q196 10 218 32 Q230 44 224 62 Q214 52 204 58 Q192 66 196 84 Z"/>
-<path d="M186 108 L200 58 L212 104 L226 62 L238 108 L250 72 L258 112 L186 118 Z"/>
-<!-- kepala profil -->
-<path d="M184 118 Q206 116 218 128 L224 142 L216 148 L220 162 Q218 182 200 188 L186 184 L180 150 Z"/>
-<path d="M184 148 L172 158 L184 162 Z"/>
-<!-- leher + bahu -->
-<path d="M192 188 L206 188 L204 214 L190 214 Z"/>
-<path d="M178 214 Q204 206 230 216 L236 236 L172 236 Z"/>
-<!-- badan -->
-<path d="M176 236 Q204 230 232 238 L238 320 L242 420 L170 420 L174 320 Z"/>
-<path d="M172 380 L240 380 L238 402 L174 402 Z"/>
-<!-- lengan kanan -->
-<path d="M178 244 Q150 260 128 250 L112 238 L104 248 L122 264 Q148 280 182 272 Z"/>
-<path d="M104 248 Q92 244 88 252 L96 262 Q104 260 110 254 Z"/>
-<!-- lengan kiri -->
-<path d="M232 244 Q258 260 264 290 L268 320 L254 324 L248 294 Q244 272 230 264 Z"/>
-<path d="M254 324 Q258 340 250 348 L238 344 L242 322 Z"/>
-<!-- kain -->
-<path d="M170 402 L242 402 L252 560 L246 580 L236 566 L228 584 L218 568 L208 586 L198 570 L188 588 L178 572 L168 590 L158 574 L152 560 Z"/>
-<!-- kaki -->
-<path d="M184 580 L200 580 L194 700 L188 760 L172 760 L178 700 Z"/>
-<path d="M214 580 L230 580 L244 660 L252 720 L262 760 L246 764 L234 722 L222 660 Z"/>
-<ellipse cx="180" cy="768" rx="26" ry="7"/>
-<ellipse cx="254" cy="768" rx="26" ry="7"/>
-<!-- selendang -->
-<path d="M232 250 Q280 280 300 340 L290 348 Q272 296 230 272 Z"/>
-<!-- keris -->
-<path d="M228 420 L252 468 L244 474 L222 432 Z"/>
+<g fill="#3a2d22">
+<!-- ===== MAHKOTA: gelung melengkung + mahkota bertingkat ===== -->
+<path d="M176 88 C160 58 172 30 196 22 C214 16 228 26 226 44 C218 36 208 40 204 50 C200 60 206 72 214 78 L206 92 Z"/>
+<path d="M188 96 L198 52 L208 94 L220 56 L230 96 L242 64 L250 98 L188 104 Z"/>
+<path d="M182 104 Q200 96 218 104 L220 124 L180 124 Z"/>
+<!-- ===== KEPALA: profil wayang, hidung mancung ===== -->
+<path d="M182 124 Q204 122 216 134 L222 148 L214 154 L218 168 Q216 188 198 194 L184 190 L178 152 Z"/>
+<path d="M182 150 L168 160 L182 164 Z"/>
+<path d="M196 158 Q204 156 210 160" stroke="#241a12" stroke-width="2" fill="none"/>
+<!-- ===== LEHER JENJANG ===== -->
+<path d="M190 194 L204 194 L202 224 L188 224 Z"/>
+<!-- ===== BAHU + DADA ===== -->
+<path d="M174 224 Q200 216 228 226 L234 248 L168 248 Z"/>
+<!-- ===== BADAN RAMPING ===== -->
+<path d="M172 248 Q200 242 230 250 L236 330 L240 430 L162 430 L166 330 Z"/>
+<!-- sabuk -->
+<path d="M164 392 L240 392 L238 414 L166 414 Z"/>
+<!-- selempang -->
+<path d="M176 252 L194 246 L214 330 L200 338 Z" opacity=".85"/>
+<!-- ===== LENGAN KANAN: terentang ke depan ===== -->
+<path d="M174 256 Q144 268 122 258 L104 246 L96 256 L116 270 Q142 284 176 278 Z"/>
+<path d="M96 256 Q84 252 80 260 L88 270 Q96 268 102 262 Z"/>
+<!-- gelang -->
+<path d="M118 254 L126 262 L122 268 L114 260 Z" fill="#241a12"/>
+<!-- ===== LENGAN KIRI: tertekuk di samping ===== -->
+<path d="M230 256 Q254 270 260 300 L264 332 L250 336 L244 306 Q240 284 228 274 Z"/>
+<path d="M250 336 Q254 352 246 360 L234 356 L238 334 Z"/>
+<!-- ===== KAIN: panjang bergerigi khas wayang ===== -->
+<path d="M162 414 L240 414 L248 560 L244 600 L236 584 L228 602 L220 586 L212 604 L204 588 L196 606 L188 590 L180 608 L172 592 L164 610 L156 594 L150 570 Z"/>
+<!-- motif kain -->
+<path d="M180 440 L176 580 M196 440 L196 586 M212 440 L216 580 M228 440 L232 574" stroke="#241a12" stroke-width="1.6" opacity=".5" fill="none"/>
+<!-- ===== KAKI: pose ksatria ===== -->
+<path d="M178 600 L194 600 L190 720 L184 780 L168 780 L174 720 Z"/>
+<path d="M210 600 L226 600 L238 680 L246 740 L258 778 L242 782 L230 742 L218 680 Z"/>
+<!-- telapak -->
+<ellipse cx="176" cy="788" rx="24" ry="6"/>
+<ellipse cx="250" cy="788" rx="24" ry="6"/>
+<!-- ===== KERIS di pinggang ===== -->
+<path d="M236 410 L260 458 L252 464 L230 422 Z"/>
+<path d="M252 458 L258 472 L250 476 L244 462 Z"/>
+<!-- ===== SELENDANG terbang ===== -->
+<path d="M230 262 Q276 288 296 344 L286 352 Q268 300 228 282 Z" opacity=".8"/>
 </g>
 </svg>
 </div>
