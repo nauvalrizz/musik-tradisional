@@ -20,7 +20,7 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=121') }}">
 </head>
-<body class="{{ request()->is('quiz-global') ? 'quiz-mode' : '' }}">
+<body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 
 {{-- LOADER --}}
 <div id="loader" aria-hidden="true">

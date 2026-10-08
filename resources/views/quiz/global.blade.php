@@ -19,5 +19,5 @@
 </div>
 @endsection
 @push('scripts')
-<script src="{{ asset('assets/js/quiz-global.js') }}"></script>
+<script src="{{ asset('assets/js/quiz-global.js?v=139') }}"></script>
 @endpush
