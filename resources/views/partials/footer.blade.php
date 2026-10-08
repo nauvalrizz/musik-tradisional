@@ -1,9 +1,9 @@
 <footer>
-    <div class="frame">
-        <div class="footer-row">
-            <span>ARSIP TERBUKA — INDONESIA</span>
-            <span class="center">MuSantara</span>
-            <span class="right">© {{ date('Y') }}</span>
-        </div>
-    </div>
+<div class="wrap">
+<div class="foot">
+<span>ARSIP TERBUKA — ID</span>
+<span class="center">MuSantara</span>
+<span>© {{ date('Y') }}</span>
+</div>
+</div>
 </footer>
