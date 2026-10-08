@@ -652,17 +652,14 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 .hero-play.playing{background:linear-gradient(145deg,var(--terra),var(--terra-d));color:#fff}
 @media(prefers-reduced-motion:reduce){#heroTitle,.as-soundfield i{animation:none}}
 
-/* ——— HERO v4: title multi-layer idle ——— */
-#heroTitle{
-  color:transparent;-webkit-text-fill-color:transparent;
-  background:linear-gradient(100deg,var(--paper) 32%,#f7e3c0 45%,#d9b382 50%,#f7e3c0 55%,var(--paper) 68%);
-  background-size:260% 100%;
-  -webkit-background-clip:text;background-clip:text;
-  animation:tsheen 12s ease-in-out infinite, tbreathe 8s ease-in-out infinite, tshadow 13s ease-in-out infinite;
+/* ——— HERO v5: safe title idle (visible selalu) ——— */
+#heroTitle{opacity:1;visibility:visible;animation:tsafe 9s ease-in-out infinite;will-change:transform}
+@keyframes tsafe{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  25%{transform:translate3d(0,-2px,0) scale(1.004)}
+  50%{transform:translate3d(0,0,0) scale(1)}
+  75%{transform:translate3d(0,2px,0) scale(1.004)}
 }
-@keyframes tsheen{0%,52%,100%{background-position:115% 0}72%,88%{background-position:-15% 0}}
-@keyframes tbreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.006)}}
-@keyframes tshadow{0%,100%{filter:drop-shadow(0 3px 5px rgba(0,0,0,.35))}50%{filter:drop-shadow(0 7px 13px rgba(0,0,0,.5))}}
 #hero3d{touch-action:pan-y;cursor:grab}
 #hero3d:active{cursor:grabbing}
 @media(prefers-reduced-motion:reduce){#heroTitle{animation:none}}
