@@ -106,7 +106,7 @@ if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { 
 <p id="imgCaption" style="color:#766D62;font-family:var(--mono);font-size:.68rem;margin-top:.7rem"></p>
 </div>
 
-<script src="{{ asset('assets/js/gamelan.js') }}" defer></script>
+<script src="{{ asset('assets/js/gamelan.js?v=161') }}" defer></script>
 @stack('scripts')
 <script>
 (function(){

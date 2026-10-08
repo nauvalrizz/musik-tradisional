@@ -46,6 +46,10 @@ if (!function_exists('audio_alat')) {
         if (empty($filename)) {
             return null;
         }
+        $filename = trim(str_replace('\\', '/', (string)$filename));
+        if ($filename === '') {
+            return null;
+        }
 
         if (str_starts_with($filename, 'http')) {
             return $filename;
