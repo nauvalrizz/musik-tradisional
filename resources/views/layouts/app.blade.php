@@ -260,10 +260,21 @@ if(!touch && !reduced){
   });
 }
 
+/* ——— HERO ARTIFACT: sounding state ——— */
+(function(){
+  var st=document.getElementById('heroArtifact'); if(!st) return;
+  var obj=st.querySelector('.as-obj');
+  if(obj) obj.addEventListener('click', function(){
+    st.classList.add('sounding');
+    clearTimeout(st._st);
+    st._st=setTimeout(function(){ st.classList.remove('sounding'); }, 2600);
+  });
+})();
+
 /* ——— HERO TILT (max 4deg) ——— */
-var pobj=document.querySelector('.pedestal .pobj');
+var pobj=document.querySelector('.artifact-stage .as-obj');
 if(pobj && !touch && !reduced){
-  var ped=pobj.closest('.pedestal');
+  var ped=pobj.closest('.artifact-stage');
   ped.addEventListener('mousemove',function(e){
     var r=ped.getBoundingClientRect();
     var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;

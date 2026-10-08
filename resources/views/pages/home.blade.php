@@ -21,11 +21,13 @@
 </div>
 </div>
 @if($hero)
-<div class="pedestal reveal">
-<div class="pring" aria-hidden="true"></div>
-<div class="pbase" aria-hidden="true"></div>
-<div class="pobj gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$hero->nama)) }}" data-freq="220" role="button" tabindex="0" aria-label="Putar {{ $hero->nama }}">
+<div class="artifact-stage reveal" id="heroArtifact">
+<div class="as-spotlight" aria-hidden="true"></div>
+<div class="as-platform" aria-hidden="true"><div class="as-tier1"></div><div class="as-tier2"></div></div>
+<div class="as-shadow" aria-hidden="true"></div>
+<div class="as-obj gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$hero->nama)) }}" data-freq="220" role="button" tabindex="0" aria-label="Putar {{ $hero->nama }}">
 <img src="{{ gambar_alat($hero->gambar) }}" alt="{{ $hero->nama }}">
+<div class="as-ripples" aria-hidden="true"><i></i><i></i><i></i></div>
 </div>
 <div class="hero-tag">
 <p class="tn">{{ $hero->nama }}</p>
