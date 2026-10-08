@@ -12,57 +12,67 @@
 <style>
 /* Critical: first frame = dark museum, no flash */
 html{background:#141110}html.loading,html.loading body{overflow:hidden}
-#loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;overflow:hidden}
-#loader .load-cam{transition:transform 2.2s cubic-bezier(.22,1,.36,1);transform:scale(1.18) translateY(26px)}
-#loader.wide .load-cam{transform:scale(1) translateY(0)}
-#loader.enter .load-cam{transform:scale(1.12) translateY(-14px)}
-#loader.done{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+#loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
+#loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+.mstage{position:relative;width:min(300px,72vw);height:210px}
+.mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0}
+#loader.go .mped{animation:mped .45s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes mped{to{transform:scale(1);opacity:1}}
+.mripple{position:absolute;left:50%;bottom:30px;width:140px;height:26px;margin-left:-70px;border:2px solid #a95135;border-radius:50%;opacity:0;transform:scale(.4)}
+#loader.orc .mripple{animation:mrip .7s ease-out}
+@keyframes mrip{0%{opacity:.7;transform:scale(.4)}100%{opacity:0;transform:scale(1.5)}}
+.minst{position:absolute;bottom:52px;left:50%;width:64px;height:64px;margin-left:-32px;opacity:0;transform:scale(0);filter:drop-shadow(0 8px 10px rgba(0,0,0,.5))}
+.minst svg{width:100%;height:100%}
+.m0{--mx:-104px}.m1{--mx:-52px}.m2{--mx:0px}.m3{--mx:52px}.m4{--mx:104px}
+#loader.go .minst{animation:mpop .5s cubic-bezier(.34,1.56,.64,1) forwards}
+#loader.go .m0{animation-delay:.18s;--my:-8px;--mr:-6deg}
+#loader.go .m1{animation-delay:.30s;--my:-16px;--mr:4deg}
+#loader.go .m2{animation-delay:.42s;--my:-22px;--mr:0deg}
+#loader.go .m3{animation-delay:.54s;--my:-16px;--mr:-4deg}
+#loader.go .m4{animation-delay:.66s;--my:-8px;--mr:6deg}
+@keyframes mpop{0%{opacity:0;transform:translate(var(--mx),30px) scale(0) rotate(0)}60%{opacity:1;transform:translate(var(--mx),var(--my)) scale(1.12) rotate(var(--mr))}100%{opacity:1;transform:translate(var(--mx),var(--my)) scale(1) rotate(0)}}
+#loader.orc .minst{animation:morc .45s ease-in-out}
+#loader.orc .m0{animation-delay:0s}#loader.orc .m1{animation-delay:.06s}#loader.orc .m2{animation-delay:.12s}#loader.orc .m3{animation-delay:.18s}#loader.orc .m4{animation-delay:.24s}
+@keyframes morc{0%,100%{transform:translate(var(--mx),var(--my)) scale(1)}40%{transform:translate(var(--mx),calc(var(--my) - 10px)) scale(1.06)}}
+.mtitle{font-family:Fraunces,serif;font-size:1.5rem;letter-spacing:.22em;color:#e8dfd1;opacity:0;transform:translateY(12px)}
+#loader.logo .mtitle{opacity:1;transform:none;transition:opacity .4s,transform .4s}
+.msub{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.34em;color:#766d62;opacity:0}
+#loader.logo .msub{opacity:1;transition:opacity .4s .1s}
+#loader.bye .mstage{transform:scale(.92);opacity:0;transition:transform .4s,opacity .4s}
+#loader.bye .mtitle,#loader.bye .msub{opacity:0;transition:opacity .3s}
+@media(prefers-reduced-motion:reduce){.minst,.mped{animation-duration:.01s!important}}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=153') }}">
 </head>
 <body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 
-{{-- LOADER --}}
+{{-- LOADER: miniature museum orchestra --}}
 <div id="loader" aria-hidden="true">
-<div class="load-cam" style="display:flex;flex-direction:column;align-items:center;gap:1.2rem">
-<div class="load-sign"><span>NUSANTARA ORCHESTRA</span></div>
-<div class="load-scene">
+<div class="mstage">
+<div class="mped"></div>
+<div class="mripple"></div>
 @php
-$entrances=['e-rise','e-slide','e-rot','e-roll'];
-$litems = ($loaderItems ?? collect())->take(4);
-// Ikon SVG clay per tipe instrumen (ganti foto asli di loader saja)
-function loaderIcon($nama){
+$loaderIconFn = function($nama){
   $n = strtolower($nama);
   $c1='#62483A'; $c2='#3A2E25'; $t='#A95135';
-  if(str_contains($n,'kendang')||str_contains($n,'gendang')||str_contains($n,'tifa')||str_contains($n,'bedug')||str_contains($n,'babun'))
-    return '<svg viewBox="0 0 100 100" width="72" height="72"><rect x="22" y="36" width="56" height="28" rx="14" fill="'.$c1.'"/><ellipse cx="22" cy="50" rx="9" ry="14" fill="#C9B59D"/><ellipse cx="78" cy="50" rx="9" ry="14" fill="#C9B59D"/><rect x="40" y="68" width="20" height="22" rx="4" fill="'.$c2.'"/></svg>';
-  if(str_contains($n,'saron')||str_contains($n,'bonang')||str_contains($n,'kenong')||str_contains($n,'kolintang')||str_contains($n,'gambang')||str_contains($n,'talempong'))
-    return '<svg viewBox="0 0 100 100" width="72" height="72"><rect x="14" y="66" width="72" height="12" rx="5" fill="'.$c2.'"/><rect x="20" y="52" width="10" height="14" rx="2" fill="'.$t.'"/><rect x="34" y="48" width="10" height="18" rx="2" fill="'.$t.'"/><rect x="48" y="44" width="10" height="22" rx="2" fill="'.$t.'"/><rect x="62" y="48" width="10" height="18" rx="2" fill="'.$t.'"/><rect x="76" y="52" width="6" height="14" rx="2" fill="'.$t.'"/></svg>';
-  if(str_contains($n,'sasando'))
-    return '<svg viewBox="0 0 100 100" width="72" height="72"><path d="M50 14 L78 82 L22 82 Z" fill="'.$c1.'"/><line x1="50" y1="14" x2="50" y2="82" stroke="#C9B59D" stroke-width="2"/><line x1="40" y1="30" x2="40" y2="82" stroke="#C9B59D" stroke-width="1.4"/><line x1="60" y1="30" x2="60" y2="82" stroke="#C9B59D" stroke-width="1.4"/><ellipse cx="50" cy="86" rx="20" ry="5" fill="'.$c2.'"/></svg>';
+  if(str_contains($n,'kendang')||str_contains($n,'gendang')||str_contains($n,'tifa')||str_contains($n,'bedug'))
+    return '<svg viewBox="0 0 100 100" width="64" height="64"><rect x="22" y="36" width="56" height="28" rx="14" fill="'.$c1.'"/><ellipse cx="22" cy="50" rx="9" ry="14" fill="#C9B59D"/><ellipse cx="78" cy="50" rx="9" ry="14" fill="#C9B59D"/><rect x="40" y="68" width="20" height="22" rx="4" fill="'.$c2.'"/></svg>';
+  if(str_contains($n,'kenong')||str_contains($n,'saron')||str_contains($n,'bonang')||str_contains($n,'talempong'))
+    return '<svg viewBox="0 0 100 100" width="64" height="64"><rect x="14" y="66" width="72" height="12" rx="5" fill="'.$c2.'"/><rect x="20" y="52" width="10" height="14" rx="2" fill="'.$t.'"/><rect x="34" y="48" width="10" height="18" rx="2" fill="'.$t.'"/><rect x="48" y="44" width="10" height="22" rx="2" fill="'.$t.'"/><rect x="62" y="48" width="10" height="18" rx="2" fill="'.$t.'"/><rect x="76" y="52" width="6" height="14" rx="2" fill="'.$t.'"/></svg>';
   if(str_contains($n,'angklung'))
-    return '<svg viewBox="0 0 100 100" width="72" height="72"><line x1="18" y1="26" x2="82" y2="26" stroke="'.$c2.'" stroke-width="6" stroke-linecap="round"/><rect x="26" y="30" width="9" height="42" rx="4" fill="'.$c1.'"/><rect x="40" y="30" width="9" height="52" rx="4" fill="'.$c1.'"/><rect x="54" y="30" width="9" height="42" rx="4" fill="'.$c1.'"/><rect x="68" y="30" width="9" height="34" rx="4" fill="'.$c1.'"/></svg>';
-  if(str_contains($n,'sape')||str_contains($n,'saluang')||str_contains($n,'kecapi'))
-    return '<svg viewBox="0 0 100 100" width="72" height="72"><ellipse cx="50" cy="62" rx="18" ry="22" fill="'.$c1.'"/><rect x="46" y="8" width="8" height="42" rx="3" fill="'.$c2.'"/><line x1="50" y1="12" x2="50" y2="78" stroke="#C9B59D" stroke-width="1.6"/><line x1="44" y1="14" x2="44" y2="72" stroke="#C9B59D" stroke-width="1.2"/><line x1="56" y1="14" x2="56" y2="72" stroke="#C9B59D" stroke-width="1.2"/></svg>';
-  // default: gong
-  return '<svg viewBox="0 0 100 100" width="72" height="72"><circle cx="50" cy="42" r="28" fill="'.$c1.'"/><circle cx="50" cy="42" r="10" fill="'.$t.'"/><circle cx="50" cy="42" r="28" fill="none" stroke="'.$c2.'" stroke-width="3"/><line x1="24" y1="66" x2="22" y2="90" stroke="'.$c2.'" stroke-width="5" stroke-linecap="round"/><line x1="76" y1="66" x2="78" y2="90" stroke="'.$c2.'" stroke-width="5" stroke-linecap="round"/></svg>';
-}
-if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { $lfallback=false; }
+    return '<svg viewBox="0 0 100 100" width="64" height="64"><line x1="18" y1="26" x2="82" y2="26" stroke="'.$c2.'" stroke-width="6" stroke-linecap="round"/><rect x="26" y="30" width="9" height="42" rx="4" fill="'.$c1.'"/><rect x="40" y="30" width="9" height="52" rx="4" fill="'.$c1.'"/><rect x="54" y="30" width="9" height="42" rx="4" fill="'.$c1.'"/><rect x="68" y="30" width="9" height="34" rx="4" fill="'.$c1.'"/></svg>';
+  if(str_contains($n,'sasando'))
+    return '<svg viewBox="0 0 100 100" width="64" height="64"><path d="M50 14 L78 82 L22 82 Z" fill="'.$c1.'"/><line x1="50" y1="14" x2="50" y2="82" stroke="#C9B59D" stroke-width="2"/><ellipse cx="50" cy="86" rx="20" ry="5" fill="'.$c2.'"/></svg>';
+  return '<svg viewBox="0 0 100 100" width="64" height="64"><circle cx="50" cy="42" r="28" fill="'.$c1.'"/><circle cx="50" cy="42" r="10" fill="'.$t.'"/><circle cx="50" cy="42" r="28" fill="none" stroke="'.$c2.'" stroke-width="3"/><line x1="24" y1="66" x2="22" y2="90" stroke="'.$c2.'" stroke-width="5" stroke-linecap="round"/><line x1="76" y1="66" x2="78" y2="90" stroke="'.$c2.'" stroke-width="5" stroke-linecap="round"/></svg>';
+};
+$mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 @endphp
-@foreach($litems as $li => $it)
-<div class="lped {{ $entrances[$li % 4] }}"><div class="llight"></div>
-<div class="lobj">{!! $lfallback ? '<div class="lclay"></div>' : loaderIcon($it->nama) !!}</div>
-<div class="lbase"></div>
-<div class="lrip"></div>
-</div>
+@foreach($mInstruments as $mi => $mnm)
+<div class="minst m{{$mi}}">{!! $loaderIconFn($mnm) !!}</div>
 @endforeach
 </div>
-<div class="lfloor"><i></i><i></i><i></i><i></i></div>
-</div>
-<p class="lphase" id="lphase">MEMBANGUN RUANG MUSIK</p>
-<div class="lwave" aria-hidden="true">@for($i=0;$i<18;$i++)<i style="height:{{ 30+($i*37%70) }}%;animation-delay:{{ $i*70 }}ms"></i>@endfor</div>
-<div class="lt">MUSANTARA</div>
-<div class="ls">ARSIP BUNYI NUSANTARA</div>
+<div class="mtitle">MUSANTARA</div>
+<div class="msub">ARSIP BUNYI NUSANTARA</div>
 </div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
@@ -114,41 +124,27 @@ if($litems->isEmpty()){ $litems = collect([1,2,3,4]); $lfallback=true; } else { 
 var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var touch = window.matchMedia('(hover: none)').matches;
 
-/* ——— LOADER: orchestra mulai LANGSUNG, hide nunggu ready ——— */
+/* ——— LOADER: miniature orchestra (1.5-2.5s) ——— */
 document.documentElement.classList.add('loading');
 (function(){
   var loader=document.getElementById('loader');
-  var peds=document.querySelectorAll('.lped');
-  var lp=document.getElementById('lphase');
-  var fl=document.querySelectorAll('.lfloor i');
-  var phases=['MEMBANGUN RUANG MUSIK','MENYUSUN KOLEKSI','MENYALAKAN RUANG BUNYI'];
   var winReady=false, animDone=false;
   function tryEnter(){
     if(winReady && animDone && !loader.classList.contains('done')){
-      // ENTERING_MUSEUM: kamera maju masuk
-      loader.classList.add('enter');
+      loader.classList.add('bye');
       setTimeout(function(){
         loader.classList.add('done');
         document.documentElement.classList.remove('loading');
-      }, 650);
+      }, 420);
     }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
-  // Orchestra mulai segera (script di akhir body, DOM siap)
-  var startDelay = reduced ? 0 : 150;
+  var startDelay = reduced ? 0 : 80;
   setTimeout(function(){
-    loader.classList.add('wide'); // camera pull back
-    peds.forEach(function(pd,i){
-      setTimeout(function(){ pd.classList.add('up'); }, i*280);
-      setTimeout(function(){
-        pd.classList.add('show');
-        setTimeout(function(){ pd.classList.add('lit'); if(fl[i]) fl[i].classList.add('lit'); }, 450);
-        if(lp&&phases[Math.min(i,2)]) lp.textContent=phases[Math.min(i,2)];
-      }, 500+i*280);
-    });
-    var lastMs = 500+(peds.length-1)*280+900;
-    setTimeout(function(){ loader.classList.add('logo'); }, lastMs); // LOADING_COMPLETE
-    setTimeout(function(){ animDone=true; tryEnter(); }, lastMs+400);
+    loader.classList.add('go'); // pedestal + instruments pop
+    setTimeout(function(){ loader.classList.add('orc'); }, 880); // orchestra moment
+    setTimeout(function(){ loader.classList.add('logo'); }, 1080); // title
+    setTimeout(function(){ animDone=true; tryEnter(); }, 1480);
   }, startDelay);
   // Entry stagger homepage (di balik loader)
   var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
@@ -156,7 +152,6 @@ document.documentElement.classList.add('loading');
     el.style.opacity='0'; el.style.transform='translateY(18px)';
     el.style.transition='opacity .7s ease '+(i*130)+'ms,transform .7s ease '+(i*130)+'ms';
   });
-  // Reveal homepage tepat saat loader done
   var mo=new MutationObserver(function(){
     if(loader.classList.contains('done')){
       requestAnimationFrame(function(){requestAnimationFrame(function(){
