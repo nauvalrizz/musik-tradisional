@@ -392,6 +392,15 @@ if(nt&&nl){ nt.addEventListener('click',function(){
     // Section-based: IntersectionObserver
     var secs=['jelajahi','arsip','pulau','koleksi'];
     var vis={};
+    function sectionFromScroll(){
+      // fallback: section terakhir yang top-nya sudah lewat 40% viewport
+      var y=window.scrollY+window.innerHeight*0.4, cand=null;
+      secs.forEach(function(id){
+        var el=document.getElementById(id);
+        if(el && el.getBoundingClientRect().top+window.scrollY<=y) cand=id;
+      });
+      return cand;
+    }
     var so=new IntersectionObserver(function(es){
       es.forEach(function(en){
         vis[en.target.id]=en.isIntersecting?en.intersectionRatio:0;
@@ -400,11 +409,15 @@ if(nt&&nl){ nt.addEventListener('click',function(){
       var best=null,bestR=0.12;
       secs.forEach(function(id){ if((vis[id]||0)>bestR){bestR=vis[id];best=id;} });
       if(best) setActive(best);
-      else if(window.scrollY<120) setActive('jelajahi');
+      else {
+        // TIDAK ADA section di band observasi → hitung dari posisi scroll (anti-stuck)
+        var fb=sectionFromScroll();
+        if(fb) setActive(fb);
+      }
     },{rootMargin:'-38% 0px -52% 0px',threshold:[0,0.15,0.3,0.5]});
     secs.forEach(function(id){ var el=document.getElementById(id); if(el) so.observe(el); });
-    // initial
-    setTimeout(function(){ if(!current) setActive(window.scrollY<120?'jelajahi':'arsip'); },300);
+    // initial: hitung dari posisi aktual, bukan hardcoded
+    setTimeout(function(){ if(!current){ var fb=sectionFromScroll(); if(fb) setActive(fb); } },300);
   }
 
   // Smooth scroll dengan offset navbar
