@@ -17,10 +17,9 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
 .mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0;will-change:transform,opacity}
 #loader.go .mped{transform:scale(1);opacity:1;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s}
-.mripple{position:absolute;left:50%;bottom:30px;width:140px;height:26px;margin-left:-70px;border:2px solid #a95135;border-radius:50%;opacity:0;transform:scale(.4);will-change:transform,opacity}
-#loader.orc .mripple{opacity:0;transform:scale(1.5);transition:transform .7s ease-out,opacity .7s}
-#loader.orc .mripple{opacity:.7;transform:scale(.4)}
-#loader.orc.go .mripple{opacity:0;transform:scale(1.5)}
+.mripple{position:absolute;left:50%;bottom:30px;width:140px;height:26px;margin-left:-70px;border:2px solid #a95135;border-radius:50%;opacity:0;transform:scale(.4);will-change:transform,opacity;pointer-events:none}
+#loader.orc .mripple{animation:mrip .7s ease-out}
+@keyframes mrip{0%{opacity:.65;transform:scale(.4)}100%{opacity:0;transform:scale(1.5)}}
 .minst{position:absolute;bottom:52px;left:50%;width:64px;height:64px;margin-left:-32px;opacity:0;transform:translate3d(var(--mx),26px,0) scale(0);will-change:transform,opacity;filter:drop-shadow(0 8px 10px rgba(0,0,0,.5));backface-visibility:hidden}
 .minst-inner{width:100%;height:100%;will-change:transform}
 .minst-inner svg{width:100%;height:100%;display:block}
