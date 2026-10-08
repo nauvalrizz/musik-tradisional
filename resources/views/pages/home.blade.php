@@ -41,11 +41,6 @@
     <p class="scroll-cue" aria-hidden="true"><span></span>Gulir</p>
 </section>
 
-{{-- Marquee strip --}}
-<div class="marquee-strip" aria-hidden="true">
-    <div class="marquee-inner">
-        <span>ARSIP</span>•<span>BUNYI</span>•<span>NUSANTARA</span>•<span>GAMELAN</span>•<span>SASANDO</span>•<span>TALEMPONG</span>•<span>ARSIP</span>•<span>BUNYI</span>•<span>NUSANTARA</span>•<span>GAMELAN</span>•<span>SASANDO</span>•<span>TALEMPONG</span>•
-    </div>
 </div>
 
 {{-- ═══════════ KISAH GAMELAN (scroll storytelling) ═══════════ --}}
