@@ -9,7 +9,7 @@
 <h1>ARSIP<em>Bunyi</em>NUSANTARA</h1>
 </div>
 <aside class="hero-card reveal">
-<p>Jejak bunyi dari logam, kayu, kulit, bambu, dan dawai — ditata sebagai ruang dengar untuk warisan yang terus hidup.</p>
+<p>Dari denting bonang sampai dengung gong — ketuk, dengar, dan telusuri sendiri bunyi Nusantara.</p>
 <div class="cta-row">
 <a class="btn btn-primary" href="#bunyi">Mulai Mendengar →</a>
 <a class="btn" href="#koleksi">Buka Koleksi</a>
@@ -27,7 +27,7 @@
 <section class="section" id="bunyi">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">01</div>
+<div class="sec-num">♪</div>
 <div class="sec-title">
 <p class="eyebrow">Ruang Dengar</p>
 <h2>Ketuk dan dengarkan.</h2>
@@ -49,7 +49,7 @@
 <section class="section" id="telusuri">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">02</div>
+<div class="sec-num">⌕</div>
 <div class="sec-title">
 <p class="eyebrow">Indeks — Telusuri</p>
 <h2>Cari lewat nama, bahan, atau wilayah.</h2>
@@ -72,7 +72,7 @@
 <section class="section" id="pulau">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">03</div>
+<div class="sec-num">◈</div>
 <div class="sec-title">
 <p class="eyebrow">Peta — Pulau</p>
 <h2>Tujuh wilayah, tujuh warna bunyi.</h2>
@@ -90,7 +90,7 @@
 <section class="section" id="koleksi">
 <div class="wrap">
 <header class="section-head reveal">
-<div class="sec-num">04</div>
+<div class="sec-num">✦</div>
 <div class="sec-title">
 <p class="eyebrow">Koleksi — Pilihan</p>
 <h2>Enam artefak pilihan.</h2>

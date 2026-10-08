@@ -46,7 +46,7 @@ p.addEventListener('mouseleave',function(){var t=document.getElementById('mapTip
 /* Gamelan: update status text */
 var st=document.getElementById('soundStatus');
 document.querySelectorAll('.gamelan-pad').forEach(function(p){
-p.addEventListener('click',function(){if(st)st.textContent='♪ '+p.dataset.instrument.toUpperCase()+' · '+p.dataset.freq+' Hz';p.classList.add('hit');setTimeout(function(){p.classList.remove('hit');},180);});
+p.addEventListener('click',function(){if(st)st.textContent='♪ '+p.dataset.instrument.toUpperCase()+' · '+p.dataset.freq+' Hz';p.classList.add('hit');document.body.classList.add('sounding');setTimeout(function(){p.classList.remove('hit');document.body.classList.remove('sounding');},350);});
 });
 })();
 </script>
