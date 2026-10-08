@@ -4,17 +4,17 @@
    biru/ungu, tanpa neon.
 ============================================================ */
 :root {
-    --bg: #1a1512;
-    --bg-soft: #221c17;
-    --card: #241e18;
-    --ink: #ece3d0;
-    --muted: #a89a7e;
-    --bronze: #c9973f;
-    --bronze-hi: #e0b45c;
-    --bronze-deep: #7d5f24;
+    --bg: #131110;
+    --bg-soft: #1b1815;
+    --card: #211d18;
+    --ink: #f2ead8;
+    --muted: #9a8f78;
+    --bronze: #d9a441;
+    --bronze-hi: #f0c668;
+    --bronze-deep: #8a6420;
     --bronze-ink: #171208;
-    --line: rgba(201, 151, 63, 0.14);
-    --line-strong: rgba(201, 151, 63, 0.38);
+    --line: rgba(217, 164, 65, 0.12);
+    --line-strong: rgba(217, 164, 65, 0.35);
     --serif: 'Fraunces', 'Georgia', serif;
 }
 
@@ -24,6 +24,7 @@ body {
     color: var(--ink);
     padding-top: 80px;
     background: var(--bg);
+    background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(217,164,65,0.04), transparent 70%);
     overflow-x: hidden;
     position: relative;
     z-index: 1;
