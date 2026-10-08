@@ -1415,12 +1415,14 @@ body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
 /* v96 — wayang shadow + light rays */
 .gallery-hero { position: relative; overflow: hidden; }
 .wayang-shadow {
-    position: absolute; left: 2%; bottom: 0;
-    width: min(38vw, 520px); height: 92%;
-    pointer-events: none; z-index: 0;
-    opacity: 0.32;
-    filter: blur(0.5px);
+    position: absolute; left: 0; bottom: 0;
+    width: min(36vw, 460px); height: 88%;
+    pointer-events: none; z-index: 1;
+    opacity: 0.55;
+    filter: none;
     will-change: transform;
+    -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
+    mask-image: linear-gradient(to right, black 60%, transparent 100%);
 }
 .wayang-shadow svg { width: 100%; height: 100%; fill: #000; }
 .wayang-shadow::after {
