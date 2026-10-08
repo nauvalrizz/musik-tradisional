@@ -1239,3 +1239,14 @@ button#ambient-toggle.ambient-btn i { font-style: normal; }
 body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
     position: relative; z-index: 1;
 }
+
+/* v80-fix: paksa modal zoom keliatan */
+.img-modal.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+.img-modal.open .img-modal-content {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+}
