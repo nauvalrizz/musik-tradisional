@@ -517,7 +517,7 @@ setTimeout(() => {
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
 
-    var hero = document.querySelector('.hero-section');
+    var hero = document.querySelector('.gallery-hero');
     if (!hero) return;
 
     var canvas = document.createElement('canvas');

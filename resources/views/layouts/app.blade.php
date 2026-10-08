@@ -91,7 +91,7 @@
     <script src="{{ asset('assets/js/quiz.js') }}?v=53" defer></script>
 
     <!-- ================= MAIN ================= -->
-    <script type="module" src="{{ asset('assets/js/app-v75.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/app-v76.js') }}"></script>
     <!-- ================= TUTORIAL ================= -->
     <script src="{{ asset('assets/js/tutorial.js') }}?v=53" defer></script>
     <!-- ================= MAP ================= -->
