@@ -13,10 +13,8 @@
 /* Critical: first frame = dark museum, no flash */
 html{background:#141110}html.loading,html.loading body{overflow:hidden}
 #ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-#wayangBg{position:absolute;right:-4%;top:50%;height:min(92vh,860px);width:auto;transform:translateY(-50%);opacity:.5;filter:blur(.4px);animation:wbreath 9s ease-in-out infinite}
-@keyframes wbreath{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-4px)}}
-@media(max-width:860px){#wayangBg{height:60vh;opacity:.32;right:-14%}}
-@media(prefers-reduced-motion:reduce){#wayangBg{animation:none}}
+#wayangBg{position:absolute;right:0;top:50%;height:min(88vh,840px);width:auto;transform:translateY(-50%);opacity:.42}
+@media(max-width:860px){#wayangBg{height:58vh;opacity:.28;right:-10%}}
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
@@ -80,56 +78,36 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 </div>
 <div id="ambient" aria-hidden="true">
 <svg id="wayangBg" viewBox="0 0 420 920" preserveAspectRatio="xMidYMax slice">
-<defs>
-<linearGradient id="wclay" x1="0" y1="0" x2="1" y2="1">
-<stop offset="0" stop-color="#7a5f45" stop-opacity=".62"/>
-<stop offset=".45" stop-color="#5a4534" stop-opacity=".44"/>
-<stop offset="1" stop-color="#33271e" stop-opacity=".20"/>
-</linearGradient>
-<linearGradient id="wshade" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0" stop-color="#000" stop-opacity="0"/>
-<stop offset="1" stop-color="#0d0a08" stop-opacity=".5"/>
-</linearGradient>
-</defs>
-<g fill="url(#wclay)">
-<!-- ===== GELUNG MAHKOTA (lengkung khas) ===== -->
+<g fill="#3d2f24">
+<!-- gelung mahkota -->
 <path d="M168 96 Q150 60 172 34 Q196 10 218 32 Q230 44 224 62 Q214 52 204 58 Q192 66 196 84 Z"/>
-<path d="M172 100 Q160 78 176 60 L186 68 Q176 82 184 96 Z"/>
-<!-- mahkota depan -->
 <path d="M186 108 L200 58 L212 104 L226 62 L238 108 L250 72 L258 112 L186 118 Z"/>
-<!-- ===== KEPALA PROFIL (hadap kiri) ===== -->
+<!-- kepala profil -->
 <path d="M184 118 Q206 116 218 128 L224 142 L216 148 L220 162 Q218 182 200 188 L186 184 L180 150 Z"/>
-<!-- hidung mancung -->
 <path d="M184 148 L172 158 L184 162 Z"/>
-<!-- ===== LEHER + BAHU ===== -->
+<!-- leher + bahu -->
 <path d="M192 188 L206 188 L204 214 L190 214 Z"/>
 <path d="M178 214 Q204 206 230 216 L236 236 L172 236 Z"/>
-<!-- ===== BADAN ===== -->
+<!-- badan -->
 <path d="M176 236 Q204 230 232 238 L238 320 L242 420 L170 420 L174 320 Z"/>
-<!-- sabuk -->
-<path d="M172 380 L240 380 L238 402 L174 402 Z" opacity=".85"/>
-<!-- ===== LENGAN KANAN (terentang ke depan/kiri) ===== -->
+<path d="M172 380 L240 380 L238 402 L174 402 Z"/>
+<!-- lengan kanan -->
 <path d="M178 244 Q150 260 128 250 L112 238 L104 248 L122 264 Q148 280 182 272 Z"/>
-<!-- tangan kanan -->
 <path d="M104 248 Q92 244 88 252 L96 262 Q104 260 110 254 Z"/>
-<!-- ===== LENGAN KIRI (tertekuk) ===== -->
+<!-- lengan kiri -->
 <path d="M232 244 Q258 260 264 290 L268 320 L254 324 L248 294 Q244 272 230 264 Z"/>
 <path d="M254 324 Q258 340 250 348 L238 344 L242 322 Z"/>
-<!-- ===== KAIN ===== -->
+<!-- kain -->
 <path d="M170 402 L242 402 L252 560 L246 580 L236 566 L228 584 L218 568 L208 586 L198 570 L188 588 L178 572 L168 590 L158 574 L152 560 Z"/>
-<!-- lipatan -->
-<path d="M188 430 L184 560 M204 430 L204 566 M220 430 L224 560" stroke="#241b14" stroke-width="2" opacity=".4" fill="none"/>
-<!-- ===== KAKI KANAN (maju) ===== -->
+<!-- kaki -->
 <path d="M184 580 L200 580 L194 700 L188 760 L172 760 L178 700 Z"/>
-<!-- ===== KAKI KIRI (mundur, lutut tekuk) ===== -->
 <path d="M214 580 L230 580 L244 660 L252 720 L262 760 L246 764 L234 722 L222 660 Z"/>
-<!-- alas kaki -->
-<ellipse cx="180" cy="768" rx="26" ry="7" opacity=".5"/>
-<ellipse cx="254" cy="768" rx="26" ry="7" opacity=".5"/>
-<!-- ===== SELENDANG ===== -->
-<path d="M232 250 Q280 280 300 340 L290 348 Q272 296 230 272 Z" opacity=".7"/>
-<!-- ===== SHADING ===== -->
-<rect x="80" y="0" width="240" height="920" fill="url(#wshade)"/>
+<ellipse cx="180" cy="768" rx="26" ry="7"/>
+<ellipse cx="254" cy="768" rx="26" ry="7"/>
+<!-- selendang -->
+<path d="M232 250 Q280 280 300 340 L290 348 Q272 296 230 272 Z"/>
+<!-- keris -->
+<path d="M228 420 L252 468 L244 474 L222 432 Z"/>
 </g>
 </svg>
 </div>
