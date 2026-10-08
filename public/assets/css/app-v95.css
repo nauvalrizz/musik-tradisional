@@ -1411,3 +1411,44 @@ body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
 @media (prefers-reduced-motion: reduce) {
     .batik-divider { opacity: 0.5; }
 }
+
+/* v96 — wayang shadow + light rays */
+.gallery-hero { position: relative; overflow: hidden; }
+.wayang-shadow {
+    position: absolute; right: -40px; bottom: 0;
+    width: min(42vw, 480px); height: 85%;
+    pointer-events: none; z-index: 0;
+    opacity: 0.16;
+    filter: blur(1px);
+    will-change: transform;
+}
+.wayang-shadow svg { width: 100%; height: 100%; fill: #000; }
+.wayang-shadow::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(13,10,6,0.7) 75%);
+}
+.light-rays {
+    position: absolute; inset: -20%; pointer-events: none; z-index: 0;
+    overflow: hidden;
+}
+.light-rays i {
+    position: absolute; top: -30%; height: 160%; width: 140px;
+    background: linear-gradient(to bottom, rgba(232,200,116,0.06), rgba(232,200,116,0.015) 70%, transparent);
+    filter: blur(12px);
+    transform: skewX(-12deg);
+    animation: ray-drift 14s ease-in-out infinite;
+}
+.light-rays i:nth-child(1) { left: 18%; animation-delay: 0s; }
+.light-rays i:nth-child(2) { left: 48%; animation-delay: -5s; width: 200px; }
+.light-rays i:nth-child(3) { left: 75%; animation-delay: -9s; width: 100px; }
+@keyframes ray-drift {
+    0%, 100% { transform: skewX(-12deg) translateX(0); opacity: 0.7; }
+    50% { transform: skewX(-12deg) translateX(60px); opacity: 1; }
+}
+.gallery-hero .container { position: relative; z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+    .wayang-shadow, .light-rays { display: none; }
+}
+@media (max-width: 768px) {
+    .wayang-shadow { width: 70vw; opacity: 0.1; }
+}
