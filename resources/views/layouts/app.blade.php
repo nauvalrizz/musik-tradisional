@@ -77,29 +77,58 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <div class="msub">ARSIP BUNYI NUSANTARA</div>
 </div>
 <div id="ambient" aria-hidden="true">
-<svg id="wayangBg" viewBox="0 0 400 900" preserveAspectRatio="xMidYMax slice">
+<svg id="wayangBg" viewBox="0 0 420 920" preserveAspectRatio="xMidYMax slice">
 <defs>
-<linearGradient id="wfade" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0" stop-color="#6b543f" stop-opacity=".55"/>
-<stop offset=".6" stop-color="#4a382c" stop-opacity=".35"/>
-<stop offset="1" stop-color="#2e231b" stop-opacity=".12"/>
+<linearGradient id="wclay" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#7a5f45" stop-opacity=".6"/>
+<stop offset=".45" stop-color="#5a4534" stop-opacity=".42"/>
+<stop offset="1" stop-color="#33271e" stop-opacity=".18"/>
 </linearGradient>
+<linearGradient id="wshade" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#000" stop-opacity="0"/>
+<stop offset="1" stop-color="#0d0a08" stop-opacity=".55"/>
+</linearGradient>
+<filter id="wsoft"><feGaussianBlur stdDeviation="1.2"/></filter>
 </defs>
-<g fill="url(#wfade)">
-<!-- mahkota -->
-<path d="M200 40 L215 110 L230 60 L245 115 L260 55 L275 120 L200 130 Z"/>
-<path d="M185 130 Q200 100 215 130 L215 160 L185 160 Z"/>
-<!-- wajah profil -->
-<path d="M200 160 Q235 165 240 195 L252 205 L238 212 Q235 240 210 245 L195 240 L192 170 Z"/>
-<!-- badan -->
-<path d="M185 250 Q200 240 215 250 L225 420 L235 650 L175 650 L185 420 Z"/>
-<!-- kain -->
-<path d="M175 420 L235 420 L250 700 L160 700 Z" opacity=".7"/>
-<!-- lengan -->
-<path d="M215 270 Q260 300 285 260 L295 270 Q270 320 220 300 Z"/>
-<path d="M185 270 Q150 310 130 290 L122 300 Q145 340 190 310 Z"/>
-<!-- keris di pinggang -->
-<path d="M225 430 L245 470 L235 475 L218 438 Z" opacity=".8"/>
+<g>
+<!-- ===== MAHKOTA (crown) ===== -->
+<path fill="url(#wclay)" d="M210 18 L222 78 L238 34 L252 82 L268 30 L280 86 L292 44 L300 92 L210 100 Z"/>
+<path fill="url(#wclay)" d="M196 100 Q210 88 224 100 L228 140 L192 140 Z"/>
+<circle cx="246" cy="58" r="5" fill="url(#wclay)"/>
+<circle cx="272" cy="62" r="4" fill="url(#wclay)"/>
+<!-- ===== WAJAH PROFIL ===== -->
+<path fill="url(#wclay)" d="M192 140 Q218 138 232 152 L238 168 L250 178 L242 186 L236 200 Q234 224 214 232 L198 230 L190 190 Z"/>
+<path fill="url(#wclay)" d="M232 168 Q244 170 246 180 Q238 184 230 180 Z"/>
+<!-- mata wayang -->
+<path d="M214 176 Q224 174 230 178" stroke="#2a2019" stroke-width="2.5" fill="none" opacity=".6"/>
+<!-- ===== LEHER ===== -->
+<path fill="url(#wclay)" d="M198 230 L214 230 L212 262 L196 262 Z"/>
+<!-- kalung -->
+<path d="M194 244 Q204 252 214 244" stroke="#2a2019" stroke-width="3" fill="none" opacity=".5"/>
+<!-- ===== BADAN + KAIN ===== -->
+<path fill="url(#wclay)" d="M188 262 Q204 254 220 262 L228 340 L236 480 L244 640 L170 640 L178 480 L184 340 Z"/>
+<!-- lipatan kain -->
+<path d="M196 360 L192 620 M208 360 L208 624 M220 360 L226 620" stroke="#241b14" stroke-width="2" opacity=".45" fill="none"/>
+<!-- sabuk -->
+<path fill="url(#wclay)" d="M182 400 L232 400 L230 424 L184 424 Z" opacity=".85"/>
+<!-- selempang dada -->
+<path fill="url(#wclay)" d="M188 280 L206 274 L226 360 L212 368 Z" opacity=".75"/>
+<!-- ===== LENGAN KANAN (terangkat) ===== -->
+<path fill="url(#wclay)" d="M220 280 Q252 292 270 270 L282 252 L292 260 L280 282 Q262 306 228 306 Z"/>
+<!-- tangan -->
+<path fill="url(#wclay)" d="M282 252 Q296 246 302 254 L298 268 Q288 266 282 260 Z"/>
+<!-- ===== LENGAN KIRI (turun) ===== -->
+<path fill="url(#wclay)" d="M188 282 Q168 310 162 350 L158 400 L172 402 L178 352 Q184 316 194 300 Z"/>
+<path fill="url(#wclay)" d="M158 400 Q154 420 162 428 L176 426 L172 402 Z"/>
+<!-- ===== KAKI ===== -->
+<path fill="url(#wclay)" d="M182 640 L196 640 L192 760 L178 760 Z"/>
+<path fill="url(#wclay)" d="M212 640 L226 640 L232 760 L218 760 Z"/>
+<!-- alas -->
+<ellipse cx="205" cy="772" rx="48" ry="10" fill="url(#wclay)" opacity=".5"/>
+<!-- ===== KERIS ===== -->
+<path fill="url(#wclay)" d="M228 420 L252 468 L244 474 L222 432 Z" opacity=".8"/>
+<!-- ===== SHADING ===== -->
+<rect x="120" y="0" width="200" height="920" fill="url(#wshade)"/>
 </g>
 </svg>
 </div>
