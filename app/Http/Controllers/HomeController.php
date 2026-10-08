@@ -13,7 +13,14 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        return view('pages.home', compact('featured'));
+        // Jumlah alat per pulau (untuk tooltip peta)
+        $islandCounts = AlatMusik::join('pulau', 'alat_musik.pulau_id', '=', 'pulau.id')
+            ->selectRaw('pulau.slug, COUNT(*) as jml')
+            ->groupBy('pulau.slug')
+            ->pluck('jml', 'slug')
+            ->toArray();
+
+        return view('pages.home', compact('featured', 'islandCounts'));
     }
     public function search(Request $request)
     {

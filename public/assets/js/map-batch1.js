@@ -1,21 +1,25 @@
 /* v90 — Peta: tooltip simple, tanpa suara */
 (function() {
-    var ISLANDS = {
-        'sumatra':            { nama: 'Sumatra',               jml: 12 },
-        'jawa':               { nama: 'Jawa',                  jml: 28 },
-        'kalimantan':         { nama: 'Kalimantan',            jml: 8 },
-        'sulawesi':           { nama: 'Sulawesi',              jml: 10 },
-        'bali-nusa-tenggara': { nama: 'Bali & Nusa Tenggara',  jml: 15 },
-        'maluku':             { nama: 'Maluku',                jml: 6 },
-        'papua':              { nama: 'Papua',                 jml: 7 }
+    var NAMES = {
+        'sumatra': 'Sumatra', 'jawa': 'Jawa', 'kalimantan': 'Kalimantan',
+        'sulawesi': 'Sulawesi', 'bali-nusa-tenggara': 'Bali & Nusa Tenggara',
+        'maluku': 'Maluku', 'papua': 'Papua'
     };
+    // Baca jumlah asli dari database (di-inject via data-counts)
+    var countsEl = document.getElementById('island-data');
+    var DB_COUNTS = {};
+    try { DB_COUNTS = JSON.parse(countsEl ? countsEl.dataset.counts : '{}'); } catch(e) {}
+    var ISLANDS = {};
+    Object.keys(NAMES).forEach(function(slug) {
+        ISLANDS[slug] = { nama: NAMES[slug], jml: parseInt(DB_COUNTS[slug] || 0, 10) };
+    });
 
     // Buat tooltip langsung di body (bukan di dalam section)
     var tip = document.createElement('div');
     tip.id = 'island-tip';
     document.body.appendChild(tip);
 
-    var maxJml = 28;
+    var maxJml = Math.max.apply(null, Object.keys(ISLANDS).map(function(k){ return ISLANDS[k].jml; }).concat([1]));
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.map-svg path[data-slug]').forEach(function(path) {

@@ -185,7 +185,7 @@
         <p class="section-eyebrow" data-reveal><b>03</b><i></i>Jelajah Wilayah</p>
         <h2 class="section-head" data-reveal>Pilih <em>Pulau.</em></h2>
         @include('partials.map')
-        <div id="tooltip" class="map-tooltip"></div>
+        <div id="island-data" data-counts='@json($islandCounts ?? [])' style="display:none"></div>
     </div>
 </section>
 
