@@ -96,7 +96,7 @@
     <script src="{{ asset('assets/js/intro.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/cursor.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/reveal-v60.js') }}" defer></script>
-    <script src="{{ asset('assets/js/cinematic.js') }}?v=53" defer></script>
+    <script src="{{ asset('assets/js/cinematic-v68.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/tilt3d.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/gamelan.js') }}?v=53" defer></script>
 
