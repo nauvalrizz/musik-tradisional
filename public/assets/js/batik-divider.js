@@ -5,7 +5,7 @@
     /* Pola kawung: 4 elips berpotongan (disederhanakan jadi 3 baris) */
     function kawungSVG(id) {
         var s = '<svg viewBox="0 0 1200 120" class="batik-svg" preserveAspectRatio="xMidYMid meet">';
-        s += '<g fill="none" stroke="rgba(198,123,92,0.55)" stroke-width="1.5">';
+        s += '<g fill="none" stroke="rgba(181,80,47,0.55)" stroke-width="1.5">';
         // Baris pola kawung
         for (var row = 0; row < 2; row++) {
             for (var i = 0; i < 12; i++) {
@@ -15,7 +15,7 @@
                 s += '<ellipse cx="' + cx + '" cy="' + cy + '" rx="32" ry="20" class="kawung-petal"/>';
                 s += '<ellipse cx="' + cx + '" cy="' + cy + '" rx="20" ry="32" class="kawung-petal"/>';
                 // Titik tengah
-                s += '<circle cx="' + cx + '" cy="' + cy + '" r="3" fill="rgba(198,123,92,0.7)" stroke="none" class="kawung-dot"/>';
+                s += '<circle cx="' + cx + '" cy="' + cy + '" r="3" fill="rgba(181,80,47,0.7)" stroke="none" class="kawung-dot"/>';
             }
         }
         // Garis tepi
