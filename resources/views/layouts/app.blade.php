@@ -12,9 +12,18 @@
 <style>
 /* Critical: first frame = dark museum, no flash */
 html{background:#141110}html.loading,html.loading body{overflow:hidden}
-#ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-#wayangBg{position:absolute;right:0;top:50%;height:min(88vh,840px);width:auto;transform:translateY(-50%);opacity:.42}
-@media(max-width:860px){#wayangBg{height:58vh;opacity:.28;right:-10%}}
+#ambBg{position:fixed;inset:-40px;z-index:0;pointer-events:none;overflow:hidden;
+background:
+radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.075),transparent 65%),
+radial-gradient(640px 460px at 78% 55%,rgba(140,95,60,.06),transparent 65%),
+radial-gradient(800px 400px at 50% 108%,rgba(110,80,55,.05),transparent 60%);
+animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
+@keyframes ambDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(18px,10px,0)}}
+.ambDust{position:absolute;border-radius:50%;background:#a08a6d;opacity:.14;will-change:transform,opacity;animation:dustFloat linear infinite}
+@keyframes dustFloat{0%{transform:translate3d(0,0,0);opacity:0}15%{opacity:.14}85%{opacity:.1}100%{transform:translate3d(24px,-46px,0);opacity:0}}
+@media(max-width:860px){#ambBg .ambDust:nth-child(n+6){display:none}}
+@media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
+
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
@@ -49,6 +58,7 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 <body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 
 {{-- LOADER: miniature museum orchestra --}}
+<div id="ambBg" aria-hidden="true"><i class="ambDust" style="left:0%;top:0%;width:2px;height:2px;animation-duration:14.0s;animation-delay:-0.0s"></i><i class="ambDust" style="left:37%;top:53%;width:3px;height:3px;animation-duration:15.7s;animation-delay:-2.3s"></i><i class="ambDust" style="left:74%;top:18%;width:4px;height:4px;animation-duration:17.4s;animation-delay:-4.6s"></i><i class="ambDust" style="left:19%;top:71%;width:2px;height:2px;animation-duration:19.1s;animation-delay:-6.8999999999999995s"></i><i class="ambDust" style="left:56%;top:36%;width:3px;height:3px;animation-duration:20.8s;animation-delay:-9.2s"></i><i class="ambDust" style="left:1%;top:1%;width:4px;height:4px;animation-duration:22.5s;animation-delay:-11.5s"></i><i class="ambDust" style="left:38%;top:54%;width:2px;height:2px;animation-duration:24.2s;animation-delay:-13.799999999999999s"></i><i class="ambDust" style="left:75%;top:19%;width:3px;height:3px;animation-duration:25.9s;animation-delay:-16.099999999999998s"></i><i class="ambDust" style="left:20%;top:72%;width:4px;height:4px;animation-duration:27.6s;animation-delay:-18.4s"></i><i class="ambDust" style="left:57%;top:37%;width:2px;height:2px;animation-duration:29.299999999999997s;animation-delay:-20.7s"></i></div>
 <div id="loader" aria-hidden="true">
 <div class="mstage">
 <div class="mped"></div>
@@ -76,53 +86,7 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <div class="mtitle">MUSANTARA</div>
 <div class="msub">ARSIP BUNYI NUSANTARA</div>
 </div>
-<div id="ambient" aria-hidden="true">
-<svg id="wayangBg" viewBox="0 0 420 920" preserveAspectRatio="xMidYMax slice">
-<g fill="#3a2d22">
-<!-- ===== MAHKOTA: gelung melengkung + mahkota bertingkat ===== -->
-<path d="M176 88 C160 58 172 30 196 22 C214 16 228 26 226 44 C218 36 208 40 204 50 C200 60 206 72 214 78 L206 92 Z"/>
-<path d="M188 96 L198 52 L208 94 L220 56 L230 96 L242 64 L250 98 L188 104 Z"/>
-<path d="M182 104 Q200 96 218 104 L220 124 L180 124 Z"/>
-<!-- ===== KEPALA: profil wayang, hidung mancung ===== -->
-<path d="M182 124 Q204 122 216 134 L222 148 L214 154 L218 168 Q216 188 198 194 L184 190 L178 152 Z"/>
-<path d="M182 150 L168 160 L182 164 Z"/>
-<path d="M196 158 Q204 156 210 160" stroke="#241a12" stroke-width="2" fill="none"/>
-<!-- ===== LEHER JENJANG ===== -->
-<path d="M190 194 L204 194 L202 224 L188 224 Z"/>
-<!-- ===== BAHU + DADA ===== -->
-<path d="M174 224 Q200 216 228 226 L234 248 L168 248 Z"/>
-<!-- ===== BADAN RAMPING ===== -->
-<path d="M172 248 Q200 242 230 250 L236 330 L240 430 L162 430 L166 330 Z"/>
-<!-- sabuk -->
-<path d="M164 392 L240 392 L238 414 L166 414 Z"/>
-<!-- selempang -->
-<path d="M176 252 L194 246 L214 330 L200 338 Z" opacity=".85"/>
-<!-- ===== LENGAN KANAN: terentang ke depan ===== -->
-<path d="M174 256 Q144 268 122 258 L104 246 L96 256 L116 270 Q142 284 176 278 Z"/>
-<path d="M96 256 Q84 252 80 260 L88 270 Q96 268 102 262 Z"/>
-<!-- gelang -->
-<path d="M118 254 L126 262 L122 268 L114 260 Z" fill="#241a12"/>
-<!-- ===== LENGAN KIRI: tertekuk di samping ===== -->
-<path d="M230 256 Q254 270 260 300 L264 332 L250 336 L244 306 Q240 284 228 274 Z"/>
-<path d="M250 336 Q254 352 246 360 L234 356 L238 334 Z"/>
-<!-- ===== KAIN: panjang bergerigi khas wayang ===== -->
-<path d="M162 414 L240 414 L248 560 L244 600 L236 584 L228 602 L220 586 L212 604 L204 588 L196 606 L188 590 L180 608 L172 592 L164 610 L156 594 L150 570 Z"/>
-<!-- motif kain -->
-<path d="M180 440 L176 580 M196 440 L196 586 M212 440 L216 580 M228 440 L232 574" stroke="#241a12" stroke-width="1.6" opacity=".5" fill="none"/>
-<!-- ===== KAKI: pose ksatria ===== -->
-<path d="M178 600 L194 600 L190 720 L184 780 L168 780 L174 720 Z"/>
-<path d="M210 600 L226 600 L238 680 L246 740 L258 778 L242 782 L230 742 L218 680 Z"/>
-<!-- telapak -->
-<ellipse cx="176" cy="788" rx="24" ry="6"/>
-<ellipse cx="250" cy="788" rx="24" ry="6"/>
-<!-- ===== KERIS di pinggang ===== -->
-<path d="M236 410 L260 458 L252 464 L230 422 Z"/>
-<path d="M252 458 L258 472 L250 476 L244 462 Z"/>
-<!-- ===== SELENDANG terbang ===== -->
-<path d="M230 262 Q276 288 296 344 L286 352 Q268 300 228 282 Z" opacity=".8"/>
-</g>
-</svg>
-</div>
+
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
 <div id="miniPlayer" role="region" aria-label="Pemutar mini">
 <button class="mp-dot" id="mpToggle" aria-label="Putar/Jeda">▶</button>
