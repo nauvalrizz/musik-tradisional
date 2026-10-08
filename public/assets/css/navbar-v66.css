@@ -1,0 +1,117 @@
+/* ===============================
+   NAVBAR v10 — Pita Arsip
+   Transparan di atas hero, memadat saat scroll.
+   Masuk dengan slide-down, garis perunggu menggambar.
+   =============================== */
+
+.navbar {
+    height: 76px;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background 0.35s ease, border-color 0.35s ease, height 0.35s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: navDrop 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s backwards;
+    z-index: 1000;
+}
+@keyframes navDrop {
+    from { transform: translateY(-100%); opacity: 0; }
+    to   { transform: none; opacity: 1; }
+}
+.navbar.scrolled {
+    height: 64px;
+    background: rgba(14, 11, 7, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--bronze);
+}
+
+/* --- brand: stempel + kata --- */
+.navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+.brand-stamp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--bronze);
+    border-radius: 4px;
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--bronze-hi);
+    transform: rotate(-4deg);
+    transition: transform 0.3s ease;
+}
+.navbar-brand:hover .brand-stamp { transform: rotate(0deg); }
+.brand-text {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    line-height: 1.1;
+}
+.brand-text em {
+    display: block;
+    font-style: normal;
+    font-family: var(--sans, inherit);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--bronze);
+}
+
+/* --- link seksi bernomor --- */
+.nav-sections {
+    align-items: center;
+    gap: 4px;
+    margin-right: 18px;
+}
+.nav-sec {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.25s ease, border-color 0.25s ease;
+}
+.nav-sec span {
+    font-size: 10px;
+    color: var(--bronze);
+    letter-spacing: 0.1em;
+}
+.nav-sec:hover {
+    color: var(--bronze-hi);
+    border-bottom-color: var(--bronze);
+}
+
+/* --- tombol kuis --- */
+.nav-quiz {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bronze-ink) !important;
+    background: var(--bronze);
+    padding: 9px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.25s ease;
+}
+.nav-quiz:hover { background: var(--bronze-hi); }
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar { animation: none; }
+}
