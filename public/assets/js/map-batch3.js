@@ -1,84 +1,25 @@
-/* v91 Batch 3 — Zoom & pan + filter + tour */
+/* v101 — Tour mode aja (zoom/pan dihapus biar scroll lancar) */
 (function() {
     var svg = document.querySelector('.map-svg');
     var container = document.querySelector('.map-container');
     if (!svg || !container) return;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* --- 7. ZOOM & PAN --- */
-    var vb = { x: 0, y: 0, w: 2000, h: 1000 };
-    var origVB = { x: 0, y: 0, w: 2000, h: 1000 };
-    function applyVB() {
-        svg.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
-    }
-    // Wheel zoom (desktop)
-    svg.addEventListener('wheel', function(e) {
-        e.preventDefault();
-        var factor = e.deltaY > 0 ? 1.15 : 0.87;
-        var nw = Math.min(Math.max(vb.w * factor, 400), 2000);
-        var nh = nw * 0.5;
-        // Zoom ke posisi mouse
-        var rect = svg.getBoundingClientRect();
-        var mx = (e.clientX - rect.left) / rect.width;
-        var my = (e.clientY - rect.top) / rect.height;
-        vb.x = vb.x + (vb.w - nw) * mx;
-        vb.y = vb.y + (vb.h - nh) * my;
-        vb.w = nw; vb.h = nh;
-        applyVB();
-    }, { passive: false });
+    /* --- TOUR MODE --- */
+    var touring = false, tourTimer = null, tourIdx = 0;
+    var tourOrder = ['sumatra','jawa','kalimantan','sulawesi','bali-nusa-tenggara','maluku','papua'];
+    var tip = document.getElementById('island-tip');
 
-    // Drag pan
-    var panning = false, sx = 0, sy = 0, svbx = 0, svby = 0;
-    svg.addEventListener('pointerdown', function(e) {
-        // Jangan pan kalo klik pulau (biar klik tetep jalan)
-        if (e.target.closest('path[data-slug]')) return;
-        panning = true; sx = e.clientX; sy = e.clientY;
-        svbx = vb.x; svby = vb.y;
-        svg.setPointerCapture(e.pointerId);
-    });
-    svg.addEventListener('pointermove', function(e) {
-        if (!panning) return;
-        var rect = svg.getBoundingClientRect();
-        var dx = (e.clientX - sx) / rect.width * vb.w;
-        var dy = (e.clientY - sy) / rect.height * vb.h;
-        vb.x = svbx - dx; vb.y = svby - dy;
-        applyVB();
-    });
-    svg.addEventListener('pointerup', function() { panning = false; });
-
-    // Tombol kontrol
     var ctrl = document.createElement('div');
     ctrl.className = 'map-controls';
-    ctrl.innerHTML =
-        '<button data-act="zin" title="Zoom in">+</button>' +
-        '<button data-act="zout" title="Zoom out">&minus;</button>' +
-        '<button data-act="reset" title="Reset">&#10226;</button>' +
-        '<button data-act="tour" title="Tour">&#9654; Tour</button>';
+    ctrl.innerHTML = '<button data-act="tour" title="Tour">&#9654; Tour</button>';
     container.appendChild(ctrl);
 
     ctrl.addEventListener('click', function(e) {
         var btn = e.target.closest('button');
         if (!btn) return;
-        var act = btn.dataset.act;
-        if (act === 'zin' || act === 'zout') {
-            var f = act === 'zin' ? 0.7 : 1.43;
-            var nw = Math.min(Math.max(vb.w * f, 400), 2000);
-            vb.w = nw; vb.h = nw * 0.5;
-            vb.x = Math.max(0, Math.min(2000 - vb.w, vb.x));
-            vb.y = Math.max(0, Math.min(1000 - vb.h, vb.y));
-            applyVB();
-        } else if (act === 'reset') {
-            vb = Object.assign({}, origVB); applyVB();
-            stopTour();
-        } else if (act === 'tour') {
-            if (touring) stopTour(); else startTour(btn);
-        }
+        if (touring) stopTour(); else startTour(btn);
     });
-
-    /* --- 8. TOUR MODE --- */
-    var touring = false, tourTimer = null, tourIdx = 0;
-    var tourOrder = ['sumatra','jawa','kalimantan','sulawesi','bali-nusa-tenggara','maluku','papua'];
-    var tip = document.getElementById('island-tip');
 
     function startTour(btn) {
         if (reduceMotion) return;
@@ -103,7 +44,6 @@
         var path = svg.querySelector('path[data-slug="' + slug + '"]');
         if (path) {
             path.classList.add('tour-active');
-            // Tampilkan tooltip di tengah pulau
             try {
                 var bb = path.getBBox();
                 var pt = svg.createSVGPoint();
@@ -121,6 +61,5 @@
         tourIdx++;
         tourTimer = setTimeout(nextTourStop, 2200);
     }
-    // Klik mana aja stop tour
     svg.addEventListener('click', function() { if (touring) stopTour(); }, true);
 })();
