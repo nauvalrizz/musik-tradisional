@@ -70,6 +70,11 @@ if (!function_exists('audio_alat')) {
             return asset('assets/audio/alat-musik/' . $filename);
         }
 
+        // ✅ Audio asli instrumen: public/assets/js/audio/ (gong.mp3, angklung.mp3, ...)
+        if (file_exists(public_path('assets/js/audio/' . $filename))) {
+            return asset('assets/js/audio/' . $filename);
+        }
+
         return null;
     }
 }
