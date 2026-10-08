@@ -13,7 +13,8 @@
 /* Critical: first frame = dark museum, no flash */
 html{background:#141110}html.loading,html.loading body{overflow:hidden}
 #ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-#ambientBg{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+#wayangBg{position:absolute;right:-4%;top:50%;height:min(92vh,860px);width:auto;transform:translateY(-50%);opacity:.5;filter:blur(.4px)}
+@media(max-width:860px){#wayangBg{height:60vh;opacity:.32;right:-14%}}
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
@@ -75,7 +76,33 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <div class="mtitle">MUSANTARA</div>
 <div class="msub">ARSIP BUNYI NUSANTARA</div>
 </div>
-<div id="ambient" aria-hidden="true"><canvas id="ambientBg"></canvas></div>
+<div id="ambient" aria-hidden="true">
+<svg id="wayangBg" viewBox="0 0 400 900" preserveAspectRatio="xMidYMax slice">
+<defs>
+<linearGradient id="wfade" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#6b543f" stop-opacity=".55"/>
+<stop offset=".6" stop-color="#4a382c" stop-opacity=".35"/>
+<stop offset="1" stop-color="#2e231b" stop-opacity=".12"/>
+</linearGradient>
+</defs>
+<g fill="url(#wfade)">
+<!-- mahkota -->
+<path d="M200 40 L215 110 L230 60 L245 115 L260 55 L275 120 L200 130 Z"/>
+<path d="M185 130 Q200 100 215 130 L215 160 L185 160 Z"/>
+<!-- wajah profil -->
+<path d="M200 160 Q235 165 240 195 L252 205 L238 212 Q235 240 210 245 L195 240 L192 170 Z"/>
+<!-- badan -->
+<path d="M185 250 Q200 240 215 250 L225 420 L235 650 L175 650 L185 420 Z"/>
+<!-- kain -->
+<path d="M175 420 L235 420 L250 700 L160 700 Z" opacity=".7"/>
+<!-- lengan -->
+<path d="M215 270 Q260 300 285 260 L295 270 Q270 320 220 300 Z"/>
+<path d="M185 270 Q150 310 130 290 L122 300 Q145 340 190 310 Z"/>
+<!-- keris di pinggang -->
+<path d="M225 430 L245 470 L235 475 L218 438 Z" opacity=".8"/>
+</g>
+</svg>
+</div>
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
 <div id="miniPlayer" role="region" aria-label="Pemutar mini">
 <button class="mp-dot" id="mpToggle" aria-label="Putar/Jeda">▶</button>
@@ -169,89 +196,6 @@ setTimeout(function(){
   var l=document.getElementById('loader');
   if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); }
 }, 8000);
-
-/* ——— AMBIENT 3D BACKGROUND: museum atmosphere (isolated) ——— */
-(function(){
-  var cv=document.getElementById('ambientBg'); if(!cv) return;
-  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var touch=window.matchMedia('(hover: none)').matches;
-  var ctx=cv.getContext('2d');
-  var W=0,H=0,DPR=1;
-  function resize(){
-    DPR=Math.min(window.devicePixelRatio||1,2);
-    W=window.innerWidth; H=window.innerHeight;
-    cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
-    buildScene();
-  }
-  // Scene: siluet wayang + pilar + debu (dibuat sekali, bukan per-frame)
-  var layers=[];
-  function rnd(a,b){return a+Math.random()*(b-a);}
-  function buildScene(){
-    layers=[];
-    var n=touch?6:14;
-    for(var i=0;i<n;i++){
-      var depth=Math.random(); // 0=jauh, 1=dekat
-      layers.push({
-        x:rnd(0,W), y:rnd(H*0.15,H*0.95),
-        s:rnd(24,90)*(0.4+depth*0.9), // skala by depth
-        depth:depth,
-        kind:Math.random()<0.4?'pilar':(Math.random()<0.5?'kayon':'debu'),
-        rot:rnd(-0.08,0.08),
-        ph:rnd(0,Math.PI*2),
-        sp:rnd(0.0002,0.0008)
-      });
-    }
-  }
-  // Parallax state dengan lerp
-  var tx=0,ty=0,cx=0,cy=0;
-  if(!touch&&!reduced){
-    window.addEventListener('mousemove',function(e){
-      tx=(e.clientX/W-0.5)*2; ty=(e.clientY/H-0.5)*2;
-    },{passive:true});
-    document.addEventListener('mouseleave',function(){tx=0;ty=0;});
-  }
-  var t0=performance.now();
-  function draw(){
-    var t=(performance.now()-t0)/1000;
-    // lerp smoothing
-    cx+=(tx-cx)*0.045; cy+=(ty-cy)*0.045;
-    ctx.clearRect(0,0,W,H);
-    for(var i=0;i<layers.length;i++){
-      var o=layers[i];
-      var par=(4+o.depth*16); // 4-20px by depth
-      var px=o.x+cx*par, py=o.y+cy*par*0.6;
-      var idle=reduced?0:Math.sin(t*0.4+o.ph)*3*(0.3+o.depth*0.7);
-      ctx.save();
-      ctx.translate(px,py+idle);
-      ctx.rotate(o.rot+(reduced?0:Math.sin(t*0.25+o.ph)*0.02));
-      ctx.globalAlpha=0.05+o.depth*0.10;
-      ctx.fillStyle='#8a6f52';
-      if(o.kind==='pilar'){
-        var w=o.s*0.28,h=o.s*2.2;
-        ctx.fillRect(-w/2,-h/2,w,h);
-        ctx.fillRect(-w/2-6,-h/2-8,w+12,10);
-        ctx.fillRect(-w/2-6,h/2-2,w+12,10);
-      }else if(o.kind==='kayon'){
-        // siluet gunungan wayang
-        var s=o.s;
-        ctx.beginPath();
-        ctx.moveTo(0,-s);
-        ctx.bezierCurveTo(s*0.7,-s*0.6,s*0.55,0,s*0.4,s*0.7);
-        ctx.lineTo(-s*0.4,s*0.7);
-        ctx.bezierCurveTo(-s*0.55,0,-s*0.7,-s*0.6,0,-s);
-        ctx.fill();
-        ctx.globalAlpha*=0.7;
-        ctx.beginPath(); ctx.arc(0,-s*0.35,s*0.12,0,7); ctx.fill();
-      }else{
-        ctx.beginPath(); ctx.arc(0,0,1.2+o.depth*1.8,0,7); ctx.fill();
-      }
-      ctx.restore();
-    }
-    requestAnimationFrame(draw);
-  }
-  window.addEventListener('resize',resize);
-  resize(); draw();
-})();
 
 /* ——— CUSTOM CURSOR ——— */
 var cur=document.getElementById('cursor'),clab=cur?cur.querySelector('.clabel'):null;
