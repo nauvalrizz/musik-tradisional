@@ -117,17 +117,7 @@ setTimeout(() => {
     function update() {
         pages.forEach(function(pg, i) {
             pg.style.zIndex = pages.length - Math.abs(i - current);
-            if (i < current) {
-                if (!pg.classList.contains('flipped')) {
-                    pg.classList.add('flipping');
-                    setTimeout(function() {
-                        pg.classList.remove('flipping');
-                        pg.classList.add('flipped');
-                    }, 550);
-                }
-            } else {
-                pg.classList.remove('flipped', 'flipping');
-            }
+            pg.classList.toggle('flipped', i < current);
         });
         prev.disabled = current === 0;
         next.disabled = current === pages.length - 1;
@@ -135,4 +125,47 @@ setTimeout(() => {
     prev.addEventListener('click', function() { if (current > 0) { current--; update(); } });
     next.addEventListener('click', function() { if (current < pages.length - 1) { current++; update(); } });
     update();
+})();
+
+/* v56 — timeline sweep */
+(function() {
+    var track = document.querySelector('.timeline-track');
+    if (!track) return;
+    var dots = track.querySelectorAll('.tl-dot');
+    if (!dots.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var sweep = document.createElement('div');
+    sweep.className = 'tl-sweep';
+    track.appendChild(sweep);
+
+    var dotPos = [];
+    function measure() {
+        var r = track.getBoundingClientRect();
+        dotPos = [];
+        dots.forEach(function(d) {
+            var dr = d.getBoundingClientRect();
+            dotPos.push(dr.left - r.left + dr.width / 2);
+        });
+    }
+    measure();
+    window.addEventListener('resize', measure);
+
+    var DURATION = 5000;
+    var start = null;
+    function tick(ts) {
+        if (!start) start = ts;
+        var t = ((ts - start) % DURATION) / DURATION;
+        var trackW = track.getBoundingClientRect().width;
+        var x = t * trackW;
+        sweep.style.opacity = (t > 0.02 && t < 0.98) ? '1' : '0';
+        sweep.style.left = (x - 40) + 'px';
+
+        dots.forEach(function(d, i) {
+            var hit = Math.abs(x - dotPos[i]) < 30;
+            d.classList.toggle('hit', hit);
+        });
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
 })();
