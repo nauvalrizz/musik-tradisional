@@ -41,12 +41,18 @@
 </div>
 @push('scripts')
 <script>
-document.getElementById('btnAudio')?.addEventListener('click',function(){
-var a=document.getElementById('audioEl'),w=document.getElementById('audioWave');
-if(a.paused){a.play();w.classList.add('on');this.textContent='❚❚';}
-else{a.pause();w.classList.remove('on');this.textContent='▶';}
-a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio').textContent='▶';};
-});
+(function(){
+var b=document.getElementById('btnAudio'),a=document.getElementById('audioEl'),w=document.getElementById('audioWave');
+if(!b||!a||!w) return;
+function sync(){
+  var playing=!a.paused&&!a.ended;
+  w.classList.toggle('playing',playing);
+  b.classList.toggle('playing',playing);
+  b.textContent=playing?'\u275A\u275A':'\u25B6';
+}
+b.addEventListener('click',function(){ if(a.paused){a.play();}else{a.pause();} });
+a.addEventListener('play',sync);a.addEventListener('pause',sync);a.addEventListener('ended',sync);
+})();
 </script>
 @endpush
 @else
@@ -106,9 +112,12 @@ a.onended=function(){w.classList.remove('on');document.getElementById('btnAudio'
 <script src="{{ asset('assets/js/detail-synth.js') }}"></script>
 <script src="{{ asset('assets/js/quiz.js') }}"></script>
 <script>
-document.getElementById('btnSynth')?.addEventListener('click',function(){
-var w=document.getElementById('synthWave');
-if(w){w.classList.add('on');setTimeout(function(){w.classList.remove('on');},3500);}
-});
+(function(){
+var b=document.getElementById('btnSynth'),w=document.getElementById('synthWave');
+if(!b||!w) return;
+new MutationObserver(function(){
+  w.classList.toggle('playing',b.classList.contains('playing'));
+}).observe(b,{attributes:true,attributeFilter:['class']});
+})();
 </script>
 @endpush
