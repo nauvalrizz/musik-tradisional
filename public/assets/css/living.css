@@ -140,7 +140,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 /* ————— COLLECTION ————— */
 .objects{display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem}
 .obj{position:relative;opacity:0;transform:translateY(28px) scale(.98);transition:opacity .6s ease,transform .6s ease}
-.obj.in{opacity:1;transform:none}
+.obj.visible{opacity:1;transform:none}
 .obj:nth-child(1){grid-column:span 7;transition-delay:0ms;animation:floaty 9s ease-in-out infinite}
 .obj:nth-child(2){grid-column:span 5;transition-delay:90ms;animation:floaty 11s ease-in-out 1s infinite}
 .obj:nth-child(3){grid-column:span 4;transition-delay:180ms;animation:floaty 8s ease-in-out .5s infinite}
