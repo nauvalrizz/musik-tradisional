@@ -21,7 +21,6 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=121') }}">
 </head>
 <body>
-<a class="skip" href="#main">Lewati ke konten</a>
 
 {{-- LOADER --}}
 <div id="loader" aria-hidden="true">
