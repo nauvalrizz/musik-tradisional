@@ -4,8 +4,8 @@
    biru/ungu, tanpa neon.
 ============================================================ */
 :root {
-    --bg: #1f1a12;
-    --bg-soft: #292119;
+    --bg: #2e2517;
+    --bg-soft: #3b2f1f;
     --card: #1f1a12;
     --ink: #f0e9d6;
     --muted: #b3a686;
@@ -287,7 +287,7 @@ footer {
     position: fixed;
     inset: 0;
     z-index: 10000;
-    background: #1e1811;
+    background: #2a2318;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -892,7 +892,7 @@ body::after {
 .timeline-track::before { content: ""; position: absolute; top: 7px; left: 0; right: 0; height: 2px; background: rgba(201,151,63,.25); }
 .tl-item { flex: 1; position: relative; padding-top: 28px; padding-right: 24px; }
 .tl-dot { position: absolute; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
-    background: var(--bronze); border: 3px solid #221c14; box-shadow: 0 0 0 2px var(--bronze); }
+    background: var(--bronze); border: 3px solid #33291d; box-shadow: 0 0 0 2px var(--bronze); }
 .tl-year { color: var(--bronze); font-weight: 700; letter-spacing: .1em; }
 .tl-item p { color: var(--muted); margin-top: 8px; line-height: 1.6; }
 
@@ -1183,7 +1183,7 @@ button#ambient-toggle.ambient-btn i { font-style: normal; }
 /* 1. Loading screen */
 #loader {
     position: fixed; inset: 0; z-index: 10000;
-    background: #1e1811;
+    background: #2a2318;
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; gap: 24px;
     transition: opacity 0.8s ease, visibility 0.8s;
