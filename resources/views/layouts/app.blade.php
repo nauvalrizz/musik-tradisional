@@ -433,6 +433,11 @@ if(!touch && !reduced){
   });
 }
 
+/* ——— CARD: tombol dengarkan jangan navigasi ——— */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.pod-sound');
+  if(b){ e.preventDefault(); e.stopPropagation(); }
+},true);
 /* ——— LIGHTBOX ——— */
 var m=document.getElementById('imgModal'),im=document.getElementById('imgZoom'),cp=document.getElementById('imgCaption');
 function openM(s,a){ im.src=s; im.alt=a||''; cp.textContent=a||''; m.style.display='flex'; document.body.style.overflow='hidden'; }

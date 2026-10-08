@@ -26,9 +26,7 @@
 </div>
 </div>
 <div class="pod-wave" aria-hidden="true">@for($i=0;$i<12;$i++)<i style="height:{{ 25+($i*41%75) }}%;animation-delay:{{ $i*60 }}ms"></i>@endfor</div>
+<button type="button" class="pod-sound gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$item->nama)) }}" data-freq="{{ $freq }}" data-pod-audio aria-label="Dengarkan {{ $item->nama }}">▶ DENGARKAN</button>
 </div>
 </a>
-<div class="pod-actions">
-<button type="button" class="pod-sound gamelan-pad" data-instrument="{{ strtolower(str_replace(' ','-',$item->nama)) }}" data-freq="{{ $freq }}" data-pod-audio aria-label="Dengarkan {{ $item->nama }}">▶ Dengarkan</button>
-</div>
 </article>
