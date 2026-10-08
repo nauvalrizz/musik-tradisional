@@ -115,7 +115,7 @@
 <div class="quiz-card reveal" style="max-width:560px;margin:0 auto">
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEMBILAN SOAL</p>
 <p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
-<a href="{{ route('quiz.global') }}" class="clay-btn primary">Mulai Kuis <span class="arw">→</span></a>
+<a href="{{ url('/quiz-global') }}" class="clay-btn primary">Mulai Kuis <span class="arw">→</span></a>
 </div>
 </div>
 </section>
