@@ -478,13 +478,14 @@ html.loading,html.loading body{overflow:hidden}
   display:grid;place-items:center;font-family:var(--mono);font-size:.52rem;letter-spacing:.06em;font-weight:500;
   box-shadow:0 3px 6px rgba(0,0,0,.45),inset 0 1px 2px rgba(255,255,255,.25),inset 0 -3px 5px rgba(0,0,0,.3);
   transition:transform var(--int) var(--ease);z-index:3}
-.pod-sound{position:absolute;bottom:6px;left:50%;transform:translate(-50%,6px);z-index:3;
-  display:inline-flex;align-items:center;gap:.4rem;border:none;white-space:nowrap;
+.pod-actions{display:flex;justify-content:center;padding:.55rem 0 .2rem}
+.pod-sound{position:static;transform:none;
+  display:inline-flex;align-items:center;gap:.4rem;border:none;white-space:nowrap;cursor:pointer;
   background:linear-gradient(145deg,var(--clay2),var(--clay1));color:var(--cream);
-  font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;padding:.65rem 1.1rem;min-height:44px;
-  border-radius:36% 64% 58% 42%/60% 55% 60% 55%;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;padding:.5rem 1rem;min-height:40px;
+  border-radius:99px;
   box-shadow:0 3px 6px rgba(0,0,0,.45),inset 0 1px 0 rgba(229,214,192,.12);
-  opacity:0;transition:all var(--int) var(--ease)}
+  opacity:1;transition:all var(--int) var(--ease)}
 .pod-wave{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;
   align-items:center;gap:2px;height:14px;opacity:0;transition:opacity var(--int);z-index:2}
 .pod-wave i{width:2px;background:var(--terra);border-radius:1px;min-height:3px}
@@ -504,11 +505,9 @@ html.loading,html.loading body{overflow:hidden}
              inset 0 2px 3px rgba(229,214,192,.14),inset 0 -5px 10px rgba(0,0,0,.28)}
 .pod-link:hover .pod-plaque{transform:translateY(-3px)}
 .pod-link:hover .pod-seal{transform:rotate(12deg) scale(1.06)}
-.pod-link:hover .pod-sound{opacity:1;transform:translate(-50%,0)}
-.pod-sound:hover{background:linear-gradient(145deg,var(--terra),var(--terra-d));color:#fff;transform:translate(-50%,-2px)!important}
+.pod-sound:hover{background:linear-gradient(145deg,var(--terra),var(--terra-d));color:#fff;transform:translateY(-2px)}
 .pod-link:active .pod-stage{transform:translateY(3px) scale(.99)}
 .pod-link:active .pod-obj{transform:translateY(2px)}
-@media(hover:none){.pod-sound{opacity:1;transform:translate(-50%,0)}}
 
 /* IDLE: deterministic variation */
 .pod.idle-a .pod-obj{animation:pida 11s ease-in-out infinite}
