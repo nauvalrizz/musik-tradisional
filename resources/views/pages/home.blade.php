@@ -189,8 +189,12 @@ function play(){
   if(window.mpShow) mpShow(SEL.name.charAt(0)+SEL.name.slice(1).toLowerCase(),'Artefak · '+SEL.origin);
   const st=document.getElementById('soundStatus');
   if(st) st.textContent='\u266A '+SEL.name+' \u00B7 '+SEL.origin;
+  // Hero preview: maksimal 2 detik
+  clearTimeout(stage._cap);
+  stage._cap=setTimeout(()=>{ a.pause(); a.currentTime=0; stop(); }, 2000);
 }
 function stop(){
+  clearTimeout(stage._cap);
   sounding=false; stage.classList.remove('sounding');
   const pb=document.getElementById('heroPlayBtn');
   if(pb){pb.classList.remove('playing');pb.innerHTML='&#9654;';}
