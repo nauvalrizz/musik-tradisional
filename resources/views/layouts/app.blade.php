@@ -13,8 +13,10 @@
 /* Critical: first frame = dark museum, no flash */
 html{background:#141110}html.loading,html.loading body{overflow:hidden}
 #ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-#wayangBg{position:absolute;right:-4%;top:50%;height:min(92vh,860px);width:auto;transform:translateY(-50%);opacity:.5;filter:blur(.4px)}
+#wayangBg{position:absolute;right:-4%;top:50%;height:min(92vh,860px);width:auto;transform:translateY(-50%);opacity:.5;filter:blur(.4px);animation:wbreath 9s ease-in-out infinite}
+@keyframes wbreath{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-4px)}}
 @media(max-width:860px){#wayangBg{height:60vh;opacity:.32;right:-14%}}
+@media(prefers-reduced-motion:reduce){#wayangBg{animation:none}}
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
