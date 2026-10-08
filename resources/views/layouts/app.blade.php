@@ -15,32 +15,32 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
-.mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0}
-#loader.go .mped{animation:mped .45s cubic-bezier(.34,1.56,.64,1) forwards}
-@keyframes mped{to{transform:scale(1);opacity:1}}
-.mripple{position:absolute;left:50%;bottom:30px;width:140px;height:26px;margin-left:-70px;border:2px solid #a95135;border-radius:50%;opacity:0;transform:scale(.4)}
-#loader.orc .mripple{animation:mrip .7s ease-out}
-@keyframes mrip{0%{opacity:.7;transform:scale(.4)}100%{opacity:0;transform:scale(1.5)}}
-.minst{position:absolute;bottom:52px;left:50%;width:64px;height:64px;margin-left:-32px;opacity:0;transform:scale(0);filter:drop-shadow(0 8px 10px rgba(0,0,0,.5))}
-.minst svg{width:100%;height:100%}
+.mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0;will-change:transform,opacity}
+#loader.go .mped{transform:scale(1);opacity:1;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.mripple{position:absolute;left:50%;bottom:30px;width:140px;height:26px;margin-left:-70px;border:2px solid #a95135;border-radius:50%;opacity:0;transform:scale(.4);will-change:transform,opacity}
+#loader.orc .mripple{opacity:0;transform:scale(1.5);transition:transform .7s ease-out,opacity .7s}
+#loader.orc .mripple{opacity:.7;transform:scale(.4)}
+#loader.orc.go .mripple{opacity:0;transform:scale(1.5)}
+.minst{position:absolute;bottom:52px;left:50%;width:64px;height:64px;margin-left:-32px;opacity:0;transform:translate3d(var(--mx),26px,0) scale(0);will-change:transform,opacity;filter:drop-shadow(0 8px 10px rgba(0,0,0,.5));backface-visibility:hidden}
+.minst-inner{width:100%;height:100%;will-change:transform}
+.minst-inner svg{width:100%;height:100%;display:block}
 .m0{--mx:-104px}.m1{--mx:-52px}.m2{--mx:0px}.m3{--mx:52px}.m4{--mx:104px}
-#loader.go .minst{animation:mpop .5s cubic-bezier(.34,1.56,.64,1) forwards}
-#loader.go .m0{animation-delay:.18s;--my:-8px;--mr:-6deg}
-#loader.go .m1{animation-delay:.30s;--my:-16px;--mr:4deg}
-#loader.go .m2{animation-delay:.42s;--my:-22px;--mr:0deg}
-#loader.go .m3{animation-delay:.54s;--my:-16px;--mr:-4deg}
-#loader.go .m4{animation-delay:.66s;--my:-8px;--mr:6deg}
-@keyframes mpop{0%{opacity:0;transform:translate(var(--mx),30px) scale(0) rotate(0)}60%{opacity:1;transform:translate(var(--mx),var(--my)) scale(1.12) rotate(var(--mr))}100%{opacity:1;transform:translate(var(--mx),var(--my)) scale(1) rotate(0)}}
-#loader.orc .minst{animation:morc .45s ease-in-out}
-#loader.orc .m0{animation-delay:0s}#loader.orc .m1{animation-delay:.06s}#loader.orc .m2{animation-delay:.12s}#loader.orc .m3{animation-delay:.18s}#loader.orc .m4{animation-delay:.24s}
-@keyframes morc{0%,100%{transform:translate(var(--mx),var(--my)) scale(1)}40%{transform:translate(var(--mx),calc(var(--my) - 10px)) scale(1.06)}}
-.mtitle{font-family:Fraunces,serif;font-size:1.5rem;letter-spacing:.22em;color:#e8dfd1;opacity:0;transform:translateY(12px)}
-#loader.logo .mtitle{opacity:1;transform:none;transition:opacity .4s,transform .4s}
-.msub{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.34em;color:#766d62;opacity:0}
-#loader.logo .msub{opacity:1;transition:opacity .4s .1s}
-#loader.bye .mstage{transform:scale(.92);opacity:0;transition:transform .4s,opacity .4s}
-#loader.bye .mtitle,#loader.bye .msub{opacity:0;transition:opacity .3s}
-@media(prefers-reduced-motion:reduce){.minst,.mped{animation-duration:.01s!important}}
+#loader.go .minst{opacity:1;transform:translate3d(var(--mx),var(--my),0) scale(1) rotate(var(--mr,0deg));transition:opacity .3s ease,transform .55s cubic-bezier(.34,1.45,.64,1)}
+#loader.go .m0{--my:-8px;--mr:-5deg;transition-delay:.16s}
+#loader.go .m1{--my:-16px;--mr:4deg;transition-delay:.28s}
+#loader.go .m2{--my:-22px;--mr:0deg;transition-delay:.40s}
+#loader.go .m3{--my:-16px;--mr:-4deg;transition-delay:.52s}
+#loader.go .m4{--my:-8px;--mr:5deg;transition-delay:.64s}
+#loader.orc .minst-inner{animation:morc .5s ease-in-out}
+#loader.orc .m0 .minst-inner{animation-delay:0s}#loader.orc .m1 .minst-inner{animation-delay:.06s}#loader.orc .m2 .minst-inner{animation-delay:.12s}#loader.orc .m3 .minst-inner{animation-delay:.18s}#loader.orc .m4 .minst-inner{animation-delay:.24s}
+@keyframes morc{0%,100%{transform:translateY(0)}40%{transform:translateY(-9px)}}
+.mtitle{font-family:Fraunces,serif;font-size:1.5rem;letter-spacing:.22em;color:#e8dfd1;opacity:0;transform:translateY(10px);will-change:opacity,transform}
+#loader.logo .mtitle{opacity:1;transform:translateY(0);transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1)}
+.msub{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.34em;color:#766d62;opacity:0;will-change:opacity}
+#loader.logo .msub{opacity:1;transition:opacity .45s ease .12s}
+#loader.bye .mstage{transform:scale(.93);opacity:0;transition:transform .38s ease,opacity .38s ease}
+#loader.bye .mtitle,#loader.bye .msub{opacity:0;transition:opacity .3s ease}
+@media(prefers-reduced-motion:reduce){#loader.go .minst,#loader.go .mped{transition-duration:.01s}}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=153') }}">
 </head>
@@ -68,7 +68,7 @@ $loaderIconFn = function($nama){
 $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 @endphp
 @foreach($mInstruments as $mi => $mnm)
-<div class="minst m{{$mi}}">{!! $loaderIconFn($mnm) !!}</div>
+<div class="minst m{{$mi}}"><div class="minst-inner">{!! $loaderIconFn($mnm) !!}</div></div>
 @endforeach
 </div>
 <div class="mtitle">MUSANTARA</div>
