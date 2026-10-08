@@ -137,11 +137,13 @@ setTimeout(() => {
 
     function render() {
         pages.forEach(function(pg, i) {
-            // z-index: halaman aktif paling atas, yang sudah dibalik di bawah
-            pg.style.zIndex = i < current ? i + 1 : (pages.length - i + 10);
             var shouldFlip = i < current;
             if (pg.classList.contains('flipped') !== shouldFlip) {
                 pg.classList.toggle('flipped', shouldFlip);
+            }
+            // z-index hanya di-set saat TIDAK animasi (biar ga kedip)
+            if (!animating) {
+                pg.style.zIndex = i < current ? i + 1 : (pages.length - i + 10);
             }
         });
         prev.disabled = current === 0 || animating;
@@ -174,6 +176,10 @@ setTimeout(() => {
         var dx = e.changedTouches[0].clientX - sx;
         if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
     }, { passive: true });
+    // z-index awal
+    pages.forEach(function(pg, i) {
+        pg.style.zIndex = pages.length - i + 10;
+    });
     render();
 })();
 
