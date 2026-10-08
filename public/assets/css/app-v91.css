@@ -1381,22 +1381,6 @@ body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
 .map-controls button[data-act="tour"] { width: auto; padding: 0 12px; font-size: 13px; }
 .map-controls button:hover { background: rgba(201,151,63,0.25); }
 .map-controls button.touring { background: rgba(201,151,63,0.4); color: #fff; }
-.map-filter {
-    position: absolute; top: 12px; left: 12px;
-    display: flex; gap: 6px; z-index: 10;
-}
-.map-filter button {
-    padding: 8px 14px;
-    background: rgba(20,16,10,0.9);
-    border: 1px solid rgba(201,151,63,0.4);
-    border-radius: 20px; color: #a08c5a;
-    font-size: 12px; cursor: pointer;
-    transition: all 0.2s ease;
-}
-.map-filter button.active {
-    background: rgba(201,151,63,0.3);
-    color: #e8c874; border-color: #c9973f;
-}
 .map-svg path[data-slug].tour-active {
     fill: rgba(201,151,63,0.55) !important;
     filter: drop-shadow(0 0 16px rgba(201,151,63,0.8)) !important;

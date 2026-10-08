@@ -5,19 +5,6 @@
     if (!svg || !container) return;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* Kategori dominan per pulau */
-    var CATS = {
-        'sumatra': 'pukul', 'jawa': 'pukul', 'kalimantan': 'petik',
-        'sulawesi': 'tiup', 'bali-nusa-tenggara': 'pukul',
-        'maluku': 'pukul', 'papua': 'tiup'
-    };
-    var CAT_COLORS = {
-        'pukul': 'rgba(201,151,63,',   // emas
-        'tiup':  'rgba(180,120,80,',   // perunggu
-        'petik': 'rgba(160,140,100,',  // tembaga terang
-        'gesek': 'rgba(140,110,70,'    // coklat emas
-    };
-
     /* --- 7. ZOOM & PAN --- */
     var vb = { x: 0, y: 0, w: 2000, h: 1000 };
     var origVB = { x: 0, y: 0, w: 2000, h: 1000 };
@@ -88,36 +75,7 @@
         }
     });
 
-    /* --- 8. FILTER WARNA --- */
-    var filterBar = document.createElement('div');
-    filterBar.className = 'map-filter';
-    filterBar.innerHTML =
-        '<button data-cat="all" class="active">Semua</button>' +
-        '<button data-cat="pukul">Pukul</button>' +
-        '<button data-cat="tiup">Tiup</button>' +
-        '<button data-cat="petik">Petik</button>' +
-        '<button data-cat="gesek">Gesek</button>';
-    container.appendChild(filterBar);
-
-    filterBar.addEventListener('click', function(e) {
-        var btn = e.target.closest('button');
-        if (!btn) return;
-        filterBar.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var cat = btn.dataset.cat;
-        svg.querySelectorAll('path[data-slug]').forEach(function(path) {
-            var slug = path.dataset.slug;
-            if (cat === 'all' || CATS[slug] === cat) {
-                path.style.opacity = '1';
-                path.style.filter = '';
-            } else {
-                path.style.opacity = '0.18';
-                path.style.filter = 'grayscale(0.7)';
-            }
-        });
-    });
-
-    /* --- 9. TOUR MODE --- */
+    /* --- 8. TOUR MODE --- */
     var touring = false, tourTimer = null, tourIdx = 0;
     var tourOrder = ['sumatra','jawa','kalimantan','sulawesi','bali-nusa-tenggara','maluku','papua'];
     var tip = document.getElementById('island-tip');
