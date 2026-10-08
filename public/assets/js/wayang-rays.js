@@ -22,12 +22,7 @@
         '</svg>';
     hero.insertBefore(shadow, hero.firstChild);
 
-    /* 2. LIGHT RAYS */
-    var rays = document.createElement('div');
-    rays.className = 'light-rays';
-    rays.setAttribute('aria-hidden', 'true');
-    rays.innerHTML = '<i></i><i></i><i></i>';
-    hero.insertBefore(rays, hero.firstChild);
+
 
     /* Gerak halus ngikutin mouse (dalang effect) */
     var targetX = 0, curX = 0;

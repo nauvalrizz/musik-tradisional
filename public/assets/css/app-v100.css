@@ -4,17 +4,17 @@
    biru/ungu, tanpa neon.
 ============================================================ */
 :root {
-    --bg: #2e2517;
-    --bg-soft: #3b2f1f;
-    --card: #1f1a12;
-    --ink: #f0e9d6;
-    --muted: #b3a686;
-    --bronze: #d2a24c;
-    --bronze-hi: #ddb25e;
-    --bronze-deep: #8f6c26;
-    --bronze-ink: #1a1408;
-    --line: rgba(201, 151, 63, 0.16);
-    --line-strong: rgba(201, 151, 63, 0.42);
+    --bg: #1a1512;
+    --bg-soft: #221c17;
+    --card: #241e18;
+    --ink: #ece3d0;
+    --muted: #a89a7e;
+    --bronze: #c9973f;
+    --bronze-hi: #e0b45c;
+    --bronze-deep: #7d5f24;
+    --bronze-ink: #171208;
+    --line: rgba(201, 151, 63, 0.14);
+    --line-strong: rgba(201, 151, 63, 0.38);
     --serif: 'Fraunces', 'Georgia', serif;
 }
 
@@ -287,7 +287,7 @@ footer {
     position: fixed;
     inset: 0;
     z-index: 10000;
-    background: #2a2318;
+    background: #1f1a15;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -892,7 +892,7 @@ body::after {
 .timeline-track::before { content: ""; position: absolute; top: 7px; left: 0; right: 0; height: 2px; background: rgba(201,151,63,.25); }
 .tl-item { flex: 1; position: relative; padding-top: 28px; padding-right: 24px; }
 .tl-dot { position: absolute; top: 0; left: 0; width: 16px; height: 16px; border-radius: 50%;
-    background: var(--bronze); border: 3px solid #33291d; box-shadow: 0 0 0 2px var(--bronze); }
+    background: var(--bronze); border: 3px solid #262019; box-shadow: 0 0 0 2px var(--bronze); }
 .tl-year { color: var(--bronze); font-weight: 700; letter-spacing: .1em; }
 .tl-item p { color: var(--muted); margin-top: 8px; line-height: 1.6; }
 
@@ -1183,7 +1183,7 @@ button#ambient-toggle.ambient-btn i { font-style: normal; }
 /* 1. Loading screen */
 #loader {
     position: fixed; inset: 0; z-index: 10000;
-    background: #2a2318;
+    background: #1f1a15;
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; gap: 24px;
     transition: opacity 0.8s ease, visibility 0.8s;
@@ -1412,44 +1412,11 @@ body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
     .batik-divider { opacity: 0.5; }
 }
 
-/* v96 — wayang shadow + light rays */
-.gallery-hero { position: relative; overflow: hidden; }
-.wayang-shadow {
-    position: absolute; left: 0; bottom: 0;
-    width: min(36vw, 460px); height: 88%;
-    pointer-events: none; z-index: 1;
-    opacity: 0.55;
-    filter: none;
-    will-change: transform;
-    -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
-    mask-image: linear-gradient(to right, black 60%, transparent 100%);
-}
-.wayang-shadow svg { width: 100%; height: 100%; fill: #1a1510; }
-.wayang-shadow::after {
-    content: ""; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 30%, rgba(13,10,6,0.7) 75%);
-}
-.light-rays {
-    position: absolute; inset: -20%; pointer-events: none; z-index: 0;
-    overflow: hidden;
-}
-.light-rays i {
-    position: absolute; top: -30%; height: 160%; width: 140px;
-    background: linear-gradient(to bottom, rgba(232,200,116,0.06), rgba(232,200,116,0.015) 70%, transparent);
-    filter: blur(12px);
-    transform: skewX(-12deg);
-    animation: ray-drift 14s ease-in-out infinite;
-}
-.light-rays i:nth-child(1) { left: 18%; animation-delay: 0s; }
-.light-rays i:nth-child(2) { left: 48%; animation-delay: -5s; width: 200px; }
-.light-rays i:nth-child(3) { left: 75%; animation-delay: -9s; width: 100px; }
-@keyframes ray-drift {
-    0%, 100% { transform: skewX(-12deg) translateX(0); opacity: 0.7; }
-    50% { transform: skewX(-12deg) translateX(60px); opacity: 1; }
+50% { transform: skewX(-12deg) translateX(60px); opacity: 1; }
 }
 .gallery-hero .container { position: relative; z-index: 2; }
 @media (prefers-reduced-motion: reduce) {
-    .wayang-shadow, .light-rays { display: none; }
+    .wayang-shadow, 
 }
 @media (max-width: 768px) {
     .wayang-shadow { width: 70vw; opacity: 0.1; }
