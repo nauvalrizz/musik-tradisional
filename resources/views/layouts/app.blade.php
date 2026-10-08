@@ -26,7 +26,7 @@
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- ✅ CSS LU (HARUS TERAKHIR BIAR MENANG) -->
-    <link rel="stylesheet" href="{{ asset('assets/css/app-v53.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/app-v60.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/hero.css') }}?v=53">
     <link rel="stylesheet" href="{{ asset('assets/css/search.css') }}?v=53">
@@ -86,7 +86,7 @@
     <script src="{{ asset('assets/js/quiz.js') }}?v=53" defer></script>
 
     <!-- ================= MAIN ================= -->
-    <script type="module" src="{{ asset('assets/js/app-v53.js') }}"></script>
+    <script type="module" src="{{ asset('assets/js/app-v60.js') }}"></script>
     <!-- ================= TUTORIAL ================= -->
     <script src="{{ asset('assets/js/tutorial.js') }}?v=53" defer></script>
     <!-- ================= MAP ================= -->
@@ -95,7 +95,7 @@
     <script src="{{ asset('assets/js/search.js') }}?v=53"></script>
     <script src="{{ asset('assets/js/intro.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/cursor.js') }}?v=53" defer></script>
-    <script src="{{ asset('assets/js/reveal-v53.js') }}" defer></script>
+    <script src="{{ asset('assets/js/reveal-v60.js') }}" defer></script>
     <script src="{{ asset('assets/js/cinematic.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/tilt3d.js') }}?v=53" defer></script>
     <script src="{{ asset('assets/js/gamelan.js') }}?v=53" defer></script>
