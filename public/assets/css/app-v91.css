@@ -1341,7 +1341,6 @@ body > *:not(#universe-canvas):not(#particle-canvas):not(#loader) {
     0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }
 }
-}
 .map-container {
     overflow: visible;
 }
