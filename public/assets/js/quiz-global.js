@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const btn = document.createElement("button");
             btn.className = "quiz-opt";
             btn.dataset.value = opt;
-            btn.innerHTML = '<span class="opt-num">' + String(idx + 1).padStart(2, "0") + '</span><span class="opt-text">' + opt + '</span>';
+            btn.innerHTML = '<span class="opt-text">' + opt + '</span>';
 
             btn.onclick = () => {
                 if (!answered) {
@@ -214,6 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // ================= DB =================
     function submitToDatabase() {
 
+        var go = function(){ window.location.href = "/quiz-result"; };
+        try {
         fetch('/quiz/submit-global', {
             method: 'POST',
             headers: {
@@ -221,8 +223,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             },
             body: JSON.stringify({ answers: history })
-        })
-            .then(() => window.location.href = "/quiz-result");
+        }).then(go).catch(go);
+        } catch(e){ go(); }
+        setTimeout(go, 4000); // fallback mutlak
     }
 
     // ================= LOAD =================

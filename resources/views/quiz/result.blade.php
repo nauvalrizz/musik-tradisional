@@ -1,9 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Hasil Kuis — MuSantara')
 @section('content')
-@if(session('explored_count', 0) < 3)
-<script>window.location.href="/";</script>
-@endif
 <div class="wrap">
 <div class="quiz-shell" style="text-align:center">
 <div class="sect-label reveal" style="justify-content:center"><span class="n">§</span><span class="t">Hasil Penilaian</span></div>
