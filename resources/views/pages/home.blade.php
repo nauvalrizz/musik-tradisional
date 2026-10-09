@@ -276,6 +276,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="gamelan-pads">
 @foreach($ruangBunyi as $kw => $rb)
 <button type="button" class="gamelan-pad rb-pad" data-instrument="{{ $kw }}" data-freq="{{ $rb_freq[$kw] ?? 220 }}" data-audio="{{ $rb['audio'] ?? '' }}" aria-label="Mainkan {{ $rb['nama'] }}">
+<span class="res-ring" aria-hidden="true"></span>
 {!! $rb_svg[$kw] ?? $rb_svg['gong'] !!}
 <b>{{ $rb['nama'] }}</b>
 </button>

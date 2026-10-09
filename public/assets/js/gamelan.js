@@ -70,9 +70,26 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (e) {}
     }
 
+    var statusEl = document.getElementById('soundStatus');
+    var NAMES = {gong:'GONG',kempul:'KEMPUL',kenong:'KENONG',bonang:'BONANG',saron:'SARON',gambang:'GAMBANG',demung:'DEMUNG',peking:'PEKING',angklung:'ANGKLUNG',kendang:'KENDANG',suling:'SULING'};
+
     function hitPad(pad) {
         var freq = parseFloat(pad.dataset.freq);
         var inst = pad.dataset.instrument;
+        var label = NAMES[inst] || inst.toUpperCase();
+        if (statusEl) {
+            statusEl.textContent = 'SEDANG MEMAINKAN — ' + label;
+            statusEl.classList.add('playing');
+            clearTimeout(statusEl._t);
+            statusEl._t = setTimeout(function(){
+                statusEl.textContent = 'KETUK LAGI UNTUK MENDENGAR';
+                statusEl.classList.remove('playing');
+            }, 2200);
+        }
+        // tandai pad yang aktif
+        pads.forEach(function(pp){ pp.classList.remove('playing'); });
+        pad.classList.add('playing');
+        setTimeout(function(){ pad.classList.remove('playing'); }, 2000);
         strike(freq, inst);
         // angklung digoyang: tabuhan kedua menyusul 90ms kemudian
         if (inst === 'angklung') {
@@ -101,6 +118,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     pads.forEach(function (pad) {
         pad.addEventListener('pointerdown', function () { hitPad(pad); });
+        pad.addEventListener('pointerenter', function () {
+            if (statusEl && !statusEl.classList.contains('playing')) {
+                var label = NAMES[pad.dataset.instrument] || pad.dataset.instrument.toUpperCase();
+                statusEl.textContent = 'SIAP DIMAINKAN — ' + label;
+            }
+        });
+        pad.addEventListener('pointerleave', function () {
+            if (statusEl && !statusEl.classList.contains('playing')) {
+                statusEl.textContent = 'KETUK OBJEK UNTUK MENDENGAR';
+            }
+        });
     });
 
     /* ================= MODE REKAM ================= */

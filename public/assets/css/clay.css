@@ -145,6 +145,33 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .gamelan-pad span{font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;color:var(--muted)}
 .gamelan-pad:hover{transform:translateY(-4px)}
 .gamelan-pad:active,.gamelan-pad.playing{transform:scale(.94)}
+/* ——— LIVING ARCHIVE: pedestal + strike ——— */
+.gamelan-pad{position:relative}
+.gamelan-pad::after{content:"";position:absolute;bottom:8%;left:50%;transform:translateX(-50%);
+  width:52%;height:10px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);
+  filter:blur(2px);transition:all .3s ease;pointer-events:none}
+.gamelan-pad:hover::after{width:58%;opacity:.8}
+.gamelan-pad .rb-svg{position:relative;z-index:1}
+/* strike animations per instrument */
+@keyframes strikeGong{0%{transform:scale(1)}25%{transform:scale(.93,.9)}55%{transform:scale(1.02,1.03)}80%{transform:scale(.99)}100%{transform:scale(1)}}
+@keyframes strikeKempul{0%{transform:rotate(0)}25%{transform:rotate(4deg)}55%{transform:rotate(-2.5deg)}80%{transform:rotate(1deg)}100%{transform:rotate(0)}}
+@keyframes strikeKenong{0%{transform:translateY(0) scale(1)}30%{transform:translateY(6px) scale(1.04,.92)}60%{transform:translateY(-2px) scale(.99,1.01)}100%{transform:none}}
+@keyframes strikeBonang{0%{transform:scale(1)}30%{transform:scale(.95)}60%{transform:scale(1.02)}100%{transform:scale(1)}}
+.gamelan-pad[data-instrument="gong"].struck .rb-svg{animation:strikeGong .5s ease-out}
+.gamelan-pad[data-instrument="kempul"].struck .rb-svg{animation:strikeKempul .6s ease-out;transform-origin:top center}
+.gamelan-pad[data-instrument="kenong"].struck .rb-svg{animation:strikeKenong .45s ease-out}
+.gamelan-pad[data-instrument="bonang"].struck .rb-svg{animation:strikeBonang .4s ease-out}
+/* resonance ring */
+.gamelan-pad .res-ring{position:absolute;top:50%;left:50%;width:60px;height:60px;border:2px solid var(--terra);
+  border-radius:50%;transform:translate(-50%,-50%) scale(.5);opacity:0;pointer-events:none;z-index:0}
+.gamelan-pad.struck .res-ring{animation:resRing .7s ease-out}
+@keyframes resRing{0%{transform:translate(-50%,-50%) scale(.5);opacity:.7}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
+/* status */
+.gamelan-status{transition:color .3s ease}
+.gamelan-status.playing{color:var(--terra)}
+@media(prefers-reduced-motion:reduce){
+.gamelan-pad[data-instrument].struck .rb-svg,.gamelan-pad.struck .res-ring{animation:none}
+}
 .gamelan-pad.playing b{color:var(--terra)}
 .gamelan-status{text-align:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--muted);min-height:1.6em}
 
