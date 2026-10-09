@@ -460,22 +460,49 @@ if(nt&&nl){ nt.addEventListener('click',function(){
   var rT; window.addEventListener('resize',function(){ clearTimeout(rT); rT=setTimeout(function(){ var c=current; current=null; setActive(c); },200); });
 })();
 
-/* ——— REVEAL ——— */
+/* ——— REVEAL: bidirectional scroll-reactive ——— */
+var scrollDir='down',lastSY=window.scrollY;
+window.addEventListener('scroll',function(){
+  var y=window.scrollY;
+  if(Math.abs(y-lastSY)>4){
+    scrollDir=y>lastSY?'down':'up';
+    document.body.dataset.sdir=scrollDir;
+    lastSY=y;
+  }
+},{passive:true});
 var io=new IntersectionObserver(function(es){
   es.forEach(function(en){
+    var el=en.target;
     if(en.isIntersecting){
-      en.target.classList.add('visible');
-      // stagger cards
-      if(en.target.classList.contains('obj')||en.target.classList.contains('pod')){
-        var sibs=[].slice.call(en.target.parentNode.children);
-        var idx=sibs.indexOf(en.target);
-        en.target.style.transitionDelay=(idx*80)+'ms';
+      el.classList.add('visible');
+      el.classList.remove('exited');
+      // stagger cards (hanya saat entrance)
+      if(!el.dataset.staggered && (el.classList.contains('obj')||el.classList.contains('pod')||el.classList.contains('rv-card'))){
+        var sibs=[].slice.call(el.parentNode.children).filter(function(c){return c.classList.contains('obj')||c.classList.contains('pod')||c.classList.contains('rv-card');});
+        var idx=sibs.indexOf(el);
+        el.style.transitionDelay=(idx*70)+'ms';
+        el.dataset.staggered='1';
       }
-      io.unobserve(en.target);
+    }else{
+      // exit: hapus visible, tambah exited untuk arah keluar
+      el.classList.remove('visible');
+      el.classList.add('exited');
     }
   });
-},{threshold:.08,rootMargin:'0px 0px -6% 0px'});
-document.querySelectorAll('.reveal,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left,.rv-mask,.rv-img,.rv-card,.rv-right,.rv-tap,.obj,.pod').forEach(function(el){ io.observe(el); });
+},{threshold:.12,rootMargin:'0px 0px -10% 0px'});
+function observeReveals(){
+  document.querySelectorAll('.reveal,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left,.rv-mask,.rv-img,.rv-card,.rv-right,.rv-tap,.obj,.pod,#heroTitleBlock,#heroArtifact').forEach(function(el){
+    if(!el.dataset.observed){ el.dataset.observed='1'; io.observe(el); }
+  });
+}
+// Tunggu loader selesai sebelum observe hero
+if(document.documentElement.classList.contains('loading')){
+  var loT=setInterval(function(){
+    if(!document.documentElement.classList.contains('loading')){
+      clearInterval(loT); observeReveals();
+    }
+  },200);
+}else{ observeReveals(); }
 
 /* ——— MAP ——— */
 var NAMES={'sumatra':'Sumatera','jawa':'Jawa','kalimantan':'Kalimantan','sulawesi':'Sulawesi','bali-nusa-tenggara':'Bali & Nusa Tenggara','maluku':'Maluku','papua':'Papua'};

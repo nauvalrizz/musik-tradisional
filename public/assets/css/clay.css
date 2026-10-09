@@ -355,13 +355,15 @@ footer .fm{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:v
 #heroTitleBlock .hero-sub{opacity:0;transform:translateY(16px)}
 #heroTitleBlock .hero-ctas{opacity:0;transform:translateY(14px)}
 #heroTitleBlock .hero-meta{opacity:0}
-html:not(.loading) #heroTitleBlock .hero-kicker{opacity:1;transform:none;transition:opacity .5s ease .15s,transform .55s cubic-bezier(.22,1,.36,1) .15s}
-html:not(.loading) #heroTitleBlock .hero-title{opacity:1;transform:none;transition:opacity .55s ease .28s,transform .8s cubic-bezier(.19,1,.22,1) .28s}
-html:not(.loading) #heroTitleBlock .hero-sub{opacity:1;transform:none;transition:opacity .55s ease .42s,transform .6s cubic-bezier(.22,1,.36,1) .42s}
-html:not(.loading) #heroTitleBlock .hero-ctas{opacity:1;transform:none;transition:opacity .5s ease .55s,transform .55s cubic-bezier(.22,1,.36,1) .55s}
-html:not(.loading) #heroTitleBlock .hero-meta{opacity:1;transition:opacity .6s ease .7s}
+#heroTitleBlock.visible .hero-kicker{opacity:1;transform:none;transition:opacity .5s ease .15s,transform .55s cubic-bezier(.22,1,.36,1) .15s}
+#heroTitleBlock.visible .hero-title{opacity:1;transform:none;transition:opacity .55s ease .28s,transform .8s cubic-bezier(.19,1,.22,1) .28s}
+#heroTitleBlock.visible .hero-sub{opacity:1;transform:none;transition:opacity .55s ease .42s,transform .6s cubic-bezier(.22,1,.36,1) .42s}
+#heroTitleBlock.visible .hero-ctas{opacity:1;transform:none;transition:opacity .5s ease .55s,transform .55s cubic-bezier(.22,1,.36,1) .55s}
+#heroTitleBlock.visible .hero-meta{opacity:1;transition:opacity .6s ease .7s}
 #heroArtifact{opacity:0;transform:scale(.96) translateY(18px)}
-html:not(.loading) #heroArtifact{opacity:1;transform:none;transition:opacity .8s ease .35s,transform .9s cubic-bezier(.22,1,.36,1) .35s}
+#heroArtifact.visible{opacity:1;transform:none;transition:opacity .8s ease .35s,transform .9s cubic-bezier(.22,1,.36,1) .35s}
+#heroTitleBlock.exited .hero-title{transform:translateY(-30px);opacity:.3;transition:opacity .4s ease,transform .45s ease}
+#heroArtifact.exited{transform:scale(.97) translateY(-14px);opacity:.4;transition:opacity .45s ease,transform .5s ease}
 .zoom{position:fixed;inset:0;z-index:300;background:rgba(15,12,10,.94);display:none;align-items:center;justify-content:center;padding:1.5rem}
 .zoom.open{display:flex}
 .zoom img{max-width:min(92vw,900px);max-height:88vh;border-radius:var(--r-m);
