@@ -12,7 +12,7 @@
 <a href="{{ $backUrl }}" class="clay-btn reveal">{{ $backText }}</a>
 </div>
 <div class="hero-grid" style="padding:1rem 0 2rem">
-<div class="pedestal ax-clip">
+<div class="pedestal reveal">
 <div class="pring" aria-hidden="true"></div>
 <div class="pbase" aria-hidden="true"></div>
 <div class="pobj">
