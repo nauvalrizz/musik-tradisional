@@ -322,6 +322,27 @@ footer .fm{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:v
 /* ═══ REVEAL / MISC ═══ */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .reveal.visible{opacity:1;transform:none}
+/* ——— MOTION PRESETS: cohesive museum motion language ——— */
+.rv{opacity:0;will-change:opacity,transform}
+.rv-rise{transform:translateY(24px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+.rv-scale{transform:scale(.97);transition:opacity .5s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+.rv-fade{transition:opacity .5s ease}
+.rv-left{transform:translateX(-22px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+.rv.visible,.rv-rise.visible,.rv-scale.visible,.rv-fade.visible,.rv-left.visible{opacity:1;transform:none}
+.rv[data-rv-d],.rv-rise[data-rv-d],.rv-scale[data-rv-d],.rv-fade[data-rv-d],.rv-left[data-rv-d]{transition-delay:var(--rv-d,0ms)}
+/* hero entrance choreography */
+#heroTitleBlock .hero-kicker{opacity:0;transform:translateY(14px)}
+#heroTitleBlock .hero-title{opacity:0;transform:translateY(20px)}
+#heroTitleBlock .hero-sub{opacity:0;transform:translateY(16px)}
+#heroTitleBlock .hero-ctas{opacity:0;transform:translateY(14px)}
+#heroTitleBlock .hero-meta{opacity:0}
+html:not(.loading) #heroTitleBlock .hero-kicker{opacity:1;transform:none;transition:opacity .5s ease .15s,transform .55s cubic-bezier(.22,1,.36,1) .15s}
+html:not(.loading) #heroTitleBlock .hero-title{opacity:1;transform:none;transition:opacity .6s ease .28s,transform .65s cubic-bezier(.22,1,.36,1) .28s}
+html:not(.loading) #heroTitleBlock .hero-sub{opacity:1;transform:none;transition:opacity .55s ease .42s,transform .6s cubic-bezier(.22,1,.36,1) .42s}
+html:not(.loading) #heroTitleBlock .hero-ctas{opacity:1;transform:none;transition:opacity .5s ease .55s,transform .55s cubic-bezier(.22,1,.36,1) .55s}
+html:not(.loading) #heroTitleBlock .hero-meta{opacity:1;transition:opacity .6s ease .7s}
+#heroArtifact{opacity:0;transform:scale(.96) translateY(18px)}
+html:not(.loading) #heroArtifact{opacity:1;transform:none;transition:opacity .8s ease .35s,transform .9s cubic-bezier(.22,1,.36,1) .35s}
 .zoom{position:fixed;inset:0;z-index:300;background:rgba(15,12,10,.94);display:none;align-items:center;justify-content:center;padding:1.5rem}
 .zoom.open{display:flex}
 .zoom img{max-width:min(92vw,900px);max-height:88vh;border-radius:var(--r-m);
@@ -335,7 +356,8 @@ html.loading .reveal,html.loading .obj{transition:none}
 /* ═══ REDUCED MOTION ═══ */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .reveal,.obj{opacity:1;transform:none}
+  .reveal,.obj,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left{opacity:1!important;transform:none!important}
+  #heroTitleBlock .hero-kicker,#heroTitleBlock .hero-title,#heroTitleBlock .hero-sub,#heroTitleBlock .hero-ctas,#heroTitleBlock .hero-meta,#heroArtifact{opacity:1!important;transform:none!important}
   #loader{transition:none}
 }
 

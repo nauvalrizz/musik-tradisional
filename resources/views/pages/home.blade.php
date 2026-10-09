@@ -5,7 +5,7 @@
 <section class="hero-clay" id="jelajahi">
 <div class="wrap">
 <div class="hero-grid">
-<div class="reveal" id="heroTitleBlock">
+<div id="heroTitleBlock">
 <p class="hero-kicker" id="heroEyebrow">DIGITAL MUSEUM OF INDONESIAN SOUND</p>
 <h1 class="hero-title" id="heroTitle" data-full="MUSANTARA">MUSANTARA</h1>
 <p class="hero-sub">Museum tanah liat digital untuk alat musik tradisional Indonesia. Sentuh, tekan, dengarkan — setiap objek punya bunyi.</p>
@@ -20,7 +20,7 @@
 <div><b>∞</b><span>BUNYI</span></div>
 </div>
 </div>
-<div class="artifact-stage reveal" id="heroArtifact">
+<div class="artifact-stage" id="heroArtifact">
 <div class="as-spotlight" aria-hidden="true"></div>
 <div class="as-soundfield" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="as-platform" aria-hidden="true"><div class="as-tier1"></div><div class="as-tier2"></div></div>
