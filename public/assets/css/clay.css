@@ -330,14 +330,33 @@ footer .fm{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:v
 .rv-left{transform:translateX(-22px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
 .rv.visible,.rv-rise.visible,.rv-scale.visible,.rv-fade.visible,.rv-left.visible{opacity:1;transform:none}
 .rv[data-rv-d],.rv-rise[data-rv-d],.rv-scale[data-rv-d],.rv-fade[data-rv-d],.rv-left[data-rv-d]{transition-delay:var(--rv-d,0ms)}
+/* ——— DISTINCT MOTION PATTERNS ——— */
+/* masked heading reveal: teks naik dari clip */
+.rv-mask{overflow:hidden}
+.rv-mask>*{display:block;opacity:0;transform:translateY(110%);transition:opacity .5s ease,transform .65s cubic-bezier(.19,1,.22,1)}
+.rv-mask.visible>*{opacity:1;transform:none}
+/* image scale reveal: gambar settle dari 1.07 */
+.rv-img{overflow:hidden}
+.rv-img img{opacity:0;transform:scale(1.07);transition:opacity .7s ease,transform .85s cubic-bezier(.22,1,.36,1)}
+.rv-img.visible img{opacity:1;transform:scale(1)}
+/* card rise: naik + scale settle */
+.rv-card{opacity:0;transform:translateY(34px) scale(.985);transition:opacity .5s ease,transform .62s cubic-bezier(.22,1,.36,1)}
+.rv-card.visible{opacity:1;transform:none}
+/* directional: kiri/kanan */
+.rv-right{opacity:0;transform:translateX(22px);transition:opacity .55s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+.rv-right.visible{opacity:1;transform:none}
+/* tactile button: naik dikit + scale */
+.rv-tap{opacity:0;transform:translateY(12px) scale(.96);transition:opacity .4s ease,transform .45s cubic-bezier(.34,1.56,.64,1)}
+.rv-tap.visible{opacity:1;transform:none}
 /* hero entrance choreography */
+#heroTitleBlock{overflow:hidden}
 #heroTitleBlock .hero-kicker{opacity:0;transform:translateY(14px)}
-#heroTitleBlock .hero-title{opacity:0;transform:translateY(20px)}
+#heroTitleBlock .hero-title{opacity:0;transform:translateY(60%);}
 #heroTitleBlock .hero-sub{opacity:0;transform:translateY(16px)}
 #heroTitleBlock .hero-ctas{opacity:0;transform:translateY(14px)}
 #heroTitleBlock .hero-meta{opacity:0}
 html:not(.loading) #heroTitleBlock .hero-kicker{opacity:1;transform:none;transition:opacity .5s ease .15s,transform .55s cubic-bezier(.22,1,.36,1) .15s}
-html:not(.loading) #heroTitleBlock .hero-title{opacity:1;transform:none;transition:opacity .6s ease .28s,transform .65s cubic-bezier(.22,1,.36,1) .28s}
+html:not(.loading) #heroTitleBlock .hero-title{opacity:1;transform:none;transition:opacity .55s ease .28s,transform .8s cubic-bezier(.19,1,.22,1) .28s}
 html:not(.loading) #heroTitleBlock .hero-sub{opacity:1;transform:none;transition:opacity .55s ease .42s,transform .6s cubic-bezier(.22,1,.36,1) .42s}
 html:not(.loading) #heroTitleBlock .hero-ctas{opacity:1;transform:none;transition:opacity .5s ease .55s,transform .55s cubic-bezier(.22,1,.36,1) .55s}
 html:not(.loading) #heroTitleBlock .hero-meta{opacity:1;transition:opacity .6s ease .7s}
@@ -356,7 +375,9 @@ html.loading .reveal,html.loading .obj{transition:none}
 /* ═══ REDUCED MOTION ═══ */
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .reveal,.obj,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left{opacity:1!important;transform:none!important}
+  .reveal,.obj,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left,.rv-card,.rv-right,.rv-tap{opacity:1!important;transform:none!important}
+  .rv-mask>*{opacity:1!important;transform:none!important}
+  .rv-img img{opacity:1!important;transform:none!important}
   #heroTitleBlock .hero-kicker,#heroTitleBlock .hero-title,#heroTitleBlock .hero-sub,#heroTitleBlock .hero-ctas,#heroTitleBlock .hero-meta,#heroArtifact{opacity:1!important;transform:none!important}
   #loader{transition:none}
 }

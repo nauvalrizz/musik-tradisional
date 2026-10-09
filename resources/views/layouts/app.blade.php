@@ -475,7 +475,7 @@ var io=new IntersectionObserver(function(es){
     }
   });
 },{threshold:.08,rootMargin:'0px 0px -6% 0px'});
-document.querySelectorAll('.reveal,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left,.obj,.pod').forEach(function(el){ io.observe(el); });
+document.querySelectorAll('.reveal,.rv,.rv-rise,.rv-scale,.rv-fade,.rv-left,.rv-mask,.rv-img,.rv-card,.rv-right,.rv-tap,.obj,.pod').forEach(function(el){ io.observe(el); });
 
 /* ——— MAP ——— */
 var NAMES={'sumatra':'Sumatera','jawa':'Jawa','kalimantan':'Kalimantan','sulawesi':'Sulawesi','bali-nusa-tenggara':'Bali & Nusa Tenggara','maluku':'Maluku','papua':'Papua'};
