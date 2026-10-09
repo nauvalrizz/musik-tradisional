@@ -11,7 +11,8 @@
     $seal = strtoupper(substr(optional($item->pulau)->nama ?? 'NUS', 0, 3));
     $freq = 196 + ($item->id % 8) * 49;
 @endphp
-<article class="pod idle-{{ $idle }}" data-pod>
+@php $axDir = ['ax-cardL','ax-cardC','ax-cardR'][$idx % 3]; @endphp
+<article class="pod {{ $axDir }} idle-{{ $idle }}" data-pod>
 <a href="{{ url($url) }}" class="pod-link" aria-label="{{ $item->nama }}">
 <div class="pod-stage">
 <div class="pod-obj">

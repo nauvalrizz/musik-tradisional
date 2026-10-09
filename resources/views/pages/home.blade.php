@@ -8,8 +8,8 @@
 <div id="heroTitleBlock">
 <p class="hero-kicker" id="heroEyebrow">DIGITAL MUSEUM OF INDONESIAN SOUND</p>
 <h1 class="hero-title" id="heroTitle" data-full="MUSANTARA">MUSANTARA</h1>
-<p class="hero-sub">Museum tanah liat digital untuk alat musik tradisional Indonesia. Sentuh, tekan, dengarkan — setiap objek punya bunyi.</p>
-<div class="hero-ctas">
+<p class="hero-sub ax-slideL">Museum tanah liat digital untuk alat musik tradisional Indonesia. Sentuh, tekan, dengarkan — setiap objek punya bunyi.</p>
+<div class="hero-ctas ax-spring">
 <a href="#arsip" class="clay-btn primary">Jelajahi Arsip <span class="arw">→</span></a>
 <a href="#pulau" class="clay-btn">Peta Kepulauan</a>
 <a href="{{ url('/ruang-bunyi') }}" class="clay-btn">Ruang Bunyi 3D</a>
@@ -258,7 +258,7 @@ const clk=new THREE.Clock();
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
 <div class="wrap">
-<div class="sect-label rv-mask"><span class="n">01 / ARSIP</span><span class="t">Musantara</span><span class="ln"></span></div>
+<div class="sect-label"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
 <div class="gamelan gamelan-sec">
 <div class="gamelan-frame reveal">
 @php
@@ -291,7 +291,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 02 PULAU --}}
 <section class="map-sec" id="pulau">
 <div class="wrap">
-<div class="sect-label rv-mask"><span class="n">02 / PULAU</span><span class="t">Kepulauan</span><span class="ln"></span></div>
+<div class="sect-label"><span class="n">02 / PULAU</span><span class="ax-mask"><span>Kepulauan</span></span><span class="ln"></span></div>
 <div class="map-frame reveal">
 <div class="map-wrap">
 @include('partials.map')
@@ -305,9 +305,9 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 03 KOLEKSI --}}
 <section class="sect" id="koleksi">
 <div class="wrap">
-<div class="sect-label rv-mask"><span class="n">03 / ARSIP</span><span class="t">Koleksi</span><span class="ln"></span></div>
+<div class="sect-label"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
 @foreach($regions as $ri => $rg)
-<div class="sect-label rv-mask" style="margin:2.4rem 0 1.6rem"><span class="n">{{ $rg['pulau']->nama }}</span><span class="t" style="font-size:1rem">{{ $rg['items']->count() }} objek</span><span class="ln"></span></div>
+<div class="sect-label" style="margin:2.4rem 0 1.6rem"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
 <div class="pods">
 @foreach($rg['items'] as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
@@ -323,7 +323,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 04 KUIS --}}
 <section class="sect" id="kuis" style="padding-bottom:6rem">
 <div class="wrap">
-<div class="sect-label rv-mask"><span class="n">04 / KUIS</span><span class="t">Uji Telinga</span><span class="ln"></span></div>
+<div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
 <div class="quiz-card reveal" style="max-width:560px;margin:0 auto">
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEMBILAN SOAL</p>
 <p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
