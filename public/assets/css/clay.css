@@ -146,14 +146,21 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .gamelan-pad:hover{transform:translateY(-4px)}
 .gamelan-pad:active,.gamelan-pad.playing{transform:scale(.94)}
 /* ——— LIVING ARCHIVE: pedestal + strike ——— */
-.gamelan-sec{position:relative;padding:2rem 0 1rem}
-.gamelan-stage{position:absolute;left:50%;transform:translateX(-50%);bottom:34%;width:min(92%,880px);z-index:0;pointer-events:none}
-.gs-top{height:14px;border-radius:8px;background:linear-gradient(180deg,#8a6f52,#6b543d);
-  box-shadow:0 2px 4px rgba(255,235,200,.12) inset,0 -1px 2px rgba(0,0,0,.4) inset}
-.gs-body{height:56px;margin:0 18px;border-radius:0 0 12px 12px;
-  background:linear-gradient(180deg,#4a3a2c,#2e241b);
-  box-shadow:0 18px 32px rgba(0,0,0,.5),0 4px 8px rgba(0,0,0,.4)}
-.gamelan-pads{position:relative;z-index:1}
+.gamelan-sec{position:relative;padding:3rem 0 2rem}
+.gamelan-stage{position:absolute;left:50%;transform:translateX(-50%);bottom:6%;width:min(94%,920px);z-index:0;pointer-events:none}
+.gs-top{height:22px;border-radius:12px;background:linear-gradient(180deg,#9a7d58,#7a6248 60%,#5e4a36);
+  box-shadow:0 3px 6px rgba(255,235,200,.15) inset,0 -2px 4px rgba(0,0,0,.45) inset;
+  position:relative}
+.gs-top::before{content:"";position:absolute;top:4px;left:4%;right:4%;height:5px;border-radius:3px;
+  background:linear-gradient(90deg,transparent,rgba(255,240,210,.18),transparent)}
+.gs-body{height:88px;margin:0 26px;border-radius:0 0 16px 16px;
+  background:linear-gradient(180deg,#54422f 0%,#3a2d20 45%,#241c14 100%);
+  box-shadow:0 28px 48px rgba(0,0,0,.55),0 8px 16px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,235,200,.06)}
+.gamelan-pads{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1rem;align-items:end;margin-bottom:-58px}
+.gamelan-pad{margin-bottom:0}
+@media(max-width:560px){.gamelan-pads{grid-template-columns:repeat(2,1fr);margin-bottom:-40px}
+.gs-body{height:64px}}
 .gamelan-pad{position:relative}
 .gamelan-pad::after{content:"";position:absolute;bottom:8%;left:50%;transform:translateX(-50%);
   width:52%;height:10px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.5),transparent 70%);
