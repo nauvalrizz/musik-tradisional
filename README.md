@@ -2,7 +2,7 @@
 
 An interactive web explorer of traditional Indonesian musical instruments (*alat musik tradisional*). Browse instruments by island, listen to real audio samples, take a quiz, and manage the collection through an admin panel.
 
-**Live demo:** https://musantara.site.je
+**Live demo:** https://musantara.my.id
 
 > Personal portfolio project.
 
@@ -26,8 +26,9 @@ An interactive web explorer of traditional Indonesian musical instruments (*alat
 
 - Laravel 12 (PHP 8.2+)
 - MySQL
-- Tailwind CSS 4 + Vite
-- Vanilla JS (quiz engine, map, audio player)
+- Custom claymorphism CSS design system
+- Vanilla JS (Web Audio API ensemble, quiz engine, interactive map, audio player)
+- Three.js (hero 3D instrument viewer)
 
 ## Local setup
 
