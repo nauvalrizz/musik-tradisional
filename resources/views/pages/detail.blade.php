@@ -96,7 +96,7 @@ w.style.cursor='pointer';
 </div>
 <div style="color:var(--muted);max-width:60ch;line-height:1.8">{!! nl2br(e($alat->deskripsi)) !!}</div>
 <div style="margin-top:2rem">
-<button class="clay-btn quiz-trigger" type="button">Kuis: {{ $alat->nama }} <span class="arw">→</span></button>
+<a href="#kuis-cepat" class="clay-btn">Kuis: {{ $alat->nama }} <span class="arw">→</span></a>
 </div>
 </div>
 </div>
@@ -112,8 +112,9 @@ w.style.cursor='pointer';
 @endif
 </div>
 
-{{-- Quiz modal --}}
-<div id="quizModal" aria-hidden="true">
+{{-- Quiz section --}}
+<section id="kuis-cepat" class="reveal" style="margin-top:3rem;scroll-margin-top:100px">
+<div class="sect-label"><span class="n">→</span><span class="t">Kuis Cepat</span></div>
 <div class="quiz-card">
 <button class="quiz-close" aria-label="Tutup" style="position:absolute;top:1rem;right:1.2rem;font-size:1.5rem;color:var(--text2)">×</button>
 <p class="obj-num" style="font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted)">KUIS CEPAT</p>
@@ -126,10 +127,9 @@ w.style.cursor='pointer';
 <p id="quiz-feedback" aria-live="polite"></p>
 <div style="display:flex;gap:.6rem;justify-content:center;margin-top:1rem">
 <button class="clay-btn quiz-retry" type="button">Coba Lagi</button>
-<button class="clay-btn quiz-close" type="button">Tutup</button>
 </div>
 </div>
-</div>
+</section>
 @endsection
 @push('scripts')
 <script src="{{ asset('assets/js/detail-synth.js') }}"></script>
