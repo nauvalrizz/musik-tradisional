@@ -138,17 +138,13 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .gamelan{max-width:860px;margin:0 auto}
 .gamelan-pads{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin:1.6rem 0}
 @media(max-width:560px){.gamelan-pads{grid-template-columns:repeat(2,1fr)}}
-.gamelan-pad{aspect-ratio:1;border:none;border-radius:32% 38% 36% 40%/40% 36% 40% 34%;
-  background:radial-gradient(circle at 38% 30%,var(--warm),var(--clay1) 72%);color:var(--cream);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;
-  box-shadow:0 4px 8px rgba(0,0,0,.5),0 16px 32px rgba(0,0,0,.35),
-             inset 0 2px 4px rgba(229,214,192,.14),inset 0 -6px 12px rgba(0,0,0,.35);
-  transition:transform var(--fast) var(--ease),box-shadow var(--fast) var(--ease);min-height:88px}
+.gamelan-pad{aspect-ratio:auto;border:none;border-radius:0;background:transparent;color:var(--cream);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;
+  box-shadow:none;transition:transform var(--fast) var(--ease);min-height:0;padding:1rem;cursor:pointer}
 .gamelan-pad b{font-size:1.15rem;font-weight:700}
 .gamelan-pad span{font-family:var(--mono);font-size:.55rem;letter-spacing:.14em;color:var(--muted)}
 .gamelan-pad:hover{transform:translateY(-4px)}
-.gamelan-pad:active,.gamelan-pad.playing{transform:translateY(3px) scale(.97);
-  box-shadow:0 1px 2px rgba(0,0,0,.4),inset 0 5px 12px rgba(0,0,0,.45)}
+.gamelan-pad:active,.gamelan-pad.playing{transform:scale(.94)}
 .gamelan-pad.playing b{color:var(--terra)}
 .gamelan-status{text-align:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--muted);min-height:1.6em}
 
@@ -738,7 +734,7 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 
 /* ——— RUANG BUNYI: recognizable instrument pads ——— */
 .rb-pad{display:flex;flex-direction:column;align-items:center;gap:.55rem;padding:1rem .7rem}
-.rb-svg{width:76px;height:76px;filter:drop-shadow(0 5px 8px rgba(0,0,0,.45));transition:transform .25s var(--ease)}
+.rb-svg{width:130px;height:130px;filter:drop-shadow(0 5px 8px rgba(0,0,0,.45));transition:transform .25s var(--ease)}
 .rb-pad:hover .rb-svg{transform:translateY(-3px) scale(1.05)}
 .rb-pad.struck .rb-svg{animation:rbhit .35s ease-out}
 @keyframes rbhit{0%{transform:scale(1)}35%{transform:scale(.93)}100%{transform:scale(1)}}
