@@ -260,6 +260,7 @@ const clk=new THREE.Clock();
 <div class="wrap">
 <div class="sect-label"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
 <div class="gamelan gamelan-sec">
+<div class="gamelan-stage" aria-hidden="true"><div class="gs-top"></div><div class="gs-body"></div></div>
 @php
 $rb_svg = [
 'gong' => '<svg viewBox="0 0 100 100" class="rb-svg"><circle cx="50" cy="50" r="40" fill="#7a6248" stroke="#3a2e24" stroke-width="3"/><circle cx="50" cy="50" r="32" fill="none" stroke="#3a2e24" stroke-width="2"/><circle cx="50" cy="50" r="13" fill="#9a7f5e" stroke="#3a2e24" stroke-width="2.5"/><ellipse cx="44" cy="44" rx="5" ry="3.5" fill="#c9b896" opacity=".55"/></svg>',
