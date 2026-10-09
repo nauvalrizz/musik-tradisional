@@ -12,7 +12,7 @@
 <a href="{{ $backUrl }}" class="clay-btn reveal">{{ $backText }}</a>
 </div>
 <div class="hero-grid" style="padding:1rem 0 2rem">
-<div class="pedestal reveal">
+<div class="pedestal ax-clip">
 <div class="pring" aria-hidden="true"></div>
 <div class="pbase" aria-hidden="true"></div>
 <div class="pobj">
@@ -24,7 +24,7 @@
 <p class="attr" style="position:absolute;bottom:-1.6rem;font-size:.72rem;color:var(--muted)">Sumber: <a href="{{ $alat->sumber_gambar }}" target="_blank" rel="noopener" style="color:var(--light)">{{ $alat->author ?? 'Wikimedia Commons' }}</a></p>
 @endif
 </div>
-<div class="reveal">
+<div class="ax-slideR">
 <p class="hero-kicker">ARSIP № {{ str_pad($alat->id,3,'0',STR_PAD_LEFT) }}</p>
 <h1 class="hero-title" style="font-size:clamp(2rem,4.5vw,3rem)">{{ $alat->nama }}</h1>
 <p class="hero-sub">{{ optional($alat->pulau)->nama ?? 'Nusantara' }} · {{ $alat->sumber_bunyi ?? '—' }}</p>
