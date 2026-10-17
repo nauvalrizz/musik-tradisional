@@ -27,7 +27,14 @@
 <div class="as-shadow" aria-hidden="true"></div>
 <div id="hero3d" role="button" tabindex="0" aria-label="Putar instrumen"
   style="position:relative;z-index:2;width:min(360px,74vw);aspect-ratio:1;cursor:pointer">
-<div id="gongStatus" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#c9b99a;font-size:13px;text-align:center;padding:24px"></div>
+<div id="gongStatus" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;padding:24px">
+<style>
+.gong-spin{width:44px;height:44px;border-radius:50%;border:3px solid rgba(181,80,47,.18);border-top-color:#b5502f;animation:gspin .8s linear infinite}
+@keyframes gspin{to{transform:rotate(360deg)}}
+</style>
+<div class="gong-spin" id="gongSpin"></div>
+<div id="gongErr" style="display:none;color:#c9b99a;font-size:13px;text-align:center"></div>
+</div>
 </div>
 <div class="hero-tag" id="heroPlaque">
 <p class="tn" id="heroName">GONG</p>
@@ -122,24 +129,27 @@ function buildGong(){
     holder.add(model);
   };
   const statusEl=document.getElementById('gongStatus');
-  const setStatus=(txt,retry)=>{
+  const spinEl=document.getElementById('gongSpin');
+  const errEl=document.getElementById('gongErr');
+  const setStatus=(mode,retry)=>{
     if(!statusEl) return;
-    statusEl.textContent=txt;
-    statusEl.style.display=txt?'flex':'none';
+    statusEl.style.display=mode?'flex':'none';
+    if(spinEl) spinEl.style.display=mode==='loading'?'block':'none';
+    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Gagal memuat model — ketuk untuk coba lagi'; }
     statusEl.style.pointerEvents=retry?'auto':'none';
     statusEl.style.cursor=retry?'pointer':'default';
-    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('Memuat gong 3D…',false); attempt(); } }:null;
+    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('loading',false); attempt(); } }:null;
   };
   const attempt=()=>{
     gltfLoader.load(window.GONG_GLB_URL,
       (glb)=>{ if(!alive()) return; gongGLBCache=glb.scene;
         try{ place(glb.scene); setStatus('',false); }
-        catch(e){ setStatus('Gagal memuat model — ketuk untuk coba lagi',true); } },
+        catch(e){ setStatus('error',true); } },
       undefined,
-      ()=>{ if(!alive()) return; setStatus('Gagal memuat model — ketuk untuk coba lagi',true); });
+      ()=>{ if(!alive()) return; setStatus('error',true); });
   };
   if(gongGLBCache){ place(gongGLBCache.clone()); setStatus('',false); }
-  else{ setStatus('Memuat gong 3D…',false); attempt(); }
+  else{ setStatus('loading',false); attempt(); }
   vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }
 // ─── KENONG: vessel bundar + boss, di atas pangkon silang ───
@@ -163,24 +173,27 @@ function buildKenong(){
     holder.add(model);
   };
   const statusEl=document.getElementById('gongStatus');
-  const setStatus=(txt,retry)=>{
+  const spinEl=document.getElementById('gongSpin');
+  const errEl=document.getElementById('gongErr');
+  const setStatus=(mode,retry)=>{
     if(!statusEl) return;
-    statusEl.textContent=txt;
-    statusEl.style.display=txt?'flex':'none';
+    statusEl.style.display=mode?'flex':'none';
+    if(spinEl) spinEl.style.display=mode==='loading'?'block':'none';
+    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Gagal memuat model — ketuk untuk coba lagi'; }
     statusEl.style.pointerEvents=retry?'auto':'none';
     statusEl.style.cursor=retry?'pointer':'default';
-    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('Memuat kenong 3D…',false); attempt(); } }:null;
+    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('loading',false); attempt(); } }:null;
   };
   const attempt=()=>{
     gltfLoader.load(window.KENONG_GLB_URL,
       (glb)=>{ if(!alive()) return; kenongGLBCache=glb.scene;
         try{ place(glb.scene); setStatus('',false); }
-        catch(e){ setStatus('Gagal memuat model — ketuk untuk coba lagi',true); } },
+        catch(e){ setStatus('error',true); } },
       undefined,
-      ()=>{ if(!alive()) return; setStatus('Gagal memuat model — ketuk untuk coba lagi',true); });
+      ()=>{ if(!alive()) return; setStatus('error',true); });
   };
   if(kenongGLBCache){ place(kenongGLBCache.clone()); setStatus('',false); }
-  else{ setStatus('Memuat kenong 3D…',false); attempt(); }
+  else{ setStatus('loading',false); attempt(); }
   vib=t=>{ holder.position.z=Math.sin(t*36)*.012; };
 }
 // ─── ANGKLUNG: model 3D pengguna ───
@@ -204,24 +217,27 @@ function buildAngklung(){
     holder.add(model);
   };
   const statusEl=document.getElementById('gongStatus');
-  const setStatus=(txt,retry)=>{
+  const spinEl=document.getElementById('gongSpin');
+  const errEl=document.getElementById('gongErr');
+  const setStatus=(mode,retry)=>{
     if(!statusEl) return;
-    statusEl.textContent=txt;
-    statusEl.style.display=txt?'flex':'none';
+    statusEl.style.display=mode?'flex':'none';
+    if(spinEl) spinEl.style.display=mode==='loading'?'block':'none';
+    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Gagal memuat model — ketuk untuk coba lagi'; }
     statusEl.style.pointerEvents=retry?'auto':'none';
     statusEl.style.cursor=retry?'pointer':'default';
-    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('Memuat angklung 3D…',false); attempt(); } }:null;
+    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('loading',false); attempt(); } }:null;
   };
   const attempt=()=>{
     gltfLoader.load(window.ANGKLUNG_GLB_URL,
       (glb)=>{ if(!alive()) return; angklungGLBCache=glb.scene;
         try{ place(glb.scene); setStatus('',false); }
-        catch(e){ setStatus('Gagal memuat model — ketuk untuk coba lagi',true); } },
+        catch(e){ setStatus('error',true); } },
       undefined,
-      ()=>{ if(!alive()) return; setStatus('Gagal memuat model — ketuk untuk coba lagi',true); });
+      ()=>{ if(!alive()) return; setStatus('error',true); });
   };
   if(angklungGLBCache){ place(angklungGLBCache.clone()); setStatus('',false); }
-  else{ setStatus('Memuat angklung 3D…',false); attempt(); }
+  else{ setStatus('loading',false); attempt(); }
   vib=t=>{ holder.rotation.z=Math.sin(t*24)*.02; };
 }
 function select(id){
@@ -322,6 +338,11 @@ box.addEventListener('click',e=>{
 function rs(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
 new ResizeObserver(rs).observe(box); rs();
 select('gong');
+// preload kenong & angklung di background — biar pas pindah tab langsung muncul tanpa loading
+setTimeout(()=>{
+  if(!kenongGLBCache) gltfLoader.load(window.KENONG_GLB_URL,(glb)=>{kenongGLBCache=glb.scene;},undefined,()=>{});
+  if(!angklungGLBCache) gltfLoader.load(window.ANGKLUNG_GLB_URL,(glb)=>{angklungGLBCache=glb.scene;},undefined,()=>{});
+},1500);
 refreshPlayBtn();
 const clk=new THREE.Clock();
 (function loop(){
