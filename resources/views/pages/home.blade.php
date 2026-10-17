@@ -52,6 +52,7 @@
 window.HERO_DATA = @json($heroInstruments ?? []);
 window.GONG_GLB_URL = "{{ asset('assets/models/gong.glb') }}";
 window.KENONG_GLB_URL = "{{ asset('assets/models/kenong.glb') }}";
+window.ANGKLUNG_GLB_URL = "{{ asset('assets/models/angklung.glb') }}";
 </script>
 <script type="module">
 import * as THREE from 'three';
@@ -182,22 +183,46 @@ function buildKenong(){
   else{ setStatus('Memuat kenong 3D…',false); attempt(); }
   vib=t=>{ holder.position.z=Math.sin(t*36)*.012; };
 }
-// ─── ANGKLUNG: tabung bambu beda panjang dalam bingkai ───
+// ─── ANGKLUNG: model 3D pengguna ───
+let angklungGLBCache=null;
+let angklungSeq=0;
 function buildAngklung(){
+  const mySeq=++angklungSeq;
+  const alive=()=> mySeq===angklungSeq;
   G=new THREE.Group();
-  [[-.5],[.5]].forEach(([x])=>{const p=sh(new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,1.5,10),M.bambooD));p.position.set(x,.55,0);G.add(p);});
-  const top=sh(new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,1.15,10),M.bambooD));
-  top.rotation.z=Math.PI/2; top.position.y=1.28; G.add(top);
-  const bot=top.clone(); bot.position.y=-.15; G.add(bot);
-  const tubes=[];
-  [[-.38,.95],[-.19,1.05],[0,1.15],[.19,1.0],[.38,.88]].forEach(([x,h])=>{
-    const tg=new THREE.Group();
-    const tb=sh(new THREE.Mesh(new THREE.CylinderGeometry(.075,.075,h,12),M.bamboo)); tg.add(tb);
-    const cap=sh(new THREE.Mesh(new THREE.CylinderGeometry(.078,.078,.06,12),M.bambooD)); cap.position.y=h/2; tg.add(cap);
-    const tongue=sh(new THREE.Mesh(new THREE.BoxGeometry(.05,h*.42,.02),M.bambooD)); tongue.position.y=-h*.2; tg.add(tongue);
-    tg.position.set(x,1.28-h/2-.04,0); tg.userData.baseX=x; G.add(tg); tubes.push(tg);
-  });
-  vib=t=>{tubes.forEach((tg,i)=>{tg.rotation.z=Math.sin(t*24+i*1.3)*.045;tg.position.x=tg.userData.baseX+Math.sin(t*24+i)*.012;});};
+  // angklung 3D model pengguna — tanpa frame, mengambang di tengah (seperti gong)
+  const holder=new THREE.Group(); holder.position.y=.6; G.add(holder);
+  const place=(model)=>{
+    if(!alive()) return;
+    while(holder.children.length) holder.remove(holder.children[0]);
+    model.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.userData.keep=true; } });
+    const bb=new THREE.Box3().setFromObject(model);
+    const size=new THREE.Vector3(); bb.getSize(size);
+    const c=new THREE.Vector3(); bb.getCenter(c);
+    model.position.sub(c);
+    model.scale.setScalar(1.9/Math.max(size.x,size.y,size.z));
+    holder.add(model);
+  };
+  const statusEl=document.getElementById('gongStatus');
+  const setStatus=(txt,retry)=>{
+    if(!statusEl) return;
+    statusEl.textContent=txt;
+    statusEl.style.display=txt?'flex':'none';
+    statusEl.style.pointerEvents=retry?'auto':'none';
+    statusEl.style.cursor=retry?'pointer':'default';
+    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('Memuat angklung 3D…',false); attempt(); } }:null;
+  };
+  const attempt=()=>{
+    gltfLoader.load(window.ANGKLUNG_GLB_URL,
+      (glb)=>{ if(!alive()) return; angklungGLBCache=glb.scene;
+        try{ place(glb.scene); setStatus('',false); }
+        catch(e){ setStatus('Gagal memuat model — ketuk untuk coba lagi',true); } },
+      undefined,
+      ()=>{ if(!alive()) return; setStatus('Gagal memuat model — ketuk untuk coba lagi',true); });
+  };
+  if(angklungGLBCache){ place(angklungGLBCache.clone()); setStatus('',false); }
+  else{ setStatus('Memuat angklung 3D…',false); attempt(); }
+  vib=t=>{ holder.rotation.z=Math.sin(t*24)*.02; };
 }
 function select(id){
   stopAllAudio(); stop();
