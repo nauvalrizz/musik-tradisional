@@ -391,6 +391,11 @@ const clk=new THREE.Clock();
 <section class="sect" id="arsip">
 <div class="wrap">
 <div class="sect-label"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
+<div style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
+<p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:1rem">GAMELAN INTERAKTIF</p>
+<h2 style="font-family:var(--display);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:600;line-height:1.1;margin-bottom:1rem">Sentuh &<br>Dengarkan</h2>
+<p style="color:var(--muted);font-size:1.02rem;line-height:1.7">Setiap bilah dan gong di bawah ini bisa diketuk — persis seperti memainkan gamelan asli. Coba ketuk satu per satu.</p>
+</div>
 <div class="gamelan gamelan-sec">
 <div class="gamelan-stage" aria-hidden="true"><div class="gs-top"></div><div class="gs-body"></div></div>
 @php
