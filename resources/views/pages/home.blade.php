@@ -6,12 +6,14 @@
 <link rel="preload" as="fetch" href="{{ asset('assets/models/kenong.glb') }}" crossorigin>
 <link rel="preload" as="fetch" href="{{ asset('assets/models/angklung.glb') }}" crossorigin>
 
-{{-- Full-screen sections + parallax backgrounds --}}
+{{-- Full-screen sections + parallax backgrounds + scroll snap (1 section = 1 layar, tidak ngintip) --}}
 <style>
+html{scroll-snap-type:y proximity;scroll-padding-top:4.5rem}
 .hero-clay,.sect,.map-sec{
   min-height:100vh;min-height:100svh;
   display:flex;flex-direction:column;justify-content:center;
   position:relative;padding-top:6rem!important;padding-bottom:4rem!important;
+  scroll-snap-align:start;
 }
 .hero-clay .wrap,.sect .wrap,.map-sec .wrap{width:100%}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
