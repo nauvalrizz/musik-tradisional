@@ -41,13 +41,18 @@
 </div>
 </div>
 <script type="importmap">
-{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}
+{"imports":{
+  "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
 </script>
 <script>
 window.HERO_DATA = @json($heroInstruments ?? []);
+window.GONG_GLB_URL = "{{ asset('assets/models/gong.glb') }}";
 </script>
 <script type="module">
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 (function(){
 // ═══ SINGLE SOURCE OF TRUTH: database records ═══
 const DB = window.HERO_DATA || {};
@@ -72,6 +77,13 @@ const cam=new THREE.PerspectiveCamera(38,1,.1,50); cam.position.set(0,1.5,5.6); 
 scene.add(new THREE.AmbientLight(0x9a8878,.75));
 const key=new THREE.DirectionalLight(0xffe2b8,1.7); key.position.set(3,6,4); scene.add(key);
 const warm=new THREE.PointLight(0xA95135,9,11); warm.position.set(-2.5,1.5,2.5); scene.add(warm);
+// Environment untuk refleksi logam (model GLB butuh ini biar perunggu hidup)
+try{
+  const pmrem=new THREE.PMREMGenerator(renderer);
+  const envS=new THREE.Scene(); envS.background=new THREE.Color(0x1a1512);
+  const envL=new THREE.PointLight(0xffd9a0,5,0); envL.position.set(2,3,2); envS.add(envL);
+  scene.environment=pmrem.fromScene(envS).texture;
+}catch(e){}
 const M={
   bronze:new THREE.MeshStandardMaterial({color:0x7a6248,roughness:.45,metalness:.65}),
   bronzeD:new THREE.MeshStandardMaterial({color:0x4a382c,roughness:.55,metalness:.5}),
@@ -83,22 +95,44 @@ const M={
 };
 function sh(m){m.castShadow=true;return m;}
 let G=null, vib=null, rings=[];
-function clearG(){if(G){scene.remove(G);G.traverse(o=>{if(o.geometry)o.geometry.dispose();});}rings.forEach(r=>scene.remove(r.m));rings=[];}
-// ─── GONG: disc + boss + rim, digantung frame kayu ───
+function clearG(){if(G){scene.remove(G);G.traverse(o=>{if(o.userData.keep)return;if(o.geometry)o.geometry.dispose();});}rings.forEach(r=>scene.remove(r.m));rings=[];}
+// ─── GONG: model GLB + frame kayu prosedural ───
+const gltfLoader=new GLTFLoader();
+let gongGLBCache=null;
+function buildGongFallback(holder){
+  // fallback kalau GLB gagal dimuat: disc prosedural lama
+  const disc=sh(new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.0,.06,48),M.bronze));
+  disc.rotation.x=Math.PI/2; holder.add(disc);
+  const boss=sh(new THREE.Mesh(new THREE.SphereGeometry(.3,28,20),M.bronzeL));
+  boss.scale.z=.5; boss.position.z=.06; holder.add(boss);
+  const rim=sh(new THREE.Mesh(new THREE.TorusGeometry(1.0,.07,16,48),M.bronzeD)); holder.add(rim);
+  vib=t=>{holder.position.z=Math.sin(t*30)*.025;};
+}
 function buildGong(){
   G=new THREE.Group();
-  const disc=sh(new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.0,.06,48),M.bronze));
-  disc.rotation.x=Math.PI/2; disc.position.y=.75; G.add(disc);
-  const boss=sh(new THREE.Mesh(new THREE.SphereGeometry(.3,28,20),M.bronzeL));
-  boss.scale.z=.5; boss.position.set(0,.75,.06); G.add(boss);
-  const rim=sh(new THREE.Mesh(new THREE.TorusGeometry(1.0,.07,16,48),M.bronzeD));
-  rim.position.y=.75; G.add(rim);
-  const rim2=sh(new THREE.Mesh(new THREE.TorusGeometry(.78,.02,10,44),M.bronzeD));
-  rim2.position.set(0,.75,.02); G.add(rim2);
+  // frame kayu + tali (tetap prosedural)
   [[-1.15],[1.15]].forEach(([x])=>{const p=sh(new THREE.Mesh(new THREE.BoxGeometry(.14,2.1,.14),M.wood));p.position.set(x,.25,0);G.add(p);});
   const bar=sh(new THREE.Mesh(new THREE.BoxGeometry(2.6,.12,.12),M.wood)); bar.position.y=1.28; G.add(bar);
   [[-.62],[.62]].forEach(([x])=>{const rp=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.5,8),M.rope);rp.position.set(x,1.1,0);G.add(rp);});
-  vib=t=>{disc.position.z=Math.sin(t*30)*.025;boss.position.z=.06+Math.sin(t*30)*.025;};
+  // dudukan model gong (posisi & skala disamakan dengan disc lama: Ø 2.0 di y=.75)
+  const holder=new THREE.Group(); holder.position.y=.75; G.add(holder);
+  const place=(model)=>{
+    model.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.userData.keep=true; } });
+    const bb=new THREE.Box3().setFromObject(model);
+    const size=new THREE.Vector3(); bb.getSize(size);
+    const c=new THREE.Vector3(); bb.getCenter(c);
+    model.position.sub(c);
+    model.scale.setScalar(2.0/Math.max(size.x,size.y));
+    holder.add(model);
+  };
+  if(gongGLBCache){ place(gongGLBCache.clone()); }
+  else{
+    gltfLoader.load(window.GONG_GLB_URL,
+      (glb)=>{ gongGLBCache=glb.scene; if(G) place(glb.scene); },
+      undefined,
+      ()=>{ if(G) buildGongFallback(holder); });
+  }
+  vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }
 // ─── KENONG: vessel bundar + boss, di atas pangkon silang ───
 function buildKenong(){
