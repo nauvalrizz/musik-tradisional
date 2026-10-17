@@ -6,6 +6,22 @@
 <link rel="preload" as="fetch" href="{{ asset('assets/models/kenong.glb') }}" crossorigin>
 <link rel="preload" as="fetch" href="{{ asset('assets/models/angklung.glb') }}" crossorigin>
 
+{{-- Full-screen sections + parallax backgrounds --}}
+<style>
+.hero-clay,.sect,.map-sec{
+  min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;padding-top:6rem!important;padding-bottom:4rem!important;
+}
+.hero-clay .wrap,.sect .wrap,.map-sec .wrap{width:100%}
+#jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
+#arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
+#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),#151210;background-attachment:fixed}
+#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#141110,#171310);background-attachment:fixed}
+#kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),#141110;background-attachment:fixed}
+@media(max-width:860px){#arsip,#pulau,#koleksi,#kuis{background-attachment:scroll}}
+</style>
+
 {{-- HERO: clay exhibition --}}
 <section class="hero-clay" id="jelajahi">
 <div class="wrap">
