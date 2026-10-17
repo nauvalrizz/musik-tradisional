@@ -100,6 +100,7 @@ function clearG(){if(G){scene.remove(G);G.traverse(o=>{if(o.userData.keep)return
 const gltfLoader=new GLTFLoader();
 let gongGLBCache=null;
 function buildGongFallback(holder){
+  while(holder.children.length) holder.remove(holder.children[0]);
   // fallback kalau GLB gagal dimuat: disc prosedural lama
   const disc=sh(new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.0,.06,48),M.bronze));
   disc.rotation.x=Math.PI/2; holder.add(disc);
@@ -108,34 +109,37 @@ function buildGongFallback(holder){
   const rim=sh(new THREE.Mesh(new THREE.TorusGeometry(1.0,.07,16,48),M.bronzeD)); holder.add(rim);
   vib=t=>{holder.position.z=Math.sin(t*30)*.025;};
 }
+let gongSeq=0; // anti-double: hanya build terakhir yang boleh pasang model
 function buildGong(){
+  const mySeq=++gongSeq;
+  const alive=()=> mySeq===gongSeq;
   G=new THREE.Group();
-  // frame kayu + tali (tetap prosedural)
-  [[-1.15],[1.15]].forEach(([x])=>{const p=sh(new THREE.Mesh(new THREE.BoxGeometry(.14,2.1,.14),M.wood));p.position.set(x,.25,0);G.add(p);});
-  const bar=sh(new THREE.Mesh(new THREE.BoxGeometry(2.6,.12,.12),M.wood)); bar.position.y=1.28; G.add(bar);
+  // frame kayu (diperlebar sedikit mengikuti gong yang diperbesar)
+  [[-1.25],[1.25]].forEach(([x])=>{const p=sh(new THREE.Mesh(new THREE.BoxGeometry(.14,2.1,.14),M.wood));p.position.set(x,.25,0);G.add(p);});
+  const bar=sh(new THREE.Mesh(new THREE.BoxGeometry(2.8,.12,.12),M.wood)); bar.position.y=1.28; G.add(bar);
   [[-.62],[.62]].forEach(([x])=>{const rp=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.5,8),M.rope);rp.position.set(x,1.1,0);G.add(rp);});
-  // dudukan model gong (posisi & skala disamakan dengan disc lama: Ø 2.0 di y=.75)
+  // dudukan model gong (Ø 2.25 — sedikit lebih besar dari disc lama Ø 2.0)
   const holder=new THREE.Group(); holder.position.y=.75; G.add(holder);
   const place=(model)=>{
+    if(!alive()) return;
+    while(holder.children.length) holder.remove(holder.children[0]); // holder cuma boleh isi 1
     model.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.userData.keep=true; } });
     const bb=new THREE.Box3().setFromObject(model);
     const size=new THREE.Vector3(); bb.getSize(size);
     const c=new THREE.Vector3(); bb.getCenter(c);
     model.position.sub(c);
-    model.scale.setScalar(2.0/Math.max(size.x,size.y));
+    model.scale.setScalar(2.25/Math.max(size.x,size.y));
     holder.add(model);
   };
   if(gongGLBCache){ place(gongGLBCache.clone()); }
   else{
-    // Timeout 15 detik: kalau GLB belum datang (lemot/gagal), tampilkan fallback
-    // biar frame tidak kosong selamanya.
-    let done=false;
-    const timer=setTimeout(()=>{ if(!done && G){ done=true; buildGongFallback(holder); } }, 15000);
+    const timer=setTimeout(()=>{ if(alive() && holder.children.length===0) buildGongFallback(holder); }, 15000);
     gltfLoader.load(window.GONG_GLB_URL,
-      (glb)=>{ if(done) return; done=true; clearTimeout(timer); gongGLBCache=glb.scene;
-        if(G){ try{ place(glb.scene); }catch(e){ buildGongFallback(holder); } } },
+      (glb)=>{ clearTimeout(timer); if(!alive()) return; gongGLBCache=glb.scene;
+        try{ place(glb.scene); }
+        catch(e){ if(holder.children.length===0) buildGongFallback(holder); } },
       undefined,
-      ()=>{ if(!done && G){ done=true; clearTimeout(timer); buildGongFallback(holder); } });
+      ()=>{ clearTimeout(timer); if(alive() && holder.children.length===0) buildGongFallback(holder); });
   }
   vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }
