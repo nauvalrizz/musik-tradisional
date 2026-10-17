@@ -429,6 +429,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <section class="map-sec" id="pulau">
 <div class="wrap">
 <div class="sect-label"><span class="n">02 / PULAU</span><span class="ax-mask"><span>Kepulauan</span></span><span class="ln"></span></div>
+<p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted);margin:-1rem 0 1.2rem">KETUK PULAU UNTUK LIHAT INSTRUMENNYA</p>
 <div class="map-frame reveal">
 <div class="map-wrap">
 @include('partials.map')
