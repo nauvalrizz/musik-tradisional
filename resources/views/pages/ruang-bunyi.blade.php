@@ -94,6 +94,8 @@ const M = {
   wood: new THREE.MeshStandardMaterial({color:0x4A3423, roughness:.9}),
   membrane: new THREE.MeshStandardMaterial({color:0xC9B59D, roughness:.85}),
   terra: new THREE.MeshStandardMaterial({color:0xA95135, roughness:.8}),
+  bamboo: new THREE.MeshStandardMaterial({color:0xC9A86A, roughness:.75}),
+  bambooD: new THREE.MeshStandardMaterial({color:0x8A6F3E, roughness:.8}),
 };
 function shadowed(m){ m.castShadow=true; m.receiveShadow=true; return m; }
 
