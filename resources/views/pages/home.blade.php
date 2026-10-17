@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
 
+{{-- Preload model 3D selama animasi loader — pas hero muncul udah siap render --}}
+<link rel="preload" as="fetch" href="{{ asset('assets/models/gong.glb') }}" crossorigin>
+<link rel="preload" as="fetch" href="{{ asset('assets/models/kenong.glb') }}" crossorigin>
+<link rel="preload" as="fetch" href="{{ asset('assets/models/angklung.glb') }}" crossorigin>
+
 {{-- HERO: clay exhibition --}}
 <section class="hero-clay" id="jelajahi">
 <div class="wrap">
@@ -338,11 +343,9 @@ box.addEventListener('click',e=>{
 function rs(){const w=box.clientWidth,h=box.clientHeight;renderer.setSize(w,h);cam.aspect=w/h;cam.updateProjectionMatrix();}
 new ResizeObserver(rs).observe(box); rs();
 select('gong');
-// preload kenong & angklung di background — biar pas pindah tab langsung muncul tanpa loading
-setTimeout(()=>{
-  if(!kenongGLBCache) gltfLoader.load(window.KENONG_GLB_URL,(glb)=>{kenongGLBCache=glb.scene;},undefined,()=>{});
-  if(!angklungGLBCache) gltfLoader.load(window.ANGKLUNG_GLB_URL,(glb)=>{angklungGLBCache=glb.scene;},undefined,()=>{});
-},1500);
+// preload kenong & angklung langsung (bytes-nya udah di-preload via <link>, tinggal parse)
+if(!kenongGLBCache) gltfLoader.load(window.KENONG_GLB_URL,(glb)=>{kenongGLBCache=glb.scene;},undefined,()=>{});
+if(!angklungGLBCache) gltfLoader.load(window.ANGKLUNG_GLB_URL,(glb)=>{angklungGLBCache=glb.scene;},undefined,()=>{});
 refreshPlayBtn();
 const clk=new THREE.Clock();
 (function loop(){
