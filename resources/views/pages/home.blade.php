@@ -20,6 +20,14 @@
 #koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#141110,#171310);background-attachment:fixed}
 #kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),#141110;background-attachment:fixed}
 @media(max-width:860px){#arsip,#pulau,#koleksi,#kuis{background-attachment:scroll}}
+/* Idle text animations — napas museum yang halus */
+@keyframes idleBreathe{0%,100%{letter-spacing:.015em;opacity:1}50%{letter-spacing:.045em;opacity:.94}}
+@keyframes idleGlow{0%,100%{text-shadow:0 0 0 rgba(169,81,53,0)}50%{text-shadow:0 0 28px rgba(169,81,53,.28)}}
+@keyframes idleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.hero-title{animation:idleGlow 7s ease-in-out infinite}
+.sect-label .t,.sect-label .ax-mask span{animation:idleBreathe 6s ease-in-out infinite;display:inline-block}
+.hero-kicker{animation:idleBreathe 8s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.hero-title,.sect-label .t,.sect-label .ax-mask span,.hero-kicker{animation:none}}
 </style>
 
 {{-- HERO: clay exhibition --}}
