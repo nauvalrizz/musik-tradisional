@@ -51,6 +51,7 @@
 <script>
 window.HERO_DATA = @json($heroInstruments ?? []);
 window.GONG_GLB_URL = "{{ asset('assets/models/gong.glb') }}";
+window.KENONG_GLB_URL = "{{ asset('assets/models/kenong.glb') }}";
 </script>
 <script type="module">
 import * as THREE from 'three';
@@ -141,19 +142,45 @@ function buildGong(){
   vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }
 // ─── KENONG: vessel bundar + boss, di atas pangkon silang ───
+let kenongGLBCache=null;
+let kenongSeq=0;
 function buildKenong(){
+  const mySeq=++kenongSeq;
+  const alive=()=> mySeq===kenongSeq;
   G=new THREE.Group();
-  const pts=[];
-  for(let i=0;i<=16;i++){const a=i/16*Math.PI;pts.push(new THREE.Vector2(Math.sin(a)*.62,.42+Math.cos(a)*.34));}
-  const body=sh(new THREE.Mesh(new THREE.LatheGeometry(pts,36),M.bronze));
-  body.position.y=.15; G.add(body);
-  const boss=sh(new THREE.Mesh(new THREE.SphereGeometry(.2,24,18),M.bronzeL));
-  boss.scale.y=.55; boss.position.y=.5; G.add(boss);
-  const ring=sh(new THREE.Mesh(new THREE.TorusGeometry(.44,.03,10,32),M.bronzeD));
-  ring.rotation.x=Math.PI/2; ring.position.y=.2; G.add(ring);
-  [[-.4],[.4]].forEach(([x])=>{const b=sh(new THREE.Mesh(new THREE.BoxGeometry(.1,.5,1.0),M.wood));b.position.set(x,-.1,0);b.rotation.z=x>0?.35:-.35;G.add(b);});
-  const base=sh(new THREE.Mesh(new THREE.BoxGeometry(1.1,.08,1.1),M.wood)); base.position.y=-.32; G.add(base);
-  vib=t=>{body.position.y=.15+Math.sin(t*36)*.012;boss.position.y=.5+Math.sin(t*36)*.012;};
+  // kenong 3D model pengguna — tanpa frame, mengambang di tengah (seperti gong)
+  const holder=new THREE.Group(); holder.position.y=.6; G.add(holder);
+  const place=(model)=>{
+    if(!alive()) return;
+    while(holder.children.length) holder.remove(holder.children[0]);
+    model.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.userData.keep=true; } });
+    const bb=new THREE.Box3().setFromObject(model);
+    const size=new THREE.Vector3(); bb.getSize(size);
+    const c=new THREE.Vector3(); bb.getCenter(c);
+    model.position.sub(c);
+    model.scale.setScalar(1.9/Math.max(size.x,size.y,size.z));
+    holder.add(model);
+  };
+  const statusEl=document.getElementById('gongStatus');
+  const setStatus=(txt,retry)=>{
+    if(!statusEl) return;
+    statusEl.textContent=txt;
+    statusEl.style.display=txt?'flex':'none';
+    statusEl.style.pointerEvents=retry?'auto':'none';
+    statusEl.style.cursor=retry?'pointer':'default';
+    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('Memuat kenong 3D…',false); attempt(); } }:null;
+  };
+  const attempt=()=>{
+    gltfLoader.load(window.KENONG_GLB_URL,
+      (glb)=>{ if(!alive()) return; kenongGLBCache=glb.scene;
+        try{ place(glb.scene); setStatus('',false); }
+        catch(e){ setStatus('Gagal memuat model — ketuk untuk coba lagi',true); } },
+      undefined,
+      ()=>{ if(!alive()) return; setStatus('Gagal memuat model — ketuk untuk coba lagi',true); });
+  };
+  if(kenongGLBCache){ place(kenongGLBCache.clone()); setStatus('',false); }
+  else{ setStatus('Memuat kenong 3D…',false); attempt(); }
+  vib=t=>{ holder.position.z=Math.sin(t*36)*.012; };
 }
 // ─── ANGKLUNG: tabung bambu beda panjang dalam bingkai ───
 function buildAngklung(){
