@@ -26,7 +26,9 @@
 <div class="as-platform" aria-hidden="true"><div class="as-tier1"></div><div class="as-tier2"></div></div>
 <div class="as-shadow" aria-hidden="true"></div>
 <div id="hero3d" role="button" tabindex="0" aria-label="Putar instrumen"
-  style="position:relative;z-index:2;width:min(360px,74vw);aspect-ratio:1;cursor:pointer"></div>
+  style="position:relative;z-index:2;width:min(360px,74vw);aspect-ratio:1;cursor:pointer">
+<div id="gongStatus" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#c9b99a;font-size:13px;text-align:center;padding:24px"></div>
+</div>
 <div class="hero-tag" id="heroPlaque">
 <p class="tn" id="heroName">GONG</p>
 <p class="ts" id="heroOrigin">JAWA · PERUNGGU</p>
@@ -99,16 +101,6 @@ function clearG(){if(G){scene.remove(G);G.traverse(o=>{if(o.userData.keep)return
 // ─── GONG: model GLB + frame kayu prosedural ───
 const gltfLoader=new GLTFLoader();
 let gongGLBCache=null;
-function buildGongFallback(holder){
-  while(holder.children.length) holder.remove(holder.children[0]);
-  // fallback kalau GLB gagal dimuat: disc prosedural lama
-  const disc=sh(new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.0,.06,48),M.bronze));
-  disc.rotation.x=Math.PI/2; holder.add(disc);
-  const boss=sh(new THREE.Mesh(new THREE.SphereGeometry(.3,28,20),M.bronzeL));
-  boss.scale.z=.5; boss.position.z=.06; holder.add(boss);
-  const rim=sh(new THREE.Mesh(new THREE.TorusGeometry(1.0,.07,16,48),M.bronzeD)); holder.add(rim);
-  vib=t=>{holder.position.z=Math.sin(t*30)*.025;};
-}
 let gongSeq=0; // anti-double: hanya build terakhir yang boleh pasang model
 function buildGong(){
   const mySeq=++gongSeq;
@@ -131,16 +123,25 @@ function buildGong(){
     model.scale.setScalar(2.25/Math.max(size.x,size.y));
     holder.add(model);
   };
-  if(gongGLBCache){ place(gongGLBCache.clone()); }
-  else{
-    const timer=setTimeout(()=>{ if(alive() && holder.children.length===0) buildGongFallback(holder); }, 15000);
+  const statusEl=document.getElementById('gongStatus');
+  const setStatus=(txt,retry)=>{
+    if(!statusEl) return;
+    statusEl.textContent=txt;
+    statusEl.style.display=txt?'flex':'none';
+    statusEl.style.pointerEvents=retry?'auto':'none';
+    statusEl.style.cursor=retry?'pointer':'default';
+    statusEl.onclick=retry?()=>{ if(alive()){ setStatus('Memuat gong 3D…',false); attempt(); } }:null;
+  };
+  const attempt=()=>{
     gltfLoader.load(window.GONG_GLB_URL,
-      (glb)=>{ clearTimeout(timer); if(!alive()) return; gongGLBCache=glb.scene;
-        try{ place(glb.scene); }
-        catch(e){ if(holder.children.length===0) buildGongFallback(holder); } },
+      (glb)=>{ if(!alive()) return; gongGLBCache=glb.scene;
+        try{ place(glb.scene); setStatus('',false); }
+        catch(e){ setStatus('Gagal memuat model — ketuk untuk coba lagi',true); } },
       undefined,
-      ()=>{ clearTimeout(timer); if(alive() && holder.children.length===0) buildGongFallback(holder); });
-  }
+      ()=>{ if(!alive()) return; setStatus('Gagal memuat model — ketuk untuk coba lagi',true); });
+  };
+  if(gongGLBCache){ place(gongGLBCache.clone()); setStatus('',false); }
+  else{ setStatus('Memuat gong 3D…',false); attempt(); }
   vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }
 // ─── KENONG: vessel bundar + boss, di atas pangkon silang ───
