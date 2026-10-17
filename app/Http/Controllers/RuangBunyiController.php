@@ -21,6 +21,7 @@ class RuangBunyiController extends Controller
             $tipe = 'gong';
             if (str_contains($nama,'kendang') || str_contains($nama,'gendang') || str_contains($nama,'tifa') || str_contains($nama,'bedug') || str_contains($nama,'babun')) $tipe = 'kendang';
             elseif (str_contains($nama,'saron') || str_contains($nama,'gambang') || str_contains($nama,'kolintang') || str_contains($nama,'bonang') || str_contains($nama,'kenong')) $tipe = 'saron';
+            elseif (str_contains($nama,'saluang') || str_contains($nama,'suling') || str_contains($nama,'seruling') || str_contains($nama,'flute')) $tipe = 'saluang';
             return [
                 'id' => $a->id,
                 'nama' => $a->nama,

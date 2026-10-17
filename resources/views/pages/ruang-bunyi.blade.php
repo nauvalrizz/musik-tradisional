@@ -180,14 +180,42 @@ function buildSaron(){
   g.userData.vibrate = (t)=>{ g.children.forEach(c=>{ if(c.name.startsWith('bar')) c.position.y = 1.08 + Math.sin(t*30 + c.position.x*8)*.008; }); };
   return g;
 }
-const BUILDERS = {gong: buildGong, kendang: buildKendang, saron: buildSaron};
+const BUILDERS = {gong: buildGong, kendang: buildKendang, saron: buildSaron, saluang: buildSaluang};
+function buildSaluang(){
+  const g = new THREE.Group();
+  // seruling bambu: tabung panjang dengan lubang jari
+  const tube = shadowed(new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, 1.9, 20), M.bamboo));
+  tube.rotation.z = Math.PI/2 - .12; tube.position.y = 1.35; g.add(tube);
+  // lubang tiup & lubang jari
+  const holeM = new THREE.MeshBasicMaterial({color:0x1a120c});
+  const mouth = new THREE.Mesh(new THREE.CircleGeometry(.045, 12), holeM);
+  mouth.position.set(-.78, 1.47, .085); mouth.rotation.x = -.12; g.add(mouth);
+  [-.45, -.25, -.05, .15, .35].forEach(x=>{
+    const h = new THREE.Mesh(new THREE.CircleGeometry(.035, 12), holeM);
+    h.position.set(x, 1.35 + (x+.78)*.12, .088); h.rotation.x = -.12; g.add(h);
+  });
+  // ring bambu di ujung
+  [-.88, .88].forEach(x=>{
+    const ring = shadowed(new THREE.Mesh(new THREE.TorusGeometry(.095, .02, 10, 20), M.bambooD));
+    ring.rotation.y = Math.PI/2; ring.rotation.x = .12;
+    ring.position.set(x, 1.35 + (x+.78)*.12 - .1, 0); g.add(ring);
+  });
+  // penyangga kayu sederhana
+  const stand = shadowed(new THREE.Mesh(new THREE.BoxGeometry(.08, 1.1, .08), M.wood));
+  stand.position.set(0, .55, -.15); g.add(stand);
+  const arm = shadowed(new THREE.Mesh(new THREE.BoxGeometry(.5, .06, .06), M.wood));
+  arm.position.set(0, 1.08, -.08); arm.rotation.x = .3; g.add(arm);
+  g.userData.hit = ()=>{ tube.scale.set(1.03,1.03,1.03); setTimeout(()=>tube.scale.set(1,1,1),150); };
+  g.userData.vibrate = (t)=>{ tube.rotation.x = Math.sin(t*30)*.01; };
+  return g;
+}
 
 /* ——— AUDIO SYNTH ——— */
 let AC=null;
 function ac(){ if(!AC) AC = new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); return AC; }
 function playTone(tipe){
   const c=ac(), t=c.currentTime;
-  const conf={gong:{f:98,d:3.2,type:'sine'},kendang:{f:180,d:.5,type:'triangle'},saron:{f:392,d:1.6,type:'sine'}}[tipe]||{f:220,d:1.5,type:'sine'};
+  const conf={gong:{f:98,d:3.2,type:'sine'},kendang:{f:180,d:.5,type:'triangle'},saron:{f:392,d:1.6,type:'sine'},saluang:{f:659,d:1.2,type:'sine'}}[tipe]||{f:220,d:1.5,type:'sine'};
   const o=c.createOscillator(), g=c.createGain();
   o.type=conf.type; o.frequency.value=conf.f;
   const o2=c.createOscillator(), g2=c.createGain();
