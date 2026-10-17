@@ -106,12 +106,8 @@ function buildGong(){
   const mySeq=++gongSeq;
   const alive=()=> mySeq===gongSeq;
   G=new THREE.Group();
-  // frame kayu (diperlebar sedikit mengikuti gong yang diperbesar)
-  [[-1.25],[1.25]].forEach(([x])=>{const p=sh(new THREE.Mesh(new THREE.BoxGeometry(.14,2.1,.14),M.wood));p.position.set(x,.25,0);G.add(p);});
-  const bar=sh(new THREE.Mesh(new THREE.BoxGeometry(2.8,.12,.12),M.wood)); bar.position.y=1.28; G.add(bar);
-  [[-.62],[.62]].forEach(([x])=>{const rp=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.5,8),M.rope);rp.position.set(x,1.1,0);G.add(rp);});
-  // dudukan model gong (Ø 2.25 — sedikit lebih besar dari disc lama Ø 2.0)
-  const holder=new THREE.Group(); holder.position.y=.75; G.add(holder);
+  // gong 3D model pengguna — tanpa frame kayu, mengambang di tengah
+  const holder=new THREE.Group(); holder.position.y=.6; G.add(holder);
   const place=(model)=>{
     if(!alive()) return;
     while(holder.children.length) holder.remove(holder.children[0]); // holder cuma boleh isi 1
