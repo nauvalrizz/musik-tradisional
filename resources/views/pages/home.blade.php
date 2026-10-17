@@ -127,10 +127,15 @@ function buildGong(){
   };
   if(gongGLBCache){ place(gongGLBCache.clone()); }
   else{
+    // Timeout 15 detik: kalau GLB belum datang (lemot/gagal), tampilkan fallback
+    // biar frame tidak kosong selamanya.
+    let done=false;
+    const timer=setTimeout(()=>{ if(!done && G){ done=true; buildGongFallback(holder); } }, 15000);
     gltfLoader.load(window.GONG_GLB_URL,
-      (glb)=>{ gongGLBCache=glb.scene; if(G) place(glb.scene); },
+      (glb)=>{ if(done) return; done=true; clearTimeout(timer); gongGLBCache=glb.scene;
+        if(G){ try{ place(glb.scene); }catch(e){ buildGongFallback(holder); } } },
       undefined,
-      ()=>{ if(G) buildGongFallback(holder); });
+      ()=>{ if(!done && G){ done=true; clearTimeout(timer); buildGongFallback(holder); } });
   }
   vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }
