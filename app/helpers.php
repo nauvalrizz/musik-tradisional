@@ -46,6 +46,28 @@ if (!function_exists('audio_alat')) {
         if (empty($filename)) {
             return null;
         }
+
+        // kalau sudah full URL
+        if (str_starts_with($filename, 'http')) {
+            return $filename;
+        }
+
+        // kalau sudah include path storage/assets
+        if (str_contains($filename, 'storage/') || str_contains($filename, 'assets/')) {
+            return asset($filename);
+        }
+
+        // format DB: audio/xxx.mp3 → storage/audio/xxx.mp3
+        return asset('storage/' . $filename);
+    }
+}
+
+if (!function_exists('audio_alat')) {
+    function audio_alat($filename)
+    {
+        if (empty($filename)) {
+            return null;
+        }
         $filename = trim(str_replace('\\', '/', (string)$filename));
         if ($filename === '' || str_contains($filename, '..')) {
             return null;

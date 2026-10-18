@@ -49,15 +49,23 @@
         @if($alat->gambar)
           <div style="margin-bottom:.6rem"><img src="{{ gambar_alat($alat->gambar) }}" class="thumb" style="width:88px;height:88px" alt="{{ $alat->nama }}"></div>
         @endif
-        <input type="file" name="gambar" accept="image/*">
+        <input type="file" name="gambar" accept="image/*" hidden id="fgambar">
+        <label class="upl" for="fgambar">
+          <span class="upl-btn">Pilih Gambar</span>
+          <span class="upl-name">Belum ada file</span>
+        </label>
         <div style="font-size:.78rem;color:var(--muted);margin-top:.4rem">Kosongkan jika tidak diganti</div>
       </div>
       <div class="fg">
         <label>AUDIO</label>
         @if($alat->audio)
-          <div style="margin-bottom:.6rem"><audio controls preload="none"><source src="{{ asset('assets/audio/alat-musik/' . $alat->audio) }}" type="audio/mpeg"></audio></div>
+          <div style="margin-bottom:.6rem"><audio controls preload="none"><source src="{{ audio_alat($alat->audio) }}" type="audio/mpeg"></audio></div>
         @endif
-        <input type="file" name="audio" accept="audio/*">
+        <input type="file" name="audio" accept="audio/*" hidden id="faudio">
+        <label class="upl" for="faudio">
+          <span class="upl-btn">Pilih Audio</span>
+          <span class="upl-name">Belum ada file</span>
+        </label>
         <div style="font-size:.78rem;color:var(--muted);margin-top:.4rem">Kosongkan jika tidak diganti</div>
       </div>
     </div>

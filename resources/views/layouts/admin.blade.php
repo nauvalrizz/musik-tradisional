@@ -106,6 +106,13 @@ tbody tr:hover{background:var(--terra-soft)}
 .toolbar input:focus{outline:none;border-color:var(--terra);box-shadow:0 0 0 3px rgba(168,74,42,.12)}
 .empty{text-align:center;padding:2.75rem;color:var(--muted);font-size:.9rem}
 audio{width:100%;max-width:190px;height:30px}
+/* ===== Custom file upload ===== */
+.upl{display:flex;align-items:center;gap:.8rem;padding:.7rem .8rem;border-radius:12px;border:1.5px dashed var(--line);background:#fff;cursor:pointer;transition:.2s}
+.upl:hover{border-color:var(--terra);background:var(--terra-soft)}
+.upl-btn{flex-shrink:0;padding:.55rem 1.1rem;border-radius:9px;background:var(--ink);color:#f6f1e6;font-size:.82rem;font-weight:600;transition:.2s}
+.upl:hover .upl-btn{background:var(--terra)}
+.upl-name{font-size:.86rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.upl-name.has{color:var(--ink)}
 /* ===== Responsive ===== */
 @media(max-width:900px){
   .sidebar{transform:translateX(-100%)}
@@ -161,6 +168,14 @@ audio{width:100%;max-width:190px;height:30px}
 document.getElementById('burger').addEventListener('click',function(){document.body.classList.toggle('nav-open')});
 document.getElementById('overlay').addEventListener('click',function(){document.body.classList.remove('nav-open')});
 document.querySelectorAll('.sb-link').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('nav-open')})});
+// custom file input: tampilkan nama file
+document.querySelectorAll('.upl input[type=file]').forEach(function(inp){
+  inp.addEventListener('change',function(){
+    var label=inp.closest('.upl').querySelector('.upl-name');
+    if(inp.files.length){label.textContent=inp.files[0].name;label.classList.add('has');}
+    else{label.textContent='Belum ada file';label.classList.remove('has');}
+  });
+});
 </script>
 </body>
 </html>

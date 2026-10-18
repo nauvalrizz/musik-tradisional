@@ -51,11 +51,19 @@
     <div class="frow">
       <div class="fg">
         <label>GAMBAR</label>
-        <input type="file" name="gambar" accept="image/*">
+        <label class="upl">
+          <input type="file" name="gambar" accept="image/*" hidden>
+          <span class="upl-btn">Pilih Gambar</span>
+          <span class="upl-name">Belum ada file</span>
+        </label>
       </div>
       <div class="fg">
         <label>AUDIO</label>
-        <input type="file" name="audio" accept="audio/*">
+        <label class="upl">
+          <input type="file" name="audio" accept="audio/*" hidden>
+          <span class="upl-btn">Pilih Audio</span>
+          <span class="upl-name">Belum ada file</span>
+        </label>
       </div>
     </div>
     <div class="fg">
@@ -93,7 +101,7 @@
             <img src="{{ gambar_alat($item->gambar) }}" class="thumb" loading="lazy" alt="{{ $item->nama }}">
           @endif
           @if ($item->audio)
-            <button type="button" class="aplay" data-src="{{ asset('assets/audio/alat-musik/' . $item->audio) }}" aria-label="Putar audio {{ $item->nama }}">
+            <button type="button" class="aplay" data-src="{{ audio_alat($item->audio) }}" aria-label="Putar audio {{ $item->nama }}">
               <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
             </button>
