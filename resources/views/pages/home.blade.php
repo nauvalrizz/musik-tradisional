@@ -36,14 +36,7 @@ html{scroll-snap-type:y proximity;scroll-padding-top:4.5rem}
 .sec-enter.d1{transition-delay:.1s}.sec-enter.d2{transition-delay:.22s}.sec-enter.d3{transition-delay:.34s}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 </style>
-<script>
-(function(){
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target); } });
-  },{threshold:.18});
-  document.querySelectorAll('.sec-enter').forEach(function(el){ io.observe(el); });
-})();
-</script>
+
 
 {{-- HERO: clay exhibition --}}
 <section class="hero-clay" id="jelajahi">
@@ -493,4 +486,15 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 </div>
 </section>
 
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target); } });
+  },{threshold:.15});
+  var els=document.querySelectorAll('.sec-enter');
+  els.forEach(function(el){ io.observe(el); });
+  // fallback: kalau IO tidak support, tampilkan semua
+  if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('inview'); }); }
+});
+</script>
 @endsection
