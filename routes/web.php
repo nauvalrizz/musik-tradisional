@@ -18,19 +18,15 @@ Route::get('/test', function () {
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/admin', [AdminController::class, 'index']);
-
-Route::get('/admin/alat', [AlatMusikController::class, 'index']);
-
-Route::post('/admin/alat', [AlatMusikController::class, 'store']);
-
-Route::get('/admin/alat/{id}/edit', [AlatMusikController::class, 'edit']);
-
-Route::put('/admin/alat/{id}', [AlatMusikController::class, 'update']);
-
-Route::delete('/admin/alat/{id}', [AlatMusikController::class, 'destroy']);
-
-Route::get('/admin/statistik', [StatistikController::class, 'index']);
+Route::middleware('admin.auth')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('/admin/alat', [AlatMusikController::class, 'index']);
+    Route::post('/admin/alat', [AlatMusikController::class, 'store']);
+    Route::get('/admin/alat/{id}/edit', [AlatMusikController::class, 'edit']);
+    Route::put('/admin/alat/{id}', [AlatMusikController::class, 'update']);
+    Route::delete('/admin/alat/{id}', [AlatMusikController::class, 'destroy']);
+    Route::get('/admin/statistik', [StatistikController::class, 'index']);
+});
 
 Route::get('/pulau/{slug}', [PulauController::class, 'show']);
 
