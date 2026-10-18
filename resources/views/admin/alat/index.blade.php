@@ -108,6 +108,6 @@
 </div>
 
 @if(method_exists($alat,'links'))
-<div class="pagi">{{ $alat->appends(request()->query())->links() }}</div>
+<div class="pagi">{{ $alat->appends(request()->query())->links('vendor.pagination.musantara') }}</div>
 @endif
 @endsection

@@ -41,7 +41,7 @@
 @endforeach
 </div>
 @if($data->hasPages())
-<div class="pager" style="margin-top:2.5rem;text-align:center">{{ $data->appends(request()->query())->links() }}</div>
+<div class="pager" style="margin-top:2.5rem">{{ $data->appends(request()->query())->links('vendor.pagination.musantara') }}</div>
 @endif
 @endif
 </div>
