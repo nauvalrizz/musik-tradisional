@@ -23,7 +23,7 @@
       </div>
       <div class="fg">
         <label>PULAU</label>
-        <select name="pulau_id">
+        <select name="pulau_id" class="csel">
           @foreach ($pulau as $p)
             <option value="{{ $p->id }}" {{ old('pulau_id')==$p->id?'selected':'' }}>{{ $p->nama }}</option>
           @endforeach
@@ -33,7 +33,7 @@
     <div class="frow">
       <div class="fg">
         <label>KATEGORI</label>
-        <select name="kategori">
+        <select name="kategori" class="csel">
           @foreach ($kategori as $k)
             <option value="{{ $k }}" {{ old('kategori')==$k?'selected':'' }}>{{ $k }}</option>
           @endforeach
@@ -41,7 +41,7 @@
       </div>
       <div class="fg">
         <label>SUMBER BUNYI</label>
-        <select name="sumber_bunyi">
+        <select name="sumber_bunyi" class="csel">
           @foreach ($sumber as $s)
             <option value="{{ $s }}" {{ old('sumber_bunyi')==$s?'selected':'' }}>{{ $s }}</option>
           @endforeach
@@ -101,10 +101,14 @@
             <img src="{{ gambar_alat($item->gambar) }}" class="thumb" loading="lazy" alt="{{ $item->nama }}">
           @endif
           @if ($item->audio)
-            <button type="button" class="aplay" data-src="{{ audio_alat($item->audio) }}" aria-label="Putar audio {{ $item->nama }}">
-              <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-            </button>
+            <div class="aplayer" data-src="{{ audio_alat($item->audio) }}">
+              <button type="button" class="aplay" aria-label="Putar audio {{ $item->nama }}">
+                <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+              <div class="atrack"><div class="afill"></div></div>
+              <span class="atime">0:00</span>
+            </div>
           @endif
           @if(!$item->gambar && !$item->audio)
             <span style="color:var(--muted);font-size:.82rem">—</span>
@@ -128,29 +132,4 @@
 </div>
 
 <div class="pagi">{{ $alat->appends(request()->query())->links('vendor.pagination.musantara') }}</div>
-
-<style>
-.aplay{width:42px;height:42px;border-radius:50%;border:none;background:var(--terra);color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s;flex-shrink:0}
-.aplay:hover{filter:brightness(1.12);transform:scale(1.06)}
-.aplay svg{width:20px;height:20px}
-.aplay.playing{background:var(--ink)}
-</style>
-<script>
-(function(){
-  let cur=null, audio=new Audio();
-  function setBtn(btn,playing){
-    btn.classList.toggle('playing',playing);
-    btn.querySelector('.ic-play').style.display=playing?'none':'';
-    btn.querySelector('.ic-pause').style.display=playing?'':'none';
-  }
-  audio.addEventListener('ended',function(){ if(cur){setBtn(cur,false);cur=null;} });
-  document.querySelectorAll('.aplay').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      if(cur===btn && !audio.paused){ audio.pause(); setBtn(btn,false); cur=null; return; }
-      if(cur) setBtn(cur,false);
-      cur=btn; audio.src=btn.dataset.src; audio.play(); setBtn(btn,true);
-    });
-  });
-})();
-</script>
 @endsection

@@ -18,7 +18,7 @@
       </div>
       <div class="fg">
         <label>PULAU</label>
-        <select name="pulau_id">
+        <select name="pulau_id" class="csel">
           @foreach ($pulau as $p)
             <option value="{{ $p->id }}" {{ old('pulau_id',$alat->pulau_id)==$p->id?'selected':'' }}>{{ $p->nama }}</option>
           @endforeach
@@ -28,7 +28,7 @@
     <div class="frow">
       <div class="fg">
         <label>KATEGORI</label>
-        <select name="kategori">
+        <select name="kategori" class="csel">
           @foreach ($kategori as $k)
             <option value="{{ $k }}" {{ old('kategori',$alat->kategori)==$k?'selected':'' }}>{{ $k }}</option>
           @endforeach
@@ -36,7 +36,7 @@
       </div>
       <div class="fg">
         <label>SUMBER BUNYI</label>
-        <select name="sumber_bunyi">
+        <select name="sumber_bunyi" class="csel">
           @foreach ($sumber as $s)
             <option value="{{ $s }}" {{ old('sumber_bunyi',$alat->sumber_bunyi)==$s?'selected':'' }}>{{ $s }}</option>
           @endforeach
@@ -59,7 +59,16 @@
       <div class="fg">
         <label>AUDIO</label>
         @if($alat->audio)
-          <div style="margin-bottom:.6rem"><audio controls preload="none"><source src="{{ audio_alat($alat->audio) }}" type="audio/mpeg"></audio></div>
+          <div style="margin-bottom:.6rem">
+            <div class="aplayer" data-src="{{ audio_alat($alat->audio) }}">
+              <button type="button" class="aplay" aria-label="Putar audio">
+                <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+              <div class="atrack" style="width:160px"><div class="afill"></div></div>
+              <span class="atime">0:00</span>
+            </div>
+          </div>
         @endif
         <input type="file" name="audio" accept="audio/*" hidden id="faudio">
         <label class="upl" for="faudio">

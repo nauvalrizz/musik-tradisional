@@ -113,6 +113,28 @@ audio{width:100%;max-width:190px;height:30px}
 .upl:hover .upl-btn{background:var(--terra)}
 .upl-name{font-size:.86rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .upl-name.has{color:var(--ink)}
+/* ===== Custom audio player ===== */
+.aplayer{display:flex;align-items:center;gap:.65rem}
+.aplay{width:42px;height:42px;border-radius:50%;border:none;background:var(--terra);color:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s;flex-shrink:0}
+.aplay:hover{filter:brightness(1.12);transform:scale(1.06)}
+.aplay svg{width:20px;height:20px}
+.aplay.playing{background:var(--ink)}
+.atrack{width:110px;height:5px;border-radius:99px;background:var(--card2);cursor:pointer;position:relative;flex-shrink:0;border:1px solid var(--line)}
+.afill{position:absolute;top:0;left:0;bottom:0;width:0%;border-radius:99px;background:var(--terra);transition:width .15s linear}
+.atime{font-family:var(--mono);font-size:.68rem;color:var(--muted);white-space:nowrap;letter-spacing:.04em}
+/* ===== Custom select ===== */
+.csel-wrap{position:relative}
+.csel-btn{width:100%;padding:.8rem 1rem;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font-family:var(--body);font-size:.93rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;cursor:pointer;transition:.2s;text-align:left}
+.csel-btn:hover{border-color:var(--terra)}
+.csel-wrap.open .csel-btn{border-color:var(--terra);box-shadow:0 0 0 3px rgba(168,74,42,.12)}
+.csel-btn svg{width:16px;height:16px;color:var(--muted);flex-shrink:0;transition:transform .22s}
+.csel-wrap.open .csel-btn svg{transform:rotate(180deg)}
+.csel-list{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 14px 34px rgba(60,40,20,.16);z-index:70;max-height:230px;overflow:auto;display:none;padding:.35rem}
+.csel-wrap.open .csel-list{display:block}
+.csel-opt{padding:.62rem .85rem;border-radius:9px;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.15s;color:var(--ink2)}
+.csel-opt:hover{background:var(--terra-soft);color:var(--ink)}
+.csel-opt.sel{color:var(--terra);font-weight:600;background:var(--terra-soft)}
+.csel-opt.sel::after{content:'✓';font-size:.85rem}
 /* ===== Responsive ===== */
 @media(max-width:900px){
   .sidebar{transform:translateX(-100%)}
@@ -176,6 +198,68 @@ document.querySelectorAll('.upl input[type=file]').forEach(function(inp){
     else{label.textContent='Belum ada file';label.classList.remove('has');}
   });
 });
+// custom audio player: play + progress + seek + time
+(function(){
+  const audio=new Audio(); let cur=null;
+  function fmt(s){ if(!isFinite(s)||s<0)s=0; s=Math.floor(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+  function setBtn(p,playing){
+    p.classList.toggle('playing',playing);
+    p.querySelector('.aplay').classList.toggle('playing',playing);
+    p.querySelector('.ic-play').style.display=playing?'none':'';
+    p.querySelector('.ic-pause').style.display=playing?'':'none';
+  }
+  audio.addEventListener('timeupdate',function(){
+    if(!cur)return;
+    const d=audio.duration||0, t=audio.currentTime||0;
+    cur.querySelector('.afill').style.width=(d>0?(t/d*100):0)+'%';
+    cur.querySelector('.atime').textContent=fmt(t)+' / '+fmt(d);
+  });
+  audio.addEventListener('loadedmetadata',function(){
+    if(!cur)return;
+    cur.querySelector('.atime').textContent='0:00 / '+fmt(audio.duration);
+  });
+  audio.addEventListener('ended',function(){ if(cur){setBtn(cur,false); cur.querySelector('.afill').style.width='0%'; cur=null;} });
+  document.querySelectorAll('.aplayer').forEach(function(p){
+    const btn=p.querySelector('.aplay'), track=p.querySelector('.atrack'), src=p.dataset.src;
+    btn.addEventListener('click',function(){
+      if(cur===p && !audio.paused){ audio.pause(); setBtn(p,false); cur=null; return; }
+      if(cur) setBtn(cur,false);
+      cur=p;
+      if(audio.src!==src) audio.src=src;
+      audio.play(); setBtn(p,true);
+    });
+    track.addEventListener('click',function(e){
+      const r=track.getBoundingClientRect(), d=audio.duration;
+      if(!d||cur!==p) return;
+      audio.currentTime=((e.clientX-r.left)/r.width)*d;
+    });
+  });
+})();
+// custom select: ganti dropdown native
+document.querySelectorAll('select.csel').forEach(function(sel){
+  const wrap=document.createElement('div'); wrap.className='csel-wrap';
+  sel.parentNode.insertBefore(wrap,sel); wrap.appendChild(sel); sel.style.display='none';
+  const btn=document.createElement('button'); btn.type='button'; btn.className='csel-btn';
+  const chev='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>';
+  function curLabel(){ const o=sel.options[sel.selectedIndex]; return o?o.textContent:''; }
+  btn.innerHTML='<span>'+curLabel()+'</span>'+chev; wrap.appendChild(btn);
+  const list=document.createElement('div'); list.className='csel-list'; wrap.appendChild(list);
+  Array.from(sel.options).forEach(function(o){
+    const d=document.createElement('div'); d.className='csel-opt'+(o.selected?' sel':''); d.textContent=o.textContent; d.dataset.val=o.value;
+    d.addEventListener('click',function(){
+      sel.value=o.value; btn.querySelector('span').textContent=o.textContent;
+      list.querySelectorAll('.csel-opt').forEach(function(x){x.classList.remove('sel')}); d.classList.add('sel');
+      wrap.classList.remove('open'); sel.dispatchEvent(new Event('change',{bubbles:true}));
+    });
+    list.appendChild(d);
+  });
+  btn.addEventListener('click',function(e){ e.stopPropagation();
+    const was=wrap.classList.contains('open');
+    document.querySelectorAll('.csel-wrap.open').forEach(function(x){x.classList.remove('open')});
+    if(!was) wrap.classList.add('open');
+  });
+});
+document.addEventListener('click',function(){ document.querySelectorAll('.csel-wrap.open').forEach(function(x){x.classList.remove('open')}); });
 </script>
 </body>
 </html>
