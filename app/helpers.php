@@ -30,9 +30,9 @@ if (!function_exists('gambar_alat')) {
             return asset('storage/img/' . $filename);
         }
 
-        // 🔁 fallback struktur lama
-        if (file_exists(public_path('assets/img/alat-musik/' . $filename))) {
-            return asset('assets/img/alat-musik/' . $filename);
+        // 🔁 fallback struktur lama (basename di assets/img/alat-musik/)
+        if (file_exists(public_path('assets/img/alat-musik/' . basename($filename)))) {
+            return asset('assets/img/alat-musik/' . basename($filename));
         }
 
         // ❌ terakhir: default

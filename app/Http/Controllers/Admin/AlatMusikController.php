@@ -49,7 +49,12 @@ class AlatMusikController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('img', 'public');
+            $path = $request->file('gambar')->store('img', 'public');
+            $data['gambar'] = $path;
+            // copy ke public agar langsung terbaca (assets/img/alat-musik/)
+            $dest = public_path('assets/img/alat-musik/' . basename($path));
+            if (!is_dir(dirname($dest))) mkdir(dirname($dest), 0755, true);
+            @copy(storage_path('app/public/' . $path), $dest);
         }
 
         if ($request->hasFile('audio')) {
@@ -84,7 +89,12 @@ class AlatMusikController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('img', 'public');
+            $path = $request->file('gambar')->store('img', 'public');
+            $data['gambar'] = $path;
+            // copy ke public agar langsung terbaca (assets/img/alat-musik/)
+            $dest = public_path('assets/img/alat-musik/' . basename($path));
+            if (!is_dir(dirname($dest))) mkdir(dirname($dest), 0755, true);
+            @copy(storage_path('app/public/' . $path), $dest);
         }
 
         if ($request->hasFile('audio')) {
