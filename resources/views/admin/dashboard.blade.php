@@ -28,14 +28,26 @@
   </div>
 </div>
 
-<div class="qa">
-  <a href="/admin/alat">
-    <div><h3>Kelola Alat Musik</h3><p>Tambah, sunting, dan hapus koleksi arsip.</p></div>
-    <span class="arr">→</span>
-  </a>
-  <a href="/admin/statistik">
-    <div><h3>Statistik Kuis</h3><p>Analisis performa dan partisipasi pengguna.</p></div>
-    <span class="arr">→</span>
-  </a>
+<div class="panel">
+  <div class="panel-h">
+    <h2>Baru Ditambahkan</h2>
+    <a href="/admin/alat" class="btn btn-g btn-s">Kelola Semua →</a>
+  </div>
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>ALAT</th><th>PULAU</th><th>KATEGORI</th></tr></thead>
+    <tbody>
+    @forelse($recent as $item)
+      <tr>
+        <td><strong>{{ $item->nama }}</strong></td>
+        <td><span class="pill">{{ $item->pulau->nama ?? '-' }}</span></td>
+        <td>{{ $item->kategori }}</td>
+      </tr>
+    @empty
+      <tr><td colspan="3"><div class="empty">Belum ada data.</div></td></tr>
+    @endforelse
+    </tbody>
+  </table>
+  </div>
 </div>
 @endsection

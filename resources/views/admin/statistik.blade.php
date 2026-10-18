@@ -33,6 +33,21 @@
   </div>
 </div>
 
+<div class="charts">
+  <div class="chart-box">
+    <h3>Benar vs Salah</h3>
+    <div class="chart-wrap"><canvas id="chDonut"></canvas></div>
+  </div>
+  <div class="chart-box">
+    <h3>Akurasi per Kategori</h3>
+    <div class="chart-wrap"><canvas id="chKategori"></canvas></div>
+  </div>
+  <div class="chart-box">
+    <h3>Akurasi per Sumber Bunyi</h3>
+    <div class="chart-wrap"><canvas id="chSumber"></canvas></div>
+  </div>
+</div>
+
 <div class="panel">
   <div class="panel-h"><h2>Per Kategori</h2></div>
   <div class="tblwrap">
@@ -74,4 +89,37 @@
   </table>
   </div>
 </div>
+
+<style>
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:2rem}
+.chart-box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.35rem 1.45rem}
+.chart-box h3{font-family:var(--display);font-size:1.1rem;font-weight:600;margin-bottom:1rem}
+.chart-wrap{position:relative;height:240px}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+  const TERRA='#a84a2a', TERRA_L='rgba(168,74,42,.75)', SAND='rgba(90,68,42,.18)', INK='#4d4132';
+  Chart.defaults.font.family="'Inter',sans-serif";
+  Chart.defaults.color='#857664';
+  // Donut: benar vs salah
+  new Chart(document.getElementById('chDonut'),{type:'doughnut',
+    data:{labels:['Benar','Salah'],datasets:[{data:[{{ $benar }},{{ $salah }}],backgroundColor:[TERRA,'#d8cdb8'],borderWidth:0,hoverOffset:6}]},
+    options:{maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:16}}}}});
+  // Bar: per kategori
+  const katLabels=@json($perKategori->pluck('kategori'));
+  const katAcc=@json($perKategori->map(fn($k)=>$k->total>0?round($k->benar/$k->total*100,1):0));
+  new Chart(document.getElementById('chKategori'),{type:'bar',
+    data:{labels:katLabels,datasets:[{data:katAcc,backgroundColor:TERRA_L,borderRadius:8,barThickness:26}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y+'%'}}},
+      scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'},grid:{color:SAND}},x:{grid:{display:false},ticks:{color:INK}}}}});
+  // Bar: per sumber bunyi
+  const sumLabels=@json($perSumber->pluck('sumber_bunyi'));
+  const sumAcc=@json($perSumber->map(fn($s)=>$s->total>0?round($s->benar/$s->total*100,1):0));
+  new Chart(document.getElementById('chSumber'),{type:'bar',
+    data:{labels:sumLabels,datasets:[{data:sumAcc,backgroundColor:TERRA_L,borderRadius:8,barThickness:26}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y+'%'}}},
+      scales:{y:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%'},grid:{color:SAND}},x:{grid:{display:false},ticks:{color:INK}}}}});
+})();
+</script>
 @endsection

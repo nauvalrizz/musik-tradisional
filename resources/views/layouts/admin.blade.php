@@ -60,15 +60,6 @@ a{color:inherit;text-decoration:none}
 .kpi .d{font-size:.83rem;color:var(--ink2)}
 .kpi .bar{margin-top:.9rem;height:4px;border-radius:99px;background:var(--card2);overflow:hidden}
 .kpi .bar i{display:block;height:100%;border-radius:99px;background:var(--terra)}
-/* ===== Quick actions ===== */
-.qa{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.qa a{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.45rem;transition:background .2s}
-.qa a+a{border-top:1px solid var(--line)}
-.qa a:hover{background:var(--terra-soft)}
-.qa h3{font-family:var(--display);font-size:1.12rem;font-weight:600}
-.qa p{font-size:.85rem;color:var(--muted)}
-.qa .arr{color:var(--terra);font-size:1.2rem;transition:transform .2s}
-.qa a:hover .arr{transform:translateX(4px)}
 /* ===== Table ===== */
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:1.75rem}
 .panel-h{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 1.4rem;border-bottom:1px solid var(--line);flex-wrap:wrap}
