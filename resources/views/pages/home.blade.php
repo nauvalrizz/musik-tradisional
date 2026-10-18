@@ -29,11 +29,11 @@
 .hero-kicker{animation:idleBreathe 8s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.hero-title,.sect-label .t,.sect-label .ax-mask span,.hero-kicker{animation:none}}
 /* Entrance animation tiap section — fade + naik saat masuk viewport */
-.sec-enter{opacity:0;transform:translateY(36px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.sec-enter{opacity:0;transform:translateY(64px) scale(.93);transition:opacity .55s ease,transform .65s cubic-bezier(.16,1,.3,1)}
 .sec-enter.inview{opacity:1;transform:none}
 .sec-enter.d1{transition-delay:.1s}.sec-enter.d2{transition-delay:.22s}.sec-enter.d3{transition-delay:.34s}
 /* Label section: teks popup spring, garis draw sendiri (tidak nyatu) */
-.sect-label.sec-enter .n,.sect-label.sec-enter .ax-mask{display:inline-block;opacity:0;transform:scale(.82) translateY(26px);transition:opacity .45s ease,transform .7s cubic-bezier(.34,1.56,.64,1)}
+.sect-label.sec-enter .n,.sect-label.sec-enter .ax-mask{display:inline-block;opacity:0;transform:scale(.7) translateY(34px);transition:opacity .45s ease,transform .7s cubic-bezier(.34,1.56,.64,1)}
 .sect-label.sec-enter.inview .n,.sect-label.sec-enter.inview .ax-mask{opacity:1;transform:none}
 .sect-label.sec-enter .ax-mask{transition-delay:.08s}
 .sect-label.sec-enter .ln{display:block;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1) .15s}
@@ -146,6 +146,45 @@ const M={
   rope:new THREE.MeshStandardMaterial({color:0x3a2e24,roughness:1}),
 };
 function sh(m){m.castShadow=true;return m;}
+// ─── FALLBACK PROSEDURAL: tampil jika GLB gagal load (ketuk untuk retry) ───
+function fallbackGong(holder){
+  const disc=new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.0,.09,48),M.bronze);
+  disc.rotation.x=Math.PI/2; holder.add(sh(disc));
+  const boss=new THREE.Mesh(new THREE.SphereGeometry(.24,24,16),M.bronzeL);
+  boss.position.z=.12; boss.scale.z=.55; holder.add(sh(boss));
+  const rim=new THREE.Mesh(new THREE.TorusGeometry(1.0,.055,12,64),M.bronzeD);
+  holder.add(sh(rim));
+  const pg=new THREE.CylinderGeometry(.07,.09,2.3,12);
+  [-1.18,1.18].forEach(x=>{ const q=new THREE.Mesh(pg,M.wood); q.position.set(x,-.15,0); holder.add(sh(q)); });
+  const bar=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,2.6,12),M.wood);
+  bar.rotation.z=Math.PI/2; bar.position.y=1.02; holder.add(sh(bar));
+}
+function fallbackKenong(holder){
+  const body=new THREE.Mesh(new THREE.SphereGeometry(.62,32,24),M.bronze);
+  body.scale.set(1,.72,1); holder.add(sh(body));
+  const boss=new THREE.Mesh(new THREE.SphereGeometry(.18,20,14),M.bronzeL);
+  boss.position.y=.42; boss.scale.y=.6; holder.add(sh(boss));
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.62,.04,10,40),M.bronzeD);
+  ring.rotation.x=Math.PI/2; ring.position.y=-.1; holder.add(sh(rim));
+  const stand=new THREE.Mesh(new THREE.CylinderGeometry(.5,.62,.3,24),M.wood);
+  stand.position.y=-.55; holder.add(sh(stand));
+}
+function fallbackAngklung(holder){
+  const hg=[1.5,1.25,1.0,.8];
+  hg.forEach((h,i)=>{
+    const x=(i-1.5)*.42;
+    const tube=new THREE.Mesh(new THREE.CylinderGeometry(.11,.11,h,16),M.bamboo);
+    tube.position.set(x,h/2-.7,0); holder.add(sh(tube));
+    const cap=new THREE.Mesh(new THREE.CylinderGeometry(.115,.115,.06,16),M.bambooD);
+    cap.position.set(x,h-.7,0); holder.add(sh(cap));
+  });
+  const frame=new THREE.Mesh(new THREE.BoxGeometry(1.9,.12,.3),M.wood);
+  frame.position.y=-.75; holder.add(sh(frame));
+  [-.85,.85].forEach(x=>{
+    const leg=new THREE.Mesh(new THREE.CylinderGeometry(.05,.06,1.0,10),M.wood);
+    leg.position.set(x,-1.2,0); holder.add(sh(leg));
+  });
+}
 let G=null, vib=null, rings=[];
 function clearG(){if(G){scene.remove(G);G.traverse(o=>{if(o.userData.keep)return;if(o.geometry)o.geometry.dispose();});}rings.forEach(r=>scene.remove(r.m));rings=[];}
 // ─── GONG: model GLB + frame kayu prosedural ───
@@ -176,7 +215,7 @@ function buildGong(){
     if(!statusEl) return;
     statusEl.style.display=mode?'flex':'none';
     if(spinEl) spinEl.style.display=mode==='loading'?'block':'none';
-    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Gagal memuat model — ketuk untuk coba lagi'; }
+    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Mode cadangan — ketuk untuk muat model 3D'; }
     statusEl.style.pointerEvents=retry?'auto':'none';
     statusEl.style.cursor=retry?'pointer':'default';
     statusEl.onclick=retry?()=>{ if(alive()){ setStatus('loading',false); attempt(); } }:null;
@@ -185,9 +224,9 @@ function buildGong(){
     gltfLoader.load(window.GONG_GLB_URL,
       (glb)=>{ if(!alive()) return; gongGLBCache=glb.scene;
         try{ place(glb.scene); setStatus('',false); }
-        catch(e){ setStatus('error',true); } },
+        catch(e){ if(!alive())return; fallbackGong(holder); setStatus('error',true); } },
       undefined,
-      ()=>{ if(!alive()) return; setStatus('error',true); });
+      ()=>{ if(!alive()) return; fallbackGong(holder); setStatus('error',true); });
   };
   if(gongGLBCache){ place(gongGLBCache.clone()); setStatus('',false); }
   else{ setStatus('loading',false); attempt(); }
@@ -220,7 +259,7 @@ function buildKenong(){
     if(!statusEl) return;
     statusEl.style.display=mode?'flex':'none';
     if(spinEl) spinEl.style.display=mode==='loading'?'block':'none';
-    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Gagal memuat model — ketuk untuk coba lagi'; }
+    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Mode cadangan — ketuk untuk muat model 3D'; }
     statusEl.style.pointerEvents=retry?'auto':'none';
     statusEl.style.cursor=retry?'pointer':'default';
     statusEl.onclick=retry?()=>{ if(alive()){ setStatus('loading',false); attempt(); } }:null;
@@ -229,9 +268,9 @@ function buildKenong(){
     gltfLoader.load(window.KENONG_GLB_URL,
       (glb)=>{ if(!alive()) return; kenongGLBCache=glb.scene;
         try{ place(glb.scene); setStatus('',false); }
-        catch(e){ setStatus('error',true); } },
+        catch(e){ if(!alive())return; fallbackKenong(holder); setStatus('error',true); } },
       undefined,
-      ()=>{ if(!alive()) return; setStatus('error',true); });
+      ()=>{ if(!alive()) return; fallbackKenong(holder); setStatus('error',true); });
   };
   if(kenongGLBCache){ place(kenongGLBCache.clone()); setStatus('',false); }
   else{ setStatus('loading',false); attempt(); }
@@ -264,7 +303,7 @@ function buildAngklung(){
     if(!statusEl) return;
     statusEl.style.display=mode?'flex':'none';
     if(spinEl) spinEl.style.display=mode==='loading'?'block':'none';
-    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Gagal memuat model — ketuk untuk coba lagi'; }
+    if(errEl){ errEl.style.display=mode==='error'?'block':'none'; if(mode==='error') errEl.textContent='Mode cadangan — ketuk untuk muat model 3D'; }
     statusEl.style.pointerEvents=retry?'auto':'none';
     statusEl.style.cursor=retry?'pointer':'default';
     statusEl.onclick=retry?()=>{ if(alive()){ setStatus('loading',false); attempt(); } }:null;
@@ -273,9 +312,9 @@ function buildAngklung(){
     gltfLoader.load(window.ANGKLUNG_GLB_URL,
       (glb)=>{ if(!alive()) return; angklungGLBCache=glb.scene;
         try{ place(glb.scene); setStatus('',false); }
-        catch(e){ setStatus('error',true); } },
+        catch(e){ if(!alive())return; fallbackAngklung(holder); setStatus('error',true); } },
       undefined,
-      ()=>{ if(!alive()) return; setStatus('error',true); });
+      ()=>{ if(!alive()) return; fallbackAngklung(holder); setStatus('error',true); });
   };
   if(angklungGLBCache){ place(angklungGLBCache.clone()); setStatus('',false); }
   else{ setStatus('loading',false); attempt(); }
