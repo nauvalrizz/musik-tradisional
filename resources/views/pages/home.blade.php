@@ -492,7 +492,10 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <script>
 document.addEventListener('DOMContentLoaded',function(){
   var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target); } });
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('inview'); }
+      else { e.target.classList.remove('inview'); }
+    });
   },{threshold:.15});
   var els=document.querySelectorAll('.sec-enter');
   els.forEach(function(el){ io.observe(el); });
