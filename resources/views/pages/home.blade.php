@@ -30,7 +30,20 @@ html{scroll-snap-type:y proximity;scroll-padding-top:4.5rem}
 .sect-label .t,.sect-label .ax-mask span{animation:idleBreathe 6s ease-in-out infinite;display:inline-block}
 .hero-kicker{animation:idleBreathe 8s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.hero-title,.sect-label .t,.sect-label .ax-mask span,.hero-kicker{animation:none}}
+/* Entrance animation tiap section — fade + naik saat masuk viewport */
+.sec-enter{opacity:0;transform:translateY(36px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.sec-enter.inview{opacity:1;transform:none}
+.sec-enter.d1{transition-delay:.1s}.sec-enter.d2{transition-delay:.22s}.sec-enter.d3{transition-delay:.34s}
+@media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 </style>
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target); } });
+  },{threshold:.18});
+  document.querySelectorAll('.sec-enter').forEach(function(el){ io.observe(el); });
+})();
+</script>
 
 {{-- HERO: clay exhibition --}}
 <section class="hero-clay" id="jelajahi">
@@ -400,13 +413,13 @@ const clk=new THREE.Clock();
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
 <div class="wrap">
-<div class="sect-label"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
-<div style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
+<div class="sect-label sec-enter"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
+<div class="sec-enter d1" style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:1rem">GAMELAN INTERAKTIF</p>
 <h2 style="font-family:var(--display);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:600;line-height:1.1;margin-bottom:1rem">Sentuh &<br>Dengarkan</h2>
 <p style="color:var(--muted);font-size:1.02rem;line-height:1.7">Setiap bilah dan gong di bawah ini bisa diketuk — persis seperti memainkan gamelan asli. Coba ketuk satu per satu.</p>
 </div>
-<div class="gamelan gamelan-sec">
+<div class="gamelan gamelan-sec sec-enter d2">
 <div class="gamelan-stage" aria-hidden="true"><div class="gs-top"></div><div class="gs-body"></div></div>
 @php
 $rb_svg = [
@@ -438,8 +451,8 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 02 PULAU --}}
 <section class="map-sec" id="pulau">
 <div class="wrap">
-<div class="sect-label"><span class="n">02 / PULAU</span><span class="ax-mask"><span>Kepulauan</span></span><span class="ln"></span></div>
-<p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted);margin:-1rem 0 1.2rem">KETUK PULAU UNTUK LIHAT INSTRUMENNYA</p>
+<div class="sect-label sec-enter"><span class="n">02 / PULAU</span><span class="ax-mask"><span>Kepulauan</span></span><span class="ln"></span></div>
+<p class="sec-enter d1" style="font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted);margin:-1rem 0 1.2rem">KETUK PULAU UNTUK LIHAT INSTRUMENNYA</p>
 <div class="map-frame reveal">
 <div class="map-wrap">
 @include('partials.map')
@@ -453,7 +466,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 03 KOLEKSI --}}
 <section class="sect" id="koleksi">
 <div class="wrap">
-<div class="sect-label"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
+<div class="sect-label sec-enter"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
 @foreach($regions as $ri => $rg)
 <div class="sect-label" style="margin:2.4rem 0 1.6rem"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
 <div class="pods">
@@ -471,8 +484,8 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 04 KUIS --}}
 <section class="sect" id="kuis" style="padding-bottom:6rem">
 <div class="wrap">
-<div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
-<div class="quiz-card reveal" style="max-width:560px;margin:0 auto">
+<div class="sect-label sec-enter"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
+<div class="quiz-card sec-enter d1" style="max-width:560px;margin:0 auto">
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEMBILAN SOAL</p>
 <p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
 <a href="{{ url('/quiz-global') }}" class="clay-btn primary">Mulai Kuis <span class="arw">→</span></a>
