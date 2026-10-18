@@ -198,39 +198,39 @@ document.querySelectorAll('.upl input[type=file]').forEach(function(inp){
     else{label.textContent='Belum ada file';label.classList.remove('has');}
   });
 });
-// custom audio player: play + progress + seek + time
+// custom audio player: preload durasi, play + progress + seek + time
 (function(){
-  const audio=new Audio(); let cur=null;
   function fmt(s){ if(!isFinite(s)||s<0)s=0; s=Math.floor(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
-  function setBtn(p,playing){
-    p.classList.toggle('playing',playing);
-    p.querySelector('.aplay').classList.toggle('playing',playing);
-    p.querySelector('.ic-play').style.display=playing?'none':'';
-    p.querySelector('.ic-pause').style.display=playing?'':'none';
-  }
-  audio.addEventListener('timeupdate',function(){
-    if(!cur)return;
-    const d=audio.duration||0, t=audio.currentTime||0;
-    cur.querySelector('.afill').style.width=(d>0?(t/d*100):0)+'%';
-    cur.querySelector('.atime').textContent=fmt(t)+' / '+fmt(d);
-  });
-  audio.addEventListener('loadedmetadata',function(){
-    if(!cur)return;
-    cur.querySelector('.atime').textContent='0:00 / '+fmt(audio.duration);
-  });
-  audio.addEventListener('ended',function(){ if(cur){setBtn(cur,false); cur.querySelector('.afill').style.width='0%'; cur=null;} });
+  const players=[];
   document.querySelectorAll('.aplayer').forEach(function(p){
-    const btn=p.querySelector('.aplay'), track=p.querySelector('.atrack'), src=p.dataset.src;
+    const btn=p.querySelector('.aplay'), track=p.querySelector('.atrack'),
+          fill=p.querySelector('.afill'), time=p.querySelector('.atime'),
+          playI=p.querySelector('.ic-play'), pauseI=p.querySelector('.ic-pause');
+    const audio=new Audio(); audio.preload='metadata'; audio.src=p.dataset.src;
+    const st={p:p,audio:audio};
+    players.push(st);
+    function setUI(playing){
+      p.classList.toggle('playing',playing);
+      btn.classList.toggle('playing',playing);
+      playI.style.display=playing?'none':'';
+      pauseI.style.display=playing?'':'none';
+    }
+    audio.addEventListener('loadedmetadata',function(){ time.textContent='0:00 / '+fmt(audio.duration); });
+    audio.addEventListener('timeupdate',function(){
+      const d=audio.duration||0, t=audio.currentTime||0;
+      fill.style.width=(d>0?(t/d*100):0)+'%';
+      time.textContent=fmt(t)+' / '+fmt(d);
+    });
+    audio.addEventListener('play',function(){ setUI(true); });
+    audio.addEventListener('pause',function(){ setUI(false); });
+    audio.addEventListener('ended',function(){ fill.style.width='0%'; time.textContent='0:00 / '+fmt(audio.duration); });
     btn.addEventListener('click',function(){
-      if(cur===p && !audio.paused){ audio.pause(); setBtn(p,false); cur=null; return; }
-      if(cur) setBtn(cur,false);
-      cur=p;
-      if(audio.src!==src) audio.src=src;
-      audio.play(); setBtn(p,true);
+      players.forEach(function(o){ if(o!==st && !o.audio.paused) o.audio.pause(); });
+      if(audio.paused) audio.play(); else audio.pause();
     });
     track.addEventListener('click',function(e){
       const r=track.getBoundingClientRect(), d=audio.duration;
-      if(!d||cur!==p) return;
+      if(!d) return;
       audio.currentTime=((e.clientX-r.left)/r.width)*d;
     });
   });

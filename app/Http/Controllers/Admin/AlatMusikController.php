@@ -53,7 +53,12 @@ class AlatMusikController extends Controller
         }
 
         if ($request->hasFile('audio')) {
-            $data['audio'] = $request->file('audio')->store('audio', 'public');
+            $path = $request->file('audio')->store('audio', 'public');
+            $data['audio'] = $path;
+            // copy ke public agar langsung terbaca audio_alat() (assets/js/audio/)
+            $dest = public_path('assets/js/audio/' . basename($path));
+            if (!is_dir(dirname($dest))) mkdir(dirname($dest), 0755, true);
+            @copy(storage_path('app/public/' . $path), $dest);
         }
 
         AlatMusik::create($data);
@@ -83,7 +88,12 @@ class AlatMusikController extends Controller
         }
 
         if ($request->hasFile('audio')) {
-            $data['audio'] = $request->file('audio')->store('audio', 'public');
+            $path = $request->file('audio')->store('audio', 'public');
+            $data['audio'] = $path;
+            // copy ke public agar langsung terbaca audio_alat() (assets/js/audio/)
+            $dest = public_path('assets/js/audio/' . basename($path));
+            if (!is_dir(dirname($dest))) mkdir(dirname($dest), 0755, true);
+            @copy(storage_path('app/public/' . $path), $dest);
         }
 
         $alat->update($data);
