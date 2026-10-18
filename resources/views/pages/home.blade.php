@@ -34,9 +34,12 @@ html{scroll-snap-type:y proximity;scroll-padding-top:4.5rem}
 .sec-enter{opacity:0;transform:translateY(36px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 .sec-enter.inview{opacity:1;transform:none}
 .sec-enter.d1{transition-delay:.1s}.sec-enter.d2{transition-delay:.22s}.sec-enter.d3{transition-delay:.34s}
-/* Label section: popup spring (bukan fade biasa) */
-.sect-label.sec-enter{opacity:0;transform:scale(.82) translateY(26px);transition:opacity .45s ease,transform .7s cubic-bezier(.34,1.56,.64,1)}
-.sect-label.sec-enter.inview{opacity:1;transform:none}
+/* Label section: teks popup spring, garis draw sendiri (tidak nyatu) */
+.sect-label.sec-enter .n,.sect-label.sec-enter .ax-mask{display:inline-block;opacity:0;transform:scale(.82) translateY(26px);transition:opacity .45s ease,transform .7s cubic-bezier(.34,1.56,.64,1)}
+.sect-label.sec-enter.inview .n,.sect-label.sec-enter.inview .ax-mask{opacity:1;transform:none}
+.sect-label.sec-enter .ax-mask{transition-delay:.08s}
+.sect-label.sec-enter .ln{display:block;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1) .15s}
+.sect-label.sec-enter.inview .ln{transform:scaleX(1)}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 </style>
 
