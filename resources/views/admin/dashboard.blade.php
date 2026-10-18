@@ -1,53 +1,40 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="admin-container">
+<div class="pagehead">
+  <div class="kick">PANEL KURATOR</div>
+  <h1>Selamat datang kembali</h1>
+  <p>Ringkasan arsip bunyi Nusantara hari ini.</p>
+</div>
 
-        <h1 class="admin-title">Dashboard Admin</h1>
+<div class="stats">
+  <div class="stat">
+    <div class="ic">🎵</div>
+    <div class="lb">TOTAL ALAT MUSIK</div>
+    <div class="vl">{{ $totalAlat }}</div>
+  </div>
+  <div class="stat">
+    <div class="ic">🎯</div>
+    <div class="lb">PERCOBAAN KUIS</div>
+    <div class="vl">{{ $totalQuiz }}</div>
+  </div>
+  <div class="stat">
+    <div class="ic">✓</div>
+    <div class="lb">JAWABAN BENAR</div>
+    <div class="vl">{{ $totalBenar }}</div>
+  </div>
+</div>
 
-        <!-- CARDS -->
-        <div class="admin-grid">
-
-            <div class="admin-card">
-                <div class="card-icon blue">🎵</div>
-                <div>
-                    <p class="card-label">Total Alat Musik</p>
-                    <h2>{{ $totalAlat }}</h2>
-                </div>
-            </div>
-
-            <div class="admin-card">
-                <div class="card-icon green">🎯</div>
-                <div>
-                    <p class="card-label">Percobaan Kuis</p>
-                    <h2>{{ $totalQuiz }}</h2>
-                </div>
-            </div>
-
-            <div class="admin-card">
-                <div class="card-icon yellow">✅</div>
-                <div>
-                    <p class="card-label">Jawaban Benar</p>
-                    <h2>{{ $totalBenar }}</h2>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- MENU -->
-        <div class="admin-menu">
-
-            <a href="/admin/alat" class="menu-card blue">
-                <h3>Kelola Alat Musik</h3>
-                <p>Tambah, edit, dan hapus data</p>
-            </a>
-
-            <a href="/admin/statistik" class="menu-card green">
-                <h3>Statistik Kuis</h3>
-                <p>Lihat performa pengguna</p>
-            </a>
-
-        </div>
-
-    </div>
+<div class="menus">
+  <a href="/admin/alat" class="menu">
+    <h3>Kelola Alat Musik</h3>
+    <p>Tambah, sunting, dan hapus koleksi arsip instrumen tradisional.</p>
+    <span class="go">BUKA ARSIP →</span>
+  </a>
+  <a href="/admin/statistik" class="menu">
+    <h3>Statistik Kuis</h3>
+    <p>Lihat performa dan partisipasi pengguna dalam kuis.</p>
+    <span class="go">LIHAT STATISTIK →</span>
+  </a>
+</div>
 @endsection

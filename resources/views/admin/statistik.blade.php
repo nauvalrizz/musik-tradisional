@@ -1,147 +1,74 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="container mt-5">
+<div class="pagehead">
+  <div class="kick">ANALITIK PENGGUNA</div>
+  <h1>Statistik Kuis</h1>
+  <p>Performa pengguna dalam mengenali bunyi Nusantara.</p>
+</div>
 
-        <h1>Statistik Kuis</h1>
+<div class="stats">
+  <div class="stat">
+    <div class="ic">🎯</div>
+    <div class="lb">TOTAL PERCOBAAN</div>
+    <div class="vl">{{ $total }}</div>
+  </div>
+  <div class="stat">
+    <div class="ic">✓</div>
+    <div class="lb">JAWABAN BENAR</div>
+    <div class="vl">{{ $benar }}</div>
+  </div>
+  <div class="stat">
+    <div class="ic">✕</div>
+    <div class="lb">JAWABAN SALAH</div>
+    <div class="vl">{{ $salah }}</div>
+  </div>
+  <div class="stat">
+    <div class="ic">%</div>
+    <div class="lb">AKURASI GLOBAL</div>
+    <div class="vl">{{ $akurasi }}<span style="font-size:1.1rem;color:var(--muted)">%</span></div>
+  </div>
+</div>
 
-        <div class="row text-center mb-4">
-            <div class="col-md-3">
-                <div class="card p-3">
-                    <h4>{{ $total }}</h4>
-                    <small>Total Percobaan</small>
-                </div>
-            </div>
-        </div>
+<div class="pagehead" style="margin-top:2.5rem">
+  <h1 style="font-size:1.6rem">Per Kategori</h1>
+</div>
+<div class="tblwrap">
+<table>
+  <thead><tr><th>KATEGORI</th><th>TOTAL</th><th>BENAR</th><th>AKURASI</th></tr></thead>
+  <tbody>
+  @forelse($perKategori as $k)
+    <tr>
+      <td><span class="pill">{{ $k->kategori }}</span></td>
+      <td>{{ $k->total }}</td>
+      <td>{{ $k->benar }}</td>
+      <td><strong style="color:var(--terra2)">{{ $k->total > 0 ? round(($k->benar / $k->total) * 100, 1) : 0 }}%</strong></td>
+    </tr>
+  @empty
+    <tr><td colspan="4"><div class="empty">Belum ada data kuis.</div></td></tr>
+  @endforelse
+  </tbody>
+</table>
+</div>
 
-        <p>Jawaban Benar: {{ $benar }}</p>
-        <p>Jawaban Salah: {{ $salah }}</p>
-        <p>Akurasi Global: {{ $akurasi }}%</p>
-
-        <hr>
-
-        <h2>Statistik Soal: Kategori</h2>
-
-        <table border="1" cellpadding="10">
-            <tr>
-                <th>Kategori</th>
-                <th>Total</th>
-                <th>Benar</th>
-                <th>Akurasi (%)</th>
-            </tr>
-
-            @foreach ($perKategori as $k)
-                <tr>
-                    <td>{{ $k->kategori }}</td>
-                    <td>{{ $k->total }}</td>
-                    <td>{{ $k->benar }}</td>
-                    <td>
-                        {{ $k->total > 0 ? round(($k->benar / $k->total) * 100, 2) : 0 }}
-                    </td>
-                </tr>
-            @endforeach
-        </table>
-
-        <canvas id="kategoriChart" height="100"></canvas>
-
-        <hr>
-
-        <h2>Statistik Soal: Sumber Bunyi</h2>
-
-        <table border="1" cellpadding="10">
-            <tr>
-                <th>Sumber Bunyi</th>
-                <th>Total</th>
-                <th>Benar</th>
-                <th>Akurasi (%)</th>
-            </tr>
-
-            @foreach ($perSumber as $s)
-                <tr>
-                    <td>{{ $s->sumber_bunyi }}</td>
-                    <td>{{ $s->total }}</td>
-                    <td>{{ $s->benar }}</td>
-                    <td>
-                        {{ $s->total > 0 ? round(($s->benar / $s->total) * 100, 2) : 0 }}
-                    </td>
-                </tr>
-            @endforeach
-        </table>
-
-        <canvas id="sumberChart" height="100"></canvas>
-        <div class="admin-grid mb-4">
-
-            <div class="admin-card">
-                <p>Total Percobaan</p>
-                <h2>{{ $total }}</h2>
-            </div>
-
-            <div class="admin-card">
-                <p>Akurasi</p>
-                <h2>{{ $akurasi }}%</h2>
-            </div>
-
-            <div class="admin-card">
-                <p>Salah</p>
-                <h2>{{ $salah }}</h2>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const kategoriData = @json($perKategori);
-            const kategoriLabels = kategoriData.map(k => k.kategori);
-            const kategoriAccuracy = kategoriData.map(k =>
-                k.total > 0 ? ((k.benar / k.total) * 100).toFixed(2) : 0
-            );
-
-            new Chart(document.getElementById('kategoriChart'), {
-                type: 'bar',
-                data: {
-                    labels: kategoriLabels,
-                    datasets: [{
-                        label: 'Akurasi (%)',
-                        data: kategoriAccuracy
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-
-            const sumberData = @json($perSumber);
-            const sumberLabels = sumberData.map(s => s.sumber_bunyi);
-            const sumberAccuracy = sumberData.map(s =>
-                s.total > 0 ? ((s.benar / s.total) * 100).toFixed(2) : 0
-            );
-
-            new Chart(document.getElementById('sumberChart'), {
-                type: 'bar',
-                data: {
-                    labels: sumberLabels,
-                    datasets: [{
-                        label: 'Akurasi (%)',
-                        data: sumberAccuracy
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
-                        }
-                    }
-                }
-            });
-
-        });
-    </script>
+<div class="pagehead" style="margin-top:2.5rem">
+  <h1 style="font-size:1.6rem">Per Sumber Bunyi</h1>
+</div>
+<div class="tblwrap">
+<table>
+  <thead><tr><th>SUMBER BUNYI</th><th>TOTAL</th><th>BENAR</th><th>AKURASI</th></tr></thead>
+  <tbody>
+  @forelse($perSumber as $s)
+    <tr>
+      <td><span class="pill">{{ $s->sumber_bunyi }}</span></td>
+      <td>{{ $s->total }}</td>
+      <td>{{ $s->benar }}</td>
+      <td><strong style="color:var(--terra2)">{{ $s->total > 0 ? round(($s->benar / $s->total) * 100, 1) : 0 }}%</strong></td>
+    </tr>
+  @empty
+    <tr><td colspan="4"><div class="empty">Belum ada data kuis.</div></td></tr>
+  @endforelse
+  </tbody>
+</table>
+</div>
 @endsection
