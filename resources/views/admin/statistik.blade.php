@@ -9,29 +9,28 @@
 
 <div class="stats">
   <div class="stat">
-    <div class="ic">🎯</div>
-    <div class="lb">TOTAL PERCOBAAN</div>
+    <div class="lb">PERCOBAAN</div>
     <div class="vl">{{ $total }}</div>
   </div>
   <div class="stat">
-    <div class="ic">✓</div>
-    <div class="lb">JAWABAN BENAR</div>
+    <div class="lb">BENAR</div>
     <div class="vl">{{ $benar }}</div>
+    @if($total > 0)
+    <div class="bar"><i style="width:{{ round($benar / $total * 100) }}%"></i></div>
+    @endif
   </div>
   <div class="stat">
-    <div class="ic">✕</div>
-    <div class="lb">JAWABAN SALAH</div>
+    <div class="lb">SALAH</div>
     <div class="vl">{{ $salah }}</div>
   </div>
   <div class="stat">
-    <div class="ic">%</div>
-    <div class="lb">AKURASI GLOBAL</div>
-    <div class="vl">{{ $akurasi }}<span style="font-size:1.1rem;color:var(--muted)">%</span></div>
+    <div class="lb">AKURASI</div>
+    <div class="vl">{{ $akurasi }}<small>%</small></div>
   </div>
 </div>
 
 <div class="pagehead" style="margin-top:2.5rem">
-  <h1 style="font-size:1.6rem">Per Kategori</h1>
+  <h1 style="font-size:1.5rem">Per Kategori</h1>
 </div>
 <div class="tblwrap">
 <table>
@@ -42,7 +41,7 @@
       <td><span class="pill">{{ $k->kategori }}</span></td>
       <td>{{ $k->total }}</td>
       <td>{{ $k->benar }}</td>
-      <td><strong style="color:var(--terra2)">{{ $k->total > 0 ? round(($k->benar / $k->total) * 100, 1) : 0 }}%</strong></td>
+      <td><strong style="color:var(--terra)">{{ $k->total > 0 ? round(($k->benar / $k->total) * 100, 1) : 0 }}%</strong></td>
     </tr>
   @empty
     <tr><td colspan="4"><div class="empty">Belum ada data kuis.</div></td></tr>
@@ -52,7 +51,7 @@
 </div>
 
 <div class="pagehead" style="margin-top:2.5rem">
-  <h1 style="font-size:1.6rem">Per Sumber Bunyi</h1>
+  <h1 style="font-size:1.5rem">Per Sumber Bunyi</h1>
 </div>
 <div class="tblwrap">
 <table>
@@ -63,7 +62,7 @@
       <td><span class="pill">{{ $s->sumber_bunyi }}</span></td>
       <td>{{ $s->total }}</td>
       <td>{{ $s->benar }}</td>
-      <td><strong style="color:var(--terra2)">{{ $s->total > 0 ? round(($s->benar / $s->total) * 100, 1) : 0 }}%</strong></td>
+      <td><strong style="color:var(--terra)">{{ $s->total > 0 ? round(($s->benar / $s->total) * 100, 1) : 0 }}%</strong></td>
     </tr>
   @empty
     <tr><td colspan="4"><div class="empty">Belum ada data kuis.</div></td></tr>

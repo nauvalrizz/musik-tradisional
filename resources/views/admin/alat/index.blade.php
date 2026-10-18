@@ -2,7 +2,7 @@
 
 @section('content')
 @if(session('success'))
-  <div class="alert">✔ {{ session('success') }}</div>
+  <div class="alert">{{ session('success') }}</div>
 @endif
 
 <div class="pagehead">
@@ -12,6 +12,7 @@
 </div>
 
 <div class="form">
+  <h2>Tambah Alat Musik</h2>
   <form action="/admin/alat" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="frow">
@@ -60,7 +61,7 @@
       <label>DESKRIPSI</label>
       <textarea name="deskripsi" placeholder="Ceritakan asal-usul dan cara memainkannya…"></textarea>
     </div>
-    <button class="btn btn-p" type="submit">＋ Tambah ke Arsip</button>
+    <button class="btn btn-t" type="submit">Tambah ke Arsip</button>
   </form>
 </div>
 
