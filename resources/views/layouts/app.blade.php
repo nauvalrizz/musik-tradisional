@@ -161,6 +161,7 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 
 <script src="{{ asset('assets/js/gamelan.js?v=161') }}" defer></script>
 @stack('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 (function(){
 "use strict";
@@ -176,13 +177,10 @@ document.documentElement.classList.add('loading');
     if(winReady && animDone && !loader.classList.contains('done')){
       loader.classList.add('done');
       document.documentElement.classList.remove('loading');
-      // Tirai naik via Web Animations API (2 detik)
-      if(loader.animate){
-        var anim=loader.animate([
-          {transform:'translateY(0)'},
-          {transform:'translateY(-101%)'}
-        ],{duration:2000,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'});
-        anim.onfinish=function(){ loader.classList.add('gone'); };
+      // Tirai naik via GSAP (2 detik)
+      if(window.gsap){
+        gsap.to(loader,{yPercent:-101,duration:2,ease:"power4.inOut",
+          onComplete:function(){ loader.classList.add('gone'); }});
       } else {
         loader.style.transform='translateY(-101%)';
         setTimeout(function(){ loader.classList.add('gone'); }, 2100);
@@ -217,7 +215,7 @@ document.documentElement.classList.add('loading');
 // fallback: jangan kunci selamanya
 setTimeout(function(){
   var l=document.getElementById('loader');
-  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); if(l.animate){ var a=l.animate([{transform:'translateY(0)'},{transform:'translateY(-101%)'}],{duration:2000,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'}); a.onfinish=function(){ l.classList.add('gone'); }; } else { l.style.transform='translateY(-101%)'; setTimeout(function(){ l.classList.add('gone'); }, 2100); } }
+  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); if(window.gsap){ gsap.to(l,{yPercent:-101,duration:2,ease:"power4.inOut",onComplete:function(){ l.classList.add('gone'); }}); } else { l.style.transform='translateY(-101%)'; setTimeout(function(){ l.classList.add('gone'); }, 2100); } }
 }, 8000);
 
 /* ——— CUSTOM CURSOR ——— */
