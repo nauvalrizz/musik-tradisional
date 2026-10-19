@@ -15,7 +15,12 @@
 }
 .hero-clay .wrap,.sect .wrap,.map-sec .wrap{width:100%}
 /* Background animatif khusus section arsip: riak gelombang bunyi */
-.arsip-bg{position:absolute;top:-90px;bottom:-90px;left:0;right:0;overflow:hidden;pointer-events:none;z-index:0}
+#arsip{position:relative;z-index:1}
+.arsip-bg{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;pointer-events:none;z-index:0;margin-bottom:-100vh;margin-bottom:-100svh}
+#arsip .wrap{margin-top:-100vh;margin-top:-100svh}
+/* section sesudah #arsip menimpa bg sticky */
+#pulau,#koleksi,#kuis,footer{position:relative;z-index:2;background-color:var(--bg0);
+  background-image:radial-gradient(1200px 600px at 70% -10%,rgba(169,81,53,.07),transparent 60%),radial-gradient(900px 500px at 10% 110%,rgba(98,72,58,.09),transparent 60%)}
 .sect .wrap{position:relative;z-index:1}
 .wave{position:absolute;border-radius:50%;border:2px solid rgba(181,80,47,.28);box-shadow:0 0 60px rgba(181,80,47,.08) inset}
 .wave.w1{width:560px;height:560px;left:-140px;top:4%;animation:waveDrift 26s ease-in-out infinite alternate}
@@ -25,25 +30,7 @@
 .wave b{position:absolute;inset:34%;border-radius:50%;border:1px solid rgba(217,138,95,.22)}
 @keyframes waveDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-56px,0) scale(1.09)}}
 @media(prefers-reduced-motion:reduce){.wave{animation:none}}
-/* Sticky parallax section 2 (#pulau): section nempel di viewport, section berikut menimpa */
-#pulau{position:sticky;top:0;z-index:1;height:100vh;height:100svh;overflow:hidden;
-  padding-top:4.5rem!important;padding-bottom:2rem!important}
-#pulau .wrap{position:relative;z-index:1}
-#pulau .map-wrap svg{width:100%;height:auto;max-height:calc(100svh - 260px);margin:0 auto}
-#pulau .map-bar{margin-top:1rem}
-.pulau-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.pulau-bg::after{content:"";position:absolute;inset:0;
-  background:radial-gradient(60vmin 60vmin at 50% 42%,rgba(169,81,53,.09),transparent 70%)}
-.pr{position:absolute;left:50%;top:42%;border-radius:50%;transform:translate(-50%,-50%);
-  border:1px solid rgba(169,81,53,.16)}
-.pr.r1{width:70vmin;height:70vmin;animation:sonar 14s ease-in-out infinite}
-.pr.r2{width:110vmin;height:110vmin;border-color:rgba(169,81,53,.10);animation:sonar 14s ease-in-out 2s infinite}
-.pr.r3{width:150vmin;height:150vmin;border-color:rgba(169,81,53,.06);animation:sonar 14s ease-in-out 4s infinite}
-@keyframes sonar{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.65}50%{transform:translate(-50%,-50%) scale(1.07);opacity:1}}
-@media(prefers-reduced-motion:reduce){.pr{animation:none}}
-/* section sesudah #pulau menimpa dengan bg solid */
-#koleksi,#kuis,footer{position:relative;z-index:2;background-color:var(--bg0);
-  background-image:radial-gradient(1200px 600px at 70% -10%,rgba(169,81,53,.07),transparent 60%),radial-gradient(900px 500px at 10% 110%,rgba(98,72,58,.09),transparent 60%)}
+
 /* Back to top */
 #toTop{position:fixed;right:1.1rem;bottom:1.4rem;z-index:60;width:46px;height:46px;border-radius:50%;
 border:1px solid rgba(181,80,47,.35);background:rgba(43,38,34,.88);color:#ede6d6;font-size:1.15rem;line-height:1;
@@ -523,7 +510,6 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 {{-- 02 PULAU --}}
 <section class="map-sec" id="pulau">
-<div class="pulau-bg" aria-hidden="true"><i class="pr r1"></i><i class="pr r2"></i><i class="pr r3"></i></div>
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">02 / PULAU</span><span class="ax-mask"><span>Kepulauan</span></span><span class="ln"></span></div>
 <p class="sec-enter d1" style="font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted);margin:-1rem 0 1.2rem">KETUK PULAU UNTUK LIHAT INSTRUMENNYA</p>
