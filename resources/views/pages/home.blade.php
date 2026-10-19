@@ -62,26 +62,24 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .sect-label.sec-enter.inview .ln{transform:scaleX(1)}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 /* v253: galeri horizontal desktop / snap strip mobile */
-/* v260: koleksi kompak — scroll horizontal native, max 1 layar */
-.koleksi-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2rem}
-.koleksi-lead{opacity:.72;max-width:38ch;line-height:1.7;margin:0}
-.koleksi-nav{display:flex;gap:.6rem;flex-shrink:0}
-.koleksi-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(229,214,192,.25);background:transparent;color:var(--paper);font-size:1.1rem;cursor:pointer;transition:border-color .2s,background .2s}
-.koleksi-btn:hover{border-color:var(--terra);background:rgba(169,81,53,.15)}
-.koleksi-scroll{overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:.5rem}
-.koleksi-scroll::-webkit-scrollbar{display:none}
-.koleksi-track{display:flex;gap:3rem;width:max-content;padding:0 max(7vw,2rem)}
-.koleksi-panel{scroll-snap-align:start;flex:0 0 auto}
-.koleksi-panel .sect-label{margin-bottom:1.2rem}
-.koleksi-cards{display:flex;gap:1.4rem}
-.koleksi-cards .pod{width:min(260px,66vw);flex:0 0 auto}
-.koleksi-outro{display:flex;align-items:center}
+/* v262: pin sticky 1 layar, scroll bawah -> geser kiri */
+#koleksi{padding-top:0;padding-bottom:0}
+.hgal{position:relative}
+.hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
+.hgal-track{display:flex;align-items:center;width:max-content;padding-left:7vw}
+.hgal-panel{flex:0 0 auto;padding-right:6vw}
+.hgal-intro{width:min(400px,80vw)}
+.hgal-lead{opacity:.72;line-height:1.7;margin:1rem 0 0}
+.hgal-plabel{margin:0 0 1.4rem}
+.hgal-cards{display:flex;gap:1.4rem}
+.hgal-cards .pod{width:min(280px,68vw);flex:0 0 auto}
+.hgal-outro{display:flex;align-items:center}
 @media(max-width:860px){
-  .koleksi-track{gap:2rem;padding:0 6vw}
-  .koleksi-cards{gap:1rem}
-  .koleksi-cards .pod{width:min(230px,64vw)}
-  .koleksi-head{margin-bottom:1.4rem}
-  .koleksi-lead{font-size:.92rem}
+  .hgal-track{padding-left:6vw}
+  .hgal-panel{padding-right:8vw}
+  .hgal-intro{width:80vw}
+  .hgal-cards{gap:1rem}
+  .hgal-cards .pod{width:min(240px,62vw)}
   .wave.w1{width:340px;height:340px;left:-90px;top:6%}
   .wave.w2{width:480px;height:480px;right:-140px;top:32%}
   .wave.w3{width:260px;height:260px;left:30%;bottom:-80px}
@@ -549,30 +547,26 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 {{-- 03 KOLEKSI — galeri horizontal desktop / snap strip mobile (v253) --}}
 <section class="sect" id="koleksi">
-<div class="wrap">
-<div class="sect-label sec-enter"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
-<div class="koleksi-head sec-enter">
-<p class="koleksi-lead">Geser ke samping — dari ujung ke ujung Nusantara.</p>
-<div class="koleksi-nav" aria-hidden="false">
-<button type="button" class="koleksi-btn" id="kolPrev" aria-label="Sebelumnya">←</button>
-<button type="button" class="koleksi-btn" id="kolNext" aria-label="Berikutnya">→</button>
+<div class="hgal" id="hgal">
+<div class="hgal-pin">
+<div class="hgal-track">
+<div class="hgal-panel hgal-intro">
+<div class="sect-label"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
+<p class="hgal-lead">Gulir ke bawah — koleksi berjalan ke samping, dari ujung ke ujung Nusantara.</p>
 </div>
-</div>
-</div>
-<div class="koleksi-scroll" id="kolScroll">
-<div class="koleksi-track">
 @foreach($regions as $ri => $rg)
-<div class="koleksi-panel sec-enter">
-<div class="sect-label"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
-<div class="koleksi-cards">
+<div class="hgal-panel">
+<div class="sect-label hgal-plabel"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
+<div class="hgal-cards">
 @foreach($rg['items'] as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach
 </div>
 </div>
 @endforeach
-<div class="koleksi-panel koleksi-outro sec-enter">
+<div class="hgal-panel hgal-outro">
 <a href="{{ url('/search') }}" class="clay-btn primary">Lihat Semua Arsip <span class="arw">→</span></a>
+</div>
 </div>
 </div>
 </div>
@@ -604,26 +598,25 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-/* v261: koleksi kompak — wheel vertikal jadi horizontal (lepas di ujung) + tombol */
+/* v262: pin 1 layar — scroll bawah menggerakkan track ke kiri */
 (function(){
-  var sc=document.getElementById('kolScroll'); if(!sc) return;
-  sc.addEventListener('wheel',function(e){
-    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX)) return;
-    var max=sc.scrollWidth-sc.clientWidth;
-    var canR=sc.scrollLeft<max-2, canL=sc.scrollLeft>2;
-    if((e.deltaY>0&&canR)||(e.deltaY<0&&canL)){
-      e.preventDefault();
-      sc.scrollLeft+=e.deltaY;
-    }
-  },{passive:false});
-  function step(dir){
-    var panel=sc.querySelector('.koleksi-panel');
-    var w=panel?panel.offsetWidth:320;
-    sc.scrollBy({left:dir*(w+48),behavior:'smooth'});
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var sec=document.getElementById('koleksi'); if(!sec) return;
+  var hgal=sec.querySelector('.hgal'); if(!hgal) return;
+  var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
+  var panels=hgal.querySelectorAll('.hgal-panel');
+  hgal.style.height=(panels.length*60)+'vh';
+  var tick=false;
+  function upd(){
+    tick=false;
+    var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
+    var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
+    pin.scrollLeft=p*Math.max(0,pin.scrollWidth-pin.clientWidth);
   }
-  var pv=document.getElementById('kolPrev'), nx=document.getElementById('kolNext');
-  if(pv) pv.addEventListener('click',function(){ step(-1); });
-  if(nx) nx.addEventListener('click',function(){ step(1); });
+  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',req);
+  upd();
 })();
 // Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
 // Hanya transform GPU, mati otomatis jika prefers-reduced-motion.
