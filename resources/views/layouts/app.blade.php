@@ -39,8 +39,8 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
-#loader{transform:translateY(0);transition:transform 2s cubic-bezier(.76,0,.24,1)}
-#loader.done{transform:translateY(-101%);pointer-events:none}
+#loader{transform:translateY(0)}
+#loader.done{pointer-events:none}
 #loader.gone{visibility:hidden}
 #loader.done::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));pointer-events:none}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
@@ -175,7 +175,17 @@ document.documentElement.classList.add('loading');
     if(winReady && animDone && !loader.classList.contains('done')){
       loader.classList.add('done');
       document.documentElement.classList.remove('loading');
-      setTimeout(function(){ loader.classList.add('gone'); }, 2100);
+      // Tirai naik via Web Animations API (2 detik)
+      if(loader.animate){
+        var anim=loader.animate([
+          {transform:'translateY(0)'},
+          {transform:'translateY(-101%)'}
+        ],{duration:2000,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'});
+        anim.onfinish=function(){ loader.classList.add('gone'); };
+      } else {
+        loader.style.transform='translateY(-101%)';
+        setTimeout(function(){ loader.classList.add('gone'); }, 2100);
+      }
     }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
@@ -206,7 +216,7 @@ document.documentElement.classList.add('loading');
 // fallback: jangan kunci selamanya
 setTimeout(function(){
   var l=document.getElementById('loader');
-  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); setTimeout(function(){ l.classList.add('gone'); }, 2100); }
+  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); if(l.animate){ var a=l.animate([{transform:'translateY(0)'},{transform:'translateY(-101%)'}],{duration:2000,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'}); a.onfinish=function(){ l.classList.add('gone'); }; } else { l.style.transform='translateY(-101%)'; setTimeout(function(){ l.classList.add('gone'); }, 2100); } }
 }, 8000);
 
 /* ——— CUSTOM CURSOR ——— */
