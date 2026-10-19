@@ -40,7 +40,8 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader{transform:translateY(0)}
-#loader.done{pointer-events:none;background:linear-gradient(180deg,#4a3a2a 0%,#3a2c1f 40%,#2b2118 100%)}
+#loader.done{pointer-events:none;background:linear-gradient(180deg,#4a3a2a 0%,#3a2c1f 40%,#2b2118 100%);animation:mcurtain 5s cubic-bezier(.76,0,.24,1) forwards}
+@keyframes mcurtain{from{transform:translateY(0)}to{transform:translateY(-101%)}}
 #loader.done .mstage,#loader.done .mtitle,#loader.done .msub,#loader.done .mripple{display:none!important}
 #loader.gone{visibility:hidden}
 #loader.done::after{content:'';position:absolute;left:0;right:0;bottom:0;height:12px;background:linear-gradient(180deg,#d4694a,#a95135);box-shadow:0 0 40px rgba(212,105,74,.9),0 4px 20px rgba(0,0,0,.6);pointer-events:none}
@@ -176,18 +177,8 @@ document.documentElement.classList.add('loading');
     if(winReady && animDone && !loader.classList.contains('done')){
       loader.classList.add('done');
       document.documentElement.classList.remove('loading');
-      // Tirai naik via rAF murni (2 detik, easeInOutQuart)
-      var dur=5000, t0=null;
-      function easeInOutQuart(t){ return t<.5 ? 8*t*t*t*t : 1-Math.pow(-2*t+2,4)/2; }
-      function step(ts){
-        if(!t0) t0=ts;
-        var p=Math.min(1,(ts-t0)/dur);
-        var e=easeInOutQuart(p);
-        loader.style.transform='translateY('+(-101*e)+'%)';
-        if(p<1){ requestAnimationFrame(step); }
-        else { loader.classList.add('gone'); }
-      }
-      requestAnimationFrame(step);
+      // Tirai naik via CSS @keyframes (5 detik)
+      setTimeout(function(){ loader.classList.add('gone'); }, 5100);
     }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
@@ -218,7 +209,7 @@ document.documentElement.classList.add('loading');
 // fallback: jangan kunci selamanya
 setTimeout(function(){
   var l=document.getElementById('loader');
-  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); (function(){ var d=5000,t0=null; function ez(t){ return t<.5?8*t*t*t*t:1-Math.pow(-2*t+2,4)/2; } function st(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/d),e=ez(p); l.style.transform='translateY('+(-101*e)+'%)'; if(p<1)requestAnimationFrame(st); else l.classList.add('gone'); } requestAnimationFrame(st); })(); }
+  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); setTimeout(function(){ l.classList.add('gone'); }, 5100); }
 }, 8000);
 
 /* ——— CUSTOM CURSOR ——— */
