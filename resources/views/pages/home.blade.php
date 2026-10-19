@@ -65,7 +65,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 /* v262: pin sticky 1 layar, scroll bawah -> geser kiri */
 #koleksi{padding-top:0;padding-bottom:0}
 .hgal{position:relative}
-.hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
+.hgal-pin{position:sticky;top:4vh;height:92vh;height:92svh;overflow:hidden;display:flex;align-items:center;max-width:min(1280px,96vw);margin:0 auto;background:linear-gradient(180deg,#201915,#181310);border:1px solid rgba(229,214,192,.14);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(229,214,192,.09)}
 .hgal-track{display:flex;align-items:center;width:max-content;padding-left:7vw}
 .hgal-panel{flex:0 0 auto;padding-right:6vw}
 .hgal-intro{width:min(400px,80vw)}
