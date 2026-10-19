@@ -617,6 +617,17 @@ document.addEventListener('DOMContentLoaded',function(){
   upd();
 })();
 /* v262: pin 1 layar — scroll bawah menggerakkan track ke kiri */
+{{-- Lenis smooth scroll: scroll agak berat & halus (v267) --}}
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(typeof Lenis==='undefined') return;
+  var lenis=new Lenis({lerp:0.09,smoothWheel:true});
+  function raf(t){lenis.raf(t);requestAnimationFrame(raf);}
+  requestAnimationFrame(raf);
+})();
+</script>
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var sec=document.getElementById('koleksi'); if(!sec) return;
