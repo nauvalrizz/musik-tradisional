@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         answered = true;
         lock = true;
 
-        const buttons = document.querySelectorAll(".option");
+        const buttons = document.querySelectorAll(".quiz-opt");
         buttons.forEach(b => b.disabled = true);
 
         // 🔥 SIMPAN HISTORY (VERSI LENGKAP)
@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showToast("Waktu habis.", "error");
 
-        const buttons = document.querySelectorAll(".option");
+        const buttons = document.querySelectorAll(".quiz-opt");
         buttons.forEach(b => b.disabled = true);
 
         // highlight jawaban benar
