@@ -470,7 +470,7 @@ const clk=new THREE.Clock();
 
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
-<div class="arsip-bg" data-pxsec="0.9" aria-hidden="true"><div class="wave w1"><i></i><b></b></div><div class="wave w2"><i></i><b></b></div><div class="wave w3"><i></i><b></b></div></div>
+<div class="arsip-bg" aria-hidden="true"><div class="wave w1"><i></i><b></b></div><div class="wave w2"><i></i><b></b></div><div class="wave w3"><i></i><b></b></div></div>
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
 <div class="sec-enter d1" style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
