@@ -497,6 +497,8 @@ var io=new IntersectionObserver(function(es){
         el.style.transitionDelay=(idx*70)+'ms';
         el.dataset.staggered='1';
       }
+      // kartu: reveal-once (hero tetap bidirectional untuk efek exited)
+      if(el.classList.contains('pod')||el.classList.contains('obj')||el.classList.contains('rv-card')){ io.unobserve(el); }
     }else{
       // exit: hapus visible, tambah exited untuk arah keluar
       el.classList.remove('visible');

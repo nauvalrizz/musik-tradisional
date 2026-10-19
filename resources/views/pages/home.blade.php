@@ -61,6 +61,23 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .sect-label.sec-enter .ln{display:block;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1) .15s}
 .sect-label.sec-enter.inview .ln{transform:scaleX(1)}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
+/* v250: galeri horizontal koleksi */
+.hgal-panel{padding:3.5rem 0}
+.hgal-lead{opacity:.72;max-width:34ch;margin-top:1rem;line-height:1.7}
+.hgal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2.2rem 1.6rem}
+.hgal-ui{display:none}
+#koleksi.hgal-on{padding-top:0;padding-bottom:0}
+#koleksi.hgal-on .hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
+#koleksi.hgal-on .hgal-track{display:flex;align-items:center;will-change:transform;padding-left:7vw}
+#koleksi.hgal-on .hgal-panel{flex:0 0 auto;padding:0 7vw 0 0;margin:0}
+#koleksi.hgal-on .hgal-intro{width:min(430px,80vw)}
+#koleksi.hgal-on .hgal-cards{display:flex;gap:1.4rem}
+#koleksi.hgal-on .hgal-cards .pod{width:min(250px,64vw);flex:0 0 auto}
+#koleksi.hgal-on .hgal-ui{display:block;position:absolute;left:7vw;right:7vw;bottom:5vh;pointer-events:none}
+.hgal-prog{height:2px;background:rgba(229,214,192,.14);border-radius:2px;overflow:hidden}
+.hgal-prog i{display:block;height:100%;background:#A95135;transform:scaleX(0);transform-origin:left}
+.hgal-count{margin-top:.6rem;font-size:.78rem;letter-spacing:.22em;opacity:.6}
+@media(max-width:860px){#koleksi.hgal-on .hgal-cards .pod{width:min(220px,68vw)}}
 </style>
 
 
@@ -522,20 +539,30 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 </div>
 </section>
 
-{{-- 03 KOLEKSI --}}
+{{-- 03 KOLEKSI — galeri horizontal (v250) --}}
 <section class="sect" id="koleksi">
-<div class="wrap">
+<div class="hgal" id="hgal">
+<div class="hgal-pin">
+<div class="hgal-track">
+<div class="hgal-panel hgal-intro">
 <div class="sect-label sec-enter"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
+<p class="hgal-lead">Gulir ke bawah — koleksi berjalan ke samping, dari ujung ke ujung Nusantara.</p>
+</div>
 @foreach($regions as $ri => $rg)
-<div class="sect-label" style="margin:2.4rem 0 1.6rem"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
-<div class="pods">
+<div class="hgal-panel">
+<div class="sect-label"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
+<div class="hgal-cards">
 @foreach($rg['items'] as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach
 </div>
+</div>
 @endforeach
-<div class="reveal" style="margin:3.5rem 0 1rem;text-align:center">
+<div class="hgal-panel hgal-outro">
 <a href="{{ url('/search') }}" class="clay-btn primary">Lihat Semua Arsip <span class="arw">→</span></a>
+</div>
+</div>
+<div class="hgal-ui" aria-hidden="true"><div class="hgal-prog"><i></i></div><div class="hgal-count"><span class="cur">01</span> / <span class="tot"></span></div></div>
 </div>
 </div>
 </section>
@@ -566,6 +593,31 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
+/* v250: koleksi horizontal — scroll vertikal menggerakkan track */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var sec=document.getElementById('koleksi'); if(!sec) return;
+  var track=sec.querySelector('.hgal-track'); if(!track) return;
+  var panels=track.querySelectorAll('.hgal-panel');
+  var bar=sec.querySelector('.hgal-prog i'), cur=sec.querySelector('.hgal-count .cur'), tot=sec.querySelector('.hgal-count .tot');
+  if(tot) tot.textContent=String(panels.length).padStart(2,'0');
+  sec.classList.add('hgal-on');
+  sec.style.height=(panels.length*100)+'vh';
+  var tick=false;
+  function upd(){
+    tick=false;
+    var r=sec.getBoundingClientRect(), total=sec.offsetHeight-window.innerHeight;
+    var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
+    var maxX=Math.max(0,track.scrollWidth-window.innerWidth);
+    track.style.transform='translate3d('+(-p*maxX).toFixed(1)+'px,0,0)';
+    if(bar) bar.style.transform='scaleX('+p.toFixed(3)+')';
+    if(cur) cur.textContent=String(Math.min(panels.length,Math.floor(p*panels.length)+1)).padStart(2,'0');
+  }
+  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',req);
+  upd();
+})();
 // Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
 // Hanya transform GPU, mati otomatis jika prefers-reduced-motion.
 (function(){
