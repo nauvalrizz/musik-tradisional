@@ -62,36 +62,26 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .sect-label.sec-enter.inview .ln{transform:scaleX(1)}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 /* v253: galeri horizontal desktop / snap strip mobile */
-.hgal-panel{padding:3rem 0}
-.hgal-lead{opacity:.72;max-width:34ch;margin-top:1rem;line-height:1.7}
-.hgal-plabel{margin-bottom:1.2rem}
-.hgal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2.2rem 1.6rem}
-.hgal-ui{display:none}
-#koleksi.hgal-on{display:block;padding-top:0;padding-bottom:0}
-#koleksi.hgal-on .hgal{position:relative}
-#koleksi.hgal-on .hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
-#koleksi.hgal-on .hgal-track{display:flex;align-items:center;width:max-content;padding-left:7vw}
-#koleksi.hgal-on .hgal-panel{display:block;flex:0 0 auto;padding:0 6vw 0 0;margin:0}
-#koleksi.hgal-on .hgal-intro{width:min(430px,80vw)}
-#koleksi.hgal-on .hgal-plabel{position:sticky;left:7vw;z-index:10;width:max-content;min-width:min(58vw,780px);max-width:100%;margin:0 0 1.4rem;padding:.8rem 0}
-#koleksi.hgal-on .hgal-plabel .sect-label{margin:0}
-#koleksi.hgal-on .hgal-cards{display:flex;gap:1.4rem}
-#koleksi.hgal-on .hgal-cards .pod{width:min(250px,64vw);flex:0 0 auto}
-#koleksi.hgal-on .hgal-ui{display:block;position:absolute;left:7vw;right:7vw;bottom:5vh;pointer-events:none}
-.hgal-prog{height:2px;background:rgba(229,214,192,.14);border-radius:2px;overflow:hidden}
-.hgal-prog i{display:block;height:100%;background:#A95135;transform:scaleX(0);transform-origin:left}
-.hgal-count{margin-top:.6rem;font-size:.78rem;letter-spacing:.22em;opacity:.6}
+/* v260: koleksi kompak — scroll horizontal native, max 1 layar */
+.koleksi-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+.koleksi-lead{opacity:.72;max-width:38ch;line-height:1.7;margin:0}
+.koleksi-nav{display:flex;gap:.6rem;flex-shrink:0}
+.koleksi-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(229,214,192,.25);background:transparent;color:var(--paper);font-size:1.1rem;cursor:pointer;transition:border-color .2s,background .2s}
+.koleksi-btn:hover{border-color:var(--terra);background:rgba(169,81,53,.15)}
+.koleksi-scroll{overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:.5rem}
+.koleksi-scroll::-webkit-scrollbar{display:none}
+.koleksi-track{display:flex;gap:3rem;width:max-content;padding:0 max(7vw,2rem)}
+.koleksi-panel{scroll-snap-align:start;flex:0 0 auto}
+.koleksi-panel .sect-label{margin-bottom:1.2rem}
+.koleksi-cards{display:flex;gap:1.4rem}
+.koleksi-cards .pod{width:min(260px,66vw);flex:0 0 auto}
+.koleksi-outro{display:flex;align-items:center}
 @media(max-width:860px){
-  #koleksi{overflow-x:clip}
-  #koleksi.hgal-on .hgal-track{padding-left:6vw}
-  #koleksi.hgal-on .hgal-panel{padding-right:10vw}
-  #koleksi.hgal-on .hgal-intro{width:82vw}
-  #koleksi.hgal-on .hgal-plabel{left:6vw;min-width:74vw}
-  #koleksi.hgal-on .hgal-cards{gap:1rem}
-  #koleksi.hgal-on .hgal-cards .pod{width:min(300px,80vw)}
-  #koleksi.hgal-on .hgal-ui{left:6vw;right:6vw}
-  #koleksi.hgal-on .pod-obj{height:min(38svh,230px)}
-  #koleksi.hgal-on .hgal-panel{padding-right:8vw}
+  .koleksi-track{gap:2rem;padding:0 6vw}
+  .koleksi-cards{gap:1rem}
+  .koleksi-cards .pod{width:min(230px,64vw)}
+  .koleksi-head{margin-bottom:1.4rem}
+  .koleksi-lead{font-size:.92rem}
   .wave.w1{width:340px;height:340px;left:-90px;top:6%}
   .wave.w2{width:480px;height:480px;right:-140px;top:32%}
   .wave.w3{width:260px;height:260px;left:30%;bottom:-80px}
@@ -559,28 +549,31 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 {{-- 03 KOLEKSI — galeri horizontal desktop / snap strip mobile (v253) --}}
 <section class="sect" id="koleksi">
-<div class="hgal" id="hgal">
-<div class="hgal-pin">
-<div class="hgal-track">
-<div class="hgal-panel hgal-intro">
+<div class="wrap">
 <div class="sect-label sec-enter"><span class="n">03 / ARSIP</span><span class="ax-mask"><span>Koleksi</span></span><span class="ln"></span></div>
-<p class="hgal-lead">Gulir ke bawah — koleksi berjalan ke samping, dari ujung ke ujung Nusantara.</p>
+<div class="koleksi-head sec-enter">
+<p class="koleksi-lead">Geser ke samping — dari ujung ke ujung Nusantara.</p>
+<div class="koleksi-nav" aria-hidden="false">
+<button type="button" class="koleksi-btn" id="kolPrev" aria-label="Sebelumnya">←</button>
+<button type="button" class="koleksi-btn" id="kolNext" aria-label="Berikutnya">→</button>
 </div>
+</div>
+</div>
+<div class="koleksi-scroll" id="kolScroll">
+<div class="koleksi-track">
 @foreach($regions as $ri => $rg)
-<div class="hgal-panel">
-<div class="hgal-plabel"><div class="sect-label"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div></div>
-<div class="hgal-cards">
+<div class="koleksi-panel sec-enter">
+<div class="sect-label"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div>
+<div class="koleksi-cards">
 @foreach($rg['items'] as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
 @endforeach
 </div>
 </div>
 @endforeach
-<div class="hgal-panel hgal-outro">
+<div class="koleksi-panel koleksi-outro sec-enter">
 <a href="{{ url('/search') }}" class="clay-btn primary">Lihat Semua Arsip <span class="arw">→</span></a>
 </div>
-</div>
-<div class="hgal-ui" aria-hidden="true"><div class="hgal-prog"><i></i></div><div class="hgal-count"><span class="cur">01</span> / <span class="tot"></span></div></div>
 </div>
 </div>
 </section>
@@ -611,61 +604,17 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-/* v259: koleksi horizontal; mobile 65vh/panel; gambar manual + ld */
+/* v260: koleksi kompak — tombol prev/next */
 (function(){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var isMobile=window.matchMedia('(max-width: 860px)').matches;
-  var sec=document.getElementById('koleksi'); if(!sec) return;
-  var hgal=sec.querySelector('.hgal'); if(!hgal) return;
-  var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
-  var track=pin.querySelector('.hgal-track'); if(!track) return;
-  var panels=track.querySelectorAll('.hgal-panel');
-  var bar=sec.querySelector('.hgal-prog i'), cur=sec.querySelector('.hgal-count .cur'), tot=sec.querySelector('.hgal-count .tot');
-  if(tot) tot.textContent=String(panels.length).padStart(2,'0');
-  /* ambil alih lazy: pindah src -> data-src, pasang placeholder */
-  var PH='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%232a2420%27/%3E%3C/svg%3E';
-  var gimgs=sec.querySelectorAll('.hgal-cards img');
-  for(var gi=0;gi<gimgs.length;gi++){
-    var gm=gimgs[gi], gs=gm.getAttribute('src');
-    if(gs && gs.indexOf('data:')!==0){ gm.setAttribute('data-src',gs); gm.src=PH; gm.removeAttribute('loading'); }
+  var sc=document.getElementById('kolScroll'); if(!sc) return;
+  function step(dir){
+    var panel=sc.querySelector('.koleksi-panel');
+    var w=panel?panel.offsetWidth:320;
+    sc.scrollBy({left:dir*(w+48),behavior:'smooth'});
   }
-  sec.classList.add('hgal-on');
-  hgal.style.height=(panels.length*(isMobile?65:100))+'vh';
-  var tick=false, targets=[];
-  function maxScroll(){ return Math.max(0,pin.scrollWidth-pin.clientWidth); }
-  function measure(){ targets=[]; var x=0; for(var i=0;i<panels.length;i++){ targets.push(x); x+=panels[i].offsetWidth; } }
-  function loadVisible(){
-    var sl=pin.scrollLeft, vw=pin.clientWidth;
-    for(var i=0;i<panels.length;i++){
-      var st=targets[i], en=st+panels[i].offsetWidth;
-      if(en>sl-600 && st<sl+vw+600){
-        var ims=panels[i].querySelectorAll('img[data-src]');
-        for(var j=0;j<ims.length;j++){
-          (function(im){
-            var ds=im.getAttribute('data-src'); im.removeAttribute('data-src');
-            im.addEventListener('load',function(){ im.classList.add('ld'); });
-            im.addEventListener('error',function(){ im.classList.add('ld'); });
-            im.src=ds;
-          })(ims[j]);
-        }
-      }
-    }
-  }
-  function upd(){
-    tick=false;
-    var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
-    var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
-    pin.scrollLeft=p*maxScroll();
-    loadVisible();
-    if(bar) bar.style.transform='scaleX('+p.toFixed(3)+')';
-    if(cur) cur.textContent=String(Math.min(panels.length,Math.floor(p*panels.length)+1)).padStart(2,'0');
-  }
-  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
-  window.addEventListener('scroll',req,{passive:true});
-  window.addEventListener('resize',function(){ measure(); req(); });
-  window.addEventListener('load',function(){ measure(); upd(); });
-  measure(); upd();
-  upd();
+  var pv=document.getElementById('kolPrev'), nx=document.getElementById('kolNext');
+  if(pv) pv.addEventListener('click',function(){ step(-1); });
+  if(nx) nx.addEventListener('click',function(){ step(1); });
 })();
 // Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
 // Hanya transform GPU, mati otomatis jika prefers-reduced-motion.
