@@ -39,8 +39,9 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
-#loader{transform:translateY(0);transition:transform 2s cubic-bezier(.76,0,.24,1),visibility 2s}
-#loader.done{transform:translateY(-101%);visibility:hidden}
+#loader{transform:translateY(0);transition:transform 2s cubic-bezier(.76,0,.24,1)}
+#loader.done{transform:translateY(-101%);pointer-events:none}
+#loader.gone{visibility:hidden}
 #loader.done::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));pointer-events:none}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
 .mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0;will-change:transform,opacity}
@@ -171,10 +172,9 @@ document.documentElement.classList.add('loading');
   var loader=document.getElementById('loader');
   var winReady=false, animDone=false;
   function tryEnter(){
-    if(winReady && animDone && !loader.classList.contains('done')){
-      loader.classList.add('done');
-      document.documentElement.classList.remove('loading');
-    }
+#loader{transform:translateY(0);transition:transform 2s cubic-bezier(.76,0,.24,1)}
+#loader.done{transform:translateY(-101%);pointer-events:none}
+#loader.gone{visibility:hidden}
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
   setTimeout(function(){ winReady=true; tryEnter(); }, 4000); // fallback paksa
@@ -204,7 +204,7 @@ document.documentElement.classList.add('loading');
 // fallback: jangan kunci selamanya
 setTimeout(function(){
   var l=document.getElementById('loader');
-  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); }
+  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); setTimeout(function(){ l.classList.add('gone'); }, 2100); }
 }, 8000);
 
 /* ——— CUSTOM CURSOR ——— */
