@@ -11,12 +11,15 @@
 <meta property="og:title" content="@yield('title','MuSantara — Arsip Bunyi Nusantara')">
 <meta property="og:description" content="@yield('meta_desc','Arsip digital hidup alat musik tradisional Indonesia.')">
 <meta property="og:url" content="{{ url()->current() }}">
+<link rel="canonical" href="{{ url()->current() }}">
 <meta property="og:image" content="@yield('og_image', asset('assets/img/hero-gong.jpg'))">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="@yield('title','MuSantara — Arsip Bunyi Nusantara')">
 <meta name="twitter:description" content="@yield('meta_desc','Arsip digital hidup alat musik tradisional Indonesia.')">
 <meta name="twitter:image" content="@yield('og_image', asset('assets/img/hero-gong.jpg'))">
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+<meta name="theme-color" content="#141110">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">

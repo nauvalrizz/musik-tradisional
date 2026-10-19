@@ -38,8 +38,6 @@ Route::post('/quiz/submit', [QuizController::class, 'submit'])->middleware('thro
 
 Route::get('/quiz/questions', [QuizController::class, 'getQuestions']);
 
-Route::get('/api/search', [HomeController::class, 'ajaxSearch']);
-
 Route::get('/ruang-bunyi', [RuangBunyiController::class, 'index']);
 
 Route::get('/quiz-global', [QuizController::class, 'global'])
