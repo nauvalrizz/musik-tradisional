@@ -604,9 +604,18 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-/* v260: koleksi kompak — tombol prev/next */
+/* v261: koleksi kompak — wheel vertikal jadi horizontal (lepas di ujung) + tombol */
 (function(){
   var sc=document.getElementById('kolScroll'); if(!sc) return;
+  sc.addEventListener('wheel',function(e){
+    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX)) return;
+    var max=sc.scrollWidth-sc.clientWidth;
+    var canR=sc.scrollLeft<max-2, canL=sc.scrollLeft>2;
+    if((e.deltaY>0&&canR)||(e.deltaY<0&&canL)){
+      e.preventDefault();
+      sc.scrollLeft+=e.deltaY;
+    }
+  },{passive:false});
   function step(dir){
     var panel=sc.querySelector('.koleksi-panel');
     var w=panel?panel.offsetWidth:320;
