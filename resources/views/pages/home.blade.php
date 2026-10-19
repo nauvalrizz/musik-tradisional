@@ -66,7 +66,8 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .hgal-lead{opacity:.72;max-width:34ch;margin-top:1rem;line-height:1.7}
 .hgal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2.2rem 1.6rem}
 .hgal-ui{display:none}
-#koleksi.hgal-on{padding-top:0;padding-bottom:0}
+#koleksi.hgal-on{display:block;padding-top:0;padding-bottom:0}
+#koleksi.hgal-on .hgal{position:relative}
 #koleksi.hgal-on .hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
 #koleksi.hgal-on .hgal-track{display:flex;align-items:center;will-change:transform;padding-left:7vw}
 #koleksi.hgal-on .hgal-panel{flex:0 0 auto;padding:0 7vw 0 0;margin:0}
@@ -597,16 +598,17 @@ document.addEventListener('DOMContentLoaded',function(){
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var sec=document.getElementById('koleksi'); if(!sec) return;
-  var track=sec.querySelector('.hgal-track'); if(!track) return;
+  var hgal=sec.querySelector('.hgal'); if(!hgal) return;
+  var track=hgal.querySelector('.hgal-track'); if(!track) return;
   var panels=track.querySelectorAll('.hgal-panel');
   var bar=sec.querySelector('.hgal-prog i'), cur=sec.querySelector('.hgal-count .cur'), tot=sec.querySelector('.hgal-count .tot');
   if(tot) tot.textContent=String(panels.length).padStart(2,'0');
   sec.classList.add('hgal-on');
-  sec.style.height=(panels.length*100)+'vh';
+  hgal.style.height=(panels.length*100)+'vh';
   var tick=false;
   function upd(){
     tick=false;
-    var r=sec.getBoundingClientRect(), total=sec.offsetHeight-window.innerHeight;
+    var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
     var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
     var maxX=Math.max(0,track.scrollWidth-window.innerWidth);
     track.style.transform='translate3d('+(-p*maxX).toFixed(1)+'px,0,0)';
