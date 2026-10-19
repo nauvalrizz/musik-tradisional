@@ -65,18 +65,16 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .hgal-panel{padding:3rem 0}
 .hgal-lead{opacity:.72;max-width:34ch;margin-top:1rem;line-height:1.7}
 .hgal-plabel{margin-bottom:1.2rem}
-.hgal-plabel .pl-n{display:block;font-family:var(--display);font-size:1.6rem;letter-spacing:.02em}
-.hgal-plabel .pl-c{display:block;margin-top:.3rem;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:#A95135;opacity:.9}
 .hgal-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2.2rem 1.6rem}
 .hgal-ui{display:none}
 #koleksi.hgal-on{display:block;padding-top:0;padding-bottom:0}
 #koleksi.hgal-on .hgal{position:relative}
 #koleksi.hgal-on .hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 #koleksi.hgal-on .hgal-track{display:flex;align-items:flex-start;height:100%;width:max-content;padding:13vh 0 0 7vw}
-#koleksi.hgal-on .hgal-panel{display:flex;align-items:flex-start;flex:0 0 auto;padding:0 6vw 0 0;margin:0}
-#koleksi.hgal-on .hgal-intro{display:block;width:min(430px,80vw)}
-#koleksi.hgal-on .hgal-plabel{position:sticky;left:7vw;flex:0 0 auto;width:170px;margin:0;padding-top:.4rem}
-#koleksi.hgal-on .hgal-plabel .pl-n{font-size:2rem}
+#koleksi.hgal-on .hgal-panel{display:block;flex:0 0 auto;padding:0 6vw 0 0;margin:0}
+#koleksi.hgal-on .hgal-intro{width:min(430px,80vw)}
+#koleksi.hgal-on .hgal-plabel{position:sticky;left:7vw;z-index:10;width:max-content;min-width:min(58vw,780px);max-width:100%;margin:0 0 1.4rem;background:var(--bg0);padding:.8rem 0}
+#koleksi.hgal-on .hgal-plabel .sect-label{margin:0}
 #koleksi.hgal-on .hgal-cards{display:flex;gap:1.4rem}
 #koleksi.hgal-on .hgal-cards .pod{width:min(250px,64vw);flex:0 0 auto}
 #koleksi.hgal-on .hgal-ui{display:block;position:absolute;left:7vw;right:7vw;bottom:5vh;pointer-events:none}
@@ -84,7 +82,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .hgal-prog i{display:block;height:100%;background:#A95135;transform:scaleX(0);transform-origin:left}
 .hgal-count{margin-top:.6rem;font-size:.78rem;letter-spacing:.22em;opacity:.6}
 @media(max-width:860px){
-  .hgal-panel{padding:2.2rem 0}
+  .hgal-panel{min-height:88svh;display:flex;flex-direction:column;justify-content:center;padding:3rem 0}
   .hgal-plabel{position:sticky;top:4.5rem;z-index:5;background:var(--bg0);padding:.5rem 0;margin-bottom:1rem}
   .hgal-cards{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -7vw;padding:0 7vw 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .hgal-cards::-webkit-scrollbar{display:none}
@@ -562,7 +560,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 </div>
 @foreach($regions as $ri => $rg)
 <div class="hgal-panel">
-<div class="hgal-plabel"><span class="pl-n">{{ $rg['pulau']->nama }}</span><span class="pl-c">{{ $rg['items']->count() }} objek</span></div>
+<div class="hgal-plabel"><div class="sect-label"><span class="n">{{ $rg['pulau']->nama }}</span><span class="ax-mask"><span style="font-size:1rem">{{ $rg['items']->count() }} objek</span></span><span class="ln"></span></div></div>
 <div class="hgal-cards">
 @foreach($rg['items'] as $idx => $item)
 @include('components.card',['item'=>$item,'idx'=>$idx])
