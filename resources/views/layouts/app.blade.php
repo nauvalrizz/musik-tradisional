@@ -39,7 +39,9 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
-#loader.done{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s}
+#loader{transform:translateY(0)}
+#loader.done{transform:translateY(-100%);visibility:hidden;transition:transform .95s cubic-bezier(.76,0,.24,1),visibility .95s}
+#loader.done::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));pointer-events:none}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
 .mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0;will-change:transform,opacity}
 #loader.go .mped{transform:scale(1);opacity:1;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s}
@@ -66,6 +68,19 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 #loader.bye .mstage{transform:scale(.93);opacity:0;transition:transform .38s ease,opacity .38s ease}
 #loader.bye .mtitle,#loader.bye .msub{opacity:0;transition:opacity .3s ease}
 @media(prefers-reduced-motion:reduce){#loader.go .minst,#loader.go .mped{transition-duration:.01s}}
+/* Lazy image fade-in (v268) */
+img[loading="lazy"]{opacity:0;transition:opacity .5s ease}
+img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
+/* Skeleton overlay saat pindah halaman (v268) */
+#page-skeleton{position:fixed;inset:0;z-index:600;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s;pointer-events:none}
+#page-skeleton.show{opacity:1;visibility:visible;pointer-events:all}
+.sk-line{border-radius:8px;background:linear-gradient(90deg,#221c16 25%,#2e251d 50%,#221c16 75%);background-size:200% 100%;animation:skshim 1.2s ease-in-out infinite}
+@keyframes skshim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.sk-title{width:min(280px,60vw);height:28px}
+.sk-sub{width:min(200px,44vw);height:14px}
+.sk-row{display:flex;gap:1rem}
+.sk-card{width:120px;height:150px;border-radius:14px}
+@media(prefers-reduced-motion:reduce){.sk-line{animation:none}}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=153') }}">
 </head>
@@ -613,6 +628,41 @@ document.addEventListener('click',function(e){
   if(e.target.closest('.img-close')||e.target===m) closeM();
 });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); });
+})();
+</script>
+{{-- Skeleton overlay pindah halaman --}}
+<div id="page-skeleton" aria-hidden="true">
+<div class="sk-line sk-title"></div>
+<div class="sk-line sk-sub"></div>
+<div class="sk-row"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
+</div>
+<script>
+(function(){
+  // Tandai gambar lazy yang sudah loaded (fade-in halus)
+  function markImg(img){ img.classList.add('ld'); img.setAttribute('data-ld','1'); }
+  document.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+    if(img.complete&&img.naturalWidth>0) markImg(img);
+    else img.addEventListener('load',function(){markImg(img);},{once:true});
+  });
+  // Fallback IO untuk gambar di dalam pin galeri (programmatic scroll)
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){ markImg(en.target); io.unobserve(en.target); }
+      });
+    },{rootMargin:'200px'});
+    document.querySelectorAll('.hgal-pin img[loading="lazy"]').forEach(function(img){ io.observe(img); });
+  }
+})();
+(function(){
+  var sk=document.getElementById('page-skeleton');
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href]'); if(!a||!sk) return;
+    var href=a.getAttribute('href');
+    if(!href||href.charAt(0)==='#'||a.target==='_blank'||a.hasAttribute('download')) return;
+    if(/^https?:\/\//i.test(href)&&href.indexOf(location.host)<0) return;
+    sk.classList.add('show');
+  });
 })();
 </script>
 </body>
