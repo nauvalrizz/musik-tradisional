@@ -88,8 +88,10 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
   #koleksi.hgal-on .hgal-intro{width:82vw}
   #koleksi.hgal-on .hgal-plabel{left:6vw;min-width:74vw}
   #koleksi.hgal-on .hgal-cards{gap:1rem}
-  #koleksi.hgal-on .hgal-cards .pod{width:min(230px,62vw)}
+  #koleksi.hgal-on .hgal-cards .pod{width:min(300px,80vw)}
   #koleksi.hgal-on .hgal-ui{left:6vw;right:6vw}
+  #koleksi.hgal-on .pod-obj{height:min(38svh,230px)}
+  #koleksi.hgal-on .hgal-panel{padding-right:8vw}
   .wave.w1{width:340px;height:340px;left:-90px;top:6%}
   .wave.w2{width:480px;height:480px;right:-140px;top:32%}
   .wave.w3{width:260px;height:260px;left:30%;bottom:-80px}
@@ -609,9 +611,10 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-/* v258: koleksi horizontal semua layar; gambar dimuat manual per panel (native lazy macet di pin) */
+/* v259: koleksi horizontal; mobile 65vh/panel; gambar manual + ld */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var isMobile=window.matchMedia('(max-width: 860px)').matches;
   var sec=document.getElementById('koleksi'); if(!sec) return;
   var hgal=sec.querySelector('.hgal'); if(!hgal) return;
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
@@ -627,7 +630,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(gs && gs.indexOf('data:')!==0){ gm.setAttribute('data-src',gs); gm.src=PH; gm.removeAttribute('loading'); }
   }
   sec.classList.add('hgal-on');
-  hgal.style.height=(panels.length*100)+'vh';
+  hgal.style.height=(panels.length*(isMobile?65:100))+'vh';
   var tick=false, targets=[];
   function maxScroll(){ return Math.max(0,pin.scrollWidth-pin.clientWidth); }
   function measure(){ targets=[]; var x=0; for(var i=0;i<panels.length;i++){ targets.push(x); x+=panels[i].offsetWidth; } }
@@ -637,7 +640,14 @@ document.addEventListener('DOMContentLoaded',function(){
       var st=targets[i], en=st+panels[i].offsetWidth;
       if(en>sl-600 && st<sl+vw+600){
         var ims=panels[i].querySelectorAll('img[data-src]');
-        for(var j=0;j<ims.length;j++){ ims[j].src=ims[j].getAttribute('data-src'); ims[j].removeAttribute('data-src'); }
+        for(var j=0;j<ims.length;j++){
+          (function(im){
+            var ds=im.getAttribute('data-src'); im.removeAttribute('data-src');
+            im.addEventListener('load',function(){ im.classList.add('ld'); });
+            im.addEventListener('error',function(){ im.classList.add('ld'); });
+            im.src=ds;
+          })(ims[j]);
+        }
       }
     }
   }
@@ -653,6 +663,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
   window.addEventListener('scroll',req,{passive:true});
   window.addEventListener('resize',function(){ measure(); req(); });
+  window.addEventListener('load',function(){ measure(); upd(); });
   measure(); upd();
   upd();
 })();
