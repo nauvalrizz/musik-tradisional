@@ -38,8 +38,8 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #toTop:active{transform:scale(.92)}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
 #arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
-#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),linear-gradient(180deg,#141110,#141110);background-attachment:fixed}
-#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#141110,#141110);background-attachment:fixed}
+#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),linear-gradient(180deg,#141110,#201915);background-attachment:fixed}
+#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#201915,#141110);background-attachment:fixed}
 #kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#141110,#100d0b);background-attachment:fixed}
 @media(max-width:860px){#arsip,#pulau,#koleksi,#kuis{background-attachment:scroll}}
 /* Idle text animations — napas museum yang halus */
