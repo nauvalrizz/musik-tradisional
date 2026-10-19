@@ -68,8 +68,8 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .hgal-ui{display:none}
 #koleksi.hgal-on{display:block;padding-top:0;padding-bottom:0}
 #koleksi.hgal-on .hgal{position:relative}
-#koleksi.hgal-on .hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
-#koleksi.hgal-on .hgal-track{display:flex;align-items:center;will-change:transform;padding-left:7vw}
+#koleksi.hgal-on .hgal-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:flex-start}
+#koleksi.hgal-on .hgal-track{display:flex;align-items:flex-start;will-change:transform;padding-left:7vw;padding-top:13vh}
 #koleksi.hgal-on .hgal-panel{flex:0 0 auto;padding:0 7vw 0 0;margin:0}
 #koleksi.hgal-on .hgal-intro{width:min(430px,80vw)}
 #koleksi.hgal-on .hgal-cards{display:flex;gap:1.4rem}
