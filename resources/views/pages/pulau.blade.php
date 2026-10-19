@@ -13,7 +13,7 @@
 <div class="pring" aria-hidden="true"></div>
 <div class="pbase" aria-hidden="true"></div>
 <div class="pobj">
-<img src="{{ gambar_alat($featured->gambar) }}" alt="{{ $featured->nama }}" data-zoom>
+<img src="{{ gambar_alat($featured->gambar) }}" alt="{{ $featured->nama }}" data-zoom loading="lazy">
 </div>
 </div>
 <div class="reveal">

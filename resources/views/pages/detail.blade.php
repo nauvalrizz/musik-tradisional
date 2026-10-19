@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', $alat->nama . ' — MuSantara')
+@section('meta_desc', Str::limit(strip_tags($alat->deskripsi ?? ''), 160, '...') ?: $alat->nama . ' — alat musik tradisional Indonesia di MuSantara.')
+@section('og_image', gambar_alat($alat->gambar))
 @section('content')
 @php
     $from = request('from'); $slug = request('slug'); $q = request('q');
@@ -17,7 +19,7 @@
 <div class="pbase" aria-hidden="true"></div>
 <div class="pobj">
 @if($alat->gambar)
-<img src="{{ gambar_alat($alat->gambar) }}" alt="{{ $alat->nama }}" data-zoom>
+<img src="{{ gambar_alat($alat->gambar) }}" alt="{{ $alat->nama }}" data-zoom loading="lazy">
 @endif
 </div>
 @if($alat->sumber_gambar)

@@ -42,8 +42,13 @@ class AlatMusikController extends Controller
             'kategori' => 'required',
             'sumber_bunyi' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png',
-            'audio' => 'nullable|mimes:mp3'
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'audio' => 'nullable|mimes:mp3|max:10240'
+        ], [
+            'gambar.max' => 'Ukuran gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Gambar harus format JPG/JPEG/PNG.',
+            'audio.max' => 'Ukuran audio maksimal 10 MB.',
+            'audio.mimes' => 'Audio harus format MP3.',
         ]);
 
         $data = $request->all();
@@ -80,8 +85,13 @@ class AlatMusikController extends Controller
             'kategori' => 'required',
             'sumber_bunyi' => 'required',
             'deskripsi' => 'required',
-            'gambar' => 'nullable|image|mimes:jpg,jpeg,png',
-            'audio' => 'nullable|mimes:mp3'
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'audio' => 'nullable|mimes:mp3|max:10240'
+        ], [
+            'gambar.max' => 'Ukuran gambar maksimal 2 MB.',
+            'gambar.mimes' => 'Gambar harus format JPG/JPEG/PNG.',
+            'audio.max' => 'Ukuran audio maksimal 10 MB.',
+            'audio.mimes' => 'Audio harus format MP3.',
         ]);
 
         $alat = AlatMusik::findOrFail($id);

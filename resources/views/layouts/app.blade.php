@@ -4,7 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>@yield('title','MuSantara — Arsip Bunyi Nusantara')</title>
-<meta name="description" content="Arsip digital hidup alat musik tradisional Indonesia.">
+<meta name="description" content="@yield('meta_desc','Arsip digital hidup alat musik tradisional Indonesia.')">
+{{-- Open Graph / social preview --}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MuSantara">
+<meta property="og:title" content="@yield('title','MuSantara — Arsip Bunyi Nusantara')">
+<meta property="og:description" content="@yield('meta_desc','Arsip digital hidup alat musik tradisional Indonesia.')">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:image" content="@yield('og_image', asset('assets/img/hero-gong.jpg'))">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@yield('title','MuSantara — Arsip Bunyi Nusantara')">
+<meta name="twitter:description" content="@yield('meta_desc','Arsip digital hidup alat musik tradisional Indonesia.')">
+<meta name="twitter:image" content="@yield('og_image', asset('assets/img/hero-gong.jpg'))">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

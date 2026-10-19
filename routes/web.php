@@ -33,7 +33,7 @@ Route::get('/pulau/{slug}', [PulauController::class, 'show']);
 Route::get('/acak', [AlatController::class, 'acak']);
 Route::get('/alat/{id}', [AlatController::class, 'show']);
 
-Route::post('/quiz/submit', [QuizController::class, 'submit']);
+Route::post('/quiz/submit', [QuizController::class, 'submit'])->middleware('throttle:20,1');
 
 Route::get('/quiz/questions', [QuizController::class, 'getQuestions']);
 
@@ -54,9 +54,25 @@ Route::get('/ambil-atribusi', function () {
     require base_path('ambil_atribusi.php');
 });
 
-Route::post('/quiz-global/submit', [QuizController::class, 'submitGlobal']);
-Route::post('/api/quiz-global/submit', [QuizController::class, 'submitGlobal']);
-Route::post('/quiz/submit-global', [QuizController::class, 'submitGlobal']);
+Route::post('/quiz-global/submit', [QuizController::class, 'submitGlobal'])->middleware('throttle:20,1');
+Route::post('/api/quiz-global/submit', [QuizController::class, 'submitGlobal'])->middleware('throttle:20,1');
+Route::post('/quiz/submit-global', [QuizController::class, 'submitGlobal'])->middleware('throttle:20,1');
+
+// sitemap.xml untuk SEO
+Route::get('/sitemap.xml', function () {
+    $urls = [
+        ['loc' => url('/'), 'priority' => '1.0'],
+        ['loc' => url('/ruang-bunyi'), 'priority' => '0.8'],
+        ['loc' => url('/quiz-global'), 'priority' => '0.7'],
+    ];
+    foreach (\App\Models\Pulau::all() as $p) {
+        $urls[] = ['loc' => url('/pulau/' . $p->slug), 'priority' => '0.8'];
+    }
+    foreach (\App\Models\AlatMusik::select('id')->get() as $a) {
+        $urls[] = ['loc' => url('/alat/' . $a->id), 'priority' => '0.9'];
+    }
+    return response()->view('sitemap', compact('urls'))->header('Content-Type', 'text/xml');
+});
 
 // halaman search
 Route::get('/search', [HomeController::class, 'search'])->name('search');
