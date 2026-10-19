@@ -62,6 +62,25 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .sect-label.sec-enter.inview .ln{transform:scaleX(1)}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 /* v253: galeri horizontal desktop / snap strip mobile */
+/* v264: scrollytelling — gambar nempel, teks ganti */
+.story{padding:2rem 0 4rem}
+.story-pin{display:flex;gap:4rem;max-width:1200px;margin:0 auto;padding:0 7vw;align-items:flex-start}
+.story-visual{position:sticky;top:14vh;flex:0 0 38%;text-align:center}
+.story-visual img{width:100%;max-width:360px;border-radius:22px;border:1px solid rgba(229,214,192,.14);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.story-caption{font-family:var(--display);font-size:1.3rem;margin-top:1rem;color:var(--paper)}
+.story-steps{flex:1;min-width:0}
+.story-step{min-height:82vh;display:flex;flex-direction:column;justify-content:center;opacity:.22;transition:opacity .45s ease}
+.story-step.active{opacity:1}
+.story-num{font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;color:var(--terra);margin-bottom:.8rem}
+.story-step h3{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.4rem);margin:0 0 1rem;color:var(--paper)}
+.story-step p{line-height:1.8;opacity:.85;max-width:44ch;margin:0}
+@media(max-width:860px){
+  .story-pin{flex-direction:column;gap:0;padding:0 6vw}
+  .story-visual{position:sticky;top:9vh;flex:none;width:min(240px,60vw);margin:0 auto 1rem;z-index:5}
+  .story-visual img{max-width:100%}
+  .story-caption{font-size:1.05rem}
+  .story-step{min-height:88vh}
+}
 /* v262: pin sticky 1 layar, scroll bawah -> geser kiri */
 #koleksi{padding-top:0;padding-bottom:0}
 .hgal{position:relative}
@@ -572,7 +591,42 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 </div>
 </section>
 
-{{-- 04 KUIS --}}
+{{-- 04 CERITA: scrollytelling --}}
+@if(isset($cerita) && $cerita)
+<section class="sect" id="cerita">
+<div class="wrap">
+<div class="sect-label sec-enter"><span class="n">04 / CERITA</span><span class="ax-mask"><span>Kisah Instrumen</span></span><span class="ln"></span></div>
+</div>
+<div class="story">
+<div class="story-pin">
+<div class="story-visual sec-enter">
+<img src="{{ gambar_alat($cerita->gambar) }}" alt="{{ $cerita->nama }}" loading="lazy">
+<p class="story-caption">{{ $cerita->nama }}</p>
+</div>
+<div class="story-steps">
+<div class="story-step sec-enter">
+<span class="story-num">01</span>
+<h3>Ditempa dari Perunggu</h3>
+<p>{{ Str::limit($cerita->deskripsi, 280) }}</p>
+</div>
+<div class="story-step sec-enter">
+<span class="story-num">02</span>
+<h3>Dari {{ optional($cerita->pulau)->nama ?? 'Nusantara' }}</h3>
+<p>Instrumen ini lahir dari {{ strtolower(optional($cerita->pulau)->nama ?? 'Nusantara') }}, dibentuk oleh tangan-tangan terampil yang mewarisi teknik turun-temurun. Setiap lekuk dan ukirannya menyimpan cerita tentang tanah kelahirannya.</p>
+</div>
+<div class="story-step sec-enter">
+<span class="story-num">03</span>
+<h3>Gaung yang Menyatukan</h3>
+<p>Bunyinya telah mengiringi upacara adat, perayaan, dan kehidupan sehari-hari selama bergenerasi. {{ $cerita->nama }} bukan sekadar alat musik — ia adalah suara identitas yang terus bergaung melintasi waktu.</p>
+<div style="margin-top:1.5rem"><a href="{{ url('/alat/'.$cerita->id) }}" class="clay-btn primary">Lihat Detail <span class="arw">→</span></a></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+@endif
+
+{{-- 05 KUIS --}}
 <section class="sect" id="kuis" style="padding-bottom:6rem">
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
@@ -598,6 +652,24 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
+/* v264: scrollytelling — tandai step aktif */
+(function(){
+  var steps=document.querySelectorAll('.story-step'); if(!steps.length) return;
+  var tick=false;
+  function upd(){
+    tick=false;
+    var mid=window.innerHeight*0.62, best=null, bestD=1e9;
+    steps.forEach(function(st){
+      var r=st.getBoundingClientRect(), c=r.top+r.height/2, d=Math.abs(c-mid);
+      if(d<bestD){ bestD=d; best=st; }
+    });
+    steps.forEach(function(st){ st.classList.toggle('active', st===best); });
+  }
+  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',req);
+  upd();
+})();
 /* v262: pin 1 layar — scroll bawah menggerakkan track ke kiri */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;

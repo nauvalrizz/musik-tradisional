@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         // Cache 1 jam — homepage di-hit tiap pengunjung, query random & agregat berat
-        $data = Cache::remember('homepage_data', 3600, function () {
+        $data = Cache::remember('homepage_data_v2', 3600, function () {
         // Hero: satu instrumen berfoto
         $hero = AlatMusik::whereNotNull('gambar')->where('gambar', '!=', '')
             ->inRandomOrder()->first();
@@ -61,7 +61,18 @@ class HomeController extends Controller
             ];
         }
 
-        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi');
+        // Cerita: instrumen untuk scrollytelling (gong dulu, fallback yg ada deskripsi+foto)
+        $cerita = AlatMusik::where('nama', 'LIKE', '%gong%')
+            ->whereNotNull('gambar')->where('gambar', '!=', '')
+            ->whereNotNull('deskripsi')->where('deskripsi', '!=', '')
+            ->first();
+        if (!$cerita) {
+            $cerita = AlatMusik::whereNotNull('gambar')->where('gambar', '!=', '')
+                ->whereNotNull('deskripsi')->where('deskripsi', '!=', '')
+                ->first();
+        }
+
+        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi', 'cerita');
         });
 
         return view('pages.home', $data);
