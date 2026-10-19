@@ -55,6 +55,7 @@ class AlatMusikController extends Controller
 
         if ($request->hasFile('gambar')) {
             $path = $request->file('gambar')->store('img', 'public');
+            kompres_gambar(storage_path('app/public/' . $path));
             $data['gambar'] = $path;
             // copy ke public agar langsung terbaca (assets/img/alat-musik/)
             $dest = public_path('assets/img/alat-musik/' . basename($path));
@@ -100,6 +101,7 @@ class AlatMusikController extends Controller
 
         if ($request->hasFile('gambar')) {
             $path = $request->file('gambar')->store('img', 'public');
+            kompres_gambar(storage_path('app/public/' . $path));
             $data['gambar'] = $path;
             // copy ke public agar langsung terbaca (assets/img/alat-musik/)
             $dest = public_path('assets/img/alat-musik/' . basename($path));

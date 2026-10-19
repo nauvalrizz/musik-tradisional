@@ -86,6 +86,7 @@ class QuizController extends Controller
                 'is_correct' => $ans['is_correct']
             ]);
         }
+        \Illuminate\Support\Facades\Cache::forget('statistik_admin');
 
         return response()->json(['status' => 'ok']);
     }

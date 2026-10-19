@@ -5,6 +5,7 @@
   <div class="kick">PANEL KURATOR</div>
   <h1>Ringkasan</h1>
   <p>Data koleksi dan aktivitas pengguna MuSantara.</p>
+  <div style="margin-top:1rem"><a href="/admin/backup" class="btn btn-g btn-s">Unduh Backup Database</a></div>
 </div>
 
 <div class="kpis">

@@ -26,6 +26,7 @@ Route::middleware('admin.auth')->group(function () {
     Route::put('/admin/alat/{id}', [AlatMusikController::class, 'update']);
     Route::delete('/admin/alat/{id}', [AlatMusikController::class, 'destroy']);
     Route::get('/admin/statistik', [StatistikController::class, 'index']);
+    Route::get('/admin/backup', [AdminController::class, 'backup']);
 });
 
 Route::get('/pulau/{slug}', [PulauController::class, 'show']);
