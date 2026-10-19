@@ -16,6 +16,10 @@
 .hero-clay .wrap,.sect .wrap,.map-sec .wrap{width:100%}
 /* Background animatif khusus section arsip: riak gelombang bunyi */
 #arsip{position:relative;z-index:1}
+/* Hero sticky pin: nempel di viewport, #arsip menimpa dari bawah */
+#jelajahi{position:sticky;top:0;z-index:0;height:100vh;height:100svh;overflow:hidden}
+#arsip{background-color:var(--bg0);
+  background-image:radial-gradient(1200px 600px at 70% -10%,rgba(169,81,53,.07),transparent 60%),radial-gradient(900px 500px at 10% 110%,rgba(98,72,58,.09),transparent 60%)}
 .arsip-bg{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;pointer-events:none;z-index:0;margin-bottom:-100vh;margin-bottom:-100svh}
 /* section sesudah #arsip menimpa bg sticky */
 #pulau,#koleksi,#kuis,footer{position:relative;z-index:2;background-color:var(--bg0);
@@ -447,6 +451,7 @@ refreshPlayBtn();
 const clk=new THREE.Clock();
 (function loop(){
   requestAnimationFrame(loop);
+  if(window.scrollY>window.innerHeight*1.05) return; // hero tertutup -> skip render
   const t=clk.getElapsedTime();
   if(G){
     if(G.scale.x<1)G.scale.setScalar(Math.min(1,G.scale.x+.03)); // transisi masuk
