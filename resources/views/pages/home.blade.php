@@ -17,7 +17,6 @@
 /* Background animatif khusus section arsip: riak gelombang bunyi */
 #arsip{position:relative;z-index:1}
 .arsip-bg{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;pointer-events:none;z-index:0;margin-bottom:-100vh;margin-bottom:-100svh}
-#arsip .wrap{margin-top:-100vh;margin-top:-100svh}
 /* section sesudah #arsip menimpa bg sticky */
 #pulau,#koleksi,#kuis,footer{position:relative;z-index:2;background-color:var(--bg0);
   background-image:radial-gradient(1200px 600px at 70% -10%,rgba(169,81,53,.07),transparent 60%),radial-gradient(900px 500px at 10% 110%,rgba(98,72,58,.09),transparent 60%)}
