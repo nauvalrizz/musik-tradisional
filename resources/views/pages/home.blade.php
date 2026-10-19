@@ -14,6 +14,16 @@
   position:relative;padding-top:6rem!important;padding-bottom:4rem!important;
 }
 .hero-clay .wrap,.sect .wrap,.map-sec .wrap{width:100%}
+/* Background animatif khusus section arsip: riak gelombang bunyi */
+.arsip-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.sect .wrap{position:relative;z-index:1}
+.wave{position:absolute;border-radius:50%;border:1px solid rgba(181,80,47,.13)}
+.wave.w1{width:520px;height:520px;left:-160px;top:6%;animation:waveDrift 26s ease-in-out infinite alternate}
+.wave.w2{width:760px;height:760px;right:-220px;top:30%;animation:waveDrift 34s ease-in-out infinite alternate-reverse}
+.wave.w3{width:380px;height:380px;left:36%;bottom:-140px;animation:waveDrift 22s ease-in-out infinite alternate}
+.wave i{position:absolute;inset:18%;border-radius:50%;border:1px solid rgba(181,80,47,.1)}
+@keyframes waveDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-44px,0) scale(1.07)}}
+@media(prefers-reduced-motion:reduce){.wave{animation:none}}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
 #arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
 #pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),#151210;background-attachment:fixed}
@@ -448,6 +458,7 @@ const clk=new THREE.Clock();
 
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
+<div class="arsip-bg" data-pxsec="0.35" aria-hidden="true"><div class="wave w1"><i></i></div><div class="wave w2"><i></i></div><div class="wave w3"><i></i></div></div>
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
 <div class="sec-enter d1" style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
@@ -549,15 +560,30 @@ document.addEventListener('DOMContentLoaded',function(){
 (function(){
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var els = Array.prototype.slice.call(document.querySelectorAll('[data-px]'));
-  if (!els.length) return;
+  var sels = Array.prototype.slice.call(document.querySelectorAll('[data-pxsec]'));
+  if (!els.length && !sels.length) return;
   var ticking = false;
   function update(){
     var y = window.scrollY || window.pageYOffset;
-    // hanya saat hero masih terlihat (hemat baterai)
-    if (y < window.innerHeight * 1.2) {
-      for (var i = 0; i < els.length; i++) {
-        var sp = parseFloat(els[i].getAttribute('data-px')) || 0;
-        els[i].style.transform = 'translate3d(0,' + (y * sp).toFixed(1) + 'px,0)';
+    var vh = window.innerHeight;
+    var i, el, sp;
+    // hero: berbasis scrollY absolut
+    if (y < vh * 1.2) {
+      for (i = 0; i < els.length; i++) {
+        el = els[i];
+        sp = parseFloat(el.getAttribute('data-px')) || 0;
+        el.style.transform = 'translate3d(0,' + (y * sp).toFixed(1) + 'px,0)';
+      }
+    }
+    // section: relatif posisi section di viewport (bg jalan lebih lambat)
+    for (i = 0; i < sels.length; i++) {
+      el = sels[i];
+      sp = parseFloat(el.getAttribute('data-pxsec')) || 0;
+      var r = el.parentElement.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < vh) {
+        var prog = (vh - r.top) / (vh + r.height); // 0..1 selama section terlihat
+        var off = (prog - 0.5) * 140 * sp;
+        el.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0)';
       }
     }
     ticking = false;
@@ -565,6 +591,7 @@ document.addEventListener('DOMContentLoaded',function(){
   window.addEventListener('scroll', function(){
     if (!ticking) { requestAnimationFrame(update); ticking = true; }
   }, {passive:true});
+  update();
 })();
 </script>
 @endsection
