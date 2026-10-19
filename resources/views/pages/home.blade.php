@@ -511,7 +511,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="map-wrap">
 @include('partials.map')
 </div>
-<div class="map-bar" id="regionBar"></div>
+<div class="map-bar" id="regionBar"><span class="rn">NUSANTARA</span><span class="rc">ketuk pulau</span></div>
 <div id="island-data" data-counts='@json($islandCounts ?? [])' hidden></div>
 </div>
 </div>

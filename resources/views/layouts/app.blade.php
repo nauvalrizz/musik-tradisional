@@ -551,8 +551,9 @@ document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(p){
   p.addEventListener('mouseenter',function(){
     document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(o){ if(o!==p) o.classList.add('dim'); });
     if(rBar){
-      rBar.querySelector('.rn').textContent=NAMES[s]||s;
-      rBar.querySelector('.rc').textContent=(COUNTS[s]||0)+' instrumen';
+      var rn=rBar.querySelector('.rn'),rc=rBar.querySelector('.rc');
+      if(rn) rn.textContent=NAMES[s]||s;
+      if(rc) rc.textContent=(COUNTS[s]||0)+' instrumen';
       rBar.classList.add('has-sel');
     }
   });
