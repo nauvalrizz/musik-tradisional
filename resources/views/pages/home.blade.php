@@ -82,11 +82,17 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .hgal-prog i{display:block;height:100%;background:#A95135;transform:scaleX(0);transform-origin:left}
 .hgal-count{margin-top:.6rem;font-size:.78rem;letter-spacing:.22em;opacity:.6}
 @media(max-width:860px){
-  .hgal-panel{min-height:88svh;display:flex;flex-direction:column;justify-content:center;padding:3rem 0}
-  .hgal-plabel{position:sticky;top:4.5rem;z-index:5;background:var(--bg0);padding:.5rem 0;margin-bottom:1rem}
-  .hgal-cards{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -7vw;padding:0 7vw 1rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .hgal-cards::-webkit-scrollbar{display:none}
-  .hgal-cards .pod{flex:0 0 auto;width:min(230px,68vw);scroll-snap-align:center}
+  #koleksi{overflow-x:clip}
+  #koleksi.hgal-on .hgal-track{padding-left:6vw}
+  #koleksi.hgal-on .hgal-panel{padding-right:10vw}
+  #koleksi.hgal-on .hgal-intro{width:82vw}
+  #koleksi.hgal-on .hgal-plabel{left:6vw;min-width:74vw}
+  #koleksi.hgal-on .hgal-cards{gap:1rem}
+  #koleksi.hgal-on .hgal-cards .pod{width:min(200px,56vw)}
+  #koleksi.hgal-on .hgal-ui{left:6vw;right:6vw}
+  .wave.w1{width:340px;height:340px;left:-90px;top:6%}
+  .wave.w2{width:480px;height:480px;right:-140px;top:32%}
+  .wave.w3{width:260px;height:260px;left:30%;bottom:-80px}
 }
 </style>
 
@@ -603,10 +609,10 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-/* v253: koleksi — desktop: scroll vertikal -> pin.scrollLeft (label sticky native); mobile: strip snap */
+/* v257: koleksi horizontal semua layar; mobile: snap 1 panel per berhenti scroll */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(window.matchMedia('(max-width: 860px)').matches) return;
+  var isMobile=window.matchMedia('(max-width: 860px)').matches;
   var sec=document.getElementById('koleksi'); if(!sec) return;
   var hgal=sec.querySelector('.hgal'); if(!hgal) return;
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
@@ -616,18 +622,33 @@ document.addEventListener('DOMContentLoaded',function(){
   if(tot) tot.textContent=String(panels.length).padStart(2,'0');
   sec.classList.add('hgal-on');
   hgal.style.height=(panels.length*100)+'vh';
-  var tick=false;
+  var tick=false, snapT=null, targets=[];
+  function maxScroll(){ return Math.max(0,pin.scrollWidth-pin.clientWidth); }
+  function measure(){ targets=[]; var x=0; for(var i=0;i<panels.length;i++){ targets.push(x); x+=panels[i].offsetWidth; } }
   function upd(){
     tick=false;
     var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
     var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
-    pin.scrollLeft=p*Math.max(0,pin.scrollWidth-pin.clientWidth);
+    pin.scrollLeft=p*maxScroll();
     if(bar) bar.style.transform='scaleX('+p.toFixed(3)+')';
     if(cur) cur.textContent=String(Math.min(panels.length,Math.floor(p*panels.length)+1)).padStart(2,'0');
   }
-  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
+  function doSnap(){
+    var ms=maxScroll(), curSl=pin.scrollLeft, best=0, bd=1e12;
+    for(var i=0;i<targets.length;i++){ var t=Math.min(targets[i],ms), d=Math.abs(t-curSl); if(d<bd){bd=d;best=t;} }
+    if(bd<8) return;
+    var pBest=ms>0?best/ms:0;
+    var hgalTop=hgal.getBoundingClientRect().top+window.scrollY;
+    var total=hgal.offsetHeight-window.innerHeight;
+    window.scrollTo({top:hgalTop+pBest*total,behavior:'smooth'});
+  }
+  function req(){
+    if(!tick){ tick=true; requestAnimationFrame(upd); }
+    if(isMobile){ clearTimeout(snapT); snapT=setTimeout(doSnap,140); }
+  }
   window.addEventListener('scroll',req,{passive:true});
-  window.addEventListener('resize',req);
+  window.addEventListener('resize',function(){ measure(); req(); });
+  measure(); upd();
   upd();
 })();
 // Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
