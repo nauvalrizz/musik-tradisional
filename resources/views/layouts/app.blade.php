@@ -39,8 +39,8 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
-#loader{transform:translateY(0)}
-#loader.done{transform:translateY(-100%);visibility:hidden;transition:transform .95s cubic-bezier(.76,0,.24,1),visibility .95s}
+#loader{transform:translateY(0);transition:transform 1s cubic-bezier(.76,0,.24,1),visibility 1s}
+#loader.done{transform:translateY(-101%);visibility:hidden}
 #loader.done::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));pointer-events:none}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
 .mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0;will-change:transform,opacity}
@@ -65,8 +65,7 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 #loader.logo .mtitle{opacity:1;transform:translateY(0);transition:opacity .45s ease,transform .45s cubic-bezier(.22,1,.36,1)}
 .msub{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.34em;color:#766d62;opacity:0;will-change:opacity}
 #loader.logo .msub{opacity:1;transition:opacity .45s ease .12s}
-#loader.bye .mstage{transform:scale(.93);opacity:0;transition:transform .38s ease,opacity .38s ease}
-#loader.bye .mtitle,#loader.bye .msub{opacity:0;transition:opacity .3s ease}
+/* bye di-skip, langsung tirai naik (v270) */
 @media(prefers-reduced-motion:reduce){#loader.go .minst,#loader.go .mped{transition-duration:.01s}}
 /* Lazy image fade-in (v268) */
 img[loading="lazy"]{opacity:0;transition:opacity .5s ease}
@@ -173,11 +172,8 @@ document.documentElement.classList.add('loading');
   var winReady=false, animDone=false;
   function tryEnter(){
     if(winReady && animDone && !loader.classList.contains('done')){
-      loader.classList.add('bye');
-      setTimeout(function(){
-        loader.classList.add('done');
-        document.documentElement.classList.remove('loading');
-      }, 420);
+      loader.classList.add('done');
+      document.documentElement.classList.remove('loading');
     }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
