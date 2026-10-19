@@ -69,7 +69,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .story-visual img{width:100%;max-width:360px;border-radius:22px;border:1px solid rgba(229,214,192,.14);box-shadow:0 24px 60px rgba(0,0,0,.45)}
 .story-caption{font-family:var(--display);font-size:1.3rem;margin-top:1rem;color:var(--paper)}
 .story-steps{flex:1;min-width:0}
-.story-step{min-height:82vh;display:flex;flex-direction:column;justify-content:center;opacity:.22;transition:opacity .45s ease}
+.story-step.sec-enter{opacity:.22;transform:none}.story-step{min-height:82vh;display:flex;flex-direction:column;justify-content:center;opacity:.22;transition:opacity .45s ease}
 .story-step.active{opacity:1}
 .story-num{font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;color:var(--terra);margin-bottom:.8rem}
 .story-step h3{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.4rem);margin:0 0 1rem;color:var(--paper)}
@@ -604,17 +604,17 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <p class="story-caption">{{ $cerita->nama }}</p>
 </div>
 <div class="story-steps">
-<div class="story-step sec-enter">
+<div class="story-step">
 <span class="story-num">01</span>
 <h3>Ditempa dari Perunggu</h3>
 <p>{{ Str::limit($cerita->deskripsi, 280) }}</p>
 </div>
-<div class="story-step sec-enter">
+<div class="story-step">
 <span class="story-num">02</span>
 <h3>Dari {{ optional($cerita->pulau)->nama ?? 'Nusantara' }}</h3>
 <p>Instrumen ini lahir dari {{ strtolower(optional($cerita->pulau)->nama ?? 'Nusantara') }}, dibentuk oleh tangan-tangan terampil yang mewarisi teknik turun-temurun. Setiap lekuk dan ukirannya menyimpan cerita tentang tanah kelahirannya.</p>
 </div>
-<div class="story-step sec-enter">
+<div class="story-step">
 <span class="story-num">03</span>
 <h3>Gaung yang Menyatukan</h3>
 <p>Bunyinya telah mengiringi upacara adat, perayaan, dan kehidupan sehari-hari selama bergenerasi. {{ $cerita->nama }} bukan sekadar alat musik — ia adalah suara identitas yang terus bergaung melintasi waktu.</p>
