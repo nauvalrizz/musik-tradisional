@@ -43,7 +43,7 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 #loader.done{pointer-events:none}
 #loader.done .mstage,#loader.done .mtitle,#loader.done .msub,#loader.done .mripple{display:none!important}
 #loader.gone{visibility:hidden}
-#loader.done::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));pointer-events:none}
+#loader.done::after{content:'';position:absolute;left:0;right:0;bottom:0;height:4px;background:#a95135;box-shadow:0 0 24px rgba(169,81,53,.8);pointer-events:none}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
 .mped{position:absolute;left:50%;bottom:18px;width:120px;height:34px;margin-left:-60px;border-radius:48% 52% 50% 50%/70% 65% 60% 65%;background:linear-gradient(145deg,#4a382c,#2e231b);box-shadow:0 8px 18px rgba(0,0,0,.5),inset 0 2px 3px rgba(229,214,192,.12);transform:scale(0);opacity:0;will-change:transform,opacity}
 #loader.go .mped{transform:scale(1);opacity:1;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s}
