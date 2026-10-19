@@ -39,7 +39,7 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
-#loader{transform:translateY(0);transition:transform 1.6s cubic-bezier(.76,0,.24,1),visibility 1.6s}
+#loader{transform:translateY(0);transition:transform 2s cubic-bezier(.76,0,.24,1),visibility 2s}
 #loader.done{transform:translateY(-101%);visibility:hidden}
 #loader.done::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:60px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));pointer-events:none}
 .mstage{position:relative;width:min(300px,72vw);height:210px}
