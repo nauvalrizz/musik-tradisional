@@ -15,7 +15,7 @@
 }
 .hero-clay .wrap,.sect .wrap,.map-sec .wrap{width:100%}
 /* Background animatif khusus section arsip: riak gelombang bunyi */
-.arsip-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.arsip-bg{position:absolute;top:-90px;bottom:-90px;left:0;right:0;overflow:hidden;pointer-events:none;z-index:0}
 .sect .wrap{position:relative;z-index:1}
 .wave{position:absolute;border-radius:50%;border:2px solid rgba(181,80,47,.28);box-shadow:0 0 60px rgba(181,80,47,.08) inset}
 .wave.w1{width:560px;height:560px;left:-140px;top:4%;animation:waveDrift 26s ease-in-out infinite alternate}
@@ -459,7 +459,7 @@ const clk=new THREE.Clock();
 
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
-<div class="arsip-bg" data-pxsec="0.35" aria-hidden="true"><div class="wave w1"><i></i><b></b></div><div class="wave w2"><i></i><b></b></div><div class="wave w3"><i></i><b></b></div></div>
+<div class="arsip-bg" data-pxsec="0.9" aria-hidden="true"><div class="wave w1"><i></i><b></b></div><div class="wave w2"><i></i><b></b></div><div class="wave w3"><i></i><b></b></div></div>
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
 <div class="sec-enter d1" style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
