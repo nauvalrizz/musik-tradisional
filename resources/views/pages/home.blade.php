@@ -46,7 +46,7 @@
 <section class="hero-clay" id="jelajahi">
 <div class="wrap">
 <div class="hero-grid">
-<div id="heroTitleBlock">
+<div id="heroTitleBlock" data-px="0.12">
 <p class="hero-kicker" id="heroEyebrow">DIGITAL MUSEUM OF INDONESIAN SOUND</p>
 <h1 class="hero-title" id="heroTitle" data-full="MUSANTARA">MUSANTARA</h1>
 <p class="hero-sub ax-slideL">Museum tanah liat digital untuk alat musik tradisional Indonesia. Sentuh, tekan, dengarkan — setiap objek punya bunyi.</p>
@@ -61,7 +61,7 @@
 <div><b>∞</b><span>BUNYI</span></div>
 </div>
 </div>
-<div class="artifact-stage" id="heroArtifact">
+<div class="artifact-stage" id="heroArtifact" data-px="0.05">
 <div class="as-spotlight" aria-hidden="true"></div>
 <div class="as-soundfield" aria-hidden="true"><i></i><i></i><i></i></div>
 <div class="as-platform" aria-hidden="true"><div class="as-tier1"></div><div class="as-tier2"></div></div>
@@ -542,5 +542,29 @@ document.addEventListener('DOMContentLoaded',function(){
   // fallback: kalau IO tidak support, tampilkan semua
   if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('inview'); }); }
 });
+</script>
+<script>
+// Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
+// Hanya transform GPU, mati otomatis jika prefers-reduced-motion.
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els = Array.prototype.slice.call(document.querySelectorAll('[data-px]'));
+  if (!els.length) return;
+  var ticking = false;
+  function update(){
+    var y = window.scrollY || window.pageYOffset;
+    // hanya saat hero masih terlihat (hemat baterai)
+    if (y < window.innerHeight * 1.2) {
+      for (var i = 0; i < els.length; i++) {
+        var sp = parseFloat(els[i].getAttribute('data-px')) || 0;
+        els[i].style.transform = 'translate3d(0,' + (y * sp).toFixed(1) + 'px,0)';
+      }
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, {passive:true});
+})();
 </script>
 @endsection
