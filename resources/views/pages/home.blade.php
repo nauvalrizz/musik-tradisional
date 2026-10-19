@@ -38,9 +38,9 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #toTop:active{transform:scale(.92)}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
 #arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
-#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),#151210;background-attachment:fixed}
-#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#141110,#171310);background-attachment:fixed}
-#kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),#141110;background-attachment:fixed}
+#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),linear-gradient(180deg,#141110,#141110);background-attachment:fixed}
+#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#141110,#141110);background-attachment:fixed}
+#kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#141110,#100d0b);background-attachment:fixed}
 @media(max-width:860px){#arsip,#pulau,#koleksi,#kuis{background-attachment:scroll}}
 /* Idle text animations — napas museum yang halus */
 @keyframes idleBreathe{0%,100%{letter-spacing:.015em;opacity:1}50%{letter-spacing:.045em;opacity:.94}}
@@ -62,29 +62,10 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .sect-label.sec-enter.inview .ln{transform:scaleX(1)}
 @media(prefers-reduced-motion:reduce){.sec-enter{opacity:1;transform:none;transition:none}}
 /* v253: galeri horizontal desktop / snap strip mobile */
-/* v264: scrollytelling — gambar nempel, teks ganti */
-.story{padding:2rem 0 4rem}
-.story-pin{display:flex;gap:4rem;max-width:1200px;margin:0 auto;padding:0 7vw;align-items:flex-start}
-.story-visual{position:sticky;top:14vh;flex:0 0 38%;text-align:center}
-.story-visual img{width:100%;max-width:360px;border-radius:22px;border:1px solid rgba(229,214,192,.14);box-shadow:0 24px 60px rgba(0,0,0,.45)}
-.story-caption{font-family:var(--display);font-size:1.3rem;margin-top:1rem;color:var(--paper)}
-.story-steps{flex:1;min-width:0}
-.story-step.sec-enter{opacity:.22;transform:none}.story-step{min-height:82vh;display:flex;flex-direction:column;justify-content:center;opacity:.22;transition:opacity .45s ease}
-.story-step.active{opacity:1}
-.story-num{font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;color:var(--terra);margin-bottom:.8rem}
-.story-step h3{font-family:var(--display);font-size:clamp(1.6rem,3vw,2.4rem);margin:0 0 1rem;color:var(--paper)}
-.story-step p{line-height:1.8;opacity:.85;max-width:44ch;margin:0}
-@media(max-width:860px){
-  .story-pin{flex-direction:column;gap:0;padding:0 6vw}
-  .story-visual{position:sticky;top:9vh;flex:none;width:min(240px,60vw);margin:0 auto 1rem;z-index:5}
-  .story-visual img{max-width:100%}
-  .story-caption{font-size:1.05rem}
-  .story-step{min-height:88vh}
-}
 /* v262: pin sticky 1 layar, scroll bawah -> geser kiri */
 #koleksi{padding-top:0;padding-bottom:0}
 .hgal{position:relative}
-.hgal-pin{position:sticky;top:4vh;height:92vh;height:92svh;overflow:hidden;display:flex;align-items:center;max-width:min(1280px,96vw);margin:0 auto;background:linear-gradient(180deg,#201915,#181310);border:1px solid rgba(229,214,192,.14);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(229,214,192,.09)}
+.hgal-pin{position:sticky;top:4vh;top:4svh;height:92vh;height:92svh;overflow:hidden;display:flex;align-items:center;max-width:min(1280px,96vw);margin:0 auto;background:linear-gradient(180deg,#201915,#181310);border:1px solid rgba(229,214,192,.14);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(229,214,192,.09)}
 .hgal-track{display:flex;align-items:center;width:max-content;padding-left:7vw}
 .hgal-panel{flex:0 0 auto;padding-right:6vw}
 .hgal-intro{width:min(400px,80vw)}
