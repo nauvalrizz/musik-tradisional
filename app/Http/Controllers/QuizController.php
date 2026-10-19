@@ -74,6 +74,24 @@ class QuizController extends Controller
             })
         );
     }
+    // Kuis lama (homepage): simpan satu jawaban per request
+    public function submit(Request $request)
+    {
+        $request->validate([
+            'alat_musik_id' => 'required|integer',
+            'tipe_soal' => 'required|string',
+            'is_correct' => 'required|boolean',
+        ]);
+        \App\Models\QuizResult::create([
+            'session_id' => session()->getId(),
+            'alat_musik_id' => $request->alat_musik_id,
+            'tipe_soal' => $request->tipe_soal,
+            'is_correct' => $request->is_correct,
+        ]);
+        \Illuminate\Support\Facades\Cache::forget('statistik_admin');
+        return response()->json(['status' => 'ok']);
+    }
+
     public function submitGlobal(Request $request)
     {
         $answers = $request->answers;

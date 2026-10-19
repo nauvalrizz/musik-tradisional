@@ -29,6 +29,7 @@ class AlatMusikController extends Controller
     {
         $alat = AlatMusik::findOrFail($id);
         $alat->delete();
+        \Illuminate\Support\Facades\Cache::forget('homepage_data');
 
         return redirect('/admin/alat')
             ->with('success', 'Data berhasil dihapus!');
@@ -73,6 +74,7 @@ class AlatMusikController extends Controller
         }
 
         AlatMusik::create($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_data');
 
         return redirect('/admin/alat')
             ->with('success', 'Data berhasil ditambahkan!');
@@ -119,6 +121,7 @@ class AlatMusikController extends Controller
         }
 
         $alat->update($data);
+        \Illuminate\Support\Facades\Cache::forget('homepage_data');
 
         return redirect('/admin/alat')
             ->with('success', 'Data berhasil diupdate!');

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\AlatMusik;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        // Cache 1 jam — homepage di-hit tiap pengunjung, query random & agregat berat
+        $data = Cache::remember('homepage_data', 3600, function () {
         // Hero: satu instrumen berfoto
         $hero = AlatMusik::whereNotNull('gambar')->where('gambar', '!=', '')
             ->inRandomOrder()->first();
@@ -58,7 +61,10 @@ class HomeController extends Controller
             ];
         }
 
-        return view('pages.home', compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi'));
+        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi');
+        });
+
+        return view('pages.home', $data);
     }
     public function search(Request $request)
     {
