@@ -172,9 +172,11 @@ document.documentElement.classList.add('loading');
   var loader=document.getElementById('loader');
   var winReady=false, animDone=false;
   function tryEnter(){
-#loader{transform:translateY(0);transition:transform 2s cubic-bezier(.76,0,.24,1)}
-#loader.done{transform:translateY(-101%);pointer-events:none}
-#loader.gone{visibility:hidden}
+    if(winReady && animDone && !loader.classList.contains('done')){
+      loader.classList.add('done');
+      document.documentElement.classList.remove('loading');
+      setTimeout(function(){ loader.classList.add('gone'); }, 2100);
+    }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
   setTimeout(function(){ winReady=true; tryEnter(); }, 4000); // fallback paksa
