@@ -17,12 +17,13 @@
 /* Background animatif khusus section arsip: riak gelombang bunyi */
 .arsip-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .sect .wrap{position:relative;z-index:1}
-.wave{position:absolute;border-radius:50%;border:1px solid rgba(181,80,47,.13)}
-.wave.w1{width:520px;height:520px;left:-160px;top:6%;animation:waveDrift 26s ease-in-out infinite alternate}
-.wave.w2{width:760px;height:760px;right:-220px;top:30%;animation:waveDrift 34s ease-in-out infinite alternate-reverse}
-.wave.w3{width:380px;height:380px;left:36%;bottom:-140px;animation:waveDrift 22s ease-in-out infinite alternate}
-.wave i{position:absolute;inset:18%;border-radius:50%;border:1px solid rgba(181,80,47,.1)}
-@keyframes waveDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-44px,0) scale(1.07)}}
+.wave{position:absolute;border-radius:50%;border:2px solid rgba(181,80,47,.28);box-shadow:0 0 60px rgba(181,80,47,.08) inset}
+.wave.w1{width:560px;height:560px;left:-140px;top:4%;animation:waveDrift 26s ease-in-out infinite alternate}
+.wave.w2{width:820px;height:820px;right:-200px;top:28%;animation:waveDrift 34s ease-in-out infinite alternate-reverse}
+.wave.w3{width:420px;height:420px;left:34%;bottom:-120px;animation:waveDrift 22s ease-in-out infinite alternate}
+.wave i{position:absolute;inset:16%;border-radius:50%;border:2px solid rgba(181,80,47,.2)}
+.wave b{position:absolute;inset:34%;border-radius:50%;border:1px solid rgba(217,138,95,.22)}
+@keyframes waveDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-56px,0) scale(1.09)}}
 @media(prefers-reduced-motion:reduce){.wave{animation:none}}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
 #arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
@@ -458,7 +459,7 @@ const clk=new THREE.Clock();
 
 {{-- 01 ARSIP BUNYI --}}
 <section class="sect" id="arsip">
-<div class="arsip-bg" data-pxsec="0.35" aria-hidden="true"><div class="wave w1"><i></i></div><div class="wave w2"><i></i></div><div class="wave w3"><i></i></div></div>
+<div class="arsip-bg" data-pxsec="0.35" aria-hidden="true"><div class="wave w1"><i></i><b></b></div><div class="wave w2"><i></i><b></b></div><div class="wave w3"><i></i><b></b></div></div>
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
 <div class="sec-enter d1" style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
