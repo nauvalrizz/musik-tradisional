@@ -161,7 +161,6 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 
 <script src="{{ asset('assets/js/gamelan.js?v=161') }}" defer></script>
 @stack('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script>
 (function(){
 "use strict";
@@ -177,14 +176,18 @@ document.documentElement.classList.add('loading');
     if(winReady && animDone && !loader.classList.contains('done')){
       loader.classList.add('done');
       document.documentElement.classList.remove('loading');
-      // Tirai naik via GSAP (2 detik)
-      if(window.gsap){
-        gsap.to(loader,{yPercent:-101,duration:2,ease:"power4.inOut",
-          onComplete:function(){ loader.classList.add('gone'); }});
-      } else {
-        loader.style.transform='translateY(-101%)';
-        setTimeout(function(){ loader.classList.add('gone'); }, 2100);
+      // Tirai naik via rAF murni (2 detik, easeInOutQuart)
+      var dur=2000, t0=null;
+      function easeInOutQuart(t){ return t<.5 ? 8*t*t*t*t : 1-Math.pow(-2*t+2,4)/2; }
+      function step(ts){
+        if(!t0) t0=ts;
+        var p=Math.min(1,(ts-t0)/dur);
+        var e=easeInOutQuart(p);
+        loader.style.transform='translateY('+(-101*e)+'%)';
+        if(p<1){ requestAnimationFrame(step); }
+        else { loader.classList.add('gone'); }
       }
+      requestAnimationFrame(step);
     }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
@@ -215,7 +218,7 @@ document.documentElement.classList.add('loading');
 // fallback: jangan kunci selamanya
 setTimeout(function(){
   var l=document.getElementById('loader');
-  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); if(window.gsap){ gsap.to(l,{yPercent:-101,duration:2,ease:"power4.inOut",onComplete:function(){ l.classList.add('gone'); }}); } else { l.style.transform='translateY(-101%)'; setTimeout(function(){ l.classList.add('gone'); }, 2100); } }
+  if(l && !l.classList.contains('done')){ l.classList.add('done'); document.documentElement.classList.remove('loading'); (function(){ var d=2000,t0=null; function ez(t){ return t<.5?8*t*t*t*t:1-Math.pow(-2*t+2,4)/2; } function st(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/d),e=ez(p); l.style.transform='translateY('+(-101*e)+'%)'; if(p<1)requestAnimationFrame(st); else l.classList.add('gone'); } requestAnimationFrame(st); })(); }
 }, 8000);
 
 /* ——— CUSTOM CURSOR ——— */
