@@ -17,35 +17,8 @@ class QuizController extends Controller
      */
     public function global()
     {
-        $data = AlatMusik::inRandomOrder()->take(5)->get();
-
-        $allKategori = ['Petik', 'Pukul', 'Tiup', 'Gesek', 'Goyang', 'Getar'];
-
-        $questions = $data->map(function ($item) use ($allKategori) {
-
-            $correct = $item->kategori;
-
-            // ambil semua selain jawaban benar
-            $wrong = array_values(array_diff($allKategori, [$correct]));
-
-            // random 3 jawaban salah
-            shuffle($wrong);
-            $wrong = array_slice($wrong, 0, 3);
-
-            // gabung + shuffle
-            $options = array_merge([$correct], $wrong);
-            shuffle($options);
-
-            return [
-                'question' => "Alat musik {$item->nama} dimainkan dengan cara apa?",
-                'options' => $options,
-                'answer' => $correct
-            ];
-        })->toArray();
-
-        session()->put('quiz_questions', $questions);
-
-        return view('quiz.global', compact('questions'));
+        // Soal diambil via /quiz/questions oleh quiz-global.js
+        return view('quiz.global');
     }
 
     /**
@@ -56,24 +29,6 @@ class QuizController extends Controller
         return view('quiz.result');
     }
 
-    /**
-     * ================= DATA UNTUK QUIZ GLOBAL (API) =================
-     */
-    public function globalData()
-    {
-        return response()->json(
-            AlatMusik::with('pulau')->get()->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'nama' => $item->nama,
-                    'kategori' => $item->kategori,
-                    'sumber_bunyi' => $item->sumber_bunyi,
-                    'asal_daerah' => $item->pulau->nama ?? 'Tidak diketahui',
-                    'gambar' => $item->gambar ? gambar_alat($item->gambar) : null,
-                ];
-            })
-        );
-    }
     // Kuis lama (homepage): simpan satu jawaban per request
     public function submit(Request $request)
     {

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\AlatMusik;
 use App\Http\Controllers\Admin\AlatMusikController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PulauController;
@@ -11,10 +10,6 @@ use App\Http\Controllers\RuangBunyiController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\StatistikController;
 
-
-Route::get('/test', function () {
-    return AlatMusik::all();
-});
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -40,21 +35,15 @@ Route::get('/quiz/questions', [QuizController::class, 'getQuestions']);
 
 Route::get('/ruang-bunyi', [RuangBunyiController::class, 'index']);
 
-Route::get('/quiz-global', [QuizController::class, 'global'])
-    ->middleware('check.explore');
+Route::get('/quiz-global', [QuizController::class, 'global']);
 
-Route::get('/quiz-result', [QuizController::class, 'result'])
-    ->middleware('check.explore');
-
-Route::get('/api/quiz-data', [QuizController::class, 'globalData']);
+Route::get('/quiz-result', [QuizController::class, 'result']);
 
 
 Route::get('/ambil-atribusi', function () {
     require base_path('ambil_atribusi.php');
 });
 
-Route::post('/quiz-global/submit', [QuizController::class, 'submitGlobal'])->middleware('throttle:20,1');
-Route::post('/api/quiz-global/submit', [QuizController::class, 'submitGlobal'])->middleware('throttle:20,1');
 Route::post('/quiz/submit-global', [QuizController::class, 'submitGlobal'])->middleware('throttle:20,1');
 
 // sitemap.xml untuk SEO

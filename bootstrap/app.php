@@ -12,7 +12,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'check.explore' => \App\Http\Middleware\CheckExplore::class,
             'admin.auth' => \App\Http\Middleware\AdminBasicAuth::class,
         ]);
     })
