@@ -25,6 +25,12 @@
 .wave b{position:absolute;inset:34%;border-radius:50%;border:1px solid rgba(217,138,95,.22)}
 @keyframes waveDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-56px,0) scale(1.09)}}
 @media(prefers-reduced-motion:reduce){.wave{animation:none}}
+/* Back to top */
+#toTop{position:fixed;right:1.1rem;bottom:1.4rem;z-index:60;width:46px;height:46px;border-radius:50%;
+border:1px solid rgba(181,80,47,.35);background:rgba(43,38,34,.88);color:#ede6d6;font-size:1.15rem;line-height:1;
+cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .35s,transform .35s;backdrop-filter:blur(4px)}
+#toTop.show{opacity:1;transform:none;pointer-events:auto}
+#toTop:active{transform:scale(.92)}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
 #arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
 #pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),#151210;background-attachment:fixed}
@@ -534,8 +540,8 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
 <div class="quiz-card sec-enter d1" style="max-width:560px;margin:0 auto">
-<p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEMBILAN SOAL</p>
-<p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
+<p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">LIMA SOAL</p>
+<p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Lima soal singkat tentang Nusantara.</p>
 <a href="{{ url('/quiz-global') }}" class="clay-btn primary">Mulai Kuis <span class="arw">→</span></a>
 </div>
 </div>
@@ -593,6 +599,14 @@ document.addEventListener('DOMContentLoaded',function(){
     if (!ticking) { requestAnimationFrame(update); ticking = true; }
   }, {passive:true});
   update();
+})();
+/* Back to top */
+(function(){
+  var b=document.createElement('button');b.id='toTop';b.setAttribute('aria-label','Kembali ke atas');b.innerHTML='&#8593;';
+  document.body.appendChild(b);
+  var onScroll=function(){b.classList.toggle('show',(window.scrollY||window.pageYOffset)>600);};
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 })();
 </script>
 @endsection
