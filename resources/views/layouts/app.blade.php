@@ -177,6 +177,7 @@ document.documentElement.classList.add('loading');
     }
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
+  setTimeout(function(){ winReady=true; tryEnter(); }, 4000); // fallback paksa
   var startDelay = reduced ? 0 : 80;
   setTimeout(function(){
     loader.classList.add('go'); // pedestal + instruments pop
