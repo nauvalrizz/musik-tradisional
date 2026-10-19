@@ -88,7 +88,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
   #koleksi.hgal-on .hgal-intro{width:82vw}
   #koleksi.hgal-on .hgal-plabel{left:6vw;min-width:74vw}
   #koleksi.hgal-on .hgal-cards{gap:1rem}
-  #koleksi.hgal-on .hgal-cards .pod{width:min(200px,56vw)}
+  #koleksi.hgal-on .hgal-cards .pod{width:min(230px,62vw)}
   #koleksi.hgal-on .hgal-ui{left:6vw;right:6vw}
   .wave.w1{width:340px;height:340px;left:-90px;top:6%}
   .wave.w2{width:480px;height:480px;right:-140px;top:32%}
@@ -609,10 +609,9 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <script>
-/* v257: koleksi horizontal semua layar; mobile: snap 1 panel per berhenti scroll */
+/* v258: koleksi horizontal semua layar; gambar dimuat manual per panel (native lazy macet di pin) */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var isMobile=window.matchMedia('(max-width: 860px)').matches;
   var sec=document.getElementById('koleksi'); if(!sec) return;
   var hgal=sec.querySelector('.hgal'); if(!hgal) return;
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
@@ -620,32 +619,38 @@ document.addEventListener('DOMContentLoaded',function(){
   var panels=track.querySelectorAll('.hgal-panel');
   var bar=sec.querySelector('.hgal-prog i'), cur=sec.querySelector('.hgal-count .cur'), tot=sec.querySelector('.hgal-count .tot');
   if(tot) tot.textContent=String(panels.length).padStart(2,'0');
+  /* ambil alih lazy: pindah src -> data-src, pasang placeholder */
+  var PH='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27400%27 height=%27300%27%3E%3Crect width=%27400%27 height=%27300%27 fill=%27%232a2420%27/%3E%3C/svg%3E';
+  var gimgs=sec.querySelectorAll('.hgal-cards img');
+  for(var gi=0;gi<gimgs.length;gi++){
+    var gm=gimgs[gi], gs=gm.getAttribute('src');
+    if(gs && gs.indexOf('data:')!==0){ gm.setAttribute('data-src',gs); gm.src=PH; gm.removeAttribute('loading'); }
+  }
   sec.classList.add('hgal-on');
   hgal.style.height=(panels.length*100)+'vh';
-  var tick=false, snapT=null, targets=[];
+  var tick=false, targets=[];
   function maxScroll(){ return Math.max(0,pin.scrollWidth-pin.clientWidth); }
   function measure(){ targets=[]; var x=0; for(var i=0;i<panels.length;i++){ targets.push(x); x+=panels[i].offsetWidth; } }
+  function loadVisible(){
+    var sl=pin.scrollLeft, vw=pin.clientWidth;
+    for(var i=0;i<panels.length;i++){
+      var st=targets[i], en=st+panels[i].offsetWidth;
+      if(en>sl-600 && st<sl+vw+600){
+        var ims=panels[i].querySelectorAll('img[data-src]');
+        for(var j=0;j<ims.length;j++){ ims[j].src=ims[j].getAttribute('data-src'); ims[j].removeAttribute('data-src'); }
+      }
+    }
+  }
   function upd(){
     tick=false;
     var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
     var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
     pin.scrollLeft=p*maxScroll();
+    loadVisible();
     if(bar) bar.style.transform='scaleX('+p.toFixed(3)+')';
     if(cur) cur.textContent=String(Math.min(panels.length,Math.floor(p*panels.length)+1)).padStart(2,'0');
   }
-  function doSnap(){
-    var ms=maxScroll(), curSl=pin.scrollLeft, best=0, bd=1e12;
-    for(var i=0;i<targets.length;i++){ var t=Math.min(targets[i],ms), d=Math.abs(t-curSl); if(d<bd){bd=d;best=t;} }
-    if(bd<8) return;
-    var pBest=ms>0?best/ms:0;
-    var hgalTop=hgal.getBoundingClientRect().top+window.scrollY;
-    var total=hgal.offsetHeight-window.innerHeight;
-    window.scrollTo({top:hgalTop+pBest*total,behavior:'smooth'});
-  }
-  function req(){
-    if(!tick){ tick=true; requestAnimationFrame(upd); }
-    if(isMobile){ clearTimeout(snapT); snapT=setTimeout(doSnap,140); }
-  }
+  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
   window.addEventListener('scroll',req,{passive:true});
   window.addEventListener('resize',function(){ measure(); req(); });
   measure(); upd();
