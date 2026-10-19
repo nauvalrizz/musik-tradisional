@@ -591,42 +591,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 </div>
 </section>
 
-{{-- 04 CERITA: scrollytelling --}}
-@if(isset($cerita) && $cerita)
-<section class="sect" id="cerita">
-<div class="wrap">
-<div class="sect-label sec-enter"><span class="n">04 / CERITA</span><span class="ax-mask"><span>Kisah Instrumen</span></span><span class="ln"></span></div>
-</div>
-<div class="story">
-<div class="story-pin">
-<div class="story-visual sec-enter">
-<img src="{{ gambar_alat($cerita->gambar) }}" alt="{{ $cerita->nama }}" loading="lazy">
-<p class="story-caption">{{ $cerita->nama }}</p>
-</div>
-<div class="story-steps">
-<div class="story-step">
-<span class="story-num">01</span>
-<h3>Ditempa dari Perunggu</h3>
-<p>{{ Str::limit($cerita->deskripsi, 280) }}</p>
-</div>
-<div class="story-step">
-<span class="story-num">02</span>
-<h3>Dari {{ optional($cerita->pulau)->nama ?? 'Nusantara' }}</h3>
-<p>Instrumen ini lahir dari {{ strtolower(optional($cerita->pulau)->nama ?? 'Nusantara') }}, dibentuk oleh tangan-tangan terampil yang mewarisi teknik turun-temurun. Setiap lekuk dan ukirannya menyimpan cerita tentang tanah kelahirannya.</p>
-</div>
-<div class="story-step">
-<span class="story-num">03</span>
-<h3>Gaung yang Menyatukan</h3>
-<p>Bunyinya telah mengiringi upacara adat, perayaan, dan kehidupan sehari-hari selama bergenerasi. {{ $cerita->nama }} bukan sekadar alat musik — ia adalah suara identitas yang terus bergaung melintasi waktu.</p>
-<div style="margin-top:1.5rem"><a href="{{ url('/alat/'.$cerita->id) }}" class="clay-btn primary">Lihat Detail <span class="arw">→</span></a></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-@endif
-
-{{-- 05 KUIS --}}
+{{-- 04 KUIS --}}
 <section class="sect" id="kuis" style="padding-bottom:6rem">
 <div class="wrap">
 <div class="sect-label sec-enter"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
