@@ -73,7 +73,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #koleksi.hgal-on .hgal-track{display:flex;align-items:flex-start;height:100%;width:max-content;padding:13vh 0 0 7vw}
 #koleksi.hgal-on .hgal-panel{display:block;flex:0 0 auto;padding:0 6vw 0 0;margin:0}
 #koleksi.hgal-on .hgal-intro{width:min(430px,80vw)}
-#koleksi.hgal-on .hgal-plabel{position:sticky;left:7vw;z-index:10;width:max-content;min-width:min(58vw,780px);max-width:100%;margin:0 0 1.4rem;background:var(--bg0);padding:.8rem 0}
+#koleksi.hgal-on .hgal-plabel{position:sticky;left:7vw;z-index:10;width:max-content;min-width:min(58vw,780px);max-width:100%;margin:0 0 1.4rem;padding:.8rem 0}
 #koleksi.hgal-on .hgal-plabel .sect-label{margin:0}
 #koleksi.hgal-on .hgal-cards{display:flex;gap:1.4rem}
 #koleksi.hgal-on .hgal-cards .pod{width:min(250px,64vw);flex:0 0 auto}
