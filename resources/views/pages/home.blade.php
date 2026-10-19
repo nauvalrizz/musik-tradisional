@@ -29,7 +29,7 @@
 #pulau{position:sticky;top:0;z-index:1;height:100vh;height:100svh;overflow:hidden;
   padding-top:4.5rem!important;padding-bottom:2rem!important}
 #pulau .wrap{position:relative;z-index:1}
-#pulau .map-wrap svg{width:100%;height:auto;max-height:52vh;max-height:52svh;margin:0 auto}
+#pulau .map-wrap svg{width:100%;height:auto;max-height:calc(100svh - 260px);margin:0 auto}
 #pulau .map-bar{margin-top:1rem}
 .pulau-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .pulau-bg::after{content:"";position:absolute;inset:0;
@@ -531,7 +531,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="map-wrap">
 @include('partials.map')
 </div>
-<div class="map-bar" id="regionBar"><span class="rn">NUSANTARA</span><span class="rc">ketuk pulau</span></div>
+<div class="map-bar" id="regionBar"></div>
 <div id="island-data" data-counts='@json($islandCounts ?? [])' hidden></div>
 </div>
 </div>
