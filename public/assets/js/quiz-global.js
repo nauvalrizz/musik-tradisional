@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (q.tipe === 'nama') label = 'Tebak Nama';
             if (q.tipe === 'kategori') label = 'Cara Main';
-            if (q.tipe === 'sumber') label = 'Sumber Bunyi';
+            if (q.tipe === 'sumber_bunyi') label = 'Sumber Bunyi';
 
             imgContainer.innerHTML = `
             <p class="quiz-label">${label}</p>

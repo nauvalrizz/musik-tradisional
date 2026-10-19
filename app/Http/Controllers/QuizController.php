@@ -74,14 +74,14 @@ class QuizController extends Controller
 
         $questions = $data->map(function ($item) use ($allKategori, $allSumber, $allNama) {
 
-            $type = collect(['kategori', 'nama', 'sumber'])->random();
+            $type = collect(['kategori', 'nama', 'sumber_bunyi'])->random();
 
             // === tentukan correct & pool wrong ===
             if ($type === 'kategori') {
                 $correct = $item->kategori;
                 $pool = array_values(array_diff($allKategori, [$correct]));
                 $question = "Alat musik {$item->nama} dimainkan dengan cara apa?";
-            } elseif ($type === 'sumber') {
+            } elseif ($type === 'sumber_bunyi') {
                 $correct = $item->sumber_bunyi;
                 $pool = array_values(array_diff($allSumber, [$correct]));
                 $question = "{$item->nama} termasuk sumber bunyi apa?";

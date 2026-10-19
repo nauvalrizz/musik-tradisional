@@ -37,7 +37,7 @@ class StatistikController extends Controller
                     DB::raw('SUM(is_correct) as benar')
                 )
                 ->join('alat_musik', 'quiz_results.alat_musik_id', '=', 'alat_musik.id')
-                ->where('quiz_results.tipe_soal', 'sumber_bunyi')
+                ->whereIn('quiz_results.tipe_soal', ['sumber_bunyi', 'sumber'])
                 ->groupBy('alat_musik.sumber_bunyi')
                 ->get();
 
