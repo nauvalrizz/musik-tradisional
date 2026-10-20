@@ -697,54 +697,5 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
   });
 })();
 </script>
-<script>
-/* REFINED SCROLL — immediate-apply + ekor teredam (tanpa target, tanpa antrian).
-   75% input diterapkan seketika; sisa 25% digelontorkan halus (maks 90px).
-   Posisi scroll asli yang digerakkan -> animasi scroll-linked tetap sinkron.
-   Sentuh & keyboard tetap native. */
-(function(){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(!window.matchMedia('(pointer: fine)').matches) return;
-  var IMM=0.75, RATE=0.25, CAP=90;
-  var tail=0, running=false, token=0, lastSetY=window.scrollY||0, lastSetAt=0;
-  function setTo(y){ window.scrollTo(0,y); lastSetY=window.scrollY||0; lastSetAt=performance.now(); }
-  function loop(t){
-    if(t!==token) return;
-    if(Math.abs(tail)<0.5){ tail=0; running=false; return; }
-    var y0=window.scrollY||0;
-    setTo(y0+tail*RATE);
-    var y1=window.scrollY||0;
-    tail-=(y1-y0);
-    if(y1===y0){ tail=0; running=false; return; }
-    requestAnimationFrame(function(){ loop(t); });
-  }
-  function kick(){ if(running) return; running=true; var t=++token; requestAnimationFrame(function(){ loop(t); }); }
-  window.addEventListener('wheel',function(e){
-    if(e.ctrlKey) return;
-    if(document.documentElement.classList.contains('loading')) return;
-    if(document.body.style.overflow==='hidden') return;
-    var tg=e.target;
-    if(tg && tg.closest && tg.closest('textarea,select')) return;
-    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return;
-    var d=e.deltaY;
-    if(e.deltaMode===1) d*=16; else if(e.deltaMode===2) d*=window.innerHeight;
-    if(!d) return;
-    e.preventDefault();
-    if(tail && ((d>0)!==(tail>0))) tail=0;
-    var imm=d*IMM, nt=tail+d*(1-IMM);
-    if(nt>CAP){ imm+=(nt-CAP); nt=CAP; } else if(nt<-CAP){ imm+=(nt+CAP); nt=-CAP; }
-    tail=nt;
-    if(imm) setTo((window.scrollY||0)+imm);
-    kick();
-  },{passive:false});
-  window.addEventListener('scroll',function(){
-    if(!running) return;
-    var y=window.scrollY||0;
-    if(Math.abs(y-lastSetY)<=2) return;
-    if(performance.now()-lastSetAt<100) return;
-    tail=0; token++; running=false;
-  },{passive:true});
-})();
-</script>
 </body>
 </html>
