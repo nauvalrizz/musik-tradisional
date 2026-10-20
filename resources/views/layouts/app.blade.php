@@ -79,6 +79,13 @@ img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
 .sk-sub{width:min(200px,44vw);height:14px}
 .sk-row{display:flex;gap:1rem}
 .sk-card{width:120px;height:150px;border-radius:14px}
+#page-skeleton{align-items:stretch;justify-content:flex-start;padding:5.5rem 1.2rem 2rem;gap:0}
+.sk-nav{position:absolute;top:1rem;left:50%;transform:translateX(-50%);width:min(420px,80vw);height:44px;border-radius:22px}
+.sk-hero{width:min(640px,88vw);height:34px;margin:2.5rem auto 1rem}
+.sk-sub2{width:min(420px,70vw);height:16px;margin:0 auto 2rem}
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;width:min(880px,92vw);margin:0 auto}
+.sk-grid .sk-card{height:170px;width:auto}
+.sk-foot{width:min(300px,60vw);height:12px;margin:2.5rem auto 0;opacity:.6}
 @media(prefers-reduced-motion:reduce){.sk-line{animation:none}}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=153') }}">
@@ -648,9 +655,11 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
 </script>
 {{-- Skeleton overlay pindah halaman --}}
 <div id="page-skeleton" aria-hidden="true">
-<div class="sk-line sk-title"></div>
-<div class="sk-line sk-sub"></div>
-<div class="sk-row"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
+<div class="sk-line sk-nav"></div>
+<div class="sk-line sk-hero"></div>
+<div class="sk-line sk-sub2"></div>
+<div class="sk-grid"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
+<div class="sk-line sk-foot"></div>
 </div>
 <script>
 (function(){

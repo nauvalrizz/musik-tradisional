@@ -17,7 +17,7 @@
 <div class="pod-stage">
 <div class="pod-obj">
 <div class="pod-shadow" aria-hidden="true"></div>
-@if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy">@else<div class="pod-noimg" aria-hidden="true"></div>@endif
+@if($item->gambar)<img src="{{ gambar_alat($item->gambar) }}" alt="{{ $item->nama }}" loading="lazy" decoding="async">@else<div class="pod-noimg" aria-hidden="true"></div>@endif
 </div>
 <div class="pod-base">
 <span class="pod-seal" aria-hidden="true">{{ $seal }}</span>
