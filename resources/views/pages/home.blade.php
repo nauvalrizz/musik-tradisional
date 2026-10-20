@@ -130,6 +130,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .mini-opt.ok{background:linear-gradient(145deg,#5A6B52,var(--green));color:#fff;opacity:1}
 .mini-opt.no{background:linear-gradient(145deg,#7a3a2a,#5e2c1f);color:#fff;opacity:1}
 .mini-fb{margin-top:.85rem;font-size:.95rem;color:var(--cream)}
+.mini-cta{color:var(--terra);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(169,81,53,.55);white-space:nowrap}
 .kuis-meta{margin-top:1.05rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--muted)}
 #kuisStartBtn.attn{animation:btnPulse .55s ease 2}
 @keyframes btnPulse{50%{transform:scale(1.07)}}
@@ -629,7 +630,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="kuis-rings" aria-hidden="true"><span></span><span></span><span></span></div>
 <div class="kuis-strip" aria-hidden="true"><div class="kuis-strip-in"><div class="strip-set"><span>GONG</span><i>✦</i><span>KENONG</span><i>✦</i><span>ANGKLUNG</span><i>✦</i><span>BONANG</span><i>✦</i><span>SARON</span><i>✦</i><span>GAMBANG</span><i>✦</i><span>DEMUNG</span><i>✦</i><span>KEMPUL</span><i>✦</i><span>PEKING</span><i>✦</i></div><div class="strip-set"><span>GONG</span><i>✦</i><span>KENONG</span><i>✦</i><span>ANGKLUNG</span><i>✦</i><span>BONANG</span><i>✦</i><span>SARON</span><i>✦</i><span>GAMBANG</span><i>✦</i><span>DEMUNG</span><i>✦</i><span>KEMPUL</span><i>✦</i><span>PEKING</span><i>✦</i></div></div></div>
 <div class="wrap">
-<div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
+<div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Pengetahuan</span></span><span class="ln"></span></div>
 <div class="quiz-card" style="max-width:560px;margin:0 auto">
 <div class="quiz-glare" aria-hidden="true"></div>
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEPULUH SOAL</p>
@@ -774,7 +775,14 @@ document.addEventListener('DOMContentLoaded',function(){
         if(!ok) b.classList.add('no');
         if(mfb){
           mfb.hidden=false;
-          mfb.textContent=(ok?'Betul! ':'Belum tepat — ')+(mq.getAttribute('data-fb')||'');
+          mfb.textContent=(ok?'Betul! ':'Belum tepat — ')+(mq.getAttribute('data-fb')||'')
+            +(ok?' Berani lanjut 10 soal aslinya?':' Balas di kuis aslinya, yuk.');
+          if(mbtn&&mbtn.href){
+            var cta=document.createElement('a');
+            cta.className='mini-cta'; cta.href=mbtn.href; cta.textContent='Coba kuisnya \u2192';
+            mfb.appendChild(document.createTextNode(' '));
+            mfb.appendChild(cta);
+          }
         }
         if(mbtn){ mbtn.classList.remove('attn'); void mbtn.offsetWidth; mbtn.classList.add('attn'); }
       });
