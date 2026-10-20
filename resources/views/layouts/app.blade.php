@@ -691,7 +691,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
 })();
 </script>
 <script>
-/* Scroll sedikit berat — dari normal, ditambah empuk tipis di ujung scroll.
+/* Scroll pelan ngalir — jarak dipotong 0.65x, chase halus 0.09 (ga lempar-stop).
    Wheel dihaluskan pakai inersia ringan; layar sentuh tetap native. */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -709,7 +709,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
     if(t!==token) return;
     var diff=target-cur;
     if(Math.abs(diff)<0.5){ cur=target; setY(cur); running=false; rangeMin=cur; rangeMax=cur; return; }
-    cur+=diff*0.42;
+    cur+=diff*0.09;
     setY(cur);
     requestAnimationFrame(function(){ loop(t); });
   }
@@ -723,12 +723,13 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
     e.preventDefault();
     var d=e.deltaY;
     if(e.deltaMode===1) d*=16; else if(e.deltaMode===2) d*=window.innerHeight;
+    d*=0.65;
     if(!running){
       var y=window.scrollY||0;
       if(Math.abs(y-lastSetY)>2) resync(y);
     }
     target=Math.min(maxY(),Math.max(0,target+d));
-    var lead=window.innerHeight*0.45;
+    var lead=window.innerHeight*1.1;
     target=Math.max(cur-lead,Math.min(cur+lead,target));
     kick();
   },{passive:false});
