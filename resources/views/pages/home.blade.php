@@ -104,6 +104,14 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #kuis.k-live .sect-label .ln{display:block;transform-origin:left}
 #kuis.k-live .sect-label .n,#kuis.k-live .sect-label .ax-mask,
 #kuis.k-live .sect-label .ln,#kuis.k-live .quiz-card{transition:none!important;will-change:transform,opacity}
+#kuis .quiz-card{position:relative;overflow:hidden}
+#kuis .quiz-card>*:not(.quiz-glare):not(.quiz-ripple){position:relative;z-index:1}
+.quiz-glare{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .45s ease;
+  background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(229,214,192,.16),transparent 60%)}
+#kuis .quiz-card:hover .quiz-glare{opacity:1}
+.quiz-ripple{position:absolute;z-index:0;pointer-events:none;border-radius:50%;
+  border:2px solid rgba(169,81,53,.55);transform:translate(-50%,-50%) scale(0);animation:qrip .9s ease-out forwards}
+@keyframes qrip{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
 @media(prefers-reduced-motion:reduce){.kuis-rings{display:none}.kuis-glow{display:none}}
 </style>
 
@@ -600,6 +608,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="wrap">
 <div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
 <div class="quiz-card" style="max-width:560px;margin:0 auto">
+<div class="quiz-glare" aria-hidden="true"></div>
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEPULUH SOAL</p>
 <p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
 <a href="{{ url('/quiz-global') }}" class="clay-btn primary">Mulai Kuis <span class="arw">→</span></a>
@@ -640,7 +649,7 @@ document.addEventListener('DOMContentLoaded',function(){
         if(kax){ kax.style.opacity=p2.toFixed(3); kax.style.transform='translateY('+((1-p2)*26).toFixed(1)+'px)'; }
         if(kln) kln.style.transform='scaleX('+p2.toFixed(3)+')';
         var p3=kease(kclamp((p-.18)/.82));
-        if(kcard){ kcard.style.opacity=p3.toFixed(3); kcard.style.transform='translateY('+((1-p3)*54).toFixed(1)+'px) scale('+(.96+.04*p3).toFixed(3)+')'; }
+        if(kcard){ kcard.style.opacity=p3.toFixed(3); kcard.style.transform='translateY('+((1-p3)*54).toFixed(1)+'px) scale('+(.96+.04*p3).toFixed(3)+') perspective(900px) rotateX(var(--trx,0deg)) rotateY(var(--try,0deg))'; }
         if(kglow){
           var prog=(vh-r.top)/(vh+r.height);
           kglow.style.transform='translateY('+((prog-.5)*64).toFixed(1)+'px)';
@@ -649,6 +658,44 @@ document.addEventListener('DOMContentLoaded',function(){
       window.addEventListener('scroll',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } },{passive:true});
       window.addEventListener('resize',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } });
       kup();
+      // Interaksi RARE kartu kuis: tilt 3D + kilau + ripple gelombang bunyi
+      if(kcard){
+        var tRX=0,tRY=0,cRX=0,cRY=0,loopOn=false,hoverOn=false;
+        function tiltLoop(){
+          cRX+=(tRX-cRX)*.12; cRY+=(tRY-cRY)*.12;
+          kcard.style.setProperty('--trx',cRX.toFixed(2)+'deg');
+          kcard.style.setProperty('--try',cRY.toFixed(2)+'deg');
+          if(hoverOn||Math.abs(cRX-tRX)>.02||Math.abs(cRY-tRY)>.02) requestAnimationFrame(tiltLoop);
+          else loopOn=false;
+        }
+        function tiltStart(){ if(!loopOn){ loopOn=true; requestAnimationFrame(tiltLoop); } }
+        kcard.addEventListener('pointerenter',function(){ hoverOn=true; tiltStart(); });
+        kcard.addEventListener('pointermove',function(e){
+          var r=kcard.getBoundingClientRect();
+          var px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+          tRY=(px-.5)*12; tRX=(.5-py)*10;
+          kcard.style.setProperty('--gx',(px*100).toFixed(1)+'%');
+          kcard.style.setProperty('--gy',(py*100).toFixed(1)+'%');
+          tiltStart();
+        });
+        kcard.addEventListener('pointerleave',function(){ hoverOn=false; tRX=0; tRY=0; tiltStart(); });
+        kcard.addEventListener('pointerdown',function(e){
+          if(e.target.closest('a')) return;
+          var r=kcard.getBoundingClientRect();
+          var sp=document.createElement('span'); sp.className='quiz-ripple';
+          var d=Math.max(r.width,r.height)*2.2;
+          sp.style.width=sp.style.height=d+'px';
+          sp.style.left=(e.clientX-r.left)+'px'; sp.style.top=(e.clientY-r.top)+'px';
+          kcard.appendChild(sp);
+          sp.addEventListener('animationend',function(){ sp.remove(); });
+        });
+        window.addEventListener('deviceorientation',function(e){
+          if(e.beta==null||e.gamma==null) return;
+          tRX=Math.max(-6,Math.min(6,(e.beta-45)*.25));
+          tRY=Math.max(-8,Math.min(8,e.gamma*.3));
+          tiltStart();
+        });
+      }
     }
   }
   // fallback: kalau IO tidak support, tampilkan semua
