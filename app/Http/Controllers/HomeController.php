@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index()
     {
         // Cache 1 jam — homepage di-hit tiap pengunjung, query random & agregat berat
-        $data = Cache::remember('homepage_data', 3600, function () {
+        $data = Cache::remember('homepage_data_v2', 3600, function () {
         // Hero: satu instrumen berfoto
         $hero = AlatMusik::whereNotNull('gambar')->where('gambar', '!=', '')
             ->inRandomOrder()->first();
@@ -61,7 +61,21 @@ class HomeController extends Controller
             ];
         }
 
-        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi');
+        // Teaser kuis (section Kuis di home): 1 contoh soal asli dari DB
+        $pool = AlatMusik::with('pulau')->whereNotNull('gambar')->where('gambar', '!=', '')
+            ->inRandomOrder()->limit(3)->get();
+        $kuisTeaser = null;
+        if ($pool->count() >= 3) {
+            $ans = $pool[0];
+            $kuisTeaser = [
+                'nama'    => $ans->nama,
+                'asal'    => optional($ans->pulau)->nama ?? 'Nusantara',
+                'gambar'  => gambar_alat($ans->gambar),
+                'pilihan' => $pool->map(function ($x) { return $x->nama; })->shuffle()->values()->all(),
+            ];
+        }
+
+        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi', 'kuisTeaser');
         });
 
         return view('pages.home', $data);

@@ -112,6 +112,28 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .quiz-ripple{position:absolute;z-index:0;pointer-events:none;border-radius:50%;
   border:2px solid rgba(169,81,53,.55);transform:translate(-50%,-50%) scale(0);animation:qrip .9s ease-out forwards}
 @keyframes qrip{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.kuis-strip{overflow:hidden;width:100%;margin-bottom:2.4rem;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.kuis-strip-in{display:flex;width:max-content;animation:stripMove 32s linear infinite;white-space:nowrap}
+.strip-set{font-family:var(--mono);font-size:.68rem;letter-spacing:.3em;color:rgba(229,214,192,.45)}
+.strip-set span{margin-right:2.4rem}
+.strip-set i{color:var(--terra);font-style:normal;margin-right:2.4rem}
+@keyframes stripMove{to{transform:translateX(-50%)}}
+.mini-quiz{margin:0 auto 1.5rem;max-width:400px}
+.mini-img{width:100%;height:170px;object-fit:cover;border-radius:14px;display:block;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.mini-q{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;color:var(--terra);margin:.95rem 0 .65rem}
+.mini-opts{display:flex;flex-direction:column;gap:.45rem}
+.mini-opt{display:block;width:100%;text-align:left;background:linear-gradient(145deg,var(--clay2),var(--clay1));color:var(--cream);border:none;border-radius:12px;padding:.65rem 1rem;font-size:.92rem;cursor:pointer;box-shadow:0 2px 4px rgba(0,0,0,.4),inset 0 1px 0 rgba(229,214,192,.1);transition:transform .15s ease,background .25s ease;min-height:42px;font-family:inherit}
+.mini-opt:hover:not(:disabled){transform:translateY(-2px)}
+.mini-opt:disabled{cursor:default;opacity:.7}
+.mini-opt.ok{background:linear-gradient(145deg,#5A6B52,var(--green));color:#fff;opacity:1}
+.mini-opt.no{background:linear-gradient(145deg,#7a3a2a,#5e2c1f);color:#fff;opacity:1}
+.mini-fb{margin-top:.85rem;font-size:.95rem;color:var(--cream)}
+.kuis-meta{margin-top:1.05rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--muted)}
+#kuisStartBtn.attn{animation:btnPulse .55s ease 2}
+@keyframes btnPulse{50%{transform:scale(1.07)}}
+@media(prefers-reduced-motion:reduce){.kuis-strip-in{animation:none}#kuisStartBtn.attn{animation:none}}
 @media(prefers-reduced-motion:reduce){.kuis-rings{display:none}.kuis-glow{display:none}}
 </style>
 
@@ -605,13 +627,27 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <section class="sect" id="kuis" style="padding-bottom:6rem">
 <div class="kuis-glow" aria-hidden="true"></div>
 <div class="kuis-rings" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="kuis-strip" aria-hidden="true"><div class="kuis-strip-in"><div class="strip-set"><span>GONG</span><i>✦</i><span>KENONG</span><i>✦</i><span>ANGKLUNG</span><i>✦</i><span>BONANG</span><i>✦</i><span>SARON</span><i>✦</i><span>GAMBANG</span><i>✦</i><span>DEMUNG</span><i>✦</i><span>KEMPUL</span><i>✦</i><span>PEKING</span><i>✦</i></div><div class="strip-set"><span>GONG</span><i>✦</i><span>KENONG</span><i>✦</i><span>ANGKLUNG</span><i>✦</i><span>BONANG</span><i>✦</i><span>SARON</span><i>✦</i><span>GAMBANG</span><i>✦</i><span>DEMUNG</span><i>✦</i><span>KEMPUL</span><i>✦</i><span>PEKING</span><i>✦</i></div></div></div>
 <div class="wrap">
 <div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
 <div class="quiz-card" style="max-width:560px;margin:0 auto">
 <div class="quiz-glare" aria-hidden="true"></div>
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEPULUH SOAL</p>
-<p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Dengarkan bunyinya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
-<a href="{{ url('/quiz-global') }}" class="clay-btn primary">Mulai Kuis <span class="arw">→</span></a>
+<p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Lihat gambarnya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
+@if(!empty($kuisTeaser))
+<div class="mini-quiz" id="miniQuiz" data-fb="Itu {{ $kuisTeaser['nama'] }} dari {{ $kuisTeaser['asal'] }}.">
+<img class="mini-img" src="{{ $kuisTeaser['gambar'] }}" alt="Foto alat musik tradisional" loading="lazy" decoding="async">
+<p class="mini-q">ALAT MUSIK APA INI?</p>
+<div class="mini-opts">
+@foreach($kuisTeaser['pilihan'] as $pil)
+<button type="button" class="mini-opt" data-ok="{{ $pil === $kuisTeaser['nama'] ? '1' : '0' }}">{{ $pil }}</button>
+@endforeach
+</div>
+<p class="mini-fb" id="miniFb" hidden></p>
+</div>
+@endif
+<a href="{{ url('/quiz-global') }}" class="clay-btn primary" id="kuisStartBtn">Mulai Kuis <span class="arw">→</span></a>
+<p class="kuis-meta">10 SOAL · TEBAK DARI GAMBAR · ±2 MENIT · TANPA DAFTAR</p>
 </div>
 </div>
 </section>
@@ -720,6 +756,29 @@ document.addEventListener('DOMContentLoaded',function(){
       }
       requestAnimationFrame(idleLoop);
     }
+  }
+  // Mini kuis: contoh soal langsung di kartu (klik pilihan -> feedback)
+  var mq=document.getElementById('miniQuiz');
+  if(mq){
+    var mfb=document.getElementById('miniFb'),
+        mbtn=document.getElementById('kuisStartBtn'),
+        mdone=false;
+    mq.querySelectorAll('.mini-opt').forEach(function(b){
+      b.addEventListener('click',function(){
+        if(mdone) return; mdone=true;
+        var ok=b.getAttribute('data-ok')==='1';
+        mq.querySelectorAll('.mini-opt').forEach(function(x){
+          x.disabled=true;
+          if(x.getAttribute('data-ok')==='1') x.classList.add('ok');
+        });
+        if(!ok) b.classList.add('no');
+        if(mfb){
+          mfb.hidden=false;
+          mfb.textContent=(ok?'Betul! ':'Belum tepat — ')+(mq.getAttribute('data-fb')||'');
+        }
+        if(mbtn){ mbtn.classList.remove('attn'); void mbtn.offsetWidth; mbtn.classList.add('attn'); }
+      });
+    });
   }
   // fallback: kalau IO tidak support, tampilkan semua
   if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('inview'); }); }
