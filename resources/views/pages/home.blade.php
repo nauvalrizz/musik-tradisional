@@ -107,7 +107,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #kuis .quiz-card{position:relative;overflow:hidden}
 #kuis .quiz-card>*:not(.quiz-glare):not(.quiz-ripple){position:relative;z-index:1}
 .quiz-glare{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:var(--gop,0);
-  background:radial-gradient(560px circle at var(--gx,50%) var(--gy,50%),rgba(229,214,192,.30),transparent 60%)}
+  background:radial-gradient(var(--gsize,420px) circle at var(--gx,50%) var(--gy,50%),rgba(229,214,192,var(--galpha,.16)),transparent 60%)}
 #kuis .quiz-card:hover{--gop:1}
 .quiz-ripple{position:absolute;z-index:0;pointer-events:none;border-radius:50%;
   border:2px solid rgba(169,81,53,.55);transform:translate(-50%,-50%) scale(0);animation:qrip .9s ease-out forwards}
@@ -711,7 +711,9 @@ document.addEventListener('DOMContentLoaded',function(){
             kcard.style.setProperty('--gx',(-20+sp*140).toFixed(1)+'%');
             kcard.style.setProperty('--gy','35%');
             kcard.style.setProperty('--gop',(Math.sin(sp*Math.PI)).toFixed(2));
-            if(sp>=1){ sweepP=-1; kcard.style.setProperty('--gop',''); }
+            kcard.style.setProperty('--galpha','.30');
+            kcard.style.setProperty('--gsize','560px');
+            if(sp>=1){ sweepP=-1; kcard.style.setProperty('--gop',''); kcard.style.setProperty('--galpha',''); kcard.style.setProperty('--gsize',''); }
           }
         }
         requestAnimationFrame(idleLoop);
