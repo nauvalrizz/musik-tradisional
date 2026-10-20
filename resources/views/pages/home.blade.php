@@ -84,6 +84,17 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
   .wave.w2{width:480px;height:480px;right:-140px;top:32%}
   .wave.w3{width:260px;height:260px;left:30%;bottom:-80px}
 }
+
+/* ——— GONG PORTAL: scroll-linked transition Hero -> Arsip ——— */
+#gongPortal{position:fixed;inset:0;z-index:150;pointer-events:none;opacity:0;background:#141110;
+  --px:50vw;--py:50vh;--pr:0px;
+  -webkit-mask-image:radial-gradient(circle var(--pr) at var(--px) var(--py), transparent 0, transparent calc(var(--pr) - 2px), black var(--pr));
+  mask-image:radial-gradient(circle var(--pr) at var(--px) var(--py), transparent 0, transparent calc(var(--pr) - 2px), black var(--pr));}
+#gongPortal.on{opacity:1}
+#gongPortal .gp-ring{position:absolute;left:var(--px);top:var(--py);width:calc(var(--pr)*2);height:calc(var(--pr)*2);transform:translate(-50%,-50%);border-radius:50%;
+  border:2px solid rgba(169,110,70,.35);box-shadow:0 0 60px rgba(169,81,53,.25), inset 0 0 40px rgba(169,81,53,.15);opacity:0}
+#gongPortal.on .gp-ring{opacity:1}
+@media(prefers-reduced-motion:reduce){#gongPortal{display:none}}
 </style>
 
 
@@ -683,6 +694,57 @@ document.addEventListener('DOMContentLoaded',function(){
   var onScroll=function(){b.classList.toggle('show',(window.scrollY||window.pageYOffset)>600);};
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
   b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+<script>
+/* ——— GONG PORTAL: scroll-linked Hero -> Arsip ——— */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var hero=document.getElementById('jelajahi');
+  var gong=document.getElementById('hero3d');
+  if(!hero||!gong) return;
+  var portal=document.createElement('div');
+  portal.id='gongPortal';
+  portal.innerHTML='<div class="gp-ring"></div>';
+  document.body.appendChild(portal);
+  var ring=portal.querySelector('.gp-ring');
+  var pinX=null, pinY=null, ticking=false;
+  function update(){
+    ticking=false;
+    var hr=hero.getBoundingClientRect();
+    var gr=gong.getBoundingClientRect();
+    var vh=window.innerHeight, vw=window.innerWidth;
+    // Aktif saat hero mulai scroll keluar ke atas, sampai 1.2 viewport
+    if(hr.top < -10 && hr.bottom > vh*0.15){
+      var progress=Math.min(1, Math.max(0, -hr.top / (vh*1.2)));
+      if(pinX===null){
+        pinX=gr.left+gr.width/2;
+        pinY=gr.top+gr.height/2;
+      }
+      // Gong: tahan di posisi pin sambil scale up (1x -> 3.2x)
+      var curCX=gr.left+gr.width/2, curCY=gr.top+gr.height/2;
+      var sc=1+progress*2.2;
+      gong.style.transform='translate('+(pinX-curCX)+'px,'+(pinY-curCY)+'px) scale('+sc+')';
+      gong.style.transformOrigin='center center';
+      // Portal hole: dari gong, membesar sampai tutup viewport
+      var maxR=Math.hypot(vw,vh)/2+60;
+      var r=Math.max(0, progress*maxR);
+      // Mulai hole kecil (radius gong) agar transisi mulus
+      var startR=Math.min(gr.width,gr.height)/2*0.9;
+      r=startR+(maxR-startR)*Math.min(1,progress*1.15);
+      portal.style.setProperty('--px',pinX+'px');
+      portal.style.setProperty('--py',pinY+'px');
+      portal.style.setProperty('--pr',r+'px');
+      portal.classList.add('on');
+    } else {
+      portal.classList.remove('on');
+      gong.style.transform='';
+      pinX=null; pinY=null;
+    }
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
 })();
 </script>
 @endsection
