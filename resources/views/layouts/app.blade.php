@@ -38,9 +38,8 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 @media(max-width:860px){#ambBg .ambDust:nth-child(n+6){display:none}}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
 
-#loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
-#loader{transform:translateY(0);transition:transform 5s cubic-bezier(.76,0,.24,1)}
-#loader.done{pointer-events:none;background:#ff0000;transform:translateY(-101%)}
+#loader{position:fixed;left:0;right:0;top:0;height:100dvh;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden;transition:top 5s cubic-bezier(.76,0,.24,1)}
+#loader.done{pointer-events:none;background:#ff0000;top:-101dvh}
 #loader.done .mstage,#loader.done .mtitle,#loader.done .msub,#loader.done .mripple{display:none!important}
 #loader.gone{visibility:hidden}
 #loader.done::after{content:'';position:absolute;left:0;right:0;bottom:0;height:12px;background:linear-gradient(180deg,#d4694a,#a95135);box-shadow:0 0 40px rgba(212,105,74,.9),0 4px 20px rgba(0,0,0,.6);pointer-events:none}
@@ -114,7 +113,7 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 @endforeach
 </div>
 <div class="mtitle">MUSANTARA</div>
-<div class="msub">ARSIP BUNYI NUSANTARA</div><div style="position:absolute;bottom:12px;right:14px;color:#a95135;font-size:11px;font-family:monospace;z-index:9">v286-debug</div>
+<div class="msub">ARSIP BUNYI NUSANTARA</div><div style="position:absolute;bottom:12px;right:14px;color:#a95135;font-size:11px;font-family:monospace;z-index:9">v287-debug</div>
 </div>
 
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
