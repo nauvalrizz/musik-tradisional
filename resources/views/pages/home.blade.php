@@ -130,7 +130,6 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .mini-opt.ok{background:linear-gradient(145deg,#5A6B52,var(--green));color:#fff;opacity:1}
 .mini-opt.no{background:linear-gradient(145deg,#7a3a2a,#5e2c1f);color:#fff;opacity:1}
 .mini-fb{margin-top:.85rem;font-size:.95rem;color:var(--cream)}
-.mini-cta{color:var(--terra);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(169,81,53,.55);white-space:nowrap}
 .kuis-meta{margin-top:1.05rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--muted)}
 #kuisStartBtn.attn{animation:btnPulse .55s ease 2}
 @keyframes btnPulse{50%{transform:scale(1.07)}}
@@ -777,12 +776,6 @@ document.addEventListener('DOMContentLoaded',function(){
           mfb.hidden=false;
           mfb.textContent=(ok?'Betul! ':'Belum tepat — ')+(mq.getAttribute('data-fb')||'')
             +(ok?' Berani lanjut 10 soal aslinya?':' Balas di kuis aslinya, yuk.');
-          if(mbtn&&mbtn.href){
-            var cta=document.createElement('a');
-            cta.className='mini-cta'; cta.href=mbtn.href; cta.textContent='Coba kuisnya \u2192';
-            mfb.appendChild(document.createTextNode(' '));
-            mfb.appendChild(cta);
-          }
         }
         if(mbtn){ mbtn.classList.remove('attn'); void mbtn.offsetWidth; mbtn.classList.add('attn'); }
       });
