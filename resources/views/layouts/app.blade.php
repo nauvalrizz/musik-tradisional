@@ -115,7 +115,7 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 @endforeach
 </div>
 <div class="mtitle">MUSANTARA</div>
-<div class="msub">ARSIP BUNYI NUSANTARA</div>
+<div class="msub">ARSIP BUNYI NUSANTARA</div><div style="position:absolute;bottom:12px;right:14px;color:#a95135;font-size:11px;font-family:monospace;z-index:9">v284-debug</div>
 </div>
 
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
