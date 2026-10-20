@@ -85,20 +85,35 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
   .wave.w3{width:260px;height:260px;left:30%;bottom:-80px}
 }
 
-/* ——— GONG PORTAL: scroll-linked transition Hero -> Arsip ——— */
-#gongPortal{position:fixed;inset:0;z-index:150;pointer-events:none;opacity:0;background:#141110;
-  --px:50vw;--py:50vh;--pr:0px;
+
+/* ——— GONG INTRO: opening scene (Curtain -> Intro -> Portal -> Hero) ——— */
+#introDriver{height:200vh;pointer-events:none}
+#gongIntro{position:fixed;inset:0;z-index:140;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;pointer-events:none;
+  --px:50vw;--py:42vh;--pr:0px;
   -webkit-mask-image:radial-gradient(circle var(--pr) at var(--px) var(--py), transparent 0, transparent calc(var(--pr) - 2px), black var(--pr));
   mask-image:radial-gradient(circle var(--pr) at var(--px) var(--py), transparent 0, transparent calc(var(--pr) - 2px), black var(--pr));}
-#gongPortal.on{opacity:1}
-#gongPortal .gp-ring{position:absolute;left:var(--px);top:var(--py);width:calc(var(--pr)*2);height:calc(var(--pr)*2);transform:translate(-50%,-50%);border-radius:50%;
-  border:2px solid rgba(169,110,70,.35);box-shadow:0 0 60px rgba(169,81,53,.25), inset 0 0 40px rgba(169,81,53,.15);opacity:0}
-#gongPortal.on .gp-ring{opacity:1}
-@media(prefers-reduced-motion:reduce){#gongPortal{display:none}}
+#gongIntro.show{opacity:1;visibility:visible;pointer-events:auto}
+#introGong{width:min(420px,80vw);aspect-ratio:1;position:relative}
+#introGong canvas{width:100%!important;height:100%!important;display:block}
+.gi-title{font-family:var(--display);font-size:clamp(2.4rem,7vw,4.5rem);font-weight:600;letter-spacing:.04em;color:var(--paper,#E5D6C0);margin-top:1rem;text-align:center}
+.gi-sub{font-family:var(--mono,monospace);font-size:.65rem;letter-spacing:.3em;color:var(--terra,#A95135);margin-top:.6rem;text-align:center}
+.gi-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:var(--mono,monospace);font-size:.6rem;letter-spacing:.25em;color:rgba(229,214,192,.45)}
+.gi-halo{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:min(560px,95vw);aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(169,81,53,.12) 0%,rgba(169,81,53,.05) 40%,transparent 65%)}
+@media(prefers-reduced-motion:reduce){#gongIntro{display:none}#introDriver{display:none}}
 </style>
 
 
 {{-- HERO: clay exhibition --}}
+<div id="introDriver" aria-hidden="true"></div>
+<div id="gongIntro" aria-hidden="true">
+  <div class="gi-halo" aria-hidden="true"></div>
+  <div id="introGong"></div>
+  <h1 class="gi-title">MUSANTARA</h1>
+  <p class="gi-sub">ARSIP BUNYI NUSANTARA</p>
+  <div class="gi-hint">SCROLL UNTUK MASUK</div>
+</div>
 <section class="hero-clay" id="jelajahi">
 <div class="wrap">
 <div class="hero-grid">
@@ -696,50 +711,143 @@ document.addEventListener('DOMContentLoaded',function(){
   b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 })();
 </script>
+
+<script type="module">
+/* ——— GONG INTRO: 3D gong (asset yang sama dengan Hero) ——— */
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+(function(){
+  var box=document.getElementById('introGong');
+  if(!box) return;
+  var renderer;
+  try{ renderer=new THREE.WebGLRenderer({antialias:true,alpha:true}); }
+  catch(e){ return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  box.appendChild(renderer.domElement);
+  var scene=new THREE.Scene();
+  var cam=new THREE.PerspectiveCamera(38,1,.1,50);
+  cam.position.set(0,1.5,5.6); cam.lookAt(0,.5,0);
+  scene.add(new THREE.AmbientLight(0x9a8878,.75));
+  var key=new THREE.DirectionalLight(0xffe2b8,1.7); key.position.set(3,6,4); scene.add(key);
+  var warm=new THREE.PointLight(0xA95135,9,11); warm.position.set(-2.5,1.5,2.5); scene.add(warm);
+  try{
+    var pmrem=new THREE.PMREMGenerator(renderer);
+    var envS=new THREE.Scene(); envS.background=new THREE.Color(0x1a1512);
+    var envL=new THREE.PointLight(0xffd9a0,5,0); envL.position.set(2,3,2); envS.add(envL);
+    scene.environment=pmrem.fromScene(envS).texture;
+  }catch(e){}
+  var holder=new THREE.Group(); holder.position.y=.5; scene.add(holder);
+  var loader=new GLTFLoader();
+  loader.load(window.GONG_GLB_URL, function(gltf){
+    var m=gltf.scene;
+    // Normalisasi ukuran ke radius ~1.1
+    var bb=new THREE.Box3().setFromObject(m);
+    var sz=new THREE.Vector3(); bb.getSize(sz);
+    var sc=2.2/Math.max(sz.x,sz.y,sz.z);
+    m.scale.setScalar(sc);
+    var c=new THREE.Vector3(); bb.getCenter(c);
+    m.position.sub(c.multiplyScalar(sc));
+    holder.add(m);
+  }, undefined, function(){
+    // Fallback prosedural jika GLB gagal
+    var bronze=new THREE.MeshStandardMaterial({color:0x7a6248,roughness:.45,metalness:.65});
+    var bronzeL=new THREE.MeshStandardMaterial({color:0x9a7f5e,roughness:.35,metalness:.7});
+    var bronzeD=new THREE.MeshStandardMaterial({color:0x4a382c,roughness:.55,metalness:.5});
+    var wood=new THREE.MeshStandardMaterial({color:0x4A3423,roughness:.9});
+    var disc=new THREE.Mesh(new THREE.CylinderGeometry(1.0,1.0,.09,48),bronze);
+    disc.rotation.x=Math.PI/2; holder.add(disc);
+    var boss=new THREE.Mesh(new THREE.SphereGeometry(.24,24,16),bronzeL);
+    boss.position.z=.12; boss.scale.z=.55; holder.add(boss);
+    var rim=new THREE.Mesh(new THREE.TorusGeometry(1.0,.055,12,64),bronzeD);
+    holder.add(rim);
+    var pg=new THREE.CylinderGeometry(.07,.09,2.3,12);
+    [-1.18,1.18].forEach(function(x){ var q=new THREE.Mesh(pg,wood); q.position.set(x,-.15,0); holder.add(q); });
+    var bar=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,2.6,12),wood);
+    bar.rotation.z=Math.PI/2; bar.position.y=1.02; holder.add(bar);
+  });
+  window.__introGongHolder=holder;
+  var running=true;
+  function tick(){
+    if(!running) return;
+    requestAnimationFrame(tick);
+    holder.rotation.y += 0.0022;
+    renderer.render(scene,cam);
+  }
+  tick();
+  // Stop render saat intro tidak aktif (hemat baterai)
+  setInterval(function(){
+    var intro=document.getElementById('gongIntro');
+    var on=intro && intro.classList.contains('show');
+    if(on && !running){ running=true; tick(); }
+    if(!on){ running=false; }
+  }, 400);
+})();
+</script>
+
 <script>
-/* ——— GONG PORTAL: scroll-linked Hero -> Arsip ——— */
+/* ——— GONG INTRO: scroll-linked portal ke Hero ——— */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-  var hero=document.getElementById('jelajahi');
-  var gong=document.getElementById('hero3d');
-  if(!hero||!gong) return;
-  var portal=document.createElement('div');
-  portal.id='gongPortal';
-  portal.innerHTML='<div class="gp-ring"></div>';
-  document.body.appendChild(portal);
-  var ring=portal.querySelector('.gp-ring');
-  var pinX=null, pinY=null, ticking=false;
+  var intro=document.getElementById('gongIntro');
+  var driver=document.getElementById('introDriver');
+  var gongEl=document.getElementById('introGong');
+  var title=document.querySelector('.gi-title');
+  var sub=document.querySelector('.gi-sub');
+  var hint=document.querySelector('.gi-hint');
+  var halo=document.querySelector('.gi-halo');
+  if(!intro||!driver||!gongEl) return;
+  var shown=false;
+  // Tampilkan intro setelah tirai loading selesai (html.loading hilang)
+  var wo=new MutationObserver(function(){
+    if(!document.documentElement.classList.contains('loading')){
+      intro.classList.add('show');
+      shown=true;
+      update();
+      wo.disconnect();
+    }
+  });
+  wo.observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+  // Fallback: jika loading sudah hilang sebelum script jalan
+  setTimeout(function(){
+    if(!shown && !document.documentElement.classList.contains('loading')){
+      intro.classList.add('show'); shown=true; update();
+    }
+  }, 600);
+  var ticking=false;
   function update(){
     ticking=false;
-    var hr=hero.getBoundingClientRect();
-    var gr=gong.getBoundingClientRect();
+    if(!shown) return;
+    var range=driver.offsetHeight;
     var vh=window.innerHeight, vw=window.innerWidth;
-    // Aktif saat hero mulai scroll keluar ke atas, sampai 1.2 viewport
-    if(hr.top < -10 && hr.bottom > vh*0.15){
-      var progress=Math.min(1, Math.max(0, -hr.top / (vh*1.2)));
-      if(pinX===null){
-        pinX=gr.left+gr.width/2;
-        pinY=gr.top+gr.height/2;
-      }
-      // Gong: tahan di posisi pin sambil scale up (1x -> 3.2x)
-      var curCX=gr.left+gr.width/2, curCY=gr.top+gr.height/2;
-      var sc=1+progress*2.2;
-      gong.style.transform='translate('+(pinX-curCX)+'px,'+(pinY-curCY)+'px) scale('+sc+')';
-      gong.style.transformOrigin='center center';
-      // Portal hole: dari gong, membesar sampai tutup viewport
-      var maxR=Math.hypot(vw,vh)/2+60;
-      var r=Math.max(0, progress*maxR);
-      // Mulai hole kecil (radius gong) agar transisi mulus
-      var startR=Math.min(gr.width,gr.height)/2*0.9;
-      r=startR+(maxR-startR)*Math.min(1,progress*1.15);
-      portal.style.setProperty('--px',pinX+'px');
-      portal.style.setProperty('--py',pinY+'px');
-      portal.style.setProperty('--pr',r+'px');
-      portal.classList.add('on');
+    var p=Math.min(1, Math.max(0, window.scrollY / range));
+    // Gong membesar (camera approach) 1x -> 3.4x
+    var sc=1+p*2.4;
+    gongEl.style.transform='scale('+sc+')';
+    gongEl.style.transformOrigin='center center';
+    // Judul & teks memudar saat mendekat
+    var fade=Math.max(0, 1-p*2.2);
+    if(title) title.style.opacity=fade;
+    if(sub) sub.style.opacity=fade;
+    if(hint) hint.style.opacity=Math.max(0,1-p*4);
+    if(halo) halo.style.opacity=1-p;
+    // Portal hole: mulai expand setelah p>0.35, penuh di p=1
+    var gp=Math.min(1, Math.max(0, (p-0.35)/0.65));
+    var gr=gongEl.getBoundingClientRect();
+    var cx=gr.left+gr.width/2, cy=gr.top+gr.height/2;
+    var maxR=Math.hypot(vw,vh)/2+80;
+    var r=gp*maxR;
+    intro.style.setProperty('--px',cx+'px');
+    intro.style.setProperty('--py',cy+'px');
+    intro.style.setProperty('--pr',r+'px');
+    if(p>=1){
+      // HERO_REVEAL selesai: intro hilang, scroll normal
+      intro.classList.remove('show');
+      intro.style.display='none';
+      driver.style.display='none';
     } else {
-      portal.classList.remove('on');
-      gong.style.transform='';
-      pinX=null; pinY=null;
+      intro.style.display='';
+      driver.style.display='';
+      if(!intro.classList.contains('show')) intro.classList.add('show');
     }
   }
   function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
@@ -747,4 +855,5 @@ document.addEventListener('DOMContentLoaded',function(){
   window.addEventListener('resize', onScroll, {passive:true});
 })();
 </script>
+
 @endsection
