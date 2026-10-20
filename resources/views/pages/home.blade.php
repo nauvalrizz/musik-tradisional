@@ -86,6 +86,18 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 }
 
 
+
+/* ——— KUIS PASSAGE: lightweight museum transition ——— */
+#kuis{overflow:hidden}
+.kuis-divider{height:1px;width:min(720px,80vw);margin:0 auto 2.5rem;position:relative;
+  background:linear-gradient(90deg,transparent,rgba(169,81,53,.55),transparent);
+  transform:scaleX(0);transform-origin:center;transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+.kuis-divider.inview{transform:scaleX(1)}
+.kuis-glow{position:absolute;inset:-20% -10%;pointer-events:none;z-index:0;
+  background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.10),transparent 65%);
+  will-change:transform}
+#kuis .wrap{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.kuis-divider{transform:none;transition:none}.kuis-glow{display:none}}
 </style>
 
 
@@ -576,7 +588,9 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 {{-- 04 KUIS --}}
 <section class="sect" id="kuis" style="padding-bottom:6rem">
+<div class="kuis-glow" aria-hidden="true"></div>
 <div class="wrap">
+<div class="kuis-divider" aria-hidden="true"></div>
 <div class="sect-label sec-enter"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
 <div class="quiz-card sec-enter d1" style="max-width:560px;margin:0 auto">
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEPULUH SOAL</p>
@@ -595,6 +609,30 @@ document.addEventListener('DOMContentLoaded',function(){
   },{threshold:.15});
   var els=document.querySelectorAll('.sec-enter');
   els.forEach(function(el){ io.observe(el); });
+  // Divider batas section Kuis: garis terracotta menggambar saat masuk viewport
+  var kdiv=document.querySelector('.kuis-divider');
+  if(kdiv){
+    var dio=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('inview'); dio.unobserve(e.target); } });
+    },{threshold:.4});
+    dio.observe(kdiv);
+  }
+  // Parallax sangat halus untuk glow Kuis (museum passage)
+  var kglow=document.querySelector('.kuis-glow'), ksect=document.getElementById('kuis');
+  if(kglow&&ksect&&!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    var ktick=false;
+    function kup(){
+      ktick=false;
+      var r=ksect.getBoundingClientRect(), vh=window.innerHeight;
+      if(r.bottom>0&&r.top<vh){
+        var prog=(vh-r.top)/(vh+r.height); // 0..1 saat section lewat viewport
+        var off=(prog-.5)*30; // rentang gerak kecil: -15..15px
+        kglow.style.transform='translateY('+off.toFixed(1)+'px)';
+      }
+    }
+    window.addEventListener('scroll',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } },{passive:true});
+    kup();
+  }
   // fallback: kalau IO tidak support, tampilkan semua
   if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('inview'); }); }
 });
