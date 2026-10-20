@@ -88,7 +88,7 @@ img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
 .sk-foot{width:min(300px,60vw);height:12px;margin:2.5rem auto 0;opacity:.6}
 @media(prefers-reduced-motion:reduce){.sk-line{animation:none}}
 </style>
-<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=153') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=154') }}">
 </head>
 <body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 
