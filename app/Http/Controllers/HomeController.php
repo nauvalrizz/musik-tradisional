@@ -61,22 +61,22 @@ class HomeController extends Controller
             ];
         }
 
-        // Teaser kuis (section Kuis di home): 1 contoh soal asli dari DB
+        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi');
+        });
+
+        // Teaser kuis: DI LUAR cache — acak baru tiap request biar ga itu-itu aja
         $pool = AlatMusik::with('pulau')->whereNotNull('gambar')->where('gambar', '!=', '')
             ->inRandomOrder()->limit(3)->get();
-        $kuisTeaser = null;
+        $data['kuisTeaser'] = null;
         if ($pool->count() >= 3) {
             $ans = $pool[0];
-            $kuisTeaser = [
+            $data['kuisTeaser'] = [
                 'nama'    => $ans->nama,
                 'asal'    => optional($ans->pulau)->nama ?? 'Nusantara',
                 'gambar'  => gambar_alat($ans->gambar),
                 'pilihan' => $pool->map(function ($x) { return $x->nama; })->shuffle()->values()->all(),
             ];
         }
-
-        return compact('hero', 'regions', 'islandCounts', 'heroInstruments', 'ruangBunyi', 'kuisTeaser');
-        });
 
         return view('pages.home', $data);
     }
