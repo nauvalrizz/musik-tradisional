@@ -813,27 +813,18 @@ document.addEventListener('DOMContentLoaded',function(){
   var hgal=sec.querySelector('.hgal'); if(!hgal) return;
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
   var panels=hgal.querySelectorAll('.hgal-panel');
-  hgal.style.height=(panels.length*115)+'vh';
-  var target=0, cur=0, loopOn=false;
-  function calcTarget(){
+  hgal.style.height=(panels.length*60)+'vh';
+  var tick=false;
+  function upd(){
+    tick=false;
     var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
     var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
-    target=p*Math.max(0,pin.scrollWidth-pin.clientWidth);
+    pin.scrollLeft=p*Math.max(0,pin.scrollWidth-pin.clientWidth);
   }
-  function loop(){
-    var diff=target-cur;
-    if(Math.abs(diff)<0.4){ cur=target; pin.scrollLeft=cur; loopOn=false; return; }
-    cur+=diff*0.12;
-    pin.scrollLeft=cur;
-    requestAnimationFrame(loop);
-  }
-  function kick(){
-    calcTarget();
-    if(!loopOn){ loopOn=true; requestAnimationFrame(loop); }
-  }
-  calcTarget(); cur=target; pin.scrollLeft=cur;
-  window.addEventListener('scroll',kick,{passive:true});
-  window.addEventListener('resize',kick);
+  function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll',req,{passive:true});
+  window.addEventListener('resize',req);
+  upd();
 })();
 // Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
 // Hanya transform GPU, mati otomatis jika prefers-reduced-motion.

@@ -690,55 +690,5 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
   });
 })();
 </script>
-<script>
-/* Scroll pelan ngalir — jarak dipotong 0.65x, chase halus 0.09 (ga lempar-stop).
-   Wheel dihaluskan pakai inersia ringan; layar sentuh tetap native. */
-(function(){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(!window.matchMedia('(pointer: fine)').matches) return;
-  var cur=window.scrollY||0, target=cur, lastSetY=cur, rangeMin=cur, rangeMax=cur, running=false, token=0;
-  function maxY(){ return Math.max(0,document.documentElement.scrollHeight-window.innerHeight); }
-  function setY(y){
-    lastSetY=y;
-    if(y<rangeMin) rangeMin=y;
-    if(y>rangeMax) rangeMax=y;
-    window.scrollTo(0,y);
-  }
-  function resync(y){ token++; running=false; cur=y; target=y; lastSetY=y; rangeMin=y; rangeMax=y; }
-  function loop(t){
-    if(t!==token) return;
-    var diff=target-cur;
-    if(Math.abs(diff)<0.5){ cur=target; setY(cur); running=false; rangeMin=cur; rangeMax=cur; return; }
-    cur+=diff*0.09;
-    setY(cur);
-    requestAnimationFrame(function(){ loop(t); });
-  }
-  function kick(){ if(running) return; running=true; rangeMin=cur; rangeMax=cur; var t=token; requestAnimationFrame(function(){ loop(t); }); }
-  window.addEventListener('wheel',function(e){
-    if(e.ctrlKey) return;
-    if(document.documentElement.classList.contains('loading')) return;
-    if(document.body.style.overflow==='hidden') return;
-    if(e.target.closest('textarea,select')) return;
-    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return;
-    e.preventDefault();
-    var d=e.deltaY;
-    if(e.deltaMode===1) d*=16; else if(e.deltaMode===2) d*=window.innerHeight;
-    d*=0.65;
-    if(!running){
-      var y=window.scrollY||0;
-      if(Math.abs(y-lastSetY)>2) resync(y);
-    }
-    target=Math.min(maxY(),Math.max(0,target+d));
-    var lead=window.innerHeight*1.1;
-    target=Math.max(cur-lead,Math.min(cur+lead,target));
-    kick();
-  },{passive:false});
-  window.addEventListener('scroll',function(){
-    var y=window.scrollY||0;
-    if(running && y>=rangeMin-2 && y<=rangeMax+2) return;
-    if(Math.abs(y-lastSetY)>2) resync(y);
-  },{passive:true});
-})();
-</script>
 </body>
 </html>
