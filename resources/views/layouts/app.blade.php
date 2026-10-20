@@ -690,5 +690,41 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
   });
 })();
 </script>
+<script>
+/* Scroll berat global — wheel dihaluskan pakai inersia (desktop).
+   Layar sentuh tetap native, tidak diutak-atik. */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!window.matchMedia('(pointer: fine)').matches) return;
+  var cur=window.scrollY||0, target=cur, running=false;
+  function maxY(){ return Math.max(0,document.documentElement.scrollHeight-window.innerHeight); }
+  function loop(){
+    var diff=target-cur;
+    if(Math.abs(diff)<0.5){ cur=target; window.scrollTo(0,cur); running=false; return; }
+    cur+=diff*0.11;
+    window.scrollTo(0,cur);
+    requestAnimationFrame(loop);
+  }
+  function kick(){ if(!running){ running=true; requestAnimationFrame(loop); } }
+  window.addEventListener('wheel',function(e){
+    if(e.ctrlKey) return;
+    if(document.documentElement.classList.contains('loading')) return;
+    if(document.body.style.overflow==='hidden') return;
+    if(e.target.closest('textarea,select')) return;
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    var d=e.deltaY;
+    if(e.deltaMode===1) d*=16; else if(e.deltaMode===2) d*=window.innerHeight;
+    var y=window.scrollY||0;
+    if(Math.abs(y-cur)>2.5){ cur=y; target=y; }
+    target=Math.min(maxY(),Math.max(0,target+d));
+    kick();
+  },{passive:false});
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY||0;
+    if(Math.abs(y-cur)>2.5){ cur=y; target=y; }
+  },{passive:true});
+})();
+</script>
 </body>
 </html>

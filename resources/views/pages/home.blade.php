@@ -813,7 +813,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var hgal=sec.querySelector('.hgal'); if(!hgal) return;
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
   var panels=hgal.querySelectorAll('.hgal-panel');
-  hgal.style.height=(panels.length*115)+'vh';
+  hgal.style.height=(panels.length*140)+'vh';
   var target=0, cur=0, loopOn=false;
   function calcTarget(){
     var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
@@ -823,7 +823,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function loop(){
     var diff=target-cur;
     if(Math.abs(diff)<0.4){ cur=target; pin.scrollLeft=cur; loopOn=false; return; }
-    cur+=diff*0.12;
+    cur+=diff*0.09;
     pin.scrollLeft=cur;
     requestAnimationFrame(loop);
   }
