@@ -89,8 +89,6 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 
 /* ——— KUIS PASSAGE v3: scrub nempel scroll + gelombang bunyi ——— */
 #kuis{overflow:hidden}
-.kuis-divider{height:2px;width:min(720px,80vw);margin:0 auto 2.5rem;position:relative;border-radius:2px;
-  background:linear-gradient(90deg,transparent,rgba(169,81,53,.85),transparent)}
 .kuis-glow{position:absolute;inset:-20% -10%;pointer-events:none;z-index:0;
   background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.13),transparent 65%);
   will-change:transform}
@@ -104,9 +102,8 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #kuis .wrap{position:relative;z-index:1}
 #kuis.k-live .sect-label .n,#kuis.k-live .sect-label .ax-mask{display:inline-block}
 #kuis.k-live .sect-label .ln{display:block;transform-origin:left}
-#kuis.k-live .kuis-divider{transform-origin:center}
 #kuis.k-live .sect-label .n,#kuis.k-live .sect-label .ax-mask,
-#kuis.k-live .sect-label .ln,#kuis.k-live .quiz-card,#kuis.k-live .kuis-divider{transition:none!important;will-change:transform,opacity}
+#kuis.k-live .sect-label .ln,#kuis.k-live .quiz-card{transition:none!important;will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){.kuis-rings{display:none}.kuis-glow{display:none}}
 </style>
 
@@ -601,7 +598,6 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="kuis-glow" aria-hidden="true"></div>
 <div class="kuis-rings" aria-hidden="true"><span></span><span></span><span></span></div>
 <div class="wrap">
-<div class="kuis-divider" aria-hidden="true"></div>
 <div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
 <div class="quiz-card" style="max-width:560px;margin:0 auto">
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEPULUH SOAL</p>
@@ -625,7 +621,6 @@ document.addEventListener('DOMContentLoaded',function(){
   if(ksect){
     var kglow=document.querySelector('.kuis-glow'),
         kcard=ksect.querySelector('.quiz-card'),
-        kdiv=ksect.querySelector('.kuis-divider'),
         kn=ksect.querySelector('.sect-label .n'),
         kax=ksect.querySelector('.sect-label .ax-mask'),
         kln=ksect.querySelector('.sect-label .ln'),
@@ -640,7 +635,6 @@ document.addEventListener('DOMContentLoaded',function(){
         var r=ksect.getBoundingClientRect(), vh=window.innerHeight;
         if(r.bottom<-80||r.top>vh+80) return;
         var p=kclamp((vh*.95-r.top)/(vh*.53)), e=kease(p);
-        if(kdiv) kdiv.style.transform='scaleX('+e.toFixed(3)+')';
         if(kn){ kn.style.opacity=e.toFixed(3); kn.style.transform='translateY('+((1-e)*26).toFixed(1)+'px)'; }
         var p2=kease(kclamp((p-.12)/.88));
         if(kax){ kax.style.opacity=p2.toFixed(3); kax.style.transform='translateY('+((1-p2)*26).toFixed(1)+'px)'; }
