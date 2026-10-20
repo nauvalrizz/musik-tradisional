@@ -87,24 +87,27 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 
 
 
-/* ——— KUIS PASSAGE v2: dua arah, main tiap section lewat ——— */
+/* ——— KUIS PASSAGE v3: scrub nempel scroll + gelombang bunyi ——— */
 #kuis{overflow:hidden}
 .kuis-divider{height:2px;width:min(720px,80vw);margin:0 auto 2.5rem;position:relative;border-radius:2px;
-  background:linear-gradient(90deg,transparent,rgba(169,81,53,.85),transparent);
-  transform:scaleX(0);transform-origin:center;transition:transform .9s cubic-bezier(.16,1,.3,1)}
-#kuis.k-in .kuis-divider{transform:scaleX(1)}
+  background:linear-gradient(90deg,transparent,rgba(169,81,53,.85),transparent)}
 .kuis-glow{position:absolute;inset:-20% -10%;pointer-events:none;z-index:0;
   background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.13),transparent 65%);
   will-change:transform}
+.kuis-rings{position:absolute;inset:0;z-index:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.kuis-rings span{position:absolute;border-radius:50%;border:1.5px solid rgba(169,81,53,.45);
+  animation:kring 5.5s ease-out infinite}
+.kuis-rings span:nth-child(1){width:340px;height:340px}
+.kuis-rings span:nth-child(2){width:520px;height:520px;animation-delay:1.8s}
+.kuis-rings span:nth-child(3){width:700px;height:700px;animation-delay:3.6s}
+@keyframes kring{0%{transform:scale(.72);opacity:0}25%{opacity:.55}100%{transform:scale(1.12);opacity:0}}
 #kuis .wrap{position:relative;z-index:1}
-#kuis .sect-label .n,#kuis .sect-label .ax-mask{display:inline-block;opacity:0;transform:translateY(30px);transition:opacity .45s ease,transform .65s cubic-bezier(.16,1,.3,1)}
-#kuis .sect-label .ax-mask{transition-delay:.09s}
-#kuis .sect-label .ln{display:block;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1) .18s}
-#kuis.k-in .sect-label .n,#kuis.k-in .sect-label .ax-mask{opacity:1;transform:none}
-#kuis.k-in .sect-label .ln{transform:scaleX(1)}
-#kuis .quiz-card{opacity:0;transform:translateY(52px) scale(.96);transition:opacity .5s ease .14s,transform .7s cubic-bezier(.16,1,.3,1) .14s}
-#kuis.k-in .quiz-card{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.kuis-divider,#kuis .sect-label .ln{transform:none;transition:none}.kuis-glow{display:none}#kuis .sect-label .n,#kuis .sect-label .ax-mask,#kuis .quiz-card{opacity:1;transform:none;transition:none}}
+#kuis.k-live .sect-label .n,#kuis.k-live .sect-label .ax-mask{display:inline-block}
+#kuis.k-live .sect-label .ln{display:block;transform-origin:left}
+#kuis.k-live .kuis-divider{transform-origin:center}
+#kuis.k-live .sect-label .n,#kuis.k-live .sect-label .ax-mask,
+#kuis.k-live .sect-label .ln,#kuis.k-live .quiz-card,#kuis.k-live .kuis-divider{transition:none!important;will-change:transform,opacity}
+@media(prefers-reduced-motion:reduce){.kuis-rings{display:none}.kuis-glow{display:none}}
 </style>
 
 
@@ -596,6 +599,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 {{-- 04 KUIS --}}
 <section class="sect" id="kuis" style="padding-bottom:6rem">
 <div class="kuis-glow" aria-hidden="true"></div>
+<div class="kuis-rings" aria-hidden="true"><span></span><span></span><span></span></div>
 <div class="wrap">
 <div class="kuis-divider" aria-hidden="true"></div>
 <div class="sect-label"><span class="n">04 / KUIS</span><span class="ax-mask"><span>Uji Telinga</span></span><span class="ln"></span></div>
@@ -616,32 +620,42 @@ document.addEventListener('DOMContentLoaded',function(){
   },{threshold:.15});
   var els=document.querySelectorAll('.sec-enter');
   els.forEach(function(el){ io.observe(el); });
-  // Kuis passage dua arah: .k-in nyala saat section terlihat, mati saat keluar
+  // Kuis passage v3: scrub nempel scroll (maju-mundur ikut posisi scroll)
   var ksect=document.getElementById('kuis');
   if(ksect){
-    var kio=new IntersectionObserver(function(es){
-      es.forEach(function(e){
-        if(e.isIntersecting) ksect.classList.add('k-in');
-        else ksect.classList.remove('k-in');
-      });
-    },{threshold:.15});
-    kio.observe(ksect);
-  }
-  // Parallax glow Kuis (museum passage)
-  var kglow=document.querySelector('.kuis-glow');
-  if(kglow&&ksect&&!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-    var ktick=false;
-    function kup(){
-      ktick=false;
-      var r=ksect.getBoundingClientRect(), vh=window.innerHeight;
-      if(r.bottom>0&&r.top<vh){
-        var prog=(vh-r.top)/(vh+r.height); // 0..1 saat section lewat viewport
-        var off=(prog-.5)*64; // rentang gerak: -32..32px
-        kglow.style.transform='translateY('+off.toFixed(1)+'px)';
+    var kglow=document.querySelector('.kuis-glow'),
+        kcard=ksect.querySelector('.quiz-card'),
+        kdiv=ksect.querySelector('.kuis-divider'),
+        kn=ksect.querySelector('.sect-label .n'),
+        kax=ksect.querySelector('.sect-label .ax-mask'),
+        kln=ksect.querySelector('.sect-label .ln'),
+        kred=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(!kred){
+      ksect.classList.add('k-live');
+      var ktick=false;
+      function kclamp(v){ return v<0?0:v>1?1:v; }
+      function kease(v){ return 1-Math.pow(1-v,3); }
+      function kup(){
+        ktick=false;
+        var r=ksect.getBoundingClientRect(), vh=window.innerHeight;
+        if(r.bottom<-80||r.top>vh+80) return;
+        var p=kclamp((vh*.95-r.top)/(vh*.53)), e=kease(p);
+        if(kdiv) kdiv.style.transform='scaleX('+e.toFixed(3)+')';
+        if(kn){ kn.style.opacity=e.toFixed(3); kn.style.transform='translateY('+((1-e)*26).toFixed(1)+'px)'; }
+        var p2=kease(kclamp((p-.12)/.88));
+        if(kax){ kax.style.opacity=p2.toFixed(3); kax.style.transform='translateY('+((1-p2)*26).toFixed(1)+'px)'; }
+        if(kln) kln.style.transform='scaleX('+p2.toFixed(3)+')';
+        var p3=kease(kclamp((p-.18)/.82));
+        if(kcard){ kcard.style.opacity=p3.toFixed(3); kcard.style.transform='translateY('+((1-p3)*54).toFixed(1)+'px) scale('+(.96+.04*p3).toFixed(3)+')'; }
+        if(kglow){
+          var prog=(vh-r.top)/(vh+r.height);
+          kglow.style.transform='translateY('+((prog-.5)*64).toFixed(1)+'px)';
+        }
       }
+      window.addEventListener('scroll',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } },{passive:true});
+      window.addEventListener('resize',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } });
+      kup();
     }
-    window.addEventListener('scroll',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } },{passive:true});
-    kup();
   }
   // fallback: kalau IO tidak support, tampilkan semua
   if(!('IntersectionObserver' in window)){ els.forEach(function(el){ el.classList.add('inview'); }); }
