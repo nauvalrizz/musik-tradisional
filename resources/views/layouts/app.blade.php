@@ -691,7 +691,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
 })();
 </script>
 <script>
-/* Scroll global — berat ringan tapi smooth (lerp .2).
+/* Scroll global — hampir normal, sedikit berat di ujung (lerp .35).
    Wheel dihaluskan pakai inersia; layar sentuh tetap native. */
 (function(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -709,7 +709,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
     if(t!==token) return;
     var diff=target-cur;
     if(Math.abs(diff)<0.5){ cur=target; setY(cur); running=false; rangeMin=cur; rangeMax=cur; return; }
-    cur+=diff*0.2;
+    cur+=diff*0.35;
     setY(cur);
     requestAnimationFrame(function(){ loop(t); });
   }
@@ -728,7 +728,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
       if(Math.abs(y-lastSetY)>2) resync(y);
     }
     target=Math.min(maxY(),Math.max(0,target+d));
-    var lead=window.innerHeight*0.9;
+    var lead=window.innerHeight*0.5;
     target=Math.max(cur-lead,Math.min(cur+lead,target));
     kick();
   },{passive:false});
