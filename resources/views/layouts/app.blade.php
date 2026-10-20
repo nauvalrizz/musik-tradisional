@@ -681,12 +681,19 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
 })();
 (function(){
   var sk=document.getElementById('page-skeleton');
+  function skHide(){ if(sk) sk.classList.remove('show'); }
+  // Halaman dipulihkan dari cache browser (tombol Back): skeleton jangan ikut tampil
+  window.addEventListener('pageshow',skHide);
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href]'); if(!a||!sk) return;
     var href=a.getAttribute('href');
     if(!href||href.charAt(0)==='#'||a.target==='_blank'||a.hasAttribute('download')) return;
     if(/^https?:\/\//i.test(href)&&href.indexOf(location.host)<0) return;
+    // Anchor di halaman yang sama (mis. /#koleksi dari home): bukan pindah halaman, jangan tampilkan
+    try{ var u=new URL(a.href); if(u.pathname===location.pathname&&u.hash) return; }catch(_){}
     sk.classList.add('show');
+    // Pengaman: navigasi gagal/nyangkut -> skeleton angkat sendiri
+    setTimeout(skHide,5000);
   });
 })();
 </script>
