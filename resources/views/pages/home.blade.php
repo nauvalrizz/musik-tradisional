@@ -106,9 +106,9 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #kuis.k-live .sect-label .ln,#kuis.k-live .quiz-card{transition:none!important;will-change:transform,opacity}
 #kuis .quiz-card{position:relative;overflow:hidden}
 #kuis .quiz-card>*:not(.quiz-glare):not(.quiz-ripple){position:relative;z-index:1}
-.quiz-glare{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .45s ease;
+.quiz-glare{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:var(--gop,0);
   background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(229,214,192,.16),transparent 60%)}
-#kuis .quiz-card:hover .quiz-glare{opacity:1}
+#kuis .quiz-card:hover{--gop:1}
 .quiz-ripple{position:absolute;z-index:0;pointer-events:none;border-radius:50%;
   border:2px solid rgba(169,81,53,.55);transform:translate(-50%,-50%) scale(0);animation:qrip .9s ease-out forwards}
 @keyframes qrip{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
@@ -649,7 +649,7 @@ document.addEventListener('DOMContentLoaded',function(){
         if(kax){ kax.style.opacity=p2.toFixed(3); kax.style.transform='translateY('+((1-p2)*26).toFixed(1)+'px)'; }
         if(kln) kln.style.transform='scaleX('+p2.toFixed(3)+')';
         var p3=kease(kclamp((p-.18)/.82));
-        if(kcard){ kcard.style.opacity=p3.toFixed(3); kcard.style.transform='translateY('+((1-p3)*54).toFixed(1)+'px) scale('+(.96+.04*p3).toFixed(3)+') perspective(900px) rotateX(var(--trx,0deg)) rotateY(var(--try,0deg))'; }
+        if(kcard){ kcard.style.opacity=p3.toFixed(3); kcard.style.transform='translateY(calc('+((1-p3)*54).toFixed(1)+'px + var(--float,0px))) scale('+(.96+.04*p3).toFixed(3)+') perspective(900px) rotateX(var(--trx,0deg)) rotateY(var(--try,0deg))'; }
         if(kglow){
           var prog=(vh-r.top)/(vh+r.height);
           kglow.style.transform='translateY('+((prog-.5)*64).toFixed(1)+'px)';
@@ -696,6 +696,26 @@ document.addEventListener('DOMContentLoaded',function(){
           tiltStart();
         });
       }
+      // Idle: kartu mengambang sendiri + kilau nyapu otomatis tiap ~6 detik
+      var fT=Math.random()*6.28, waitT=0, sweepP=-1;
+      function idleLoop(){
+        var r=ksect.getBoundingClientRect(), vh=window.innerHeight;
+        if(r.bottom>-80&&r.top<vh+80){
+          fT+=0.016;
+          kcard.style.setProperty('--float',(Math.sin(fT*1.05)*7).toFixed(2)+'px');
+          if(sweepP<0){ waitT+=0.016; if(waitT>6){ sweepP=0; waitT=0; } }
+          else{
+            sweepP+=0.016/1.4;
+            var sp=Math.min(1,sweepP);
+            kcard.style.setProperty('--gx',(-20+sp*140).toFixed(1)+'%');
+            kcard.style.setProperty('--gy','35%');
+            kcard.style.setProperty('--gop',(Math.sin(sp*Math.PI)*.9).toFixed(2));
+            if(sp>=1){ sweepP=-1; kcard.style.setProperty('--gop',''); }
+          }
+        }
+        requestAnimationFrame(idleLoop);
+      }
+      requestAnimationFrame(idleLoop);
     }
   }
   // fallback: kalau IO tidak support, tampilkan semua
