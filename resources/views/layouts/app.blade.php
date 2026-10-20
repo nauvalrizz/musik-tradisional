@@ -40,7 +40,7 @@ animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
 
 #loader{position:fixed;inset:0;z-index:500;background:#141110;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;overflow:hidden}
 #loader{transform:translateY(0)}
-#loader.done{pointer-events:none;background:linear-gradient(180deg,#4a3a2a 0%,#3a2c1f 40%,#2b2118 100%);animation:mcurtain 5s cubic-bezier(.76,0,.24,1) forwards}
+#loader.done{pointer-events:none;background:#ff0000;animation:mcurtain 5s cubic-bezier(.76,0,.24,1) forwards}
 @keyframes mcurtain{from{transform:translateY(0)}to{transform:translateY(-101%)}}
 #loader.done .mstage,#loader.done .mtitle,#loader.done .msub,#loader.done .mripple{display:none!important}
 #loader.gone{visibility:hidden}
@@ -115,7 +115,7 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 @endforeach
 </div>
 <div class="mtitle">MUSANTARA</div>
-<div class="msub">ARSIP BUNYI NUSANTARA</div><div style="position:absolute;bottom:12px;right:14px;color:#a95135;font-size:11px;font-family:monospace;z-index:9">v284-debug</div>
+<div class="msub">ARSIP BUNYI NUSANTARA</div><div style="position:absolute;bottom:12px;right:14px;color:#a95135;font-size:11px;font-family:monospace;z-index:9">v285-debug</div>
 </div>
 
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
@@ -188,7 +188,7 @@ document.documentElement.classList.add('loading');
     loader.classList.add('go'); // pedestal + instruments pop
     setTimeout(function(){ loader.classList.add('orc'); }, 880); // orchestra moment
     setTimeout(function(){ loader.classList.add('logo'); }, 1080); // title
-    setTimeout(function(){ animDone=true; tryEnter(); }, 1480);
+    setTimeout(function(){ animDone=true; tryEnter(); }, 3000);
   }, startDelay);
   // Entry stagger homepage (di balik loader)
   var els = document.querySelectorAll('.hero-clay,.gamelan-sec,.sect,.map-sec');
