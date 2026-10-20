@@ -285,6 +285,7 @@ let G=null, vib=null, rings=[];
 function clearG(){if(G){scene.remove(G);G.traverse(o=>{if(o.userData.keep)return;if(o.geometry)o.geometry.dispose();});}rings.forEach(r=>scene.remove(r.m));rings=[];}
 // ─── GONG: model GLB + frame kayu prosedural ───
 const gltfLoader=new GLTFLoader();
+const pingHero=()=>{ try{ if(window.__msnHeroPing) window.__msnHeroPing(); }catch(e){} };
 let gongGLBCache=null;
 let gongSeq=0; // anti-double: hanya build terakhir yang boleh pasang model
 function buildGong(){
@@ -319,12 +320,12 @@ function buildGong(){
   const attempt=()=>{
     gltfLoader.load(window.GONG_GLB_URL,
       (glb)=>{ if(!alive()) return; gongGLBCache=glb.scene;
-        try{ place(glb.scene); setStatus('',false); }
-        catch(e){ if(!alive())return; fallbackGong(holder); setStatus('error',true); } },
+        try{ place(glb.scene); setStatus('',false); pingHero(); }
+        catch(e){ if(!alive())return; fallbackGong(holder); setStatus('error',true); pingHero(); } },
       undefined,
-      ()=>{ if(!alive()) return; fallbackGong(holder); setStatus('error',true); });
+      ()=>{ if(!alive()) return; fallbackGong(holder); setStatus('error',true); pingHero(); });
   };
-  if(gongGLBCache){ place(gongGLBCache.clone()); setStatus('',false); }
+  if(gongGLBCache){ place(gongGLBCache.clone()); setStatus('',false); pingHero(); }
   else{ setStatus('loading',false); attempt(); }
   vib=t=>{ holder.position.z=Math.sin(t*30)*.025; };
 }

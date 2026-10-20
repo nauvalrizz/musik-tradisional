@@ -177,6 +177,13 @@ document.documentElement.classList.add('loading');
 (function(){
   var loader=document.getElementById('loader');
   var winReady=false, animDone=false, lifted=false;
+  /* ——— GATE ASET: tirai baru naik setelah gambar halaman + model 3D hero
+     beneran ke-load, biar ga ada slot kosong pas pengunjung nyampe.
+     Deadline 7 detik biar koneksi lambat ga kekunci selamanya. ——— */
+  var assetsReady=false;
+  var heroNeeded=!!document.getElementById('hero3d');
+  var heroReady=!heroNeeded;
+  window.__msnHeroPing=function(){ heroReady=true; tryEnter(); };
   // State: INTRO_VISIBLE -> INTRO_FINISHED -> HOME_READY -> CURTAIN_LIFTING -> REVEALED
   function liftCurtain(){
     if(lifted || !loader) return; lifted=true;
@@ -200,10 +207,24 @@ document.documentElement.classList.add('loading');
     }, 300);
   }
   function tryEnter(){
-    if(winReady && animDone) liftCurtain();
+    if(winReady && animDone && assetsReady && heroReady) liftCurtain();
   }
   window.addEventListener('load', function(){ winReady=true; tryEnter(); });
   setTimeout(function(){ winReady=true; tryEnter(); }, 4000); // fallback paksa
+  // Preload SEMUA gambar di halaman ini (termasuk yang lazy di section bawah):
+  // cache anget = gambar langsung nongol pas section-nya kesampean.
+  (function(){
+    var seen={}, list=[];
+    document.querySelectorAll('img').forEach(function(im){
+      var s=im.currentSrc||im.src;
+      if(s && !seen[s]){ seen[s]=1; list.push(s); }
+    });
+    if(!list.length){ assetsReady=true; return; }
+    var left=list.length;
+    function one(){ if(--left<=0){ assetsReady=true; tryEnter(); } }
+    list.forEach(function(s){ var i=new Image(); i.onload=one; i.onerror=one; i.src=s; });
+  })();
+  setTimeout(function(){ assetsReady=true; heroReady=true; tryEnter(); }, 7000); // deadline aset
   var startDelay = reduced ? 0 : 80;
   setTimeout(function(){
     loader.classList.add('go'); // pedestal + instruments pop
