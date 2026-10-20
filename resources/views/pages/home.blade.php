@@ -120,6 +120,7 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .strip-set span{margin-right:2.4rem}
 .strip-set i{color:var(--terra);font-style:normal;margin-right:2.4rem}
 @keyframes stripMove{to{transform:translateX(-50%)}}
+.hl{background:linear-gradient(transparent 58%,rgba(169,81,53,.5) 58%,rgba(169,81,53,.5) 94%,transparent 94%);padding:0 .18em;color:var(--cream);font-weight:600;border-radius:2px}
 .mini-quiz{margin:0 auto 1.5rem;max-width:400px}
 .mini-img{width:100%;height:170px;object-fit:cover;border-radius:14px;display:block;box-shadow:0 8px 20px rgba(0,0,0,.35)}
 .mini-q{font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;color:var(--terra);margin:.95rem 0 .65rem}
@@ -633,7 +634,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="quiz-card" style="max-width:560px;margin:0 auto">
 <div class="quiz-glare" aria-hidden="true"></div>
 <p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.8rem">SEPULUH SOAL</p>
-<p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Lihat gambarnya, tebak instrumennya. Sepuluh soal singkat tentang Nusantara.</p>
+<p style="font-size:1.05rem;color:var(--muted);margin-bottom:1.6rem">Lihat <span class="hl">gambarnya</span>, tebak <span class="hl">instrumennya</span>. Sepuluh soal singkat tentang Nusantara.</p>
 @if(!empty($kuisTeaser))
 <div class="mini-quiz" id="miniQuiz" data-fb="Itu {{ $kuisTeaser['nama'] }} dari {{ $kuisTeaser['asal'] }}.">
 <img class="mini-img" src="{{ $kuisTeaser['gambar'] }}" alt="Foto alat musik tradisional" loading="lazy" decoding="async">
