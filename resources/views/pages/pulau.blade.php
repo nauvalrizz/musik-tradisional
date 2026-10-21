@@ -2,8 +2,11 @@
 @section('title', $pulau->nama . ' — MuSantara')
 @section('content')
 <style>
-.isl-solo{width:min(370px,74vw);height:auto;display:block}
-.isl-solo path{fill:#d9c096;stroke:rgba(24,17,12,.4);stroke-width:2.5;stroke-linejoin:round}
+.isl-solo{width:min(370px,74vw);height:auto;display:block;filter:drop-shadow(0 16px 20px rgba(0,0,0,.5))}
+.isl-solo path{fill:url(#islGrad);shape-rendering:geometricPrecision}
+/* Peta relief ga ikut animasi napas pedestal: transform animasi bikin SVG
+   ke-raster & tepinya buram. Diam = vektor tajam. */
+.pedestal .pobj{animation:none}
 .tentang-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--muted)}
 .tentang-txt{color:var(--text2);line-height:1.65;margin-top:.35rem;max-width:46ch}
 .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:.15rem;margin-top:2.6rem;color:var(--muted);font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-decoration:none}
@@ -23,7 +26,7 @@
 <div class="pbase" aria-hidden="true"></div>
 <div class="pobj">
 @if($pathD)
-<svg class="isl-solo" viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Siluet Pulau {{ $pulau->nama }}"><path d="{!! $pathD !!}"/></svg>
+<svg class="isl-solo" viewBox="{{ $viewBox }}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Siluet Pulau {{ $pulau->nama }}"><defs><linearGradient id="islGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8d2a6"/><stop offset="1" stop-color="#c7a671"/></linearGradient></defs><path d="{!! $pathD !!}"/></svg>
 @endif
 </div>
 </div>
