@@ -28,6 +28,7 @@
 .wave i{position:absolute;inset:16%;border-radius:50%;border:2px solid rgba(181,80,47,.2)}
 .wave b{position:absolute;inset:34%;border-radius:50%;border:1px solid rgba(217,138,95,.22)}
 @keyframes waveDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-56px,0) scale(1.09)}}
+.arsip-bg.paused .wave{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){.wave{animation:none}}
 
 /* Back to top */
@@ -37,11 +38,10 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #toTop.show{opacity:1;transform:none;pointer-events:auto}
 #toTop:active{transform:scale(.92)}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
-#arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110);background-attachment:fixed}
-#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),linear-gradient(180deg,#141110,#201915);background-attachment:fixed}
-#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#201915,#141110);background-attachment:fixed}
-#kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#141110,#100d0b);background-attachment:fixed}
-@media(max-width:860px){#arsip,#pulau,#koleksi,#kuis{background-attachment:scroll}}
+#arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110)}
+#pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),linear-gradient(180deg,#141110,#201915)}
+#koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#201915,#141110)}
+#kuis{background:radial-gradient(640px 460px at 75% 25%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#141110,#100d0b)}
 /* Idle text animations — napas museum yang halus */
 @keyframes idleBreathe{0%,100%{letter-spacing:.015em;opacity:1}50%{letter-spacing:.045em;opacity:.94}}
 @keyframes idleGlow{0%,100%{text-shadow:0 0 0 rgba(169,81,53,0)}50%{text-shadow:0 0 28px rgba(169,81,53,.28)}}
@@ -74,6 +74,8 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 .hgal-cards{display:flex;gap:1.4rem}
 .hgal-cards .pod{width:min(280px,68vw);flex:0 0 auto}
 .hgal-outro{display:flex;align-items:center}
+/* Scroll normal: kartu di gallery JANGAN ikut animasi idle — track harus stabil pas digeser */
+.hgal .pod-obj{animation:none!important}
 @media(max-width:860px){
   .hgal-track{padding-left:6vw}
   .hgal-panel{padding-right:8vw}
@@ -520,8 +522,15 @@ if(!kenongGLBCache) gltfLoader.load(window.KENONG_GLB_URL,(glb)=>{kenongGLBCache
 if(!angklungGLBCache) gltfLoader.load(window.ANGKLUNG_GLB_URL,(glb)=>{angklungGLBCache=glb.scene;},undefined,()=>{});
 refreshPlayBtn();
 const clk=new THREE.Clock();
+// Render 3D CUMA pas hero keliatan. Dulu loop ini jalan terus walau user
+// udah scroll jauh — GPU kepake buat canvas yang ga diliat = scroll ngeframe.
+let heroVisible=true;
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){ heroVisible=es[0].isIntersecting; },{threshold:.01}).observe(box);
+}
 (function loop(){
   requestAnimationFrame(loop);
+  if(!heroVisible) return;
   const t=clk.getElapsedTime();
   if(G){
     if(G.scale.x<1)G.scale.setScalar(Math.min(1,G.scale.x+.03)); // transisi masuk
@@ -662,6 +671,14 @@ document.addEventListener('DOMContentLoaded',function(){
   },{threshold:.15});
   var els=document.querySelectorAll('.sec-enter');
   els.forEach(function(el){ io.observe(el); });
+  // Gelombang arsip: animasi cuma jalan pas section-nya keliatan di layar
+  var abg=document.querySelector('.arsip-bg');
+  if(abg && 'IntersectionObserver' in window){
+    abg.classList.add('paused');
+    new IntersectionObserver(function(es){
+      abg.classList.toggle('paused', !es[0].isIntersecting);
+    },{threshold:0}).observe(abg);
+  }
   // Kuis passage v3: scrub nempel scroll (maju-mundur ikut posisi scroll)
   var ksect=document.getElementById('kuis');
   if(ksect){
@@ -673,7 +690,7 @@ document.addEventListener('DOMContentLoaded',function(){
         kred=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
     if(!kred){
       ksect.classList.add('k-live');
-      var ktick=false;
+      var ktick=false, kScrollAt=0;
       function kclamp(v){ return v<0?0:v>1?1:v; }
       function kease(v){ return 1-Math.pow(1-v,3); }
       function kup(){
@@ -692,7 +709,7 @@ document.addEventListener('DOMContentLoaded',function(){
           kglow.style.transform='translateY('+((prog-.5)*64).toFixed(1)+'px)';
         }
       }
-      window.addEventListener('scroll',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } },{passive:true});
+      window.addEventListener('scroll',function(){ kScrollAt=performance.now(); if(!ktick){ ktick=true; requestAnimationFrame(kup); } },{passive:true});
       window.addEventListener('resize',function(){ if(!ktick){ ktick=true; requestAnimationFrame(kup); } });
       kup();
       // Interaksi RARE kartu kuis: tilt 3D + kilau + ripple gelombang bunyi
@@ -737,7 +754,7 @@ document.addEventListener('DOMContentLoaded',function(){
       var fT=Math.random()*6.28, waitT=0, sweepP=-1;
       function idleLoop(){
         var r=ksect.getBoundingClientRect(), vh=window.innerHeight;
-        if(r.bottom>-80&&r.top<vh+80){
+        if(r.bottom>-80&&r.top<vh+80&&performance.now()-kScrollAt>120){
           fT+=0.02;
           kcard.style.setProperty('--float',(Math.sin(fT*1.15)*13).toFixed(2)+'px');
           kcard.style.setProperty('--frz',(Math.sin(fT*.7)*.6).toFixed(2)+'deg');
@@ -813,58 +830,27 @@ document.addEventListener('DOMContentLoaded',function(){
   var sec=document.getElementById('koleksi'); if(!sec) return;
   var hgal=sec.querySelector('.hgal'); if(!hgal) return;
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
+  var track=hgal.querySelector('.hgal-track'); if(!track) return;
   var panels=hgal.querySelectorAll('.hgal-panel');
   hgal.style.height=(panels.length*60)+'vh';
+  pin.scrollLeft=0;
   var tick=false;
   function upd(){
     tick=false;
     var r=hgal.getBoundingClientRect(), total=hgal.offsetHeight-window.innerHeight;
     var p=total>0?Math.min(1,Math.max(0,-r.top/total)):0;
-    pin.scrollLeft=p*Math.max(0,pin.scrollWidth-pin.clientWidth);
+    // Geser pakai transform (compositor). Dulu pakai pin.scrollLeft:
+    // nested scroll yang di-repaint tiap frame = sumber rasa ngeframe.
+    var max=Math.max(0,track.scrollWidth-pin.clientWidth);
+    track.style.transform='translate3d('+(-p*max).toFixed(1)+'px,0,0)';
   }
   function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
   window.addEventListener('scroll',req,{passive:true});
   window.addEventListener('resize',req);
   upd();
 })();
-// Parallax hero simpel: judul jalan sedikit lebih cepat dari artefak (depth halus).
-// Hanya transform GPU, mati otomatis jika prefers-reduced-motion.
-(function(){
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var els = Array.prototype.slice.call(document.querySelectorAll('[data-px]'));
-  var sels = Array.prototype.slice.call(document.querySelectorAll('[data-pxsec]'));
-  if (!els.length && !sels.length) return;
-  var ticking = false;
-  function update(){
-    var y = window.scrollY || window.pageYOffset;
-    var vh = window.innerHeight;
-    var i, el, sp;
-    // hero: berbasis scrollY absolut
-    if (y < vh * 1.2) {
-      for (i = 0; i < els.length; i++) {
-        el = els[i];
-        sp = parseFloat(el.getAttribute('data-px')) || 0;
-        el.style.transform = 'translate3d(0,' + (y * sp).toFixed(1) + 'px,0)';
-      }
-    }
-    // section: relatif posisi section di viewport (bg jalan lebih lambat)
-    for (i = 0; i < sels.length; i++) {
-      el = sels[i];
-      sp = parseFloat(el.getAttribute('data-pxsec')) || 0;
-      var r = el.parentElement.getBoundingClientRect();
-      if (r.bottom > 0 && r.top < vh) {
-        var prog = (vh - r.top) / (vh + r.height); // 0..1 selama section terlihat
-        var off = (prog - 0.5) * 140 * sp;
-        el.style.transform = 'translate3d(0,' + off.toFixed(1) + 'px,0)';
-      }
-    }
-    ticking = false;
-  }
-  window.addEventListener('scroll', function(){
-    if (!ticking) { requestAnimationFrame(update); ticking = true; }
-  }, {passive:true});
-  update();
-})();
+/* Parallax hero [data-px] DICABUT (v324): elemen digeser ulang tiap frame scroll
+   bikin gerakan terasa berbingkai. Scroll normal = ga ada yang ngelawan posisi halaman. */
 /* Back to top */
 (function(){
   var b=document.createElement('button');b.id='toTop';b.setAttribute('aria-label','Kembali ke atas');b.innerHTML='&#8593;';

@@ -30,10 +30,10 @@ html{background:#141110}html.loading,html.loading body{overflow:hidden}
 background:
 radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.075),transparent 65%),
 radial-gradient(640px 460px at 78% 55%,rgba(140,95,60,.06),transparent 65%),
-radial-gradient(800px 400px at 50% 108%,rgba(110,80,55,.05),transparent 60%);
-animation:ambDrift 18s ease-in-out infinite alternate;will-change:transform}
-@keyframes ambDrift{from{transform:translate3d(0,0,0)}to{transform:translate3d(18px,10px,0)}}
-.ambDust{position:absolute;border-radius:50%;background:#a08a6d;opacity:.14;will-change:transform,opacity;animation:dustFloat linear infinite}
+radial-gradient(800px 400px at 50% 108%,rgba(110,80,55,.05),transparent 60%)}
+/* Background ambient STATIS: layer fixed yang gerak terus bikin scroll repaint tiap frame */
+#ambBg{animation:none}
+.ambDust{display:none}
 @keyframes dustFloat{0%{transform:translate3d(0,0,0);opacity:0}15%{opacity:.14}85%{opacity:.1}100%{transform:translate3d(24px,-46px,0);opacity:0}}
 @media(max-width:860px){#ambBg .ambDust:nth-child(n+6){display:none}}
 @media(prefers-reduced-motion:reduce){#ambBg{animation:none}.ambDust{display:none}}
@@ -88,7 +88,7 @@ img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
 .sk-foot{width:min(300px,60vw);height:12px;margin:2.5rem auto 0;opacity:.6}
 @media(prefers-reduced-motion:reduce){.sk-line{animation:none}}
 </style>
-<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=154') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=155') }}">
 </head>
 <body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 
@@ -254,16 +254,22 @@ setTimeout(function(){
   if(l && !l.classList.contains('curtain-lift')){ l.classList.add('curtain-lift'); document.documentElement.classList.remove('loading'); setTimeout(function(){ l.classList.add('gone'); }, 2000); }
 }, 8000);
 
-/* ——— CUSTOM CURSOR ——— */
+/* ——— CUSTOM CURSOR ———
+   Loop cuma jalan selama kursor gerak, berhenti sendiri pas udah nyampe.
+   Posisi pakai transform (compositor), BUKAN left/top (layout tiap frame). */
 var cur=document.getElementById('cursor'),clab=cur?cur.querySelector('.clabel'):null;
 if(cur && !touch){
-  var cx=0,cy=0,px=0,py=0;
-  document.addEventListener('mousemove',function(e){cx=e.clientX;cy=e.clientY;},{passive:true});
-  (function cl(){
+  var cx=innerWidth/2,cy=innerHeight/2,px=cx,py=cy,curRaf=0;
+  function cl(){
     px+=(cx-px)*.35; py+=(cy-py)*.35;
-    cur.style.left=px+'px'; cur.style.top=py+'px';
-    requestAnimationFrame(cl);
-  })();
+    cur.style.transform='translate3d('+px.toFixed(1)+'px,'+py.toFixed(1)+'px,0)';
+    if(Math.abs(cx-px)>.1||Math.abs(cy-py)>.1){ curRaf=requestAnimationFrame(cl); }
+    else{ curRaf=0; }
+  }
+  document.addEventListener('mousemove',function(e){
+    cx=e.clientX; cy=e.clientY;
+    if(!curRaf) curRaf=requestAnimationFrame(cl);
+  },{passive:true});
   document.addEventListener('mouseover',function(e){
     var t=e.target.closest('a,button,input,select,.gamelan-pad');
     cur.className='';
@@ -329,12 +335,19 @@ if(heroObj && !touch && !reduced){
   heroStage.addEventListener('mouseleave', function(){ heroObj.style.transform=''; });
 }
 
-/* ——— SCROLL PROGRESS ——— */
+/* ——— SCROLL PROGRESS ———
+   scaleX (compositor) + rAF throttle. Dulu pakai width: layout ulang tiap event scroll. */
 var spb=document.querySelector('#scrollProg i');
-window.addEventListener('scroll',function(){
+var spTick=false;
+function spUpd(){
+  spTick=false;
   var h=document.documentElement, max=h.scrollHeight-h.clientHeight;
-  if(spb) spb.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+  if(spb) spb.style.transform='scaleX('+(max>0?(h.scrollTop/max):0)+')';
+}
+window.addEventListener('scroll',function(){
+  if(!spTick){ spTick=true; requestAnimationFrame(spUpd); }
 },{passive:true});
+spUpd();
 
 /* ——— MAGNETIC (2-5px) ——— */
 if(!touch && !reduced){

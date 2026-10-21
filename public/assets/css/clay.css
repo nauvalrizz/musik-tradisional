@@ -501,8 +501,9 @@ html.loading .reveal,html.loading .obj{transition:none}
 /* ——— SCROLL PROGRESS ——— */
 #scrollProg{position:fixed;top:0;left:0;right:0;height:4px;z-index:210;background:var(--bg0);
   box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}
-#scrollProg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--terra-d),var(--terra));
-  border-radius:0 2px 2px 0;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+#scrollProg i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--terra-d),var(--terra));
+  border-radius:0 2px 2px 0;box-shadow:0 1px 3px rgba(0,0,0,.4);
+  transform:scaleX(0);transform-origin:left center}
 
 /* ——— MAP TOOLTIP ——— */
 #mapTip{position:fixed;z-index:220;pointer-events:none;opacity:0;transform:translate(-50%,-130%) scale(.94);
