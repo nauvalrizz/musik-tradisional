@@ -9,7 +9,7 @@
 {{-- Full-screen sections + parallax backgrounds (scroll-snap dimatikan atas permintaan user) --}}
 <style>
 .hero-clay,.sect,.map-sec{
-  min-height:100vh;min-height:100svh;
+  min-height:100vh;min-height:100dvh;
   display:flex;flex-direction:column;justify-content:center;
   position:relative;padding-top:6rem!important;padding-bottom:4rem!important;
 }
@@ -667,14 +667,14 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 <script>
 document.addEventListener('DOMContentLoaded',function(){
-  // Hero pas 1 layar: kunci tinggi minimum hero ke tinggi viewport aktual.
-  var heroFit=document.getElementById('jelajahi');
-  if(heroFit){
-    var heroFitT;
-    var setHeroFit=function(){ heroFit.style.minHeight=window.innerHeight+'px'; };
-    setHeroFit();
-    window.addEventListener('resize',function(){ clearTimeout(heroFitT); heroFitT=setTimeout(setHeroFit,120); },{passive:true});
-    window.addEventListener('orientationchange',function(){ setTimeout(setHeroFit,200); });
+  // Semua section pas 1 layar: kunci tinggi minimum tiap section ke tinggi viewport aktual.
+  var fitSecs=document.querySelectorAll('.hero-clay,.sect,.map-sec');
+  if(fitSecs.length){
+    var fitT;
+    var setFit=function(){ fitSecs.forEach(function(el){ el.style.minHeight=window.innerHeight+'px'; }); };
+    setFit();
+    window.addEventListener('resize',function(){ clearTimeout(fitT); fitT=setTimeout(setFit,120); },{passive:true});
+    window.addEventListener('orientationchange',function(){ setTimeout(setFit,200); });
   }
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){
