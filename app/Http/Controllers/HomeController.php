@@ -78,7 +78,10 @@ class HomeController extends Controller
             ];
         }
 
-        return view('pages.home', $data);
+        // Anti-cache HTML: browser wajib revalidasi tiap load, biar deploy baru
+        // langsung kesaji (dulu HTML lama nyangkut di cache & fix ga keliatan).
+        return response()->view('pages.home', $data)
+            ->header('Cache-Control', 'no-cache, must-revalidate, max-age=0');
     }
     public function search(Request $request)
     {
