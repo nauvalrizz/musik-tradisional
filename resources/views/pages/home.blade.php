@@ -555,18 +555,95 @@ if('IntersectionObserver' in window){
 })();
 </script>
 
-{{-- 01 ARSIP BUNYI --}}
-<section class="sect" id="arsip">
-<div class="arsip-bg" aria-hidden="true"><div class="wave w1"><i></i><b></b></div><div class="wave w2"><i></i><b></b></div><div class="wave w3"><i></i><b></b></div></div>
-<div class="wrap">
-<div class="sect-label sec-enter"><span class="n">01 / ARSIP</span><span class="ax-mask"><span>Musantara</span></span><span class="ln"></span></div>
-<div class="sec-enter d1" style="text-align:center;max-width:640px;margin:0 auto 2.5rem">
-<p style="font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:1rem">GAMELAN INTERAKTIF</p>
-<h2 style="font-family:var(--display);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:600;line-height:1.1;margin-bottom:1rem">Sentuh &<br>Dengarkan</h2>
-<p style="color:var(--muted);font-size:1.02rem;line-height:1.7">Setiap bilah dan gong di bawah ini bisa diketuk — persis seperti memainkan gamelan asli. Coba ketuk satu per satu.</p>
+{{-- 01 ARSIP BUNYI — MUSEUM GATE (v332): pintu museum nutup/buka ngikutin scroll,
+     cahaya amber dari celah pintu, pameran gamelan muncul bertahap. Scroll tetap
+     100% native — animasi cuma MEMBACA posisi scroll, ga pernah ngontrol scroll. --}}
+<style>
+.gate-sec{padding:0}
+/* Buka kunci lebar warisan layout lama (.gamelan max-width 860px): pameran
+   harus memenuhi dinding stage, bukan ngumpul di tengah. */
+.gate-sec .gamelan{max-width:none}
+.gate-sec .rb-svg{flex:none;align-self:center}
+.gate-track{height:380vh;position:relative}
+.gate-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:radial-gradient(120% 95% at 50% -10%,#261b10 0%,#17100a 55%,#0f0a06 100%)}
+.gate-stage::before{content:"";position:absolute;inset:14px;border:1px solid rgba(198,150,90,.16);pointer-events:none;z-index:7}
+.gate-floor{position:absolute;left:0;right:0;bottom:0;height:15%;background:linear-gradient(180deg,rgba(64,42,22,0) 0%,#241708 32%,#170f07 100%);border-top:1px solid rgba(198,150,90,.14);z-index:0}
+.gate-room{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:center}
+.gate-wrap{width:100%}
+.gate-head{will-change:opacity,transform}
+.gate-head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:.6rem}
+.gate-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.7rem}
+.gate-title{font-family:var(--display);font-size:clamp(2rem,4.6vw,3.2rem);font-weight:600;line-height:1.05}
+.gate-desc{color:var(--muted);font-size:.98rem;line-height:1.65;max-width:38ch}
+.gate-sec .gamelan-pads{display:grid;grid-template-columns:repeat(12,1fr);gap:.2rem 1rem;align-items:end;margin:0}
+.exhibit{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;padding-top:1.6rem;will-change:opacity,transform}
+.exhibit::before{content:"";position:absolute;top:-4%;left:50%;transform:translateX(-50%);width:175%;height:80%;background:linear-gradient(180deg,rgba(255,183,102,.14),rgba(255,183,102,0) 76%);clip-path:polygon(44% 0,56% 0,97% 100%,3% 100%);opacity:var(--light,0);pointer-events:none}
+.exhibit[data-inst="gong"]{grid-column:1/6;grid-row:1/3}
+.exhibit[data-inst="kempul"]{grid-column:6/9;grid-row:1/2}
+.exhibit[data-inst="kenong"]{grid-column:9/13;grid-row:1/2}
+.exhibit[data-inst="saron"]{grid-column:6/9;grid-row:2/3}
+.exhibit[data-inst="demung"]{grid-column:9/11;grid-row:2/3}
+.exhibit[data-inst="peking"]{grid-column:11/13;grid-row:2/3}
+.exhibit[data-inst="bonang"]{grid-column:6/13;grid-row:2/3}
+.exhibit[data-inst="gambang"]{grid-column:10/13;grid-row:3/4}
+.exhibit[data-inst="gong"] .rb-svg{width:min(290px,32vh)}
+.exhibit[data-inst="kempul"] .rb-svg{width:min(150px,17vh)}
+.exhibit[data-inst="kenong"] .rb-svg{width:min(185px,20vh)}
+.exhibit[data-inst="saron"] .rb-svg{width:min(150px,17vh)}
+.exhibit[data-inst="demung"] .rb-svg,.exhibit[data-inst="peking"] .rb-svg{width:min(125px,14vh)}
+.exhibit[data-inst="bonang"] .rb-svg{width:min(430px,38vh)}
+.exhibit[data-inst="gambang"] .rb-svg{width:min(175px,19vh)}
+.gate-sec .gamelan-status{text-align:center;margin-top:1.1rem}
+.gate-dark{position:absolute;inset:0;background:#0a0705;z-index:2;pointer-events:none;opacity:0}
+.gate-glow{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(58% 52% at 50% 44%,rgba(255,166,77,.30),rgba(255,140,52,.10) 55%,transparent 75%)}
+.gate-seam{position:absolute;top:0;bottom:0;left:50%;width:150px;transform:translateX(-50%);z-index:4;pointer-events:none;opacity:0;background:radial-gradient(50% 60% at 50% 50%,rgba(255,178,96,.75),rgba(255,140,52,.28) 55%,transparent 78%);filter:blur(10px)}
+.gate-seam::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:3px;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(255,214,150,.95) 30%,rgba(255,214,150,.95) 70%,transparent)}
+.gate-door{position:absolute;top:0;bottom:0;width:50.6%;z-index:5;pointer-events:none;will-change:transform;background:radial-gradient(120% 60% at 50% 0%,rgba(255,190,110,.07),transparent 60%),repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 2px,transparent 2px 118px),linear-gradient(100deg,#2a1c10 0%,#1c1209 55%,#241708 100%);box-shadow:inset 0 0 0 1px rgba(198,150,90,.10),inset 0 -120px 90px rgba(0,0,0,.45)}
+.gate-door::before{content:"";position:absolute;inset:22px;border:1px solid rgba(198,150,90,.22)}
+.gate-door::after{content:"";position:absolute;inset:38px;border:1px solid rgba(198,150,90,.10)}
+.gate-door-l{left:0;border-right:1px solid rgba(0,0,0,.65);transform:translate3d(-104%,0,0)}
+.gate-door-r{right:0;border-left:1px solid rgba(0,0,0,.65);transform:translate3d(104%,0,0)}
+.gate-ring{position:absolute;top:50%;width:44px;height:44px;border-radius:50%;border:3px solid rgba(198,150,90,.55);box-shadow:0 2px 10px rgba(0,0,0,.5),inset 0 1px 2px rgba(255,220,170,.35)}
+.gate-door-l .gate-ring{right:26px;transform:translateY(-50%)}
+.gate-door-r .gate-ring{left:26px;transform:translateY(-50%)}
+@media(max-width:860px){
+.gate-track{height:330vh}
+.gate-head-row{flex-direction:column;align-items:flex-start;gap:.5rem}
+.gate-desc{font-size:.92rem}
+.gate-sec .gamelan-pads{grid-template-columns:repeat(2,1fr);gap:.2rem .6rem}
+.exhibit{grid-column:auto;grid-row:auto;padding-top:1.5rem}
+.exhibit[data-inst="gong"],.exhibit[data-inst="bonang"]{grid-column:1/3}
+.exhibit[data-inst="gong"] .rb-svg{width:min(168px,19vh)}
+.exhibit[data-inst="bonang"] .rb-svg{width:min(205px,20vh)}
+.exhibit .rb-svg{width:min(104px,12vh)}
+.gate-stage::before{inset:8px}
+.gate-door::before{inset:14px}
+.gate-door::after{inset:24px}
+}
+@media(prefers-reduced-motion:reduce){
+.gate-track{height:auto}
+.gate-stage{position:static;height:auto;overflow:visible;padding:4.5rem 0 3.5rem}
+.gate-door,.gate-seam,.gate-glow{display:none}
+.gate-dark{opacity:0}
+}
+</style>
+<section class="sect gate-sec" id="arsip">
+<div class="gate-track" id="gateTrack">
+<div class="gate-stage">
+<div class="gate-floor" aria-hidden="true"></div>
+<div class="gate-room">
+<div class="wrap gate-wrap">
+<div class="gate-head" id="gateHead">
+<div class="sect-label"><span class="n">01 / ARSIP</span><span>Musantara</span><span class="ln"></span></div>
+<div class="gate-head-row">
+<div>
+<p class="gate-kicker">GAMELAN INTERAKTIF</p>
+<h2 class="gate-title">Sentuh &<br>Dengarkan</h2>
 </div>
-<div class="gamelan gamelan-sec sec-enter d2">
-<div class="gamelan-stage" aria-hidden="true"><div class="gs-top"></div><div class="gs-body"></div></div>
+<p class="gate-desc">Setiap bilah dan gong di bawah ini bisa diketuk — persis seperti memainkan gamelan asli. Coba ketuk satu per satu.</p>
+</div>
+</div>
+<div class="gamelan gate-expo">
 @php
 $rb_svg = [
 'gong' => '<svg viewBox="0 0 100 100" class="rb-svg"><circle cx="50" cy="50" r="40" fill="#7a6248" stroke="#3a2e24" stroke-width="3"/><circle cx="50" cy="50" r="32" fill="none" stroke="#3a2e24" stroke-width="2"/><circle cx="50" cy="50" r="13" fill="#9a7f5e" stroke="#3a2e24" stroke-width="2.5"/><ellipse cx="44" cy="44" rx="5" ry="3.5" fill="#c9b896" opacity=".55"/></svg>',
@@ -582,17 +659,92 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 @endphp
 <div class="gamelan-pads">
 @foreach($ruangBunyi as $kw => $rb)
+<div class="exhibit" data-inst="{{ $kw }}">
 <button type="button" class="gamelan-pad rb-pad" data-instrument="{{ $kw }}" data-freq="{{ $rb_freq[$kw] ?? 220 }}" data-audio="{{ $rb['audio'] ?? '' }}" aria-label="Mainkan {{ $rb['nama'] }}">
 <span class="res-ring" aria-hidden="true"></span>
 {!! $rb_svg[$kw] ?? $rb_svg['gong'] !!}
 <b>{{ $rb['nama'] }}</b>
 </button>
+</div>
 @endforeach
 </div>
 <p class="gamelan-status" id="soundStatus" aria-live="polite">KETUK OBJEK UNTUK MENDENGAR</p>
 </div>
 </div>
+</div>
+<div class="gate-dark" aria-hidden="true"></div>
+<div class="gate-glow" aria-hidden="true"></div>
+<div class="gate-seam" aria-hidden="true"></div>
+<div class="gate-door gate-door-l" aria-hidden="true"><i class="gate-ring"></i></div>
+<div class="gate-door gate-door-r" aria-hidden="true"><i class="gate-ring"></i></div>
+</div>
+</div>
 </section>
+<script>
+/* MUSEUM GATE — koreografi murni fungsi posisi scroll (deterministik, bisa
+   dibalik persis). Scroll ga pernah disentuh: handler cuma membaca & menulis
+   style section ini. Berhenti total di luar viewport. */
+(function(){
+  var track=document.getElementById('gateTrack');
+  if(!track) return;
+  var stage=track.querySelector('.gate-stage');
+  var doorL=track.querySelector('.gate-door-l');
+  var doorR=track.querySelector('.gate-door-r');
+  var seam=track.querySelector('.gate-seam');
+  var glow=track.querySelector('.gate-glow');
+  var dark=track.querySelector('.gate-dark');
+  var head=document.getElementById('gateHead');
+  var status=document.getElementById('soundStatus');
+  var exhs=Array.prototype.slice.call(track.querySelectorAll('.exhibit'));
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function seg(p,a,b){ return p<=a?0:p>=b?1:(p-a)/(b-a); }
+  function easeIO(t){ return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; }
+  function easeO(t){ return 1-Math.pow(1-t,3); }
+  var STARTS={gong:.56,kempul:.63,kenong:.66,saron:.70,demung:.73,gambang:.76,peking:.79,bonang:.82};
+  function apply(q){
+    var door = q<0.30 ? easeIO(seg(q,0.02,0.30)) : (q<0.46 ? 1 : 1-easeIO(seg(q,0.46,0.74)));
+    var off=((1-door)*104).toFixed(2);
+    doorL.style.transform='translate3d(-'+off+'%,0,0)';
+    doorR.style.transform='translate3d('+off+'%,0,0)';
+    var seamO=seg(q,0.36,0.48)*(1-seg(q,0.60,0.80))*Math.min(1,door*4);
+    seam.style.opacity=seamO.toFixed(3);
+    seam.style.transform='translateX(-50%) scaleX('+(0.45+(1-door)*1.9).toFixed(2)+')';
+    var light=seg(q,0.52,0.88);
+    dark.style.opacity=((1-light)*0.93).toFixed(3);
+    glow.style.opacity=Math.min(1, seg(q,0.44,0.66)*(1-seg(q,0.78,0.96))*0.85 + light*0.16).toFixed(3);
+    stage.style.setProperty('--light', light.toFixed(3));
+    var hp=easeO(seg(q,0.84,0.98));
+    if(head){ head.style.opacity=hp.toFixed(3); head.style.transform='translate3d(0,'+((1-hp)*18).toFixed(1)+'px,0)'; }
+    if(status){ status.style.opacity=hp.toFixed(3); }
+    for(var i=0;i<exhs.length;i++){
+      var ex=exhs[i];
+      var st=STARTS[ex.getAttribute('data-inst')];
+      if(st==null) st=0.70+(i%4)*0.04;
+      var t=easeO(seg(q,st,st+0.14));
+      ex.style.opacity=t.toFixed(3);
+      ex.style.transform='translate3d(0,'+((1-t)*30).toFixed(1)+'px,0) scale('+(0.94+0.06*t).toFixed(3)+')';
+    }
+  }
+  if(reduced){ apply(1); return; }
+  var near=false, ticking=false;
+  function timelineEnd(){ return window.innerWidth<=860 ? 0.58 : 0.62; }
+  function update(){
+    ticking=false;
+    if(!near) return;
+    var r=track.getBoundingClientRect();
+    var total=track.offsetHeight-window.innerHeight;
+    var p= total>0 ? Math.min(1,Math.max(0, -r.top/total )) : 1;
+    apply(Math.min(1, p/timelineEnd()));
+  }
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ near=es[0].isIntersecting; if(near) onScroll(); },{rootMargin:'70% 0px'}).observe(track);
+  } else { near=true; }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  near=true; update();
+})();
+</script>
 
 {{-- 02 PULAU --}}
 <section class="map-sec" id="pulau">
