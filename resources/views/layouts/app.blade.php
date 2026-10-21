@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="loading">
+<html lang="id" @if(request()->is('/')) class="loading" @endif>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -87,6 +87,26 @@ img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
 .sk-grid .sk-card{height:170px;width:auto}
 .sk-foot{width:min(300px,60vw);height:12px;margin:2.5rem auto 0;opacity:.6}
 @media(prefers-reduced-motion:reduce){.sk-line{animation:none}}
+/* Skeleton per halaman tujuan: bentuknya ngikutin layout halaman yang dituju */
+.sk-tpl{display:none}
+.sk-tpl.on{display:block}
+.sk-wrap2{width:min(1240px,94vw);margin:0 auto}
+.sk-back{width:150px;height:42px;border-radius:999px;margin-bottom:2rem}
+.sk-flex{display:flex;gap:2rem;align-items:flex-start}
+@media(max-width:760px){.sk-flex{flex-direction:column}}
+.sk-circle{width:min(300px,60vw);aspect-ratio:1;border-radius:50%;flex:none}
+.sk-media{width:min(420px,84vw);height:340px;border-radius:24px;flex:none}
+.sk-col{flex:1;display:flex;flex-direction:column;gap:.9rem;min-width:0}
+.sk-h1{width:min(340px,70%);height:44px}
+.sk-ln{height:14px;width:100%}
+.sk-ln.s60{width:60%}.sk-ln.s40{width:40%}.sk-ln.s80{width:80%}
+.sk-btn{width:170px;height:46px;border-radius:999px;margin-top:.6rem}
+.sk-stage{width:min(880px,92vw);height:min(430px,52vh);border-radius:24px;margin:0 auto}
+.sk-pills{display:flex;gap:.7rem;justify-content:center;margin-top:1.4rem;flex-wrap:wrap}
+.sk-pill{width:110px;height:38px;border-radius:999px}
+.sk-cardwrap{width:min(560px,92vw);margin:0 auto;display:flex;flex-direction:column;gap:.9rem}
+.sk-opt{height:46px;border-radius:12px;width:100%}
+.sk-photo{height:190px;border-radius:16px;width:100%}
 </style>
 <link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=156') }}">
 </head>
@@ -94,6 +114,9 @@ img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
 
 {{-- LOADER: miniature museum orchestra --}}
 <div id="ambBg" aria-hidden="true"><i class="ambDust" style="left:0%;top:0%;width:2px;height:2px;animation-duration:14.0s;animation-delay:-0.0s"></i><i class="ambDust" style="left:37%;top:53%;width:3px;height:3px;animation-duration:15.7s;animation-delay:-2.3s"></i><i class="ambDust" style="left:74%;top:18%;width:4px;height:4px;animation-duration:17.4s;animation-delay:-4.6s"></i><i class="ambDust" style="left:19%;top:71%;width:2px;height:2px;animation-duration:19.1s;animation-delay:-6.8999999999999995s"></i><i class="ambDust" style="left:56%;top:36%;width:3px;height:3px;animation-duration:20.8s;animation-delay:-9.2s"></i><i class="ambDust" style="left:1%;top:1%;width:4px;height:4px;animation-duration:22.5s;animation-delay:-11.5s"></i><i class="ambDust" style="left:38%;top:54%;width:2px;height:2px;animation-duration:24.2s;animation-delay:-13.799999999999999s"></i><i class="ambDust" style="left:75%;top:19%;width:3px;height:3px;animation-duration:25.9s;animation-delay:-16.099999999999998s"></i><i class="ambDust" style="left:20%;top:72%;width:4px;height:4px;animation-duration:27.6s;animation-delay:-18.4s"></i><i class="ambDust" style="left:57%;top:37%;width:2px;height:2px;animation-duration:29.299999999999997s;animation-delay:-20.7s"></i></div>
+{{-- LOADER tirai MUSANTARA: HANYA di home (masuk pertama / refresh home).
+     Halaman lain tanpa tirai; transisi antar halaman ditangani skeleton. --}}
+@if(request()->is('/'))
 <div id="loader" aria-hidden="true">
 <div class="mstage">
 <div class="mped"></div>
@@ -121,6 +144,7 @@ $mInstruments = ['Gong','Kenong','Angklung','Kendang','Sasando'];
 <div class="mtitle">MUSANTARA</div>
 <div class="msub">ARSIP BUNYI NUSANTARA</div>
 </div>
+@endif
 
 <div id="cursor" aria-hidden="true"><span class="cdot"></span><span class="clabel"></span></div>
 <div id="miniPlayer" role="region" aria-label="Pemutar mini">
@@ -173,9 +197,15 @@ var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var touch = window.matchMedia('(hover: none)').matches;
 
 /* ——— LOADER: miniature orchestra (1.5-2.5s) ——— */
-document.documentElement.classList.add('loading');
+if(document.getElementById('loader')) document.documentElement.classList.add('loading');
 (function(){
   var loader=document.getElementById('loader');
+  // Tirai cuma buat home. Halaman lain: ga ada loader -> berhenti di sini.
+  // Datang dari navigasi internal (skeleton sudah tampil): jangan double loading.
+  var navSkip=false;
+  try{ navSkip=sessionStorage.getItem('msnNav')==='1'; if(navSkip) sessionStorage.removeItem('msnNav'); }catch(_){}
+  if(!loader) return;
+  if(navSkip){ loader.remove(); document.documentElement.classList.remove('loading'); return; }
   var winReady=false, animDone=false, lifted=false;
   /* ——— GATE ASET: tirai baru naik setelah gambar halaman + model 3D hero
      beneran ke-load, biar ga ada slot kosong pas pengunjung nyampe.
@@ -636,6 +666,7 @@ document.querySelectorAll('.map-wrap path[data-slug]').forEach(function(p){
   });
   p.addEventListener('click',function(){
     p.classList.add('lift');
+    if(window.__msnShowSkeleton) window.__msnShowSkeleton('/pulau/'+s);
     setTimeout(function(){ window.location.href='/pulau/'+s; }, 320);
   });
 });
@@ -690,10 +721,82 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
 {{-- Skeleton overlay pindah halaman --}}
 <div id="page-skeleton" aria-hidden="true">
 <div class="sk-line sk-nav"></div>
+<div class="sk-tpl" data-tpl="home">
+<div class="sk-wrap2">
+<div class="sk-flex">
+<div class="sk-col">
+<div class="sk-line sk-ln s40"></div>
+<div class="sk-line sk-h1"></div>
+<div class="sk-line sk-ln"></div>
+<div class="sk-line sk-ln s80"></div>
+<div class="sk-line sk-ln s60"></div>
+<div class="sk-line sk-btn"></div>
+</div>
+<div class="sk-line sk-media"></div>
+</div>
+<div class="sk-grid" style="margin-top:3rem"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
+</div>
+</div>
+<div class="sk-tpl" data-tpl="pulau">
+<div class="sk-wrap2">
+<div class="sk-line sk-back"></div>
+<div class="sk-flex">
+<div class="sk-line sk-circle"></div>
+<div class="sk-col">
+<div class="sk-line sk-ln s40"></div>
+<div class="sk-line sk-h1"></div>
+<div class="sk-line sk-ln s60"></div>
+<div class="sk-line sk-ln"></div>
+<div class="sk-line sk-ln s80"></div>
+</div>
+</div>
+<div class="sk-grid" style="margin-top:3rem"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
+</div>
+</div>
+<div class="sk-tpl" data-tpl="alat">
+<div class="sk-wrap2">
+<div class="sk-line sk-back"></div>
+<div class="sk-flex">
+<div class="sk-line sk-media"></div>
+<div class="sk-col">
+<div class="sk-line sk-ln s40"></div>
+<div class="sk-line sk-h1"></div>
+<div class="sk-line sk-ln"></div>
+<div class="sk-line sk-ln s80"></div>
+<div class="sk-line sk-ln s60"></div>
+<div class="sk-line sk-btn"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sk-tpl" data-tpl="ruang">
+<div class="sk-line sk-hero"></div>
+<div class="sk-line sk-sub2"></div>
+<div class="sk-line sk-stage"></div>
+<div class="sk-pills"><div class="sk-line sk-pill"></div><div class="sk-line sk-pill"></div><div class="sk-line sk-pill"></div><div class="sk-line sk-pill"></div></div>
+</div>
+<div class="sk-tpl" data-tpl="kuis">
+<div class="sk-cardwrap">
+<div class="sk-line sk-ln s40" style="margin:0 auto"></div>
+<div class="sk-line sk-photo"></div>
+<div class="sk-line sk-opt"></div>
+<div class="sk-line sk-opt"></div>
+<div class="sk-line sk-opt"></div>
+</div>
+</div>
+<div class="sk-tpl" data-tpl="search">
+<div class="sk-wrap2">
+<div class="sk-line sk-h1"></div>
+<div class="sk-pills" style="justify-content:flex-start;margin:1.2rem 0 2rem"><div class="sk-line sk-pill"></div><div class="sk-line sk-pill"></div><div class="sk-line sk-pill"></div></div>
+<div class="sk-grid" style="margin:0"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
+</div>
+</div>
+<div class="sk-tpl" data-tpl="generic">
 <div class="sk-line sk-hero"></div>
 <div class="sk-line sk-sub2"></div>
 <div class="sk-grid"><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div><div class="sk-line sk-card"></div></div>
 <div class="sk-line sk-foot"></div>
+</div>
 </div>
 <script>
 (function(){
@@ -718,16 +821,42 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); 
   function skHide(){ if(sk) sk.classList.remove('show'); }
   // Halaman dipulihkan dari cache browser (tombol Back): skeleton jangan ikut tampil
   window.addEventListener('pageshow',skHide);
+  // Skeleton WAJIB sama persis bentuknya dengan layout halaman yang dituju
+  function tplFor(p){
+    if(p==='/'||p==='') return 'home';
+    if(p.indexOf('/pulau/')===0) return 'pulau';
+    if(p.indexOf('/alat/')===0) return 'alat';
+    if(p.indexOf('/ruang-bunyi')===0) return 'ruang';
+    if(p.indexOf('/quiz')===0) return 'kuis';
+    if(p.indexOf('/search')===0) return 'search';
+    return 'generic';
+  }
+  function skShow(u){
+    if(!sk) return;
+    var t='generic';
+    try{ t=tplFor(new URL(u,location.href).pathname); }catch(_){}
+    sk.querySelectorAll('.sk-tpl').forEach(function(el){ el.classList.toggle('on',el.getAttribute('data-tpl')===t); });
+    // Tandai navigasi internal: halaman tujuan (home) jangan muter tirai lagi — jangan double loading
+    try{ sessionStorage.setItem('msnNav','1'); }catch(_){}
+    sk.classList.add('show');
+    // Pengaman: navigasi gagal/nyangkut -> skeleton angkat sendiri
+    setTimeout(skHide,5000);
+  }
+  window.__msnShowSkeleton=skShow;
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href]'); if(!a||!sk) return;
     var href=a.getAttribute('href');
     if(!href||href.charAt(0)==='#'||a.target==='_blank'||a.hasAttribute('download')) return;
     if(/^https?:\/\//i.test(href)&&href.indexOf(location.host)<0) return;
     // Anchor di halaman yang sama (mis. /#koleksi dari home): bukan pindah halaman, jangan tampilkan
-    try{ var u=new URL(a.href); if(u.pathname===location.pathname&&u.hash) return; }catch(_){}
-    sk.classList.add('show');
-    // Pengaman: navigasi gagal/nyangkut -> skeleton angkat sendiri
-    setTimeout(skHide,5000);
+    try{ var u=new URL(a.href); if(u.pathname===location.pathname&&u.hash) return; }catch(_){ return; }
+    skShow(a.href);
+  });
+  document.addEventListener('submit',function(e){
+    var f=e.target; if(!f||f.target==='_blank') return;
+    var act=f.getAttribute('action')||location.href;
+    try{ var u=new URL(act,location.href); if(u.host!==location.host) return; }catch(_){ return; }
+    skShow(act);
   });
 })();
 </script>

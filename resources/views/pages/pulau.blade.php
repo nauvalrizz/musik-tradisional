@@ -21,7 +21,7 @@
 @keyframes cueBob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 @media (prefers-reduced-motion: reduce){.scroll-cue .cue-arw{animation:none}}
 </style>
-<div class="wrap" style="padding:3rem 0 1rem">
+<div class="wrap" style="padding-top:3rem;padding-bottom:1rem">
 <a href="{{ url('/') }}#pulau" class="clay-btn reveal">← Kepulauan</a>
 </div>
 
