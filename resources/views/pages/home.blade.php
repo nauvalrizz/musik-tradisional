@@ -38,6 +38,9 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #toTop.show{opacity:1;transform:none;pointer-events:auto}
 #toTop:active{transform:scale(.92)}
 #jelajahi{background:radial-gradient(720px 480px at 22% 18%,rgba(169,110,70,.08),transparent 65%),#141110}
+/* Hero pas 1 layar penuh: dvh = tinggi viewport AKTUAL. svh bisa lebih pendek
+   dari layar yang tampil (selisihnya bikin section bawah ngintip). */
+#jelajahi{min-height:100vh;min-height:100dvh}
 #arsip{background:radial-gradient(640px 460px at 78% 30%,rgba(140,95,60,.08),transparent 65%),linear-gradient(180deg,#171310,#141110)}
 #pulau{background:radial-gradient(800px 500px at 50% 70%,rgba(110,80,55,.07),transparent 60%),linear-gradient(180deg,#141110,#201915)}
 #koleksi{background:radial-gradient(700px 480px at 25% 60%,rgba(169,110,70,.07),transparent 65%),linear-gradient(180deg,#201915,#141110)}
@@ -664,6 +667,15 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 <script>
 document.addEventListener('DOMContentLoaded',function(){
+  // Hero pas 1 layar: kunci tinggi minimum hero ke tinggi viewport aktual.
+  var heroFit=document.getElementById('jelajahi');
+  if(heroFit){
+    var heroFitT;
+    var setHeroFit=function(){ heroFit.style.minHeight=window.innerHeight+'px'; };
+    setHeroFit();
+    window.addEventListener('resize',function(){ clearTimeout(heroFitT); heroFitT=setTimeout(setHeroFit,120); },{passive:true});
+    window.addEventListener('orientationchange',function(){ setTimeout(setHeroFit,200); });
+  }
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){
       if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target); }
