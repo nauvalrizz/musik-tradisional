@@ -560,10 +560,6 @@ if('IntersectionObserver' in window){
      100% native — animasi cuma MEMBACA posisi scroll, ga pernah ngontrol scroll. --}}
 <style>
 .gate-sec{padding:0}
-/* Buka kunci lebar warisan layout lama (.gamelan max-width 860px): pameran
-   harus memenuhi dinding stage, bukan ngumpul di tengah. */
-.gate-sec .gamelan{max-width:none}
-.gate-sec .rb-svg{flex:none;align-self:center}
 .gate-track{height:380vh;position:relative}
 .gate-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:linear-gradient(180deg,transparent 62.5%,rgba(216,164,96,.08) 62.8%,rgba(0,0,0,.28) 63.4%,transparent 65.5%),radial-gradient(120% 95% at 50% -10%,#261b10 0%,#17100a 55%,#0f0a06 100%)}
 .gate-stage::before{content:"";position:absolute;inset:14px;border:1px solid rgba(198,150,90,.16);pointer-events:none;z-index:7}
@@ -575,37 +571,31 @@ if('IntersectionObserver' in window){
 .gate-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--terra);margin-bottom:.7rem}
 .gate-title{font-family:var(--display);font-size:clamp(2rem,4.6vw,3.2rem);font-weight:600;line-height:1.05}
 .gate-desc{color:var(--muted);font-size:.98rem;line-height:1.65;max-width:38ch}
-.gate-sec .gamelan-pads{display:grid;grid-template-columns:repeat(12,1fr);gap:.2rem 1rem;align-items:end;margin:0}
-.exhibit{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;position:relative;padding-top:1.6rem;will-change:opacity,transform}
-/* Cahaya spotlight LEMBUT: kolam radial di belakang alat, TANPA clip-path /
-   poligon — tepinya luruh natural kayak cahaya beneran, bukan segitiga. */
-.exhibit::before{content:"";position:absolute;top:-16%;left:50%;transform:translateX(-50%);width:200%;height:125%;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,186,105,.16),rgba(255,160,80,.05) 55%,transparent 76%);opacity:var(--light,0);pointer-events:none}
-/* Bayangan kontak lebar: alat napak di platform, ga melayang */
-.exhibit::after{content:"";position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);width:74%;height:20px;background:radial-gradient(ellipse at center,rgba(0,0,0,.55),transparent 70%);filter:blur(3px);z-index:-1;pointer-events:none}
-.exhibit[data-inst="gong"]{grid-column:1/6;grid-row:1/3}
-.exhibit[data-inst="kempul"]{grid-column:6/9;grid-row:1/2}
-.exhibit[data-inst="kenong"]{grid-column:9/13;grid-row:1/2}
-.exhibit[data-inst="saron"]{grid-column:6/9;grid-row:2/3}
-.exhibit[data-inst="demung"]{grid-column:9/11;grid-row:2/3}
-.exhibit[data-inst="peking"]{grid-column:11/13;grid-row:2/3}
-.exhibit[data-inst="bonang"]{grid-column:6/13;grid-row:2/3}
-.exhibit[data-inst="gambang"]{grid-column:10/13;grid-row:3/4}
-.exhibit[data-inst="gong"] .rb-svg{width:min(300px,34vh)}
-.exhibit[data-inst="kempul"] .rb-svg{width:min(185px,21vh)}
-.exhibit[data-inst="kenong"] .rb-svg{width:min(215px,23vh)}
-.exhibit[data-inst="saron"] .rb-svg{width:min(150px,17vh)}
-.exhibit[data-inst="demung"] .rb-svg,.exhibit[data-inst="peking"] .rb-svg{width:min(125px,14vh)}
-.exhibit[data-inst="bonang"] .rb-svg{width:min(450px,40vh)}
-.exhibit[data-inst="gambang"] .rb-svg{width:min(175px,19vh)}
-/* Tatakan kayu per alat: tiap instrumen berpijak di ledge walnut-nya sendiri,
-   persis di bawah karyanya (di antara gambar dan plakat nama). */
-.gate-sec .gamelan-pad::before{content:"";order:2;display:block;width:116%;height:10px;margin-top:.4rem;background:linear-gradient(180deg,#3a2716,#1d1208);border-top:1px solid rgba(216,164,96,.35);border-radius:3px;box-shadow:0 10px 16px rgba(0,0,0,.4)}
-/* Label nama = plakat kuningan kecil di bawah tiap alat */
-.gate-sec .gamelan-pad b{order:3;display:inline-block;margin-top:.5rem;padding:.3rem .85rem;font-family:var(--mono);font-size:.6rem;font-weight:400;letter-spacing:.24em;text-transform:uppercase;color:#e8cf9f;background:linear-gradient(180deg,#3d2a15,#241708);border:1px solid rgba(216,164,96,.35);border-radius:3px;box-shadow:0 3px 8px rgba(0,0,0,.4)}
-/* Hover: pantulan hangat lembut di permukaan perunggu */
-.gate-sec .gamelan-pad .rb-svg{transition:filter .3s ease}
-.gate-sec .gamelan-pad:hover .rb-svg{filter:brightness(1.13) saturate(1.05)}
-.gate-sec .gamelan-status{text-align:center;margin-top:1.1rem}
+/* ——— RUANG RESONANSI: instalasi akustik abstrak (bukan model instrumen) ——— */
+.res-stage{position:relative;isolation:isolate;overflow:hidden;height:clamp(290px,42vh,460px);margin-top:1.3rem;border:1px solid rgba(198,150,90,.18);border-radius:18px;background:radial-gradient(ellipse at 50% 43%,rgba(143,84,48,.13),rgba(89,54,34,.06) 34%,transparent 68%),linear-gradient(180deg,#211711 0%,#19120e 65%,#120e0b 100%)}
+.res-ambient{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,rgba(210,151,93,.12),rgba(172,111,62,.05) 34%,transparent 68%);opacity:calc(.25 + var(--light,0)*.6)}
+.res-ring{position:absolute;left:50%;top:47%;width:var(--rw);height:var(--rh);border:1px solid rgba(198,150,90,var(--ro,.2));border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0;will-change:opacity,transform}
+.res-core{position:absolute;left:50%;top:47%;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);background:#c18b5c;box-shadow:0 0 12px rgba(193,139,92,.24),0 0 36px rgba(193,139,92,.10);pointer-events:none;opacity:0;will-change:opacity,transform}
+.res-stage[data-playing="true"] .res-core{box-shadow:0 0 18px rgba(213,163,107,.45),0 0 54px rgba(193,139,92,.22)}
+.res-stage[data-playing="true"] .res-ring{animation:resBreathe 2.6s ease-in-out infinite alternate}
+@keyframes resBreathe{from{scale:1}to{scale:1.035}}
+.res-status{position:absolute;left:0;right:0;bottom:13px;margin:0;text-align:center;pointer-events:none}
+.gate-sec .gamelan-status{margin:0}
+/* Selector instrumen: tipografi saja — nama asli dari database, tanpa gambar tiruan */
+.gate-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:1.1rem}
+.sel-item{will-change:opacity,transform}
+.gate-sec .gamelan-pad{flex-direction:row;align-items:center;justify-content:space-between;gap:.8rem;width:100%;height:100%;padding:.95rem 1.05rem;border-radius:14px;text-align:left}
+.gate-sec .gamelan-pad::after{display:none}
+.gate-sec .gamelan-pad b{font-family:var(--display);font-size:1.02rem;font-weight:600;letter-spacing:.01em;color:var(--paper)}
+.sel-hint{font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;color:#d8a460;white-space:nowrap}
+.gate-sec .gamelan-pad:focus-visible{outline:2px solid #d1a475;outline-offset:3px}
+.gate-sec .gamelan-pad.playing{border-color:rgba(211,164,117,.9)}
+/* State terpilih PERSISTEN (bukan pulse 2 detik): instrumen aktif terakhir
+   tetap menyala sampai instrumen lain dipilih. */
+.gate-sec .gamelan-pad.sel-active{border-color:rgba(211,164,117,.95);background:linear-gradient(145deg,rgba(94,62,39,.92),rgba(43,29,20,.98));box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(240,200,143,.18)}
+.gate-sec .gamelan-pad.sel-active b{color:#f3e3c2}
+.gate-sec .gamelan-pad.sel-active .sel-hint{color:#f0c88f}
+@media(hover:hover){.gate-sec .gamelan-pad:hover{transform:translateY(-2px)}}
 .gate-dark{position:absolute;inset:0;background:#0a0705;z-index:2;pointer-events:none;opacity:0}
 .gate-glow{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(58% 52% at 50% 44%,rgba(255,166,77,.30),rgba(255,140,52,.10) 55%,transparent 75%)}
 .gate-seam{position:absolute;top:0;bottom:0;left:50%;width:150px;transform:translateX(-50%);z-index:4;pointer-events:none;opacity:0;background:radial-gradient(50% 60% at 50% 50%,rgba(255,178,96,.75),rgba(255,140,52,.28) 55%,transparent 78%);filter:blur(10px)}
@@ -622,12 +612,8 @@ if('IntersectionObserver' in window){
 .gate-track{height:330vh}
 .gate-head-row{flex-direction:column;align-items:flex-start;gap:.5rem}
 .gate-desc{font-size:.92rem}
-.gate-sec .gamelan-pads{grid-template-columns:repeat(2,1fr);gap:.2rem .6rem}
-.exhibit{grid-column:auto;grid-row:auto;padding-top:1.5rem}
-.exhibit[data-inst="gong"],.exhibit[data-inst="bonang"]{grid-column:1/3}
-.exhibit[data-inst="gong"] .rb-svg{width:min(180px,22vh)}
-.exhibit[data-inst="bonang"] .rb-svg{width:min(235px,24vh)}
-.exhibit .rb-svg{width:min(120px,14vh)}
+.gate-selector{grid-template-columns:repeat(2,1fr)}
+.res-stage{height:clamp(250px,34vh,330px);margin-top:1rem;border-radius:14px}
 .gate-stage::before{inset:8px}
 .gate-door::before{inset:14px}
 .gate-door::after{inset:24px}
@@ -637,6 +623,7 @@ if('IntersectionObserver' in window){
 .gate-stage{position:static;height:auto;overflow:visible;padding:4.5rem 0 3.5rem}
 .gate-door,.gate-seam,.gate-glow{display:none}
 .gate-dark{opacity:0}
+.res-stage[data-playing="true"] .res-ring{animation:none}
 }
 </style>
 <section class="sect gate-sec" id="arsip">
@@ -649,39 +636,32 @@ if('IntersectionObserver' in window){
 <div class="sect-label"><span class="n">01 / ARSIP</span><span>Musantara</span><span class="ln"></span></div>
 <div class="gate-head-row">
 <div>
-<p class="gate-kicker">GAMELAN INTERAKTIF</p>
-<h2 class="gate-title">Sentuh &<br>Dengarkan</h2>
+<p class="gate-kicker">RUANG RESONANSI</p>
+<h2 class="gate-title">Dengarkan<br>ruangnya.</h2>
 </div>
-<p class="gate-desc">Setiap bilah dan gong di bawah ini bisa diketuk — persis seperti memainkan gamelan asli. Coba ketuk satu per satu.</p>
+<p class="gate-desc">Pilih instrumen, dengarkan karakter suaranya, dan rasakan resonansinya.</p>
 </div>
 </div>
-<div class="gamelan gate-expo">
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><radialGradient id="gxFace" cx="0.38" cy="0.30" r="0.95"><stop offset="0" stop-color="#e8cc90"/><stop offset=".45" stop-color="#bb9057"/><stop offset=".78" stop-color="#7d5a33"/><stop offset="1" stop-color="#59401f"/></radialGradient><radialGradient id="gxBoss" cx="0.35" cy="0.28" r="0.95"><stop offset="0" stop-color="#f2d79e"/><stop offset=".4" stop-color="#c69c5e"/><stop offset=".78" stop-color="#8a6538"/><stop offset="1" stop-color="#5f421f"/></radialGradient><linearGradient id="gxRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#97753f"/><stop offset=".5" stop-color="#6d4f2c"/><stop offset="1" stop-color="#4a3319"/></linearGradient><linearGradient id="gxWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a3d20"/><stop offset="1" stop-color="#2e1e0e"/></linearGradient><linearGradient id="gxBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bb9057"/><stop offset="1" stop-color="#77572e"/></linearGradient></defs></svg>
 @php
-$rb_svg = [
-'gong' => '<svg viewBox="0 0 120 124" class="rb-svg"><rect x="6" y="8" width="108" height="9" rx="3" fill="url(#gxWood)"/><rect x="10" y="14" width="7" height="100" rx="3" fill="url(#gxWood)"/><rect x="103" y="14" width="7" height="100" rx="3" fill="url(#gxWood)"/><rect x="4" y="112" width="19" height="6" rx="3" fill="url(#gxWood)"/><rect x="97" y="112" width="19" height="6" rx="3" fill="url(#gxWood)"/><line x1="35" y1="17" x2="47" y2="35" stroke="#8a6a42" stroke-width="2.5"/><line x1="85" y1="17" x2="73" y2="35" stroke="#8a6a42" stroke-width="2.5"/><circle cx="60" cy="73" r="41" fill="url(#gxRim)"/><circle cx="60" cy="73" r="37" fill="url(#gxFace)"/><circle cx="60" cy="73" r="29" fill="none" stroke="#3d2a12" stroke-width="1.5" opacity=".45"/><circle cx="60" cy="73" r="23" fill="none" stroke="#ffe1a6" stroke-width="1" opacity=".14"/><ellipse cx="43" cy="52" rx="13" ry="7" fill="#ffdf9e" opacity=".13" transform="rotate(-18 43 52)"/><circle cx="60" cy="73" r="13" fill="url(#gxBoss)"/><ellipse cx="55" cy="67" rx="4.5" ry="3" fill="#ffe9bb" opacity=".5"/></svg>',
-'kempul' => '<svg viewBox="0 0 120 124" class="rb-svg"><rect x="6" y="8" width="108" height="9" rx="3" fill="url(#gxWood)"/><rect x="10" y="14" width="7" height="100" rx="3" fill="url(#gxWood)"/><rect x="103" y="14" width="7" height="100" rx="3" fill="url(#gxWood)"/><rect x="4" y="112" width="19" height="6" rx="3" fill="url(#gxWood)"/><rect x="97" y="112" width="19" height="6" rx="3" fill="url(#gxWood)"/><line x1="38" y1="17" x2="50" y2="48" stroke="#8a6a42" stroke-width="2.5"/><line x1="82" y1="17" x2="70" y2="48" stroke="#8a6a42" stroke-width="2.5"/><circle cx="60" cy="76" r="30" fill="url(#gxRim)"/><circle cx="60" cy="76" r="26.5" fill="url(#gxFace)"/><circle cx="60" cy="76" r="19" fill="none" stroke="#3d2a12" stroke-width="1.5" opacity=".45"/><ellipse cx="48" cy="62" rx="9" ry="5" fill="#ffdf9e" opacity=".13" transform="rotate(-18 48 62)"/><circle cx="60" cy="76" r="11" fill="url(#gxBoss)"/><ellipse cx="56" cy="71" rx="3.6" ry="2.4" fill="#ffe9bb" opacity=".5"/></svg>',
-'kenong' => '<svg viewBox="0 0 120 84" class="rb-svg"><rect x="14" y="68" width="92" height="8" rx="3" fill="url(#gxWood)"/><path d="M26 68 L36 44 L46 44 L48 68 Z" fill="url(#gxWood)"/><path d="M74 68 L84 44 L94 44 L96 68 Z" fill="url(#gxWood)"/><path d="M22 52 C22 38 34 29 60 29 C86 29 98 38 98 52 C98 64 84 72 60 72 C36 72 22 64 22 52 Z" fill="url(#gxFace)"/><ellipse cx="44" cy="47" rx="12" ry="6" fill="#ffdf9e" opacity=".12" transform="rotate(-12 44 47)"/><ellipse cx="60" cy="31" rx="29" ry="7" fill="url(#gxRim)"/><ellipse cx="60" cy="31" rx="21" ry="4.5" fill="#241708"/><circle cx="60" cy="28" r="7.5" fill="url(#gxBoss)"/><ellipse cx="57.5" cy="25.5" rx="2.6" ry="1.8" fill="#ffe9bb" opacity=".55"/></svg>',
-'saron' => '<svg viewBox="0 0 100 100" class="rb-svg"><rect x="14" y="62" width="72" height="16" rx="4" fill="url(#gxWood)" stroke="#2a1f16" stroke-width="2.5"/><rect x="20.0" y="48" width="9" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="31.5" y="48" width="9" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="43.0" y="48" width="9" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="54.5" y="48" width="9" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="66.0" y="48" width="9" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="77.5" y="48" width="9" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/></svg>',
-'bonang' => '<svg viewBox="0 0 200 104" class="rb-svg"><rect x="8" y="32" width="184" height="8" rx="3" fill="url(#gxWood)"/><rect x="8" y="76" width="184" height="9" rx="3" fill="url(#gxWood)"/><rect x="8" y="38" width="7" height="42" fill="url(#gxWood)"/><rect x="185" y="38" width="7" height="42" fill="url(#gxWood)"/><rect x="13" y="85" width="9" height="14" fill="url(#gxWood)"/><rect x="178" y="85" width="9" height="14" fill="url(#gxWood)"/><rect x="8" y="34" width="184" height="2" fill="#d8a460" opacity=".22"/><rect x="8" y="78" width="184" height="2" fill="#d8a460" opacity=".22"/><circle cx="30" cy="27" r="11" fill="url(#gxFace)"/><circle cx="30" cy="27" r="4.2" fill="url(#gxBoss)"/><ellipse cx="26.5" cy="23" rx="3" ry="2" fill="#ffdf9e" opacity=".35"/><circle cx="65" cy="27" r="11" fill="url(#gxFace)"/><circle cx="65" cy="27" r="4.2" fill="url(#gxBoss)"/><ellipse cx="61.5" cy="23" rx="3" ry="2" fill="#ffdf9e" opacity=".35"/><circle cx="100" cy="27" r="11" fill="url(#gxFace)"/><circle cx="100" cy="27" r="4.2" fill="url(#gxBoss)"/><ellipse cx="96.5" cy="23" rx="3" ry="2" fill="#ffdf9e" opacity=".35"/><circle cx="135" cy="27" r="11" fill="url(#gxFace)"/><circle cx="135" cy="27" r="4.2" fill="url(#gxBoss)"/><ellipse cx="131.5" cy="23" rx="3" ry="2" fill="#ffdf9e" opacity=".35"/><circle cx="170" cy="27" r="11" fill="url(#gxFace)"/><circle cx="170" cy="27" r="4.2" fill="url(#gxBoss)"/><ellipse cx="166.5" cy="23" rx="3" ry="2" fill="#ffdf9e" opacity=".35"/><circle cx="30" cy="68" r="13.5" fill="url(#gxFace)"/><circle cx="30" cy="68" r="5" fill="url(#gxBoss)"/><ellipse cx="25.5" cy="62.5" rx="3.8" ry="2.4" fill="#ffdf9e" opacity=".35"/><circle cx="65" cy="68" r="13.5" fill="url(#gxFace)"/><circle cx="65" cy="68" r="5" fill="url(#gxBoss)"/><ellipse cx="60.5" cy="62.5" rx="3.8" ry="2.4" fill="#ffdf9e" opacity=".35"/><circle cx="100" cy="68" r="13.5" fill="url(#gxFace)"/><circle cx="100" cy="68" r="5" fill="url(#gxBoss)"/><ellipse cx="95.5" cy="62.5" rx="3.8" ry="2.4" fill="#ffdf9e" opacity=".35"/><circle cx="135" cy="68" r="13.5" fill="url(#gxFace)"/><circle cx="135" cy="68" r="5" fill="url(#gxBoss)"/><ellipse cx="130.5" cy="62.5" rx="3.8" ry="2.4" fill="#ffdf9e" opacity=".35"/><circle cx="170" cy="68" r="13.5" fill="url(#gxFace)"/><circle cx="170" cy="68" r="5" fill="url(#gxBoss)"/><ellipse cx="165.5" cy="62.5" rx="3.8" ry="2.4" fill="#ffdf9e" opacity=".35"/></svg>',
-'gambang' => '<svg viewBox="0 0 100 100" class="rb-svg"><rect x="14.0" y="34" width="8" height="34" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="24.5" y="37" width="8" height="31" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="35.0" y="40" width="8" height="28" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="45.5" y="43" width="8" height="25" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="56.0" y="46" width="8" height="22" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="66.5" y="49" width="8" height="19" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="77.0" y="52" width="8" height="16" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="10" y="70" width="80" height="8" rx="3" fill="url(#gxWood)" stroke="#2a1f16" stroke-width="2"/></svg>',
-'demung' => '<svg viewBox="0 0 100 100" class="rb-svg"><rect x="10" y="60" width="80" height="18" rx="4" fill="url(#gxWood)" stroke="#2a1f16" stroke-width="2.5"/><rect x="16" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="27" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="38" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="49" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="60" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="71" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="82" y="44" width="9" height="14" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/></svg>',
-'peking' => '<svg viewBox="0 0 100 100" class="rb-svg"><rect x="20" y="64" width="60" height="14" rx="4" fill="url(#gxWood)" stroke="#2a1f16" stroke-width="2.5"/><rect x="25" y="50" width="8" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="36" y="50" width="8" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="47" y="50" width="8" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="58" y="50" width="8" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/><rect x="69" y="50" width="8" height="12" rx="2" fill="url(#gxBar)" stroke="#3a2e24" stroke-width="1.8"/></svg>',
-];
 $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25,'gambang'=>659.25,'demung'=>174.61,'peking'=>880];
 @endphp
-<div class="gamelan-pads">
+<div class="res-stage" id="resStage" data-playing="false" role="img" aria-label="Visualisasi resonansi suara">
+<div class="res-ambient" aria-hidden="true"></div>
+<div class="res-ring" data-base="0.95" style="--rw:27%;--rh:30%;--ro:.38" aria-hidden="true"></div>
+<div class="res-ring" data-base="0.8" style="--rw:48%;--rh:52%;--ro:.24" aria-hidden="true"></div>
+<div class="res-ring" data-base="0.65" style="--rw:70%;--rh:74%;--ro:.13" aria-hidden="true"></div>
+<div class="res-core" aria-hidden="true"></div>
+<p class="gamelan-status res-status" id="soundStatus" aria-live="polite">KETUK OBJEK UNTUK MENDENGAR</p>
+</div>
+<div class="gate-selector">
 @foreach($ruangBunyi as $kw => $rb)
-<div class="exhibit" data-inst="{{ $kw }}">
-<button type="button" class="gamelan-pad rb-pad" data-instrument="{{ $kw }}" data-freq="{{ $rb_freq[$kw] ?? 220 }}" data-audio="{{ $rb['audio'] ?? '' }}" aria-label="Mainkan {{ $rb['nama'] }}">
-<span class="res-ring" aria-hidden="true"></span>
-{!! $rb_svg[$kw] ?? $rb_svg['gong'] !!}
+<div class="sel-item">
+<button type="button" class="gamelan-pad rb-pad" data-instrument="{{ $kw }}" data-freq="{{ $rb_freq[$kw] ?? 220 }}" data-audio="{{ $rb['audio'] ?? '' }}" aria-label="Mainkan {{ $rb['nama'] }}" aria-pressed="false">
 <b>{{ $rb['nama'] }}</b>
+<span class="sel-hint" aria-hidden="true">&#9654; DENGARKAN</span>
 </button>
 </div>
 @endforeach
-</div>
-<p class="gamelan-status" id="soundStatus" aria-live="polite">KETUK OBJEK UNTUK MENDENGAR</p>
 </div>
 </div>
 </div>
@@ -708,12 +688,14 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
   var dark=track.querySelector('.gate-dark');
   var head=document.getElementById('gateHead');
   var status=document.getElementById('soundStatus');
-  var exhs=Array.prototype.slice.call(track.querySelectorAll('.exhibit'));
+  var rings=Array.prototype.slice.call(track.querySelectorAll('.res-ring'));
+  var core=track.querySelector('.res-core');
+  var sels=Array.prototype.slice.call(track.querySelectorAll('.sel-item'));
+  var resStage=document.getElementById('resStage');
   var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function seg(p,a,b){ return p<=a?0:p>=b?1:(p-a)/(b-a); }
   function easeIO(t){ return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; }
   function easeO(t){ return 1-Math.pow(1-t,3); }
-  var STARTS={gong:.56,kempul:.63,kenong:.66,saron:.70,demung:.73,gambang:.76,peking:.79,bonang:.82};
   function apply(q){
     var door = q<0.30 ? easeIO(seg(q,0.02,0.30)) : (q<0.46 ? 1 : 1-easeIO(seg(q,0.46,0.74)));
     var off=((1-door)*104).toFixed(2);
@@ -726,17 +708,55 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
     dark.style.opacity=((1-light)*0.93).toFixed(3);
     glow.style.opacity=Math.min(1, seg(q,0.44,0.66)*(1-seg(q,0.78,0.96))*0.85 + light*0.16).toFixed(3);
     stage.style.setProperty('--light', light.toFixed(3));
-    var hp=easeO(seg(q,0.84,0.98));
-    if(head){ head.style.opacity=hp.toFixed(3); head.style.transform='translate3d(0,'+((1-hp)*18).toFixed(1)+'px,0)'; }
-    if(status){ status.style.opacity=hp.toFixed(3); }
-    for(var i=0;i<exhs.length;i++){
-      var ex=exhs[i];
-      var st=STARTS[ex.getAttribute('data-inst')];
-      if(st==null) st=0.70+(i%4)*0.04;
-      var t=easeO(seg(q,st,st+0.14));
-      ex.style.opacity=t.toFixed(3);
-      ex.style.transform='translate3d(0,'+((1-t)*30).toFixed(1)+'px,0) scale('+(0.94+0.06*t).toFixed(3)+')';
+    /* Urutan spek Ruang Resonansi: cincin resonansi muncul berurutan ->
+       titik inti -> judul mengendap -> selector instrumen tampil. */
+    var RSTARTS=[0.56,0.63,0.70];
+    for(var ri=0;ri<rings.length;ri++){
+      var rg=rings[ri];
+      var rt=easeO(seg(q,RSTARTS[ri]||0.70,RSTARTS[ri]+0.13||0.83));
+      rg.style.opacity=(parseFloat(rg.getAttribute('data-base')||'0.8')*rt).toFixed(3);
+      rg.style.transform='translate(-50%,-50%) scale('+(0.92+0.08*rt).toFixed(3)+')';
     }
+    if(core){
+      var ct=easeO(seg(q,0.74,0.86));
+      core.style.opacity=ct.toFixed(3);
+      core.style.transform='translate(-50%,-50%) scale('+(0.6+0.4*ct).toFixed(3)+')';
+    }
+    var hp=easeO(seg(q,0.78,0.90));
+    if(head){ head.style.opacity=hp.toFixed(3); head.style.transform='translate3d(0,'+((1-hp)*18).toFixed(1)+'px,0)'; }
+    if(status){ status.style.opacity=easeO(seg(q,0.88,1)).toFixed(3); }
+    for(var si=0;si<sels.length;si++){
+      var sl=sels[si];
+      var stt=easeO(seg(q,0.84+si*0.03,0.96+si*0.03));
+      sl.style.opacity=stt.toFixed(3);
+      sl.style.transform='translate3d(0,'+((1-stt)*22).toFixed(1)+'px,0)';
+    }
+  }
+  /* Visual mengikuti STATE playback asli (kelas .playing dari gamelan.js):
+     state-driven, bukan analisis sinyal — cincin bernapas pelan selama bunyi
+     aktif lalu mengendap lagi. */
+  var gpads=Array.prototype.slice.call(track.querySelectorAll('.gamelan-pad'));
+  function syncPlaying(){
+    var any=false;
+    for(var pi=0;pi<gpads.length;pi++){ if(gpads[pi].classList.contains('playing')) any=true; }
+    if(resStage) resStage.setAttribute('data-playing', any?'true':'false');
+  }
+  if('MutationObserver' in window && gpads.length){
+    new MutationObserver(syncPlaying).observe(track,{attributes:true,attributeFilter:['class'],subtree:true});
+  }
+  /* State terpilih persisten: klik (atau Enter/Space) menandai instrumen
+     aktif; aria-pressed ngikutin state ini, bukan pulse sesaat. */
+  var selBox=track.querySelector('.gate-selector');
+  if(selBox){
+    selBox.addEventListener('click',function(e){
+      var b=e.target.closest('.gamelan-pad');
+      if(!b) return;
+      for(var i=0;i<gpads.length;i++){
+        var on=gpads[i]===b;
+        gpads[i].classList.toggle('sel-active', on);
+        gpads[i].setAttribute('aria-pressed', on?'true':'false');
+      }
+    });
   }
   if(reduced){ apply(1); return; }
   var near=false, ticking=false;
