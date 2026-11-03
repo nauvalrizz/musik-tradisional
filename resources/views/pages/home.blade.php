@@ -584,7 +584,7 @@ if('IntersectionObserver' in window){
 /* Selector instrumen: tipografi saja — nama asli dari database, tanpa gambar tiruan */
 .gate-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:1.1rem}
 .sel-item{will-change:opacity,transform}
-.gate-sec .gamelan-pad{flex-direction:row;align-items:center;justify-content:space-between;gap:.8rem;width:100%;height:100%;padding:.95rem 1.05rem;border-radius:14px;text-align:left}
+.gate-sec .gamelan-pad{flex-direction:row;align-items:center;justify-content:space-between;gap:.8rem;width:100%;height:100%;padding:.95rem 1.05rem;border-radius:14px;text-align:left;background:linear-gradient(145deg,rgba(58,38,24,.85),rgba(32,21,14,.92));border:1px solid rgba(198,150,90,.30);box-shadow:0 4px 14px rgba(0,0,0,.30),inset 0 1px 0 rgba(240,200,143,.10);cursor:pointer}
 .gate-sec .gamelan-pad::after{display:none}
 .gate-sec .gamelan-pad b{font-family:var(--display);font-size:1.02rem;font-weight:600;letter-spacing:.01em;color:var(--paper)}
 .sel-hint{font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;color:#d8a460;white-space:nowrap}
@@ -595,7 +595,7 @@ if('IntersectionObserver' in window){
 .gate-sec .gamelan-pad.sel-active{border-color:rgba(211,164,117,.95);background:linear-gradient(145deg,rgba(94,62,39,.92),rgba(43,29,20,.98));box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(240,200,143,.18)}
 .gate-sec .gamelan-pad.sel-active b{color:#f3e3c2}
 .gate-sec .gamelan-pad.sel-active .sel-hint{color:#f0c88f}
-@media(hover:hover){.gate-sec .gamelan-pad:hover{transform:translateY(-2px)}}
+@media(hover:hover){.gate-sec .gamelan-pad:hover{transform:translateY(-2px);border-color:rgba(211,164,117,.60)}}
 .gate-dark{position:absolute;inset:0;background:#0a0705;z-index:2;pointer-events:none;opacity:0}
 .gate-glow{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;background:radial-gradient(58% 52% at 50% 44%,rgba(255,166,77,.30),rgba(255,140,52,.10) 55%,transparent 75%)}
 .gate-seam{position:absolute;top:0;bottom:0;left:50%;width:150px;transform:translateX(-50%);z-index:4;pointer-events:none;opacity:0;background:radial-gradient(50% 60% at 50% 50%,rgba(255,178,96,.75),rgba(255,140,52,.28) 55%,transparent 78%);filter:blur(10px)}
@@ -639,7 +639,7 @@ if('IntersectionObserver' in window){
 <p class="gate-kicker">RUANG RESONANSI</p>
 <h2 class="gate-title">Dengarkan<br>ruangnya.</h2>
 </div>
-<p class="gate-desc">Pilih instrumen, dengarkan karakter suaranya, dan rasakan resonansinya.</p>
+<p class="gate-desc">Ketuk nama alat di bawah — bunyinya main, cincin di panggung ikut berdenyut.</p>
 </div>
 </div>
 @php
@@ -651,7 +651,7 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 <div class="res-ring" data-base="0.8" style="--rw:48%;--rh:52%;--ro:.24" aria-hidden="true"></div>
 <div class="res-ring" data-base="0.65" style="--rw:70%;--rh:74%;--ro:.13" aria-hidden="true"></div>
 <div class="res-core" aria-hidden="true"></div>
-<p class="gamelan-status res-status" id="soundStatus" aria-live="polite">KETUK OBJEK UNTUK MENDENGAR</p>
+<p class="gamelan-status res-status" id="soundStatus" aria-live="polite">KETUK ALAT DI BAWAH UNTUK MENDENGAR</p>
 </div>
 <div class="gate-selector">
 @foreach($ruangBunyi as $kw => $rb)

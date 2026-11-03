@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         pad.addEventListener('pointerleave', function () {
             if (statusEl && !statusEl.classList.contains('playing')) {
-                statusEl.textContent = 'KETUK OBJEK UNTUK MENDENGAR';
+                statusEl.textContent = 'KETUK ALAT DI BAWAH UNTUK MENDENGAR';
             }
         });
     });
