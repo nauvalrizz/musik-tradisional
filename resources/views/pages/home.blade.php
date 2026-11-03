@@ -69,8 +69,9 @@ cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transiti
 #koleksi{padding-top:0;padding-bottom:0}
 .hgal{position:relative}
 .hgal-pin{position:sticky;top:4vh;top:4svh;height:92vh;height:92svh;overflow:hidden;display:flex;align-items:center;max-width:min(1280px,96vw);margin:0 auto;background:linear-gradient(180deg,#201915,#181310);border:1px solid rgba(229,214,192,.14);border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(229,214,192,.09)}
-.hgal-track{display:flex;align-items:center;width:max-content;padding-left:7vw}
-.hgal-panel{flex:0 0 auto;padding-right:6vw}
+.hgal-track{display:flex;align-items:center;width:max-content;padding-left:clamp(1.5rem,7vw,6rem)}
+.hgal-panel{flex:0 0 auto;padding-right:clamp(2.5rem,6vw,5rem)}
+.hgal-panel:not(.hgal-outro){min-width:min(600px,86vw)}
 .hgal-intro{width:min(400px,80vw)}
 .hgal-lead{opacity:.72;line-height:1.7;margin:1rem 0 0}
 .hgal-plabel{margin:0 0 1.4rem}
@@ -572,7 +573,7 @@ if('IntersectionObserver' in window){
 .gate-title{font-family:var(--display);font-size:clamp(2rem,4.6vw,3.2rem);font-weight:600;line-height:1.05}
 .gate-desc{color:var(--muted);font-size:.98rem;line-height:1.65;max-width:38ch}
 /* ——— RUANG RESONANSI: instalasi akustik abstrak (bukan model instrumen) ——— */
-.res-stage{position:relative;isolation:isolate;overflow:hidden;height:clamp(290px,42vh,460px);margin-top:1.3rem;border:1px solid rgba(198,150,90,.18);border-radius:18px;background:radial-gradient(ellipse at 50% 43%,rgba(143,84,48,.13),rgba(89,54,34,.06) 34%,transparent 68%),linear-gradient(180deg,#211711 0%,#19120e 65%,#120e0b 100%)}
+.res-stage{position:relative;isolation:isolate;overflow:hidden;height:clamp(290px,42vh,460px);margin-top:1.3rem;max-width:1120px;margin-left:auto;margin-right:auto;border:1px solid rgba(198,150,90,.18);border-radius:18px;background:radial-gradient(ellipse at 50% 43%,rgba(143,84,48,.13),rgba(89,54,34,.06) 34%,transparent 68%),linear-gradient(180deg,#211711 0%,#19120e 65%,#120e0b 100%)}
 .res-ambient{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,rgba(210,151,93,.12),rgba(172,111,62,.05) 34%,transparent 68%);opacity:calc(.25 + var(--light,0)*.6)}
 .res-ring{position:absolute;left:50%;top:47%;width:var(--rw);height:var(--rh);border:1px solid rgba(198,150,90,var(--ro,.2));border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0;will-change:opacity,transform}
 .res-core{position:absolute;left:50%;top:47%;width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%);background:#c18b5c;box-shadow:0 0 12px rgba(193,139,92,.24),0 0 36px rgba(193,139,92,.10);pointer-events:none;opacity:0;will-change:opacity,transform}
@@ -582,7 +583,7 @@ if('IntersectionObserver' in window){
 .res-status{position:absolute;left:0;right:0;bottom:13px;margin:0;text-align:center;pointer-events:none}
 .gate-sec .gamelan-status{margin:0}
 /* Selector instrumen: tipografi saja — nama asli dari database, tanpa gambar tiruan */
-.gate-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:1.1rem}
+.gate-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:1.1rem;max-width:1120px;margin-left:auto;margin-right:auto}
 .sel-item{will-change:opacity,transform}
 .gate-sec .gamelan-pad{flex-direction:row;align-items:center;justify-content:space-between;gap:.8rem;width:100%;height:100%;padding:.95rem 1.05rem;border-radius:14px;text-align:left;background:linear-gradient(145deg,rgba(58,38,24,.85),rgba(32,21,14,.92));border:1px solid rgba(198,150,90,.30);box-shadow:0 4px 14px rgba(0,0,0,.30),inset 0 1px 0 rgba(240,200,143,.10);cursor:pointer}
 .gate-sec .gamelan-pad::after{display:none}
@@ -852,15 +853,8 @@ $rb_freq = ['gong'=>98,'kempul'=>147,'kenong'=>220,'saron'=>392,'bonang'=>523.25
 
 <script>
 document.addEventListener('DOMContentLoaded',function(){
-  // Semua section pas 1 layar: kunci tinggi minimum tiap section ke tinggi viewport aktual.
-  var fitSecs=document.querySelectorAll('.hero-clay,.sect,.map-sec');
-  if(fitSecs.length){
-    var fitT;
-    var setFit=function(){ fitSecs.forEach(function(el){ el.style.minHeight=window.innerHeight+'px'; }); };
-    setFit();
-    window.addEventListener('resize',function(){ clearTimeout(fitT); fitT=setTimeout(setFit,120); },{passive:true});
-    window.addEventListener('orientationchange',function(){ setTimeout(setFit,200); });
-  }
+  // Tinggi section diatur CSS (min-height:100dvh di stylesheet) — ga ada lagi
+  // kunci pixel via JS (v336): layout responsif murni dari sistem CSS.
   var io=new IntersectionObserver(function(es){
     es.forEach(function(e){
       if(e.isIntersecting){ e.target.classList.add('inview'); io.unobserve(e.target); }
@@ -1029,7 +1023,8 @@ document.addEventListener('DOMContentLoaded',function(){
   var pin=hgal.querySelector('.hgal-pin'); if(!pin) return;
   var track=hgal.querySelector('.hgal-track'); if(!track) return;
   var panels=hgal.querySelectorAll('.hgal-panel');
-  hgal.style.height=(panels.length*60)+'vh';
+  var setH=function(){ hgal.style.height=(panels.length*60)+'vh'; };
+  setH();
   pin.scrollLeft=0;
   var tick=false;
   function upd(){
@@ -1043,7 +1038,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   function req(){ if(!tick){ tick=true; requestAnimationFrame(upd); } }
   window.addEventListener('scroll',req,{passive:true});
-  window.addEventListener('resize',req);
+  var hgT; window.addEventListener('resize',function(){ clearTimeout(hgT); hgT=setTimeout(function(){ setH(); req(); },150); });
   upd();
 })();
 /* Parallax hero [data-px] DICABUT (v324): elemen digeser ulang tiap frame scroll

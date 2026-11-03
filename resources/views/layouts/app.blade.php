@@ -108,7 +108,7 @@ img[loading="lazy"].ld,img[loading="lazy"][data-ld]{opacity:1}
 .sk-opt{height:46px;border-radius:12px;width:100%}
 .sk-photo{height:190px;border-radius:16px;width:100%}
 </style>
-<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=156') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/clay.css?v=157') }}">
 </head>
 <body class="{{ (request()->is('quiz-global') || request()->is('quiz-result')) ? 'quiz-mode' : '' }}">
 

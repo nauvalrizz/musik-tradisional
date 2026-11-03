@@ -788,3 +788,29 @@ body.quiz-mode .nav-console,body.quiz-mode #scrollProg{display:none}
 .rb-pad[data-audio=""]{opacity:.55}
 .rb-pad[data-audio=""]::after{content:'TANPA AUDIO';font-family:var(--mono);font-size:.52rem;color:var(--muted);letter-spacing:.12em}
 @media(prefers-reduced-motion:reduce){.rb-pad.struck .rb-svg{animation:none}}
+
+/* ═══ RESPONSIVE SYSTEM (v336) — satu sistem buat semua ukuran layar.
+   Prinsip: layout diatur CSS (fluid + breakpoint), bukan JS ngukur layar. ═══ */
+/* Footer selalu di dasar layar walau konten halaman pendek (kuis/search/404):
+   body jadi kolom flex setinggi viewport, konten utama yang melar. */
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+#main{flex:1 0 auto;width:100%}
+footer{flex-shrink:0}
+/* Layar besar (>=1600px): wadah sedikit lebih lega + panggung hero naik,
+   biar komposisi ga tenggelam di ruang kosong. */
+@media(min-width:1600px){
+  .wrap{max-width:1560px;padding:0 2rem}
+  .artifact-stage{min-height:660px}
+  .quiz-shell{max-width:720px}
+}
+/* Tablet / laptop kecil (861–1180px): dua kolom tetap, napas dikencangkan. */
+@media(min-width:861px) and (max-width:1180px){
+  .hero-grid{gap:2rem}
+  .artifact-stage{min-height:500px}
+  .pedestal{min-height:380px}
+}
+/* Ruang Bunyi di HP: plakat pindah ke atas baris tombol biar ga tabrakan. */
+@media(max-width:640px){
+  #rbPlaque{left:.7rem!important;right:.7rem!important;bottom:4.9rem!important;max-width:none!important}
+  #rbCtrls{right:.7rem!important;bottom:.7rem!important}
+}

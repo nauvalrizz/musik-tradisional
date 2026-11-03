@@ -24,7 +24,7 @@
 </div>
 
 {{-- Controls --}}
-<div style="position:absolute;right:1.2rem;bottom:1.2rem;display:flex;gap:.6rem">
+<div id="rbCtrls" style="position:absolute;right:1.2rem;bottom:1.2rem;display:flex;gap:.6rem">
 <button class="clay-btn" id="rbPrev" aria-label="Instrumen sebelumnya" style="padding:.7rem 1rem">←</button>
 <button class="clay-btn primary" id="rbHit" style="padding:.7rem 1.3rem">Bunyikan</button>
 <button class="clay-btn" id="rbNext" aria-label="Instrumen berikutnya" style="padding:.7rem 1rem">→</button>
